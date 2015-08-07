@@ -1,3 +1,4 @@
+import json
 import urllib
 import requests
 
@@ -19,7 +20,7 @@ class CitrinationClient(object):
         the STEEL site on citrination, use 'https://STEEL.citrination.com'.
         :type site: String
         """
-        self.header = {'X-API-Key': urllib.quote(api_key), 'Content-Type': 'application/json'}
+        self.headers = {'X-API-Key': urllib.quote(api_key), 'Content-Type': 'application/json'}
         self.api_url = site+'/api'
 
     def search(self, term=None, formula=None, contributor=None, reference=None, from_page=0,
@@ -52,14 +53,15 @@ class CitrinationClient(object):
         :param data_set_id: Id of the particular data set to search on.
         :type data_set_id: Integer
 
-        :return: Result of the requests.post method (see http://www.python-requests.org/en/latest). If the post returns
-        a 200 message, then the search results can be converted to a python list/dictionary using the .json() method
-        on the return object.
+        :return: Result of the requests.post method
+        (see http://www.python-requests.org/en/latest/user/quickstart/#response-content). If the post returns a 200
+        message, then the search results can be converted to a python list/dictionary using the .json() method on
+        the return object.
         """
         url = self._get_search_url(data_set_id)
         data = {'term': term, 'formula': formula, 'contributor': contributor,
                 'reference': reference, 'from': from_page, 'per_page': per_page}
-        return requests.post(url, header=self.header, data=data)
+        return requests.post(url, data=json.dumps(data), headers=self.headers, verify=False)
 
     def _get_search_url(self, data_set_id):
         """
@@ -71,4 +73,4 @@ class CitrinationClient(object):
         :return: String with the url for searching.
         """
         return self.api_url+'/mifs/search' if data_set_id is None else \
-            self.api_url+'/datasets/'+str(data_set_id)+'/mifs/search'
+            self.api_url+'/data_sets/'+str(data_set_id)+'/mifs/search'
