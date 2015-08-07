@@ -15,7 +15,8 @@ class CitrinationClient(object):
         :type api_key: String
 
         :param site: Specific site on citrination.com to work with. By default this client interacts with
-        https://citrination.com. This should point to the full url of the site to access.
+        https://citrination.com. This should point to the full url of the site to access. For example, to access
+        the STEEL site on citrination, use 'https://STEEL.citrination.com'.
         :type site: String
         """
         self.header = {'X-API-Key': urllib.quote(api_key), 'Content-Type': 'application/json'}
@@ -24,8 +25,8 @@ class CitrinationClient(object):
     def search(self, term=None, formula=None, contributor=None, reference=None, from_page=0,
                per_page=10, data_set_id=None):
         """
-        Retrieve search results from Citrination. Searches are extremely inclusive and will include anything that
-        contains anything found in the term argument.
+        Retrieve search results from Citrination. Searches are extremely inclusive and will include any records that
+        contain one or more words found in the term argument.
 
         :param term: General search string. This is searched against all fields.
         :type term: String
@@ -58,7 +59,7 @@ class CitrinationClient(object):
         url = self._get_search_url(data_set_id)
         data = {'term': term, 'formula': formula, 'contributor': contributor,
                 'reference': reference, 'from': from_page, 'per_page': per_page}
-        response = requests.post(url, header=self.header, data=data)
+        return requests.post(url, header=self.header, data=data)
 
     def _get_search_url(self, data_set_id):
         """
