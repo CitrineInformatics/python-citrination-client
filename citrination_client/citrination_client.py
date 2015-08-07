@@ -61,7 +61,7 @@ class CitrinationClient(object):
         url = self._get_search_url(data_set_id)
         data = {'term': term, 'formula': formula, 'contributor': contributor,
                 'reference': reference, 'from': from_page, 'per_page': per_page}
-        return requests.post(url, data=json.dumps(data), headers=self.headers, verify=False)
+        return requests.post(url, data=json.dumps(data), headers=self.headers)
 
     def _get_search_url(self, data_set_id):
         """

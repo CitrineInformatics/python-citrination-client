@@ -5,4 +5,7 @@ setup(name='CitrinationClient',
       description='Python client for accessing the Citrination api.',
       author='Kyle Michel',
       author_email='kyle@citrine.io',
-      packages=find_packages())
+      packages=find_packages(),
+      install_requires=[
+          'requests'
+      ])
