@@ -11,18 +11,4 @@ To install the citrination_client package:
 
 # Using This Client
 
-A more detailed discussion of the citrination API and usage are available at [http://citrineinformatics.github.io/api-documentation](http://citrineinformatics.github.io/api-documentation). Briefly, a new client to access the main citrination.com API can be generated using the following code:
-
-```python
-from citrination_client import CitrinationClient
-client = CitrinationClient('your-api-token')
-```
-
-`your-api-token` is a [unique API token](http://citrineinformatics.github.io/api-documentation/?python#api-token) that is associated with your citrination.com account.
-
-To access a sub-domain (e.g. your-site.citrination.com), use:
-
-```python
-from citrination_client import CitrinationClient
-client = CitrinationClient('your-api-token', 'https://your-site.citrination.com')
-```
+A detailed discussion of the citrination API and usage are available at [http://citrineinformatics.github.io/api-documentation](http://citrineinformatics.github.io/api-documentation).
