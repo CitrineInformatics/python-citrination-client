@@ -23,8 +23,8 @@ class CitrinationClient(object):
         self.headers = {'X-API-Key': urllib.quote(api_key), 'Content-Type': 'application/json'}
         self.api_url = site+'/api'
 
-    def search(self, term=None, formula=None, contributor=None, reference=None, from_page=0,
-               per_page=10, data_set_id=None):
+    def search(self, term=None, formula=None, property=None, contributor=None, reference=None, min_measurement=None,
+               max_measurement=None, from_page=None, per_page=None, data_set_id=None):
         """
         Retrieve search results from Citrination. Searches are extremely inclusive and will include any records that
         contain one or more words found in the term argument.
@@ -36,9 +36,18 @@ class CitrinationClient(object):
         contain this string will be returned.
         :type formula: String
 
+        :param property: Name of the property to search for.
+        :type property: String
+
         :param contributor: Filter for the contributor field. Only those results that have contributors that contain
         this string will be returned.
         :type contributor: String
+
+        :param min_measurement: Minimum of the property value range.
+        :type min_measurement: String or number.
+
+        :param max_measurement: Maximum of the property value range.
+        :type max_measurement: String or number.
 
         :param reference: Filter for the reference field. Only those results that have contributors that contain
         this string will be returned.
@@ -59,8 +68,9 @@ class CitrinationClient(object):
         the return object.
         """
         url = self._get_search_url(data_set_id)
-        data = {'term': term, 'formula': formula, 'contributor': contributor,
-                'reference': reference, 'from': from_page, 'per_page': per_page}
+        data = {'term': term, 'formula': formula, 'property': property, 'contributor': contributor,
+                'reference': reference, 'min_measurement': min_measurement, 'max_measurement': max_measurement,
+                'from': from_page, 'per_page': per_page}
         return requests.post(url, data=json.dumps(data), headers=self.headers)
 
     def _get_search_url(self, data_set_id):
