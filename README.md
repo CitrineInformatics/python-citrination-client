@@ -6,8 +6,11 @@ This package is an implementation of the [Citrination API](http://citrineinforma
 
 To install the citrination_client package:
 
-1. Clone this package to your machine
-2. From the new directory run `python setup.py install`
+```shell
+$ git clone git@github.com:CitrineInformatics/python-citrination-client.git
+$ cd python-citrination-client
+$ python setup.py install
+```
 
 # Using This Client
 
