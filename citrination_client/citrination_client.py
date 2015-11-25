@@ -24,7 +24,7 @@ class CitrinationClient(object):
         self.api_url = site+'/api'
 
     def search(self, term=None, formula=None, property=None, contributor=None, reference=None, min_measurement=None,
-               max_measurement=None, from_page=None, per_page=None, data_set_id=None):
+               max_measurement=None, from_record=None, per_page=None, data_set_id=None):
         """
         Retrieve search results from Citrination. Searches are extremely inclusive and will include any records that
         contain one or more words found in the term argument.
@@ -53,8 +53,8 @@ class CitrinationClient(object):
         this string will be returned.
         :type reference: String
 
-        :param from_page: Index of the first page to return (indexed from 0).
-        :type from_page: Integer
+        :param from_record: Index of the first record to return (indexed from 0).
+        :type from_record: Integer
 
         :param per_page: Number of results to return.
         :type per_page: Integer
@@ -70,7 +70,7 @@ class CitrinationClient(object):
         url = self._get_search_url(data_set_id)
         data = {'term': term, 'formula': formula, 'property': property, 'contributor': contributor,
                 'reference': reference, 'min_measurement': min_measurement, 'max_measurement': max_measurement,
-                'from': from_page, 'per_page': per_page}
+                'from': from_record, 'per_page': per_page}
         return requests.post(url, data=json.dumps(data), headers=self.headers)
 
     def _get_search_url(self, data_set_id):
