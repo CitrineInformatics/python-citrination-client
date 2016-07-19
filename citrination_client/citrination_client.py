@@ -84,3 +84,59 @@ class CitrinationClient(object):
         """
         return self.api_url+'/mifs/search' if data_set_id is None else \
             self.api_url+'/data_sets/'+str(data_set_id)+'/mifs/search'
+
+    def upload_file(self, file_path, data_set_id):
+        """
+        Upload file to Citrination
+        :param file_path: File path to upload.
+        :type file_path: String
+
+        :param dataset: The dataset id to upload the file to.
+        :type dataset: Integer
+        """
+        url = self._get_upload_url(data_set_id)
+        r = requests.get(url, headers=self.headers)
+        if r.status_code == 200:
+            j = json.loads(r.content)
+            with open(file_path, 'rb') as f:
+                r = requests.post(j['url'], files={j['object_name']: f}, headers=self.headers)
+            return r
+        else:
+            return None
+
+    def _get_upload_url(self, data_set_id):
+        """
+        Helper method to generate the url for file uploading.
+
+        :param data_set_id: Id of the particular data set to search on.
+        :type data_set_id: Integer
+
+        :return: String with the url for uploading directly to S3
+        """
+        return self.api_url+'/data_sets/'+str(data_set_id)+'/upload'
+
+    def create_data_set(self):
+        """
+        Create a new data set.
+        """
+        url = self._get_create_data_set_url()
+        return requests.post(url, headers=self.headers)
+
+    def _get_create_data_set_url(self):
+        """
+        Helper method to generate the url for creating a new data set.
+        """
+        return self.api_url+'/data_sets'
+
+    def create_data_set_version(self, data_set_id):
+        """
+        Create a new data set version.
+        """
+        url = self._get_create_data_set_version_url(data_set_id)
+        return requests.post(url, headers=self.headers)
+
+    def _get_create_data_set_version_url(self, data_set_id):
+        """
+        Helper method to generate the url for creating a new data set version.
+        """
+        return self.api_url+'/data_sets/'+str(data_set_id)/version
