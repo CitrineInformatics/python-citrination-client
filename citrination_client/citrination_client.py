@@ -95,12 +95,21 @@ class CitrinationClient(object):
         :type dataset: Integer
         """
         url = self._get_upload_url(data_set_id)
-        r = requests.get(url, headers=self.headers)
+        file_data = {"file_path": str(file_path)}
+        r = requests.post(url, data=json.dumps(file_data), headers=self.headers)
         if r.status_code == 200:
             j = json.loads(r.content)
+            s3url = self._get_s3_presigned_url(j)
             with open(file_path, 'rb') as f:
-                r = requests.post(j['url'], files={j['object_name']: f}, headers=self.headers)
-            return r
+                r = requests.put(s3url, data=f)
+                if r.status_code == 200:
+                    url_data = {'s3object': j['url']['path'], 's3bucket': j['bucket'] }
+                    requests.post(self._get_update_file_upload_url(j['file_id']),
+                                  data=json.dumps(url_data), headers=self.headers)
+                    message = {"message":"Upload is complete.",
+                               "data_set_id": str(data_set_id),
+                               "version": j['dataset_version_id']}
+                    return json.dumps(message)
         else:
             return None
 
@@ -115,6 +124,25 @@ class CitrinationClient(object):
         """
         return self.api_url+'/data_sets/'+str(data_set_id)+'/upload'
 
+    def _get_s3_presigned_url(self, json):
+        """
+        Helper method to create an S3 presigned url from the json.
+        """
+        url = json['url']
+        return url['scheme']+'://'+url['host']+url['path']+'?'+url['query']
+
+    def _get_update_file_upload_url(self, file_id):
+        """
+        Helper method to generate the url for updating the file record with the upload bucket path
+
+        :param file_id: Id of the file record.
+        :type file_id: Integer
+
+        :return: String with the url for uploading directly to S3
+        """
+        return self.api_url+'/data_sets/update_file/'+str(file_id)
+
+
     def create_data_set(self):
         """
         Create a new data set.
@@ -126,7 +154,7 @@ class CitrinationClient(object):
         """
         Helper method to generate the url for creating a new data set.
         """
-        return self.api_url+'/data_sets'
+        return self.api_url+'/data_sets/create_dataset'
 
     def create_data_set_version(self, data_set_id):
         """
@@ -139,4 +167,4 @@ class CitrinationClient(object):
         """
         Helper method to generate the url for creating a new data set version.
         """
-        return self.api_url+'/data_sets/'+str(data_set_id)+'/version'
+        return self.api_url+'/data_sets/'+str(data_set_id)+'/create_dataset_version'
