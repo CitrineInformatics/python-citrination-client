@@ -110,6 +110,10 @@ class CitrinationClient(object):
                                "data_set_id": str(data_set_id),
                                "version": j['dataset_version_id']}
                     return json.dumps(message)
+                else:
+                    message = {"message":"Upload failed.",
+                               "status":r.status_code}
+                    return json.dumps(message)
         else:
             return None
 
