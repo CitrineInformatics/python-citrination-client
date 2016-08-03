@@ -14,5 +14,5 @@ $ pip install citrination-client
 
 ### Legacy information
 
-In order to interact with older versions of Citrination, please use
+In order to interact with older versions of Citrination, please clone
 the legacy branch on this repo.
