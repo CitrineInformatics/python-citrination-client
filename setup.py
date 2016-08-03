@@ -6,5 +6,5 @@ setup(name='citrination-client',
       description='Python client for accessing the Citrination api',
       packages=find_packages(),
       install_requires=[
-          'requests'
+          'requests==2.10.0'
       ])
