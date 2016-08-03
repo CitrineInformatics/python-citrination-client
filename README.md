@@ -14,9 +14,7 @@ This package is an implementation of the [Citrination API](http://citrineinforma
 ### Setup
 
 ```shell
-$ git clone git@github.com:CitrineInformatics/python-citrination-client.git
-$ cd python-citrination-client
-$ python setup.py install
+$ pip install citrination-client==1.0.1
 ```
 
 ## Use
