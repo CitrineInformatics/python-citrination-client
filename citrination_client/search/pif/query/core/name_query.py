@@ -7,11 +7,12 @@ class NameQuery(BaseObjectQuery):
     Class to query against a Pif Name object.
     """
 
-    def __init__(self, given=None, family=None, title=None, suffix=None, logic=None, tags=None,
+    def __init__(self, extract_as=None, given=None, family=None, title=None, suffix=None, logic=None, tags=None,
                  length=None, offset=None):
         """
         Constructor.
 
+        :param extract_as: String with the name of field to extract the full name under.
         :param given: One or more :class:`FieldOperation` operations against the given name field.
         :param family: One or more :class:`FieldOperation` operations against the family name field.
         :param title: One or more :class:`FieldOperation` operations against the title field.
@@ -22,6 +23,8 @@ class NameQuery(BaseObjectQuery):
         :param offset: One or more :class:`FieldOperation` operations against the offset field.
         """
         super(NameQuery, self).__init__(logic=logic, tags=tags, length=length, offset=offset)
+        self._extract_as = None
+        self.extract_as = extract_as
         self._given = None
         self.given = given
         self._family = None
@@ -30,6 +33,18 @@ class NameQuery(BaseObjectQuery):
         self.title = title
         self._suffix = None
         self.suffix = suffix
+
+    @property
+    def extract_as(self):
+        return self._extract_as
+
+    @extract_as.setter
+    def extract_as(self, extract_as):
+        self._extract_as = extract_as
+
+    @extract_as.deleter
+    def extract_as(self):
+        self._extract_as = None
 
     @property
     def given(self):
