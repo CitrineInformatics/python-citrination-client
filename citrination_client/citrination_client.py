@@ -40,13 +40,13 @@ class CitrinationClient(object):
                     url_data = {'s3object': j['url']['path'], 's3bucket': j['bucket'] }
                     requests.post(self._get_update_file_upload_url(j['file_id']),
                                   data=json.dumps(url_data), headers=self.headers)
-                    message = {"message":"Upload is complete.",
+                    message = {"message": "Upload is complete.",
                                "data_set_id": str(data_set_id),
                                "version": j['dataset_version_id']}
                     return json.dumps(message)
                 else:
-                    message = {"message":"Upload failed.",
-                               "status":r.status_code}
+                    message = {"message": "Upload failed.",
+                               "status": r.status_code}
                     return json.dumps(message)
         else:
             return None
@@ -77,7 +77,6 @@ class CitrinationClient(object):
         :return: String with the url for uploading directly to S3
         """
         return self.api_url+'/data_sets/update_file/'+str(file_id)
-
 
     def create_data_set(self):
         """
