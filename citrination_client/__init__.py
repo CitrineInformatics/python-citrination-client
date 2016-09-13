@@ -1,1 +1,1 @@
-from citrination_client import CitrinationClient
+from citrination_client.client import CitrinationClient
