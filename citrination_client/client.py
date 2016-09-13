@@ -130,8 +130,3 @@ class CitrinationClient(object):
         :return: URL for creating new data set versions.
         """
         return self.api_url+'/data_sets/'+str(data_set_id)+'/create_dataset_version'
-
-
-from citrination_client.search.pif.query.pif_query import PifQuery
-client = CitrinationClient('rNl0trIBKDQxHrusbTxhpAtt', 'https://matrixstage.citrination.com')
-print pif.dumps(client.search(PifQuery()))
