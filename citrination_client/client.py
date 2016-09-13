@@ -1,6 +1,9 @@
 import json
 import urllib
 import requests
+from pypif import pif
+from pypif.util.case import keys_to_snake_case
+from citrination_client.search.pif.result.pif_search_result import PifSearchResult
 
 
 class CitrinationClient(object):
@@ -18,7 +21,21 @@ class CitrinationClient(object):
         the STEEL site on citrination, use 'https://STEEL.citrination.com'.
         """
         self.headers = {'X-API-Key': urllib.quote(api_key), 'Content-Type': 'application/json'}
-        self.api_url = site+'/api'
+        self.api_url = site + '/api'
+        self.pif_search_url = self.api_url + '/search/pif_search'
+
+    def search(self, pif_query):
+        """
+        Run a PIF query against Citrination.
+
+        :param pif_query: :class:`.PifQuery` to execute.
+        :return: :class:`.PifSearchResult` object with the results of the query.
+        """
+        response = requests.post(self.pif_search_url, data=pif.dumps(pif_query), headers=self.headers)
+        if response.status_code != requests.codes.ok:
+            raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
+        d = keys_to_snake_case(json.loads(response.json()))
+        return PifSearchResult(**d['results'])
 
     def upload_file(self, file_path, data_set_id):
         """
@@ -37,7 +54,7 @@ class CitrinationClient(object):
             with open(file_path, 'rb') as f:
                 r = requests.put(s3url, data=f)
                 if r.status_code == 200:
-                    url_data = {'s3object': j['url']['path'], 's3bucket': j['bucket'] }
+                    url_data = {'s3object': j['url']['path'], 's3bucket': j['bucket']}
                     requests.post(self._get_update_file_upload_url(j['file_id']),
                                   data=json.dumps(url_data), headers=self.headers)
                     message = {"message": "Upload is complete.",
@@ -60,11 +77,12 @@ class CitrinationClient(object):
         """
         return self.api_url+'/data_sets/'+str(data_set_id)+'/upload'
 
-    def _get_s3_presigned_url(self, json):
+    @staticmethod
+    def _get_s3_presigned_url(input_json):
         """
         Helper method to create an S3 presigned url from the json.
         """
-        url = json['url']
+        url = input_json['url']
         return url['scheme']+'://'+url['host']+url['path']+'?'+url['query']
 
     def _get_update_file_upload_url(self, file_id):
@@ -112,3 +130,8 @@ class CitrinationClient(object):
         :return: URL for creating new data set versions.
         """
         return self.api_url+'/data_sets/'+str(data_set_id)+'/create_dataset_version'
+
+
+from citrination_client.search.pif.query.pif_query import PifQuery
+client = CitrinationClient('rNl0trIBKDQxHrusbTxhpAtt', 'https://matrixstage.citrination.com')
+print pif.dumps(client.search(PifQuery()))
