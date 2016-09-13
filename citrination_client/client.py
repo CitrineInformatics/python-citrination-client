@@ -2,7 +2,6 @@ import json
 import urllib
 import requests
 from pypif import pif
-from pypif.util.case import keys_to_snake_case
 from citrination_client.search.pif.result.pif_search_result import PifSearchResult
 
 
@@ -34,8 +33,7 @@ class CitrinationClient(object):
         response = requests.post(self.pif_search_url, data=pif.dumps(pif_query), headers=self.headers)
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
-        d = keys_to_snake_case(json.loads(response.json()))
-        return PifSearchResult(**d['results'])
+        return PifSearchResult(response.json()['results'])
 
     def upload_file(self, file_path, data_set_id):
         """
