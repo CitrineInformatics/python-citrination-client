@@ -1,7 +1,7 @@
 import json
-import urllib
 import requests
 from pypif import pif
+from citrination_client.util.quote_finder import quote
 from citrination_client.search.pif.result.pif_search_result import PifSearchResult
 
 
@@ -19,7 +19,7 @@ class CitrinationClient(object):
         https://citrination.com. This should point to the full url of the site to access. For example, to access
         the STEEL site on citrination, use 'https://STEEL.citrination.com'.
         """
-        self.headers = {'X-API-Key': urllib.quote(api_key), 'Content-Type': 'application/json'}
+        self.headers = {'X-API-Key': quote(api_key), 'Content-Type': 'application/json'}
         self.api_url = site + '/api'
         self.pif_search_url = self.api_url + '/search/pif_search'
 

@@ -1,3 +1,4 @@
+from six import string_types
 from pypif import pif
 from pypif.obj.common.pio import Pio
 from pypif.util.serializable import Serializable
@@ -41,7 +42,7 @@ class PifSearchHit(Serializable):
 
     @system.setter
     def system(self, system):
-        if isinstance(system, basestring):
+        if isinstance(system, string_types):
             self._system = pif.loads(system)
         elif isinstance(system, dict):
             self._system = pif.loado(system)
