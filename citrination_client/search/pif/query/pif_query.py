@@ -9,7 +9,7 @@ class PifQuery(Serializable):
     """
 
     def __init__(self, from_index=None, size=None, return_system=None, add_latex=None,
-                 sort_extracted=None, system=None, **kwargs):
+                 score_relevance=None, sort_extracted=None, system=None, **kwargs):
         """
         Constructor.
 
@@ -17,6 +17,7 @@ class PifQuery(Serializable):
         :param size: Integer with the number of records to return.
         :param return_system: True/False to set whether PIF systems will be returned.
         :param add_latex: True/False to set whether latex will be injected into results.
+        :param score_relevance: True/False to set whether relevance scores should be used.
         :param sort_extracted: One or more :class:`SortedExtracted` objects with sorts to apply.
         :param system: A single :class:`SystemQuery` object with the query to run.
         :param kwargs: Any other arguments. The only supported key is "from".
@@ -31,6 +32,8 @@ class PifQuery(Serializable):
         self.return_system = return_system
         self._add_latex = None
         self.add_latex = add_latex
+        self._score_relevance = None
+        self.score_relevance = score_relevance
         self._sort_extracted = None
         self.sort_extracted = sort_extracted
         self._system = None
@@ -83,6 +86,18 @@ class PifQuery(Serializable):
     @add_latex.deleter
     def add_latex(self):
         self._add_latex = None
+
+    @property
+    def score_relevance(self):
+        return self._score_relevance
+
+    @score_relevance.setter
+    def score_relevance(self, score_relevance):
+        self._score_relevance = score_relevance
+
+    @score_relevance.deleter
+    def score_relevance(self):
+        self._score_relevance = None
 
     @property
     def sort_extracted(self):
