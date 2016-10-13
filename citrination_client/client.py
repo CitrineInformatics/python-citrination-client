@@ -67,6 +67,32 @@ class CitrinationClient(object):
         else:
             return None
 
+    def show_latest_dataset_files(self, dataset_id):
+        return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/latest')
+
+    def show_dataset_files(self, dataset_id):
+        return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/files')
+
+    def show_latest_dataset_file(self, dataset_id, file_path):
+        return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/file/' + quote(file_path))
+
+    def show_version_dataset_file(self, dataset_id, version, file_path):
+        return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/version/' + str(version) + '/files/' + quote(file_path))
+
+    def show_pif_version(self, dataset_id, version, pif_uuid):
+        return self._get_content_from_url(self.api_url + '/datasets/' + str(dataset_id) + '/version/' + str(version) + '/pif/' + str(pif_uuid))
+
+    def show_pif_latest(self, dataset_id, pif_uuid):
+        return self._get_content_from_url(self.api_url + '/datasets/' + str(dataset_id) + '/pif/' + str(pif_uuid))
+
+    def _get_content_from_url(self, url):
+        print(str(url))
+        files = requests.get(url, headers=self.headers)
+        if files.status_code == 200:
+            return json.loads(files.content)
+        else:
+            raise RuntimeError('Received ' + str(files.status_code) + ' response: ' + str(files.reason))
+
     def _get_upload_url(self, data_set_id):
         """
         Helper method to generate the url for file uploading.
