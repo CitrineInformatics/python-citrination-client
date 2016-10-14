@@ -67,6 +67,67 @@ class CitrinationClient(object):
         else:
             return None
 
+    def get_dataset_files(self, dataset_id, latest = False):
+        """
+        Retrieves URLs for the files contained in a given dataset.
+
+        :param data_set_id: The id of the dataset to retrieve files from
+        :param latest: A boolean flag indicating that results should be limited to reporting files from the latest dataset version
+        :return: The response object, or an error message object if the request failed
+        """
+        if latest == False:
+            return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/files')
+        elif latest == True:
+            return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/latest')            
+        else:
+            return {
+                "message": "If provided, the second parameter must be a boolean"
+            }
+
+
+    def get_dataset_file(self, dataset_id, file_path, version = None):
+        """
+        Retrieves the URL for a file contained in a given dataset by version (optional) and filepath.
+
+        :param data_set_id: The id of the dataset to retrieve file from
+        :param file_path: The file path within the dataset
+        :param version: The dataset version to look for the file in. If nothing is supplied, the latest dataset version will be searched
+        :return: The response object, or an error message object if the request failed
+        """
+        if version == None:
+            return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/file/' + quote(file_path))           
+        else:
+            return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/version/' + str(version) + '/files/' + quote(file_path))
+
+    def get_pif(self, dataset_id, uid, version = None):
+        """
+        Retrieves JSON representation of a PIF from a given dataset.
+
+        :param data_set_id: The id of the dataset to retrieve PIF from
+        :param uid: The uid of the PIF to retrieve
+        :param version: The dataset version to look for the PIF in. If nothing is supplied, the latest dataset version will be searched
+        :return: The response object, or an error message object if the request failed
+        """
+        if version == None:
+            return self._get_content_from_url(self.api_url + '/datasets/' + str(dataset_id) + '/pif/' + str(uid))            
+        else:
+            return self._get_content_from_url(self.api_url + '/datasets/' + str(dataset_id) + '/version/' + str(version) + '/pif/' + str(uid))
+
+    def _get_content_from_url(self, url):
+        """
+        Helper method to make get request to a URL.
+
+        :param url: The URL to make the GET request to
+        :return: The response object, or an error message object if the request failed
+        """        
+        print(str(url))
+        result = requests.get(url, headers=self.headers)
+        if result.status_code == 200:
+            return json.loads(result.content)
+        else:
+            print('An error ocurred during this action: ' + str(result.status_code) + ' - ' + str(result.reason) )
+            return False
+
     def _get_upload_url(self, data_set_id):
         """
         Helper method to generate the url for file uploading.
