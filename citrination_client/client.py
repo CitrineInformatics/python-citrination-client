@@ -121,16 +121,12 @@ class CitrinationClient(object):
         :return: The response object, or an error message object if the request failed
         """        
         print(str(url))
-        files = requests.get(url, headers=self.headers)
-        if files.status_code == 200:
-            return json.loads(files.content)
+        result = requests.get(url, headers=self.headers)
+        if result.status_code == 200:
+            return json.loads(result.content)
         else:
-            err_msg = {
-                "message": "An error occurred during this action",
-                "status_code": str(files.status_code),
-                "response": str(files.reason)
-            }
-            return err_msg
+            print('An error ocurred during this action: ' + str(result.status_code) + ' - ' + str(result.reason) )
+            return False
 
     def _get_upload_url(self, data_set_id):
         """
