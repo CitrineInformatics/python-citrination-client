@@ -39,7 +39,7 @@ class BaseFieldOperation(Serializable):
 
     @length.setter
     def length(self, length):
-        from client.search.pif.query.core.field_operation import FieldOperation
+        from citrination_client.search.pif.query.core.field_operation import FieldOperation
         self._length = self._get_object(FieldOperation, length)
 
     @length.deleter
