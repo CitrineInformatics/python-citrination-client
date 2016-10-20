@@ -52,7 +52,7 @@ class BaseFieldOperation(Serializable):
 
     @offset.setter
     def offset(self, offset):
-        from client.search.pif.query.core.field_operation import FieldOperation
+        from citrination_client.search.pif.query.core.field_operation import FieldOperation
         self._offset = self._get_object(FieldOperation, offset)
 
     @offset.deleter
