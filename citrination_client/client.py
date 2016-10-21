@@ -120,7 +120,6 @@ class CitrinationClient(object):
         :param url: The URL to make the GET request to
         :return: The response object, or an error message object if the request failed
         """
-        print(str(url))
         result = requests.get(url, headers=self.headers)
         if result.status_code == 200:
             return json.loads(result.content)
@@ -162,6 +161,8 @@ class CitrinationClient(object):
         :param name: name of the dataset
         :param description: description for the dataset
         :param share: share the dataset with everyone on the site. Valid values are '1' or '0'.
+                      1 means share with everyone on the site. 0 means only the owner of the dataset
+                      can see the dataset.
 
         :return: Response from the create data set request.
         """
@@ -190,6 +191,8 @@ class CitrinationClient(object):
         :param name: name of the dataset
         :param description: description for the dataset
         :param share: share the dataset with everyone on the site. Valid values are '1' or '0'.
+                      1 means share with everyone on the site. 0 means only the owner of the dataset
+                      can see the dataset.
         :return: Response from the update data set request.
         """
         url = self._get_update_data_set_url(data_set_id)
