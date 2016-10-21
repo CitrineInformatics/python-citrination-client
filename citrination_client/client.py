@@ -78,7 +78,7 @@ class CitrinationClient(object):
         if latest == False:
             return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/files')
         elif latest == True:
-            return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/latest')            
+            return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/latest')
         else:
             return {
                 "message": "If provided, the second parameter must be a boolean"
@@ -95,7 +95,7 @@ class CitrinationClient(object):
         :return: The response object, or an error message object if the request failed
         """
         if version == None:
-            return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/file/' + quote(file_path))           
+            return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/file/' + quote(file_path))
         else:
             return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/version/' + str(version) + '/files/' + quote(file_path))
 
@@ -109,7 +109,7 @@ class CitrinationClient(object):
         :return: The response object, or an error message object if the request failed
         """
         if version == None:
-            return self._get_content_from_url(self.api_url + '/datasets/' + str(dataset_id) + '/pif/' + str(uid))            
+            return self._get_content_from_url(self.api_url + '/datasets/' + str(dataset_id) + '/pif/' + str(uid))
         else:
             return self._get_content_from_url(self.api_url + '/datasets/' + str(dataset_id) + '/version/' + str(version) + '/pif/' + str(uid))
 
@@ -119,8 +119,7 @@ class CitrinationClient(object):
 
         :param url: The URL to make the GET request to
         :return: The response object, or an error message object if the request failed
-        """        
-        print(str(url))
+        """
         result = requests.get(url, headers=self.headers)
         if result.status_code == 200:
             return json.loads(result.content)
@@ -156,14 +155,26 @@ class CitrinationClient(object):
         """
         return self.api_url+'/data_sets/update_file/'+str(file_id)
 
-    def create_data_set(self):
+    def create_data_set(self, name=None, description=None, share=None):
         """
         Create a new data set.
+        :param name: name of the dataset
+        :param description: description for the dataset
+        :param share: share the dataset with everyone on the site. Valid values are '1' or '0'.
+                      1 means share with everyone on the site. 0 means only the owner of the dataset
+                      can see the dataset.
 
         :return: Response from the create data set request.
         """
         url = self._get_create_data_set_url()
-        return requests.post(url, headers=self.headers)
+        data = {}
+        if name:
+            data["name"] = name
+        if description:
+            data["description"] = description
+        if share:
+            data["public"] = share
+        return requests.post(url, headers=self.headers, data=json.dumps(data))
 
     def _get_create_data_set_url(self):
         """
@@ -172,6 +183,35 @@ class CitrinationClient(object):
         :return: URL for creating a new data set.
         """
         return self.api_url+'/data_sets/create_dataset'
+
+    def update_data_set(self, data_set_id, name=None, description=None, share=None):
+        """
+        Update a data set.
+        :param data_set_id:
+        :param name: name of the dataset
+        :param description: description for the dataset
+        :param share: share the dataset with everyone on the site. Valid values are '1' or '0'.
+                      1 means share with everyone on the site. 0 means only the owner of the dataset
+                      can see the dataset.
+        :return: Response from the update data set request.
+        """
+        url = self._get_update_data_set_url(data_set_id)
+        data = {}
+        if name:
+            data["name"] = name
+        if description:
+            data["description"] = description
+        if share:
+            data["public"] = share
+        return requests.post(url, headers=self.headers, data=json.dumps(data))
+
+    def _get_update_data_set_url(self, data_set_id):
+        """
+        Helper method to generate the url for updating a data set.
+
+        :return: URL for creating a new data set.
+        """
+        return self.api_url+'/data_sets/'+str(data_set_id)+'/update'
 
     def create_data_set_version(self, data_set_id):
         """
