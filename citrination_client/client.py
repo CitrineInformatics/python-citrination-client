@@ -1,4 +1,5 @@
 import json
+import os
 import requests
 from pypif import pif
 from pypif.util.case import keys_to_snake_case
@@ -36,7 +37,7 @@ class CitrinationClient(object):
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return PifSearchResult(**keys_to_snake_case(response.json()['results']))
 
-    def upload_file(self, file_path, data_set_id):
+    def upload_file(self, file_path, data_set_id, root_path=None):
         """
         Upload file to Citrination.
 
@@ -44,28 +45,45 @@ class CitrinationClient(object):
         :param data_set_id: The dataset id to upload the file to.
         :return: Response object or None if the file was not uploaded.
         """
-        url = self._get_upload_url(data_set_id)
-        file_data = {"file_path": str(file_path)}
-        r = requests.post(url, data=json.dumps(file_data), headers=self.headers)
-        if r.status_code == 200:
-            j = json.loads(r.content)
-            s3url = self._get_s3_presigned_url(j)
-            with open(file_path, 'rb') as f:
-                r = requests.put(s3url, data=f)
-                if r.status_code == 200:
-                    url_data = {'s3object': j['url']['path'], 's3bucket': j['bucket']}
-                    requests.post(self._get_update_file_upload_url(j['file_id']),
-                                  data=json.dumps(url_data), headers=self.headers)
-                    message = {"message": "Upload is complete.",
-                               "data_set_id": str(data_set_id),
-                               "version": j['dataset_version_id']}
-                    return json.dumps(message)
-                else:
-                    message = {"message": "Upload failed.",
-                               "status": r.status_code}
-                    return json.dumps(message)
+        if os.path.isdir(str(file_path)):
+            for path, subdirs, files in os.walk(file_path):
+                for name in files:
+                    """print os.path.join(path, name)"""
+                    root = None
+                    if root_path:
+                       root = root_path
+                    else:
+                       root = str(file_path)
+                    success = self.upload_file(os.path.join(path, name), data_set_id, root)
+                    print success
+            message = {"message": "Upload of files in " + str(root) + " is complete."}
+            return json.dumps(message)
         else:
-            return None
+            url = self._get_upload_url(data_set_id)
+            file_data = {"file_path": str(file_path)}
+            if root_path:
+                file_data["root_path"] = root_path
+
+            r = requests.post(url, data=json.dumps(file_data), headers=self.headers)
+            if r.status_code == 200:
+                j = json.loads(r.content)
+                s3url = self._get_s3_presigned_url(j)
+                with open(file_path, 'rb') as f:
+                    r = requests.put(s3url, data=f)
+                    if r.status_code == 200:
+                        url_data = {'s3object': j['url']['path'], 's3bucket': j['bucket']}
+                        requests.post(self._get_update_file_upload_url(j['file_id']),
+                                      data=json.dumps(url_data), headers=self.headers)
+                        message = {"message": "Upload is complete.",
+                                   "data_set_id": str(data_set_id),
+                                   "version": j['dataset_version_id']}
+                        return json.dumps(message)
+                    else:
+                        message = {"message": "Upload failed.",
+                                   "status": r.status_code}
+                        return json.dumps(message)
+            else:
+                return None
 
     def get_dataset_files(self, dataset_id, latest = False):
         """
