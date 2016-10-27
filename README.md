@@ -11,12 +11,6 @@ This package is an implementation of the [Citrination API](http://citrineinforma
 * Python 2.7
 * Requests Python library
 
-### Setup
-
-```shell
-$ pip install citrination-client==1.0.1
-```
-
 ## Use
 
 A detailed discussion of the citrination API and usage are available at [http://citrineinformatics.github.io/api-documentation](http://citrineinformatics.github.io/api-documentation).
