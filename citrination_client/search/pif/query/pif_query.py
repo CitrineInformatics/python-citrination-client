@@ -9,7 +9,8 @@ class PifQuery(Serializable):
     """
 
     def __init__(self, from_index=None, size=None, return_system=None, add_latex=None,
-                 score_relevance=None, sort_extracted=None, system=None, **kwargs):
+                 score_relevance=None, sort_extracted=None, system=None, include_datasets=None,
+                 exclude_datasets=None, **kwargs):
         """
         Constructor.
 
@@ -19,7 +20,9 @@ class PifQuery(Serializable):
         :param add_latex: True/False to set whether latex will be injected into results.
         :param score_relevance: True/False to set whether relevance scores should be used.
         :param sort_extracted: One or more :class:`SortedExtracted` objects with sorts to apply.
-        :param system: A single :class:`SystemQuery` object with the query to run.
+        :param system: One or more :class:`SystemQuery` objects with the query to run.
+        :param include_datasets: One or more integer values with datasets to include.
+        :param exclude_datasets: One or more integer values with datasets to exclude.
         :param kwargs: Any other arguments. The only supported key is "from".
         """
         if 'from' in 'kwargs':
@@ -38,6 +41,10 @@ class PifQuery(Serializable):
         self.sort_extracted = sort_extracted
         self._system = None
         self.system = system
+        self._include_datasets = None
+        self.include_datasets = include_datasets
+        self._exclude_datasets = None
+        self.exclude_datasets = exclude_datasets
 
     @property
     def from_index(self):
@@ -122,3 +129,27 @@ class PifQuery(Serializable):
     @system.deleter
     def system(self):
         self._system = None
+
+    @property
+    def include_dataset(self):
+        return self._from
+
+    @include_dataset.setter
+    def include_dataset(self, include_dataset):
+        self._from = include_dataset
+
+    @include_dataset.deleter
+    def include_dataset(self):
+        self._from = None
+
+    @property
+    def exclude_dataset(self):
+        return self._from
+
+    @exclude_dataset.setter
+    def exclude_dataset(self, exclude_dataset):
+        self._from = exclude_dataset
+
+    @exclude_dataset.deleter
+    def exclude_dataset(self):
+        self._from = None
