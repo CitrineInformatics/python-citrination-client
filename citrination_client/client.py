@@ -48,7 +48,6 @@ class CitrinationClient(object):
         if os.path.isdir(str(file_path)):
             for path, subdirs, files in os.walk(file_path):
                 for name in files:
-                    """print os.path.join(path, name)"""
                     root = None
                     if root_path:
                        root = root_path
@@ -221,7 +220,8 @@ class CitrinationClient(object):
             data["description"] = description
         if share:
             data["public"] = share
-        return requests.post(url, headers=self.headers, data=json.dumps(data))
+        dataset = {"dataset": data}
+        return requests.post(url, headers=self.headers, data=json.dumps(dataset))
 
     def _get_update_data_set_url(self, data_set_id):
         """
