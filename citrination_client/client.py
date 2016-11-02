@@ -185,13 +185,15 @@ class CitrinationClient(object):
         """
         url = self._get_create_data_set_url()
         data = {}
+        data["public"] = '0'
         if name:
             data["name"] = name
         if description:
             data["description"] = description
         if share:
             data["public"] = share
-        return requests.post(url, headers=self.headers, data=json.dumps(data))
+        dataset = {"dataset": data}
+        return requests.post(url, headers=self.headers, data=json.dumps(dataset))
 
     def _get_create_data_set_url(self):
         """
