@@ -14,13 +14,14 @@ class SystemQuery(BaseObjectQuery):
     Class to query against a PIF System.
     """
 
-    def __init__(self, names=None, source=None, quantity=None, chemical_formula=None, composition=None,
+    def __init__(self, names=None, ids=None, source=None, quantity=None, chemical_formula=None, composition=None,
                  properties=None, preparation=None, references=None, sub_systems=None, logic=None, tags=None,
                  length=None, offset=None):
         """
         Constructor.
 
         :param names: One or more :class:`FieldOperation` operations against the names field.
+        :param ids: One of more :class:`IdQuery` operations against the ids field.
         :param source: One or more :class:`SourceQuery` operations against the source field.
         :param quantity: One or more :class:`QuantityQuery` operations against the quantity field.
         :param chemical_formula: One or more :class:`ChemicalFieldOperation` operations against the
@@ -38,6 +39,8 @@ class SystemQuery(BaseObjectQuery):
         super(SystemQuery, self).__init__(logic=logic, tags=tags, length=length, offset=offset)
         self._names = None
         self.names = names
+        self._ids = None
+        self.ids = ids
         self._source = None
         self.source = source
         self._quantity = None
@@ -66,6 +69,18 @@ class SystemQuery(BaseObjectQuery):
     @names.deleter
     def names(self):
         self._names = None
+
+    @property
+    def ids(self):
+        return self._ids
+
+    @ids.setter
+    def ids(self, ids):
+        self._ids = self._get_object(FieldOperation, ids)
+
+    @ids.deleter
+    def ids(self):
+        self._ids = None
 
     @property
     def source(self):
