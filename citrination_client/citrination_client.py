@@ -20,7 +20,7 @@ class CitrinationClient(object):
         the STEEL site on citrination, use 'https://STEEL.citrination.com'.
         :type site: String
         """
-        self.headers = {'X-API-Key': urllib.quote(api_key), 'Content-Type': 'application/json'}
+        self.headers = {'X-API-Key': urllib.parse.quote(api_key), 'Content-Type': 'application/json'}
         self.api_url = site+'/api'
 
     def search(self, term=None, formula=None, property=None, contributor=None, reference=None, min_measurement=None,
