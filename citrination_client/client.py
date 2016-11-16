@@ -54,7 +54,7 @@ class CitrinationClient(object):
                     else:
                        root = str(file_path)
                     success = self.upload_file(os.path.join(path, name), data_set_id, root)
-                    print success
+                    print(success)
             message = {"message": "Upload of files in " + str(root) + " is complete."}
             return json.dumps(message)
         else:
