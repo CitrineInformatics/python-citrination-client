@@ -1,6 +1,8 @@
 import json
 import os
 import requests
+from copy import deepcopy
+from time import sleep
 from pypif import pif
 from pypif.util.case import keys_to_snake_case
 from citrination_client.util.quote_finder import quote
@@ -32,6 +34,18 @@ class CitrinationClient(object):
         :param pif_query: :class:`.PifQuery` to execute.
         :return: :class:`.PifSearchResult` object with the results of the query.
         """
+        if pif_query.size is None and pif_query.from_index is None:
+            total = 1; time = 0.0; hits = []
+            while len(hits) < min(total, 10000):
+                sub_query = deepcopy(pif_query)
+                sub_query.from_index = len(hits)
+                partial_results = self.search(sub_query)
+                total = partial_results.total_num_hits
+                time += partial_results.took
+                hits.extend(partial_results.hits)
+                sleep(3)
+            return PifSearchResult(hits=hits, total_num_hits=total, took=time)
+
         response = requests.post(self.pif_search_url, data=pif.dumps(pif_query), headers=self.headers)
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
