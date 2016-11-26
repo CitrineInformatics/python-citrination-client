@@ -72,7 +72,9 @@ class PifSearchHit(Serializable):
 
     @system.setter
     def system(self, system):
-        if isinstance(system, string_types):
+        if system is None:
+            self._system = None
+        elif isinstance(system, string_types):
             self._system = pif.loads(system)
         elif isinstance(system, dict):
             self._system = pif.loado(system)
