@@ -35,15 +35,19 @@ class CitrinationClient(object):
         :return: :class:`.PifSearchResult` object with the results of the query.
         """
         if pif_query.size is None and pif_query.from_index is None:
-            total = 1; time = 0.0; hits = []
+            total = 1; time = 0.0; hits = []; first = True
             while len(hits) < min(total, 10000):
+                if first:
+                    first = False
+                else:
+                    sleep(3)
                 sub_query = deepcopy(pif_query)
                 sub_query.from_index = len(hits)
                 partial_results = self.search(sub_query)
                 total = partial_results.total_num_hits
                 time += partial_results.took
-                hits.extend(partial_results.hits)
-                sleep(3)
+                if partial_results.hits is not None:
+                    hits.extend(partial_results.hits)
             return PifSearchResult(hits=hits, total_num_hits=total, took=time)
 
         response = requests.post(self.pif_search_url, data=pif.dumps(pif_query), headers=self.headers)
