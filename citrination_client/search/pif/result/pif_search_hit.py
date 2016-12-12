@@ -9,13 +9,14 @@ class PifSearchHit(Serializable):
     Class to store a single PIF search hit.
     """
 
-    def __init__(self, id=None, dataset=None, dataset_version=None, system=None, extracted=None):
+    def __init__(self, id=None, dataset=None, dataset_version=None, score=None, system=None, extracted=None):
         """
         Constructor.
 
         :param id: String with the ID of the record.
         :param dataset: Integer with the dataset of the record.
         :param dataset_version: Integer with the dataset version of the record.
+        :param score: Score with the relevancy of the result.
         :param system: Pif System object that matched.
         :param extracted: Dictionary with a map of extracted property names to values.
         """
@@ -25,6 +26,8 @@ class PifSearchHit(Serializable):
         self.dataset = dataset
         self._dataset_version = None
         self.dataset_version = dataset_version
+        self._score = None
+        self.score = score
         self._system = None
         self.system = system
         self._extracted = None
@@ -65,6 +68,18 @@ class PifSearchHit(Serializable):
     @dataset_version.deleter
     def dataset_version(self):
         self._dataset_version = None
+
+    @property
+    def score(self):
+        return self._score
+
+    @score.setter
+    def score(self, score):
+        self._score = score
+
+    @score.deleter
+    def score(self):
+        self._score = None
 
     @property
     def system(self):
