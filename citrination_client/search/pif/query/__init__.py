@@ -1,5 +1,6 @@
 from citrination_client.search.pif.query.pif_query import PifQuery
 from citrination_client.search.pif.query.core.field_operation import FieldOperation
+from citrination_client.search.pif.query.core.file_reference_query import FileReferenceQuery
 from citrination_client.search.pif.query.core.filter import Filter
 from citrination_client.search.pif.query.core.id_query import IdQuery
 from citrination_client.search.pif.query.core.name_query import NameQuery

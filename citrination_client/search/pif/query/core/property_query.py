@@ -1,5 +1,6 @@
 from citrination_client.search.pif.query.core.value_query import ValueQuery
 from citrination_client.search.pif.query.core.field_operation import FieldOperation
+from citrination_client.search.pif.query.core.file_reference_query import FileReferenceQuery
 
 
 class PropertyQuery(ValueQuery):
@@ -7,8 +8,8 @@ class PropertyQuery(ValueQuery):
     Class to query against a single property.
     """
 
-    def __init__(self, conditions=None, data_type=None, name=None, value=None, units=None, units_normalization=None,
-                 logic=None, tags=None, length=None, offset=None):
+    def __init__(self, files=None, conditions=None, data_type=None, name=None, value=None, units=None,
+                 units_normalization=None, logic=None, tags=None, length=None, offset=None):
         """
         Constructor.
 
@@ -16,6 +17,7 @@ class PropertyQuery(ValueQuery):
         :param data_type: One or more :class:`FieldOperation` operations against the dataType field.
         :param name: One or more :class:`FieldOperation` operations against the name field.
         :param value: One or more :class:`FieldOperation` operations against the value.
+        :param files: One or more :class:`FileReferenceQuery` operations against the file.
         :param units: One or more :class:`FieldOperation` operations against the units field.
         :param units_normalization: :class:`UnitsNormalization` object for normalizing units.
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
@@ -26,10 +28,24 @@ class PropertyQuery(ValueQuery):
         super(PropertyQuery, self).__init__(name=name, value=value, units=units,
                                             units_normalization=units_normalization, logic=logic, tags=tags,
                                             length=length, offset=offset)
+        self._files = None
+        self.files = files
         self._conditions = None
         self.conditions = conditions
         self._data_type = None
         self.data_type = data_type
+
+    @property
+    def files(self):
+        return self._files
+
+    @files.setter
+    def files(self, files):
+        self._files = self._get_object(FileReferenceQuery, files)
+
+    @files.deleter
+    def files(self):
+        self._files = None
 
     @property
     def conditions(self):
