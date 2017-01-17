@@ -6,16 +6,19 @@ class BaseFieldOperation(Serializable):
     Base class for all field operations.
     """
 
-    def __init__(self, extract_as=None, length=None, offset=None):
+    def __init__(self, extract_as=None, extract_all=None, length=None, offset=None):
         """
         Constructor.
 
         :param extract_as: String with the alias to save this field under.
+        :param extract_all: Boolean setting whether all values in an array should be extracted.
         :param length: One or more :class:`.FieldOperation` operations against the length field.
         :param offset: One or more :class:`.FieldOperation` operations against the offset field.
         """
         self._extract_as = None
         self.extract_as = extract_as
+        self._extract_all = None
+        self.extract_all = extract_all
         self._length = None
         self.length = length
         self._offset = None
@@ -32,6 +35,18 @@ class BaseFieldOperation(Serializable):
     @extract_as.deleter
     def extract_as(self):
         self._extract_as = None
+
+    @property
+    def extract_all(self):
+        return self._extract_all
+
+    @extract_all.setter
+    def extract_all(self, extract_all):
+        self._extract_all = extract_all
+
+    @extract_all.deleter
+    def extract_all(self):
+        self._extract_all = None
 
     @property
     def length(self):

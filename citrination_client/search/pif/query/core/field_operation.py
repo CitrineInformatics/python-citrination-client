@@ -7,16 +7,18 @@ class FieldOperation(BaseFieldOperation):
     Class for all field queries.
     """
 
-    def __init__(self, filter=None, extract_as=None, length=None, offset=None):
+    def __init__(self, filter=None, extract_as=None, extract_all=None, length=None, offset=None):
         """
         Constructor.
 
         :param extract_as: String with the alias to save this field under.
+        :param extract_all: Boolean setting whether all values in an array should be extracted.
         :param length: One or more :class:`.FieldOperation` objects against the length field.
         :param offset: One or more :class:`.FieldOperation` objects against the offset field.
         :param filter: One or more :class:`.Filter` objects against this field.
         """
-        super(FieldOperation, self).__init__(extract_as=extract_as, length=length, offset=offset)
+        super(FieldOperation, self).__init__(extract_as=extract_as, extract_all=extract_all, length=length,
+                                             offset=offset)
         self._filter = None
         self.filter = filter
 

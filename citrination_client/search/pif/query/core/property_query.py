@@ -9,7 +9,8 @@ class PropertyQuery(ValueQuery):
     """
 
     def __init__(self, file=None, conditions=None, data_type=None, name=None, value=None, units=None,
-                 units_normalization=None, logic=None, tags=None, length=None, offset=None):
+                 units_normalization=None, logic=None, extract_as=None, extract_all=None, tags=None,
+                 length=None, offset=None):
         """
         Constructor.
 
@@ -21,12 +22,15 @@ class PropertyQuery(ValueQuery):
         :param units: One or more :class:`FieldOperation` operations against the units field.
         :param units_normalization: :class:`UnitsNormalization` object for normalizing units.
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
+        :param extract_as: String with the alias to save this field under.
+        :param extract_all: Boolean setting whether all values in an array should be extracted.
         :param tags: One or more :class:`FieldOperation` operations against the tags field.
         :param length: One or more :class:`FieldOperation` operations against the length field.
         :param offset: One or more :class:`FieldOperation` operations against the offset field.
         """
         super(PropertyQuery, self).__init__(name=name, value=value, units=units,
-                                            units_normalization=units_normalization, logic=logic, tags=tags,
+                                            units_normalization=units_normalization, logic=logic,
+                                            extract_as=extract_as, extract_all=extract_all, tags=tags,
                                             length=length, offset=offset)
         self._file = None
         self.file = file
