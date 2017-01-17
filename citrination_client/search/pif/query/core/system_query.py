@@ -15,8 +15,8 @@ class SystemQuery(BaseObjectQuery):
     """
 
     def __init__(self, names=None, ids=None, source=None, quantity=None, chemical_formula=None, composition=None,
-                 properties=None, preparation=None, references=None, sub_systems=None, logic=None, tags=None,
-                 length=None, offset=None):
+                 properties=None, preparation=None, references=None, sub_systems=None, logic=None, extract_as=None,
+                 extract_all=None, tags=None, length=None, offset=None):
         """
         Constructor.
 
@@ -32,11 +32,14 @@ class SystemQuery(BaseObjectQuery):
         :param references: One or more :class:`ReferenceQuery` operations against the references field.
         :param sub_systems: One or more :class:`SystemQuery` operations against the sub systems field.
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
+        :param extract_as: String with the alias to save this field under.
+        :param extract_all: Boolean setting whether all values in an array should be extracted.
         :param tags: One or more :class:`FieldOperation` operations against the tags field.
         :param length: One or more :class:`FieldOperation` operations against the length field.
         :param offset: One or more :class:`FieldOperation` operations against the offset field.
         """
-        super(SystemQuery, self).__init__(logic=logic, tags=tags, length=length, offset=offset)
+        super(SystemQuery, self).__init__(logic=logic, extract_as=extract_as, extract_all=extract_all,
+                                          tags=tags, length=length, offset=offset)
         self._names = None
         self.names = names
         self._ids = None

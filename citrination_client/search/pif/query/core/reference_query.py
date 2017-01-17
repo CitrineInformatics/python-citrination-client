@@ -11,7 +11,8 @@ class ReferenceQuery(BaseObjectQuery):
 
     def __init__(self, doi=None, isbn=None, issn=None, url=None, title=None, publisher=None, journal=None,
                  volume=None, issue=None, year=None, pages=None, authors=None, editors=None, affiliations=None,
-                 acknowledgements=None, references=None, logic=None, tags=None, length=None, offset=None):
+                 acknowledgements=None, references=None, logic=None, extract_as=None, extract_all=None,
+                 tags=None, length=None, offset=None):
         """
         Constructor.
 
@@ -32,11 +33,14 @@ class ReferenceQuery(BaseObjectQuery):
         :param acknowledgements: One or more :class:`FieldOperation` operations against the acknowledgements field.
         :param references: One or more :class:`ReferenceQuery` operations against the references field.
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
+        :param extract_as: String with the alias to save this field under.
+        :param extract_all: Boolean setting whether all values in an array should be extracted.
         :param tags: One or more :class:`FieldOperation` operations against the tags field.
         :param length: One or more :class:`FieldOperation` operations against the length field.
         :param offset: One or more :class:`FieldOperation` operations against the offset field.
         """
-        super(ReferenceQuery, self).__init__(logic=logic, tags=tags, length=length, offset=offset)
+        super(ReferenceQuery, self).__init__(logic=logic, extract_as=extract_as, extract_all=extract_all,
+                                             tags=tags, length=length, offset=offset)
         self._doi = None
         self.doi = doi
         self._isbn = None

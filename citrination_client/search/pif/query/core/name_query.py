@@ -7,24 +7,24 @@ class NameQuery(BaseObjectQuery):
     Class to query against a Pif Name object.
     """
 
-    def __init__(self, extract_as=None, given=None, family=None, title=None, suffix=None, logic=None, tags=None,
-                 length=None, offset=None):
+    def __init__(self, given=None, family=None, title=None, suffix=None, logic=None, extract_as=None,
+                 extract_all=None, tags=None, length=None, offset=None):
         """
         Constructor.
 
-        :param extract_as: String with the name of field to extract the full name under.
         :param given: One or more :class:`FieldOperation` operations against the given name field.
         :param family: One or more :class:`FieldOperation` operations against the family name field.
         :param title: One or more :class:`FieldOperation` operations against the title field.
         :param suffix: One or more :class:`FieldOperation` operations against the suffix field.
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
+        :param extract_as: String with the alias to save this field under.
+        :param extract_all: Boolean setting whether all values in an array should be extracted.
         :param tags: One or more :class:`FieldOperation` operations against the tags field.
         :param length: One or more :class:`FieldOperation` operations against the length field.
         :param offset: One or more :class:`FieldOperation` operations against the offset field.
         """
-        super(NameQuery, self).__init__(logic=logic, tags=tags, length=length, offset=offset)
-        self._extract_as = None
-        self.extract_as = extract_as
+        super(NameQuery, self).__init__(logic=logic, extract_as=extract_as, extract_all=extract_all, tags=tags,
+                                        length=length, offset=offset)
         self._given = None
         self.given = given
         self._family = None
@@ -33,18 +33,6 @@ class NameQuery(BaseObjectQuery):
         self.title = title
         self._suffix = None
         self.suffix = suffix
-
-    @property
-    def extract_as(self):
-        return self._extract_as
-
-    @extract_as.setter
-    def extract_as(self, extract_as):
-        self._extract_as = extract_as
-
-    @extract_as.deleter
-    def extract_as(self):
-        self._extract_as = None
 
     @property
     def given(self):
