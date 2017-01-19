@@ -61,12 +61,11 @@ class CitrinationClient(object):
 
         :param file_path: File path to upload.
         :param data_set_id: The dataset id to upload the file to.
-        :return: Response object or None if the file was not uploaded.
+        :return: Response object or return code if the file was not uploaded.
         """
         if os.path.isdir(str(file_path)):
             for path, subdirs, files in os.walk(file_path):
                 for name in files:
-                    root = None
                     if root_path:
                        root = root_path
                     else:
@@ -83,7 +82,7 @@ class CitrinationClient(object):
 
             r = requests.post(url, data=json.dumps(file_data), headers=self.headers)
             if r.status_code == 200:
-                j = json.loads(r.content)
+                j = json.loads(r.content.decode('utf-8'))
                 s3url = self._get_s3_presigned_url(j)
                 with open(file_path, 'rb') as f:
                     r = requests.put(s3url, data=f)
@@ -100,7 +99,9 @@ class CitrinationClient(object):
                                    "status": r.status_code}
                         return json.dumps(message)
             else:
-                return None
+                message = {"message": "Upload failed.",
+                                   "status": r.status_code}
+                return json.dumps(message)
 
     def get_dataset_files(self, dataset_id, latest = False):
         """
@@ -157,7 +158,7 @@ class CitrinationClient(object):
         """
         result = requests.get(url, headers=self.headers)
         if result.status_code == 200:
-            return json.loads(result.content)
+            return json.loads(result.content.decode('utf-8'))
         else:
             print('An error ocurred during this action: ' + str(result.status_code) + ' - ' + str(result.reason) )
             return False
