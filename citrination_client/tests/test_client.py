@@ -2,7 +2,6 @@ from citrination_client import CitrinationClient
 from os import environ
 from json import loads
 from pypif.obj.system import System
-from tempfile import TemporaryDirectory
 from pypif.pif import dump
 from os.path import join
 
@@ -16,9 +15,7 @@ def test_upload_pif():
     pif = System()
     pif.id = 0
 
-    with TemporaryDirectory() as tmpdir:
-        tempname = join(tmpdir, "pif.json")
-        with open(tempname, "w") as fp:
-            dump(pif, fp)
-        response = loads(client.upload_file(tempname, dataset))
+    with open("tmp.json", "w") as fp:
+        dump(pif, fp)
+    response = loads(client.upload_file("tmp.json", dataset))
     assert response["message"] == "Upload is complete."
