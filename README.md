@@ -6,6 +6,9 @@ This package is an implementation of the Citrination API.
 
 ## Installation
 
+### Requirements
+ * Python >= 2.7 or >= 3.4
+ 
 ### Setup
 
 ```shell
