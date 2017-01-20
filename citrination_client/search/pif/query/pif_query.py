@@ -8,7 +8,7 @@ class PifQuery(Serializable):
     Class to store information about a PIF query.
     """
 
-    def __init__(self, from_index=None, size=None, return_system=None, add_latex=None,
+    def __init__(self, from_index=None, size=None, random_results=None, return_system=None, add_latex=None,
                  score_relevance=None, sort_extracted=None, system=None, include_datasets=None,
                  exclude_datasets=None, **kwargs):
         """
@@ -16,6 +16,7 @@ class PifQuery(Serializable):
 
         :param from_index: Integer with the first index of the record to return.
         :param size: Integer with the number of records to return.
+        :param random_results: True/False to set whether random sets of hits will be returned.
         :param return_system: True/False to set whether PIF systems will be returned.
         :param add_latex: True/False to set whether latex will be injected into results.
         :param score_relevance: True/False to set whether relevance scores should be used.
@@ -31,6 +32,8 @@ class PifQuery(Serializable):
         self.from_index = from_index
         self._size = None
         self.size = size
+        self._random_results = None
+        self.random_results = random_results
         self._return_system = None
         self.return_system = return_system
         self._add_latex = None
@@ -69,6 +72,18 @@ class PifQuery(Serializable):
     @size.deleter
     def size(self):
         self._size = None
+
+    @property
+    def random_results(self):
+        return self._random_results
+
+    @random_results.setter
+    def random_results(self, random_results):
+        self._random_results = random_results
+
+    @random_results.deleter
+    def random_results(self):
+        self._random_results = None
 
     @property
     def return_system(self):
