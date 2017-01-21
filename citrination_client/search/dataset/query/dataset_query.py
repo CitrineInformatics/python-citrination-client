@@ -7,13 +7,14 @@ class DatasetQuery(Serializable):
     Class to store information about a dataset query.
     """
 
-    def __init__(self, from_index=None, size=None, score_relevance=None, system=None, **kwargs):
+    def __init__(self, from_index=None, size=None, score_relevance=None, count_pifs=None, system=None, **kwargs):
         """
         Constructor.
 
         :param from_index: Integer with the first index of the record to return.
         :param size: Integer with the number of records to return.
         :param score_relevance: True/False to set whether relevance scores should be used.
+        :param count_pifs: True/False to set whether to count the number of PIFs in each dataset.
         :param system: One or more :class:`SystemQuery` objects with the query to run.
         :param kwargs: Any other arguments. The only supported key is "from".
         """
@@ -25,6 +26,8 @@ class DatasetQuery(Serializable):
         self.size = size
         self._score_relevance = None
         self.score_relevance = score_relevance
+        self._count_pifs = None
+        self.count_pifs = count_pifs
         self._system = None
         self.system = system
 
@@ -63,6 +66,18 @@ class DatasetQuery(Serializable):
     @score_relevance.deleter
     def score_relevance(self):
         self._score_relevance = None
+
+    @property
+    def count_pifs(self):
+        return self._count_pifs
+
+    @count_pifs.setter
+    def count_pifs(self, count_pifs):
+        self._count_pifs = count_pifs
+
+    @count_pifs.deleter
+    def count_pifs(self):
+        self._count_pifs = None
 
     @property
     def system(self):
