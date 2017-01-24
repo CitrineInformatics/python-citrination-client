@@ -1,11 +1,21 @@
 import json
 import os
+import numbers
 import requests
 from copy import deepcopy
+from six import string_types
 from time import sleep
 from pypif import pif
 from pypif.util.case import keys_to_snake_case
 from citrination_client.util.quote_finder import quote
+from citrination_client.search.pif.query.pif_query import PifQuery
+from citrination_client.search.pif.query.core.field_operation import FieldOperation
+from citrination_client.search.pif.query.core.filter import Filter
+from citrination_client.search.pif.query.core.property_query import PropertyQuery
+from citrination_client.search.pif.query.core.reference_query import ReferenceQuery
+from citrination_client.search.pif.query.core.system_query import SystemQuery
+from citrination_client.search.pif.query.chemical.chemical_field_operation import  ChemicalFieldOperation
+from citrination_client.search.pif.query.chemical.chemical_filter import ChemicalFilter
 from citrination_client.search.pif.result.pif_search_result import PifSearchResult
 
 
@@ -54,6 +64,116 @@ class CitrinationClient(object):
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return PifSearchResult(**keys_to_snake_case(response.json()['results']))
+
+    def simple_chemical_search(self, name=None, chemical_formula=None, property_name=None, property_value=None,
+                               property_min=None, property_max=None, property_units=None, reference_doi=None,
+                               include_datasets=[], exclude_datasets=[], from_index=None, size=None):
+        """
+        Run a query against Citrination. This method generates a :class:`.PifQuery` object using the supplied arguments.
+        All arguments that accept lists have logical OR's on the queries that they generate. This means that, for
+        example, simple_chemical_search(name=['A', 'B']) will match records that have name equal to 'A' or 'B'.
+
+        Results will be pulled into the extracted field of the :class:`.PifSearchHit` objects that are returned. The
+        name will appear under the key "name", chemical formula under "chemical_formula", property name under
+        "property_name", value of the property under "property_value", units of the property under "property_units",
+        and reference DOI under "reference_doi".
+
+        This method is only meant for execution of very simple queries. More complex queries must use the search method
+        that accepts a :class:`.PifQuery` object.
+
+        :param name: One or more strings with the names of the chemical system to match.
+        :param chemical_formula:  One or more strings with the chemical formulas to match.
+        :param property_name: One or more strings with the names of the property to match.
+        :param property_value: One or more strings or numbers with the exact values to match.
+        :param property_min: A single string or number with the minimum value to match.
+        :param property_max: A single string or number with the maximum value to match.
+        :param property_units: One or more strings with the property units to match.
+        :param reference_doi: One or more strings with the DOI to match.
+        :param include_datasets: One or more integers with dataset IDs to match.
+        :param exclude_datasets: One or more integers with dataset IDs that must not match.
+        :param from_index: Index of the first record to match.
+        :param size: Total number of records to return.
+        :return: :class:`.PifSearchResult` object with the results of the query.
+        """
+        system_query = SystemQuery()
+
+        # Add the name operation
+        if isinstance(name, list):
+            system_query.names = [FieldOperation(extract_as='name', filter=Filter(equal=i)) for i in name]
+        elif isinstance(name, string_types):
+            system_query.names = [FieldOperation(extract_as='name', filter=Filter(equal=name))]
+        else:
+            system_query.names = [FieldOperation(extract_as='name')]
+
+        # Add the chemical formula operation
+        if isinstance(chemical_formula, list):
+            system_query.chemical_formula = \
+                [ChemicalFieldOperation(extract_as='chemical_formula', filter=ChemicalFilter(equal=i)) 
+                 for i in chemical_formula]
+        elif isinstance(chemical_formula, string_types):
+            system_query.chemical_formula = \
+                [ChemicalFieldOperation(extract_as='chemical_formula', filter=ChemicalFilter(equal=chemical_formula))]
+        else:
+            system_query.chemical_formula = \
+                [ChemicalFieldOperation(extract_as='chemical_formula')]
+        
+        # Generate the name query for the property
+        if isinstance(property_name, list):
+            property_name_query = \
+                [FieldOperation(extract_as='property_name', filter=Filter(equal=i)) for i in property_name]
+        elif isinstance(property_name, string_types):
+            property_name_query = \
+                [FieldOperation(extract_as='property_name', filter=Filter(equal=property_name))]
+        else:
+            property_name_query = \
+                [FieldOperation(extract_as='property_name')]
+
+        # Generate the value query for the property
+        property_value_query = []
+        if property_min is not None or property_max is not None:
+            property_value_query.append(
+                FieldOperation(extract_as='property_value', filter=Filter(min=property_min, max=property_max)))
+        if isinstance(property_value, list):
+            property_value_query.extend(
+                [FieldOperation(extract_as='property_value', filter=Filter(equal=i)) for i in property_value])
+        elif isinstance(property_value, string_types) or isinstance(property_value, numbers.Number):
+            property_value_query.append(
+                FieldOperation(extract_as='property_value', filter=Filter(equal=property_value)))
+        elif len(property_value_query) == 0:
+            property_value_query.append(
+                FieldOperation(extract_as='property_value'))
+
+        # Generate the units query for the property
+        if isinstance(property_units, list):
+            property_units_query = \
+                [FieldOperation(extract_as='property_units', filter=Filter(equal=i)) for i in property_units]
+        elif isinstance(property_units, string_types):
+            property_units_query = \
+                [FieldOperation(extract_as='property_units', filter=Filter(equal=property_units))]
+        else:
+            property_units_query = \
+                [FieldOperation(extract_as='property_units')]
+        
+        # Generate the full property query
+        system_query.properties = \
+            [PropertyQuery(name=property_name_query, value=property_value_query, units=property_units_query)]
+        
+        # Generate the regerence query
+        if isinstance(reference_doi, list):
+            system_query.references = \
+                [ReferenceQuery(doi=FieldOperation(extract_as='reference_doi', filter=Filter(equal=i)))
+                 for i in reference_doi]
+        elif isinstance(reference_doi, string_types):
+            system_query.references = \
+                [ReferenceQuery(doi=FieldOperation(extract_as='reference_doi', filter=Filter(equal=reference_doi)))]
+        else:
+            system_query.references = \
+                [ReferenceQuery(doi=FieldOperation(extract_as='reference_doi'))]
+
+        # Run the query
+        query = PifQuery(system=system_query, from_index=from_index, size=size, score_relevance=True,
+                         include_datasets=include_datasets, exclude_datasets=exclude_datasets)
+        return self.search(query)
 
     def upload_file(self, file_path, data_set_id, root_path=None):
         """
