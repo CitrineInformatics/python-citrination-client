@@ -1,9 +1,7 @@
 import json
 import os
-import numbers
 import requests
 from copy import deepcopy
-from six import string_types
 from time import sleep
 from pypif import pif
 from pypif.util.case import keys_to_snake_case
@@ -96,84 +94,62 @@ class CitrinationClient(object):
         :return: :class:`.PifSearchResult` object with the results of the query.
         """
         system_query = SystemQuery()
+        system_query.names = FieldOperation(
+            extract_as='name',
+            filter=[Filter(equal=i) for i in self._get_list(name)])
+        system_query.chemical_formula = ChemicalFieldOperation(
+            extract_as='chemical_formula',
+            filter=[ChemicalFilter(equal=i) for i in self._get_list(chemical_formula)])
+        system_query.references = ReferenceQuery(doi=FieldOperation(
+            extract_as='reference_doi',
+            filter=[Filter(equal=i) for i in self._get_list(reference_doi)]))
 
-        # Add the name operation
-        if isinstance(name, list):
-            system_query.names = [FieldOperation(extract_as='name', filter=Filter(equal=i)) for i in name]
-        elif isinstance(name, string_types):
-            system_query.names = [FieldOperation(extract_as='name', filter=Filter(equal=name))]
-        else:
-            system_query.names = [FieldOperation(extract_as='name')]
-
-        # Add the chemical formula operation
-        if isinstance(chemical_formula, list):
-            system_query.chemical_formula = \
-                [ChemicalFieldOperation(extract_as='chemical_formula', filter=ChemicalFilter(equal=i)) 
-                 for i in chemical_formula]
-        elif isinstance(chemical_formula, string_types):
-            system_query.chemical_formula = \
-                [ChemicalFieldOperation(extract_as='chemical_formula', filter=ChemicalFilter(equal=chemical_formula))]
-        else:
-            system_query.chemical_formula = \
-                [ChemicalFieldOperation(extract_as='chemical_formula')]
-        
-        # Generate the name query for the property
-        if isinstance(property_name, list):
-            property_name_query = \
-                [FieldOperation(extract_as='property_name', filter=Filter(equal=i)) for i in property_name]
-        elif isinstance(property_name, string_types):
-            property_name_query = \
-                [FieldOperation(extract_as='property_name', filter=Filter(equal=property_name))]
-        else:
-            property_name_query = \
-                [FieldOperation(extract_as='property_name')]
-
-        # Generate the value query for the property
-        property_value_query = []
+        # Generate the parts of the property query
+        property_name_query = FieldOperation(
+            extract_as='property_name',
+            filter=[Filter(equal=i) for i in self._get_list(property_name)])
+        property_units_query = FieldOperation(
+            extract_as='property_units',
+            filter=[Filter(equal=i) for i in self._get_list(property_units)])
+        property_value_query = FieldOperation(
+            extract_as='property_value',
+            filter=[])
+        for i in self._get_list(property_value):
+            property_value_query.filter.append(Filter(equal=i))
         if property_min is not None or property_max is not None:
-            property_value_query.append(
-                FieldOperation(extract_as='property_value', filter=Filter(min=property_min, max=property_max)))
-        if isinstance(property_value, list):
-            property_value_query.extend(
-                [FieldOperation(extract_as='property_value', filter=Filter(equal=i)) for i in property_value])
-        elif isinstance(property_value, string_types) or isinstance(property_value, numbers.Number):
-            property_value_query.append(
-                FieldOperation(extract_as='property_value', filter=Filter(equal=property_value)))
-        elif len(property_value_query) == 0:
-            property_value_query.append(
-                FieldOperation(extract_as='property_value'))
+            property_value_query.filter.append(Filter(min=property_min, max=property_max))
 
-        # Generate the units query for the property
-        if isinstance(property_units, list):
-            property_units_query = \
-                [FieldOperation(extract_as='property_units', filter=Filter(equal=i)) for i in property_units]
-        elif isinstance(property_units, string_types):
-            property_units_query = \
-                [FieldOperation(extract_as='property_units', filter=Filter(equal=property_units))]
-        else:
-            property_units_query = \
-                [FieldOperation(extract_as='property_units')]
-        
         # Generate the full property query
-        system_query.properties = \
-            [PropertyQuery(name=property_name_query, value=property_value_query, units=property_units_query)]
-        
-        # Generate the regerence query
-        if isinstance(reference_doi, list):
-            system_query.references = \
-                [ReferenceQuery(doi=FieldOperation(extract_as='reference_doi', filter=Filter(equal=i)))
-                 for i in reference_doi]
-        elif isinstance(reference_doi, string_types):
-            system_query.references = \
-                [ReferenceQuery(doi=FieldOperation(extract_as='reference_doi', filter=Filter(equal=reference_doi)))]
-        else:
-            system_query.references = \
-                [ReferenceQuery(doi=FieldOperation(extract_as='reference_doi'))]
+        system_query.properties = PropertyQuery(
+            name=property_name_query,
+            value=property_value_query,
+            units=property_units_query)
 
         # Run the query
-        query = PifQuery(system=system_query, from_index=from_index, size=size, score_relevance=True,
-                         include_datasets=include_datasets, exclude_datasets=exclude_datasets)
+        query = PifQuery(
+            system=system_query,
+            from_index=from_index,
+            size=size,
+            score_relevance=True,
+            include_datasets=include_datasets,
+            exclude_datasets=exclude_datasets)
         return self.search(query)
+
+    @staticmethod
+    def _get_list(values):
+        """
+        Helper method that wraps values in a list. If the input is a list then it is returned. If the input is None
+        then an empty list is returned. For anything else, the input value is wrapped as a single-element list.
+
+        :param values: Value to make sure exists in a list.
+        :return: List with the input values.
+        """
+        if values is None:
+            return []
+        elif isinstance(values, list):
+            return values
+        else:
+            return [values]
 
     def upload_file(self, file_path, data_set_id, root_path=None):
         """
