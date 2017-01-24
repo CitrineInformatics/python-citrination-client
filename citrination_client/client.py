@@ -55,6 +55,17 @@ class CitrinationClient(object):
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return PifSearchResult(**keys_to_snake_case(response.json()['results']))
 
+    def predict(self, model_name, candidates):
+        url = self._get_predict_url(model_name)
+        body = pif.dumps({"predictionSource": "scalar", "usePrior": True, "candidates": candidates})
+        print("Posting to {} with data={}".format(url, body))
+        response = requests.post(url, data=body, headers=self.headers)
+        return response
+
+    def _get_predict_url(self, model_name):
+        return self.api_url + '/csv_to_models/' + model_name + '/predict'
+
+
     def upload_file(self, file_path, data_set_id, root_path=None):
         """
         Upload file to Citrination.
