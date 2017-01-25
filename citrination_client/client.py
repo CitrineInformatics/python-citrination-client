@@ -156,11 +156,11 @@ class CitrinationClient(object):
         Predict endpoint
         :param model_name: The model path
         :param candidates: A list of candidates
-        :return:
+        :return: list of predicted candidates as a map {property: [value, uncertainty]}
         """
 
         # If a single candidate is passed, wrap in a list for the user
-        if type(candidates) is not list:
+        if not isinstance(candidates, list):
             candidates = [candidates]
 
         url = self._get_predict_url(model_name)
