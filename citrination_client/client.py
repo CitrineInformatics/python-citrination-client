@@ -152,8 +152,21 @@ class CitrinationClient(object):
             return [values]
 
     def predict(self, model_name, candidates):
+        """
+        Predict endpoint
+        :param model_name: The model path
+        :param candidates: A list of candidates
+        :return:
+        """
+
+        # If a single candidate is passed, wrap in a list for the user
+        if type(candidates) is not list:
+            candidates = [candidates]
+
         url = self._get_predict_url(model_name)
-        body = pif.dumps({"predictionSource": "scalar", "usePrior": True, "candidates": candidates})
+        body = pif.dumps(
+            dict(predictionRequest={"predictionSource": "scalar", "usePrior": True, "candidates": candidates})
+        )
         print("Posting to {} with data={}".format(url, body))
         response = requests.post(url, data=body, headers=self.headers)
         return response
