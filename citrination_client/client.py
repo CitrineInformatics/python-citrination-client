@@ -169,9 +169,10 @@ class CitrinationClient(object):
         )
 
         response = requests.post(url, data=body, headers=self.headers)
-        if response.status_code == requests.codes.ok:
-            return response.json()['candidates']
-        return None
+        if response.status_code != requests.codes.ok:
+            raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
+
+        return response.json()
 
     def _get_predict_url(self, model_name):
         return self.api_url + '/csv_to_models/' + model_name + '/predict'
