@@ -6,12 +6,14 @@ class BaseFieldOperation(Serializable):
     Base class for all field operations.
     """
 
-    def __init__(self, extract_as=None, extract_all=None, length=None, offset=None):
+    def __init__(self, extract_as=None, extract_all=None, extract_when_missing=None, length=None, offset=None):
         """
         Constructor.
 
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
+        :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
+        is missing that should be extracted (and the overall query is still satisfied).
         :param length: One or more :class:`.FieldOperation` operations against the length field.
         :param offset: One or more :class:`.FieldOperation` operations against the offset field.
         """
@@ -19,6 +21,8 @@ class BaseFieldOperation(Serializable):
         self.extract_as = extract_as
         self._extract_all = None
         self.extract_all = extract_all
+        self._extract_when_missing = None
+        self.extract_when_missing = extract_when_missing
         self._length = None
         self.length = length
         self._offset = None
@@ -47,6 +51,18 @@ class BaseFieldOperation(Serializable):
     @extract_all.deleter
     def extract_all(self):
         self._extract_all = None
+
+    @property
+    def extract_when_missing(self):
+        return self._extract_when_missing
+
+    @extract_when_missing.setter
+    def extract_when_missing(self, extract_when_missing):
+        self._extract_when_missing = extract_when_missing
+
+    @extract_when_missing.deleter
+    def extract_when_missing(self):
+        self._extract_when_missing = None
 
     @property
     def length(self):
