@@ -1,5 +1,7 @@
 from citrination_client.search.pif.query.core.base_object_query import BaseObjectQuery
+from citrination_client.search.pif.query.core.classification_query import ClassificationQuery
 from citrination_client.search.pif.query.core.field_operation import FieldOperation
+from citrination_client.search.pif.query.core.id_query import IdQuery
 from citrination_client.search.pif.query.core.process_step_query import ProcessStepQuery
 from citrination_client.search.pif.query.core.property_query import PropertyQuery
 from citrination_client.search.pif.query.core.quantity_query import QuantityQuery
@@ -14,14 +16,15 @@ class SystemQuery(BaseObjectQuery):
     Class to query against a PIF System.
     """
 
-    def __init__(self, names=None, ids=None, source=None, quantity=None, chemical_formula=None, composition=None,
-                 properties=None, preparation=None, references=None, sub_systems=None, logic=None, extract_as=None,
-                 extract_all=None, extract_when_missing=None, tags=None, length=None, offset=None):
+    def __init__(self, names=None, ids=None, classifications=None, source=None, quantity=None, chemical_formula=None, 
+                 composition=None, properties=None, preparation=None, references=None, sub_systems=None, logic=None, 
+                 extract_as=None, extract_all=None, extract_when_missing=None, tags=None, length=None, offset=None):
         """
         Constructor.
 
         :param names: One or more :class:`FieldOperation` operations against the names field.
-        :param ids: One of more :class:`IdQuery` operations against the ids field.
+        :param ids: One or more :class:`IdQuery` operations against the ids field.
+        :param classifications: One or more :class:`ClassificationQuery` operations against the classifications field.
         :param source: One or more :class:`SourceQuery` operations against the source field.
         :param quantity: One or more :class:`QuantityQuery` operations against the quantity field.
         :param chemical_formula: One or more :class:`ChemicalFieldOperation` operations against the
@@ -47,6 +50,8 @@ class SystemQuery(BaseObjectQuery):
         self.names = names
         self._ids = None
         self.ids = ids
+        self._classifications = None
+        self.classifications = classifications
         self._source = None
         self.source = source
         self._quantity = None
@@ -82,11 +87,23 @@ class SystemQuery(BaseObjectQuery):
 
     @ids.setter
     def ids(self, ids):
-        self._ids = self._get_object(FieldOperation, ids)
+        self._ids = self._get_object(IdQuery, ids)
 
     @ids.deleter
     def ids(self):
         self._ids = None
+
+    @property
+    def classifications(self):
+        return self._classifications
+
+    @classifications.setter
+    def classifications(self, classifications):
+        self._classifications = self._get_object(ClassificationQuery, classifications)
+
+    @classifications.deleter
+    def classifications(self):
+        self._classifications = None
 
     @property
     def source(self):
