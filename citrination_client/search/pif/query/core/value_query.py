@@ -1,5 +1,6 @@
 from citrination_client.search.pif.query.core.base_object_query import BaseObjectQuery
 from citrination_client.search.pif.query.core.field_operation import FieldOperation
+from citrination_client.search.pif.query.core.file_reference_query import FileReferenceQuery
 from citrination_client.search.pif.query.core.units_normalization import UnitsNormalization
 
 
@@ -8,13 +9,14 @@ class ValueQuery(BaseObjectQuery):
     Class to query against a single value.
     """
 
-    def __init__(self, name=None, value=None, units=None, units_normalization=None, logic=None, extract_as=None,
-                 extract_all=None, extract_when_missing=None, tags=None, length=None, offset=None):
+    def __init__(self, name=None, value=None, file=None, units=None, units_normalization=None, logic=None,
+                 extract_as=None, extract_all=None, extract_when_missing=None, tags=None, length=None, offset=None):
         """
         Constructor.
 
         :param name: One or more :class:`FieldOperation` operations against the name field.
         :param value: One or more :class:`FieldOperation` operations against the value.
+        :param file: One or more :class:`FileReferenceQuery` operations against the file.
         :param units: One or more :class:`FieldOperation` operations against the units field.
         :param units_normalization: :class:`UnitsNormalization` object for normalizing units.
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
@@ -33,6 +35,8 @@ class ValueQuery(BaseObjectQuery):
         self.name = name
         self._value = None
         self.value = value
+        self._file = None
+        self.file = file
         self._units = None
         self.units = units
         self._units_normalization = None
@@ -61,6 +65,18 @@ class ValueQuery(BaseObjectQuery):
     @value.deleter
     def value(self):
         self._value = None
+
+    @property
+    def file(self):
+        return self._file
+
+    @file.setter
+    def file(self, file):
+        self._file = self._get_object(FileReferenceQuery, file)
+
+    @file.deleter
+    def file(self):
+        self._file = None
 
     @property
     def units(self):
