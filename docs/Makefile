@@ -45,7 +45,7 @@ help:
 	@echo "  dummy      to check syntax errors of document sources"
 
 .PHONY: gh-pages
-gh-pages: clean html
+gh-pages: html
 	cd build/html && \
 	git init && \
 	git checkout -b gh-pages && \
@@ -57,9 +57,15 @@ gh-pages: clean html
 .PHONY: clean
 clean:
 	rm -rf $(BUILDDIR)/*
+	rm -rf source
+
+.PHONY: apidoc
+apidoc: clean
+	cp -r src source
+	sphinx-apidoc -e ../citrination_client -o source
 
 .PHONY: html
-html:
+html: apidoc
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
