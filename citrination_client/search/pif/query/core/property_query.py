@@ -1,6 +1,5 @@
 from citrination_client.search.pif.query.core.value_query import ValueQuery
 from citrination_client.search.pif.query.core.field_operation import FieldOperation
-from citrination_client.search.pif.query.core.file_reference_query import FileReferenceQuery
 
 
 class PropertyQuery(ValueQuery):
@@ -30,29 +29,15 @@ class PropertyQuery(ValueQuery):
         :param length: One or more :class:`FieldOperation` operations against the length field.
         :param offset: One or more :class:`FieldOperation` operations against the offset field.
         """
-        super(PropertyQuery, self).__init__(name=name, value=value, units=units,
+        super(PropertyQuery, self).__init__(name=name, value=value, file=file, units=units,
                                             units_normalization=units_normalization, logic=logic,
                                             extract_as=extract_as, extract_all=extract_all,
                                             extract_when_missing=extract_when_missing, tags=tags,
                                             length=length, offset=offset)
-        self._file = None
-        self.file = file
         self._conditions = None
         self.conditions = conditions
         self._data_type = None
         self.data_type = data_type
-
-    @property
-    def file(self):
-        return self._file
-
-    @file.setter
-    def file(self, file):
-        self._file = self._get_object(FileReferenceQuery, file)
-
-    @file.deleter
-    def file(self):
-        self._file = None
 
     @property
     def conditions(self):
