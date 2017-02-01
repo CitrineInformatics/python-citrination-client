@@ -19,4 +19,4 @@ install:
   - python setup.py install
 
 script:
-  - py.test python-citrination-client --verbose
+  - py.test citrination_client --verbose
