@@ -22,7 +22,7 @@ def test_upload_pif():
     assert response["message"] == "Upload is complete."
 
 
-@pytest.mark.skip(reason="Depends on model that user doesn't always have access to")
+@pytest.mark.skipif(True, reason="Depends on model that user doesn't always have access to")
 def test_predict():
     client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
     inputs = [{"CHEMICAL_FORMULA": "AlCu"}, ]
