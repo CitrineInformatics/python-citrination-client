@@ -3,20 +3,30 @@ language: python
 sudo: false
 
 env:
-  global: 
-    - CITRINATION_API_KEY=IeReqZ4bK4TS1jjbg3q2zAtt
-    - CITRINATION_SITE=https://stage.citrination.com
+  global:
+  - CITRINATION_API_KEY=IeReqZ4bK4TS1jjbg3q2zAtt
+  - CITRINATION_SITE=https://stage.citrination.com
 
 python:
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-  - "3.6"
+- '2.7'
+- '3.3'
+- '3.4'
+- '3.5'
+- '3.6'
 
 install:
-  - pip install pytest
-  - python setup.py install
+- pip install pytest
+- python setup.py install
 
 script:
-  - py.test citrination_client --verbose
+- py.test citrination_client --verbose
+
+deploy:
+  provider: pypi
+  user: CitrineInformatics
+  password:
+    secure: fsc1NDJq9FVXygCFiBpefUVJkOx6yVUzQfAp26dzVoNsqXG+OENpZ9MYXoVp1EeHggSNrWDnIQ/sB5U+4Iekpaxx6l29nbRG5VN3+jLaaO9KHZk94rLKHf6lJumzf4/SdW7ttydSeyXe+QN2XHgPpCWJJRy3GynRcFigZbo+T/fOtMBR6IWd8bIUuN6KRJIDGl8jyIq70n0nEHA4fZbsAxxP2ZX7ZjaDYO0nuHShYQzmatot2wN/YPRH6u+uqt4JwDP/YGya1ZzvVxuB9jTAybRBlct7SiCSiZ9hbgBRFyYBdoJz7sL654wLu0m2Eca2EPJbr5vfF0Km7kb5mz6z9W392v0Mt+dUuRy/ceS+yZtXjzzSOdd+85PCjp55EXV4fabXtAdCCgalnzidDLXfnpzGh0VmWdj5pJzq8vVM+WsFAGHFx4HjvojpyXeXqu2R+GFjrSIxjH49vRFptpub/Sh7OuGlt5V8WMmdTLrRyXJs8MKugHL4HKIiByNy3jYfenDov8rdNcXohXpMNk9p4EgkcEWZCnOhkFamCFWBjs1Ytk+VqIw4gLLUQ9qmWkzMnH0VKkGmMTybQ9XwmBAbLEnikEeWI03IqZ1W8/13P9dNppIOUkVJSxrMtdKKkZqme2/feZoQE/2gXtGEL1Yrjty+LDopIt28d3H1DSIGev8=
+  on:
+    distributions: sdist bdist_wheel
+    repo: CitrineInformatics/python-citrination-client
+    branch: master 
