@@ -3,7 +3,8 @@ from os import environ
 from json import loads
 from pypif.obj.system import System
 from pypif.pif import dump
-from os.path import join
+import pytest
+
 
 def test_start_client():
     client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
@@ -19,3 +20,12 @@ def test_upload_pif():
         dump(pif, fp)
     response = loads(client.upload_file("tmp.json", dataset))
     assert response["message"] == "Upload is complete."
+
+
+@pytest.mark.skip(reason="Depends on model that user doesn't always have access to")
+def test_predict():
+    client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
+    inputs = [{"CHEMICAL_FORMULA": "AlCu"}, ]
+    resp = client.predict("betterdensitydemo", inputs)
+    prediction = resp['candidates'][0]['Density']
+    assert abs(prediction[0] - 5.786) < 0.1
