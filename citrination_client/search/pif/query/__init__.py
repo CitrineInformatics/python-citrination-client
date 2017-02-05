@@ -1,6 +1,7 @@
 from citrination_client.search.pif.query.pif_query import PifQuery
 from citrination_client.search.pif.query.core.classification_query import ClassificationQuery
 from citrination_client.search.pif.query.core.field_operation import FieldOperation
+from citrination_client.search.pif.query.core.field_query import FieldQuery
 from citrination_client.search.pif.query.core.file_reference_query import FileReferenceQuery
 from citrination_client.search.pif.query.core.filter import Filter
 from citrination_client.search.pif.query.core.id_query import IdQuery
@@ -16,5 +17,6 @@ from citrination_client.search.pif.query.core.system_query import SystemQuery
 from citrination_client.search.pif.query.core.units_normalization import UnitsNormalization
 from citrination_client.search.pif.query.core.value_query import ValueQuery
 from citrination_client.search.pif.query.chemical.chemical_field_operation import ChemicalFieldOperation
+from citrination_client.search.pif.query.chemical.chemical_field_query import ChemicalFieldQuery
 from citrination_client.search.pif.query.chemical.chemical_filter import ChemicalFilter
 from citrination_client.search.pif.query.chemical.composition_query import CompositionQuery

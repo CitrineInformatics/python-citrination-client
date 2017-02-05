@@ -1,13 +1,13 @@
 from citrination_client.search.pif.query.core.base_object_query import BaseObjectQuery
 from citrination_client.search.pif.query.core.classification_query import ClassificationQuery
-from citrination_client.search.pif.query.core.field_operation import FieldOperation
+from citrination_client.search.pif.query.core.field_query import FieldQuery
 from citrination_client.search.pif.query.core.id_query import IdQuery
 from citrination_client.search.pif.query.core.process_step_query import ProcessStepQuery
 from citrination_client.search.pif.query.core.property_query import PropertyQuery
 from citrination_client.search.pif.query.core.quantity_query import QuantityQuery
 from citrination_client.search.pif.query.core.reference_query import ReferenceQuery
 from citrination_client.search.pif.query.core.source_query import SourceQuery
-from citrination_client.search.pif.query.chemical.chemical_field_operation import ChemicalFieldOperation
+from citrination_client.search.pif.query.chemical.chemical_field_query import ChemicalFieldQuery
 from citrination_client.search.pif.query.chemical.composition_query import CompositionQuery
 
 
@@ -22,12 +22,12 @@ class SystemQuery(BaseObjectQuery):
         """
         Constructor.
 
-        :param names: One or more :class:`FieldOperation` operations against the names field.
+        :param names: One or more :class:`FieldQuery` operations against the names field.
         :param ids: One or more :class:`IdQuery` operations against the ids field.
         :param classifications: One or more :class:`ClassificationQuery` operations against the classifications field.
         :param source: One or more :class:`SourceQuery` operations against the source field.
         :param quantity: One or more :class:`QuantityQuery` operations against the quantity field.
-        :param chemical_formula: One or more :class:`ChemicalFieldOperation` operations against the
+        :param chemical_formula: One or more :class:`ChemicalFieldQuery` operations against the
         chemical formula field.
         :param composition: One or more :class:`CompositionQuery` operations against the composition field.
         :param properties: One or more :class:`PropertyQuery` operations against the properties field.
@@ -39,9 +39,9 @@ class SystemQuery(BaseObjectQuery):
         :param extract_all: Boolean setting whether all values in an array should be extracted.
         :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
         is missing that should be extracted (and the overall query is still satisfied).
-        :param tags: One or more :class:`FieldOperation` operations against the tags field.
-        :param length: One or more :class:`FieldOperation` operations against the length field.
-        :param offset: One or more :class:`FieldOperation` operations against the offset field.
+        :param tags: One or more :class:`FieldQuery` operations against the tags field.
+        :param length: One or more :class:`FieldQuery` operations against the length field.
+        :param offset: One or more :class:`FieldQuery` operations against the offset field.
         """
         super(SystemQuery, self).__init__(logic=logic, extract_as=extract_as, extract_all=extract_all,
                                           extract_when_missing=extract_when_missing, tags=tags, length=length,
@@ -75,7 +75,7 @@ class SystemQuery(BaseObjectQuery):
 
     @names.setter
     def names(self, names):
-        self._names = self._get_object(FieldOperation, names)
+        self._names = self._get_object(FieldQuery, names)
 
     @names.deleter
     def names(self):
@@ -135,7 +135,7 @@ class SystemQuery(BaseObjectQuery):
 
     @chemical_formula.setter
     def chemical_formula(self, chemical_formula):
-        self._chemical_formula = self._get_object(ChemicalFieldOperation, chemical_formula)
+        self._chemical_formula = self._get_object(ChemicalFieldQuery, chemical_formula)
 
     @chemical_formula.deleter
     def chemical_formula(self):

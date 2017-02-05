@@ -1,25 +1,23 @@
 from pypif.util.serializable import Serializable
-from citrination_client.search.pif.query.core.field_query import FieldQuery
 
 
-class BaseObjectQuery(Serializable):
+class BaseFieldQuery(Serializable):
     """
-    Base class for all PIF object queries.
+    Base class for all field queries.
     """
 
-    def __init__(self, logic=None, extract_as=None, extract_all=None, extract_when_missing=None, tags=None,
+    def __init__(self, logic=None, extract_as=None, extract_all=None, extract_when_missing=None,
                  length=None, offset=None):
         """
         Constructor.
 
-        :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
+        :param logic: Logic for this query. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
         :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
         is missing that should be extracted (and the overall query is still satisfied).
-        :param tags: One or more :class:`FieldQuery` operations against the tags field.
-        :param length: One or more :class:`FieldQuery` operations against the length field.
-        :param offset: One or more :class:`FieldQuery` operations against the offset field.
+        :param length: One or more :class:`.FieldQuery` operations against the length field.
+        :param offset: One or more :class:`.FieldQuery` operations against the offset field.
         """
         self._logic = None
         self.logic = logic
@@ -29,8 +27,6 @@ class BaseObjectQuery(Serializable):
         self.extract_all = extract_all
         self._extract_when_missing = None
         self.extract_when_missing = extract_when_missing
-        self._tags = None
-        self.tags = tags
         self._length = None
         self.length = length
         self._offset = None
@@ -61,18 +57,6 @@ class BaseObjectQuery(Serializable):
         self._extract_as = None
 
     @property
-    def extract_when_missing(self):
-        return self._extract_when_missing
-
-    @extract_when_missing.setter
-    def extract_when_missing(self, extract_when_missing):
-        self._extract_when_missing = extract_when_missing
-
-    @extract_when_missing.deleter
-    def extract_when_missing(self):
-        self._extract_when_missing = None
-
-    @property
     def extract_all(self):
         return self._extract_all
 
@@ -85,16 +69,16 @@ class BaseObjectQuery(Serializable):
         self._extract_all = None
 
     @property
-    def tags(self):
-        return self._tags
+    def extract_when_missing(self):
+        return self._extract_when_missing
 
-    @tags.setter
-    def tags(self, tags):
-        self._tags = self._get_object(FieldQuery, tags)
+    @extract_when_missing.setter
+    def extract_when_missing(self, extract_when_missing):
+        self._extract_when_missing = extract_when_missing
 
-    @tags.deleter
-    def tags(self):
-        self._tags = None
+    @extract_when_missing.deleter
+    def extract_when_missing(self):
+        self._extract_when_missing = None
 
     @property
     def length(self):
@@ -102,6 +86,7 @@ class BaseObjectQuery(Serializable):
 
     @length.setter
     def length(self, length):
+        from citrination_client.search.pif.query.core.field_query import FieldQuery
         self._length = self._get_object(FieldQuery, length)
 
     @length.deleter
@@ -114,6 +99,7 @@ class BaseObjectQuery(Serializable):
 
     @offset.setter
     def offset(self, offset):
+        from citrination_client.search.pif.query.core.field_query import FieldQuery
         self._offset = self._get_object(FieldQuery, offset)
 
     @offset.deleter
