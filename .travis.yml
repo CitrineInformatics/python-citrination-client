@@ -1,29 +1,24 @@
 language: python
-
 env:
   global:
   - CITRINATION_API_KEY=IeReqZ4bK4TS1jjbg3q2zAtt
   - CITRINATION_SITE=https://stage.citrination.com
-
 python:
 - '2.7'
 - '3.3'
 - '3.4'
 - '3.5'
 - '3.6'
-
 install:
 - pip install pytest
 - python setup.py install
-
 script:
 - py.test citrination_client --verbose
-
 deploy:
   provider: pypi
   user: CitrineInformatics
   password:
-    secure: QZzjzmvHPNU3+EQ7QIxb07awb2frB2g2TQHJN8v2HRyIP8KHqxmJksdQuAUfzoj/7QyPWTLXtfV032eQbqliFnc8LfxZtVgIh2f5ThX1SqgmxvDMugldOKI9jEzEjtkK5imuQ3LMEsnDugmTeqz/T/8y7xkM+16JFyOeJ1yAYnS28i8KwJpg0Dq4v6WMm+iKWK5vwoLpiRYGUZRqleGLTY/nvrQfJJh3y1aKNKFYBdEBp68AGWZ0K5WEGaIeImsmmglVm8J2RJ80RgSRk3DVM13pyXrVL1hixJWw2LiLoEyUhmiCXBKNZPOZ+uUw3PeGNHKJRPbeF8uoi0rclaNSrliYt2T+uZNZN7Ct6ff9KX0RDtqRAUmaocLB0DxNHZUmehfLGmEGjnXl9zXn5lO1F64DErUanMVkwuzdhpsdthfPV/n8xqQAuPRzS9EijD/9gg7K2D3IhItOO3Yd3FvfzEFU/NcM2WdR8V1QqPbzrk1Q6SsFibtjMkJCLUY6YTGBA4ChQi2Sc2ec8B/982ZNkCH9gbFiK3nljlUep3nCFLy/ZvW5o+JRzXEE29LiTjh4eHwG99YPAECmsR68X/cQAcViIXj/BiWVTDSn5uCVymEij9BMRf64D6srbhU3X7up14nXt4LC8wwm47O6+oALX4mYZsyu61ZER81G040Qm/Q=
+    secure: duf99NLEb5d4S71PKABmKfFUMvt15QgegrzVfup4XjGjbbM6CmXmOwxZWDXa4hhOD6ewlZ52KQTN6QiOIOAJJdVlMCuc91q8LI/R9mkFDug6AP6HmU7+QALUUoJpGQb5jlh7VvdTVJ8lOyGWWRR4NniH314Ej2CMexk3WOm0K1tslXJh8LCuXxndBkWb3KsN0A7hokZM6PoWpB8TDFLrhgmBDK+RSDPVJ3tRN3cMaS7URWa/faPbDptjdpRZ1WB1p0sTl4yoVOY3Ma6z+naZxU3NDRLrvVXUb4u+J+mibtsCwsaV0dKoeYzOSydNj6Dg1fmlIvekftVWGjPgBpm+YXPDE0NbEXofC+38Q1A+3WScbj5LSiFMhx4h+25QvpjBQrMD/WcdfY1cMQlLiFH9RUIrvXtyDuz5kORk2Hjx/7D0xY8l7KOXmCBP/p5xVQ08i/7HegKKKRgRbQIh+Ztxicg6xNp7zR7KA/ArLXPrZRTUz7wx4sdIuM+3NweqFi8EFCDWtrFqzSLKPpbExRG/jz2/t6lbcSzv6SmPriGKAHhgCVC9oNewsCxiSg6iPrmEYyv1Z9pmQw1TZiaA9/sD0mK3vf+Duph4guoFPemybMhWo2aOqlqOjiJityiHprPL66rZIkLkS7DyI+I00JqRxd4cF55owN9CJ6tM/XFJHdE=
   on:
     distributions: sdist bdist_wheel
     repo: CitrineInformatics/python-citrination-client
