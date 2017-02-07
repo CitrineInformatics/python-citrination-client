@@ -1,5 +1,5 @@
 from citrination_client.search.pif.query.core.base_object_query import BaseObjectQuery
-from citrination_client.search.pif.query.core.field_operation import FieldOperation
+from citrination_client.search.pif.query.core.field_query import FieldQuery
 
 
 class FileReferenceQuery(BaseObjectQuery):
@@ -12,18 +12,18 @@ class FileReferenceQuery(BaseObjectQuery):
         """
         Constructor.
 
-        :param relative_path: One or more :class:`FieldOperation` operations against the relative path field.
-        :param mime_type: One or more :class:`FieldOperation` operations against the mime type field.
-        :param sha256: One or more :class:`FieldOperation` operations against the sha256 field.
-        :param md5: One or more :class:`FieldOperation` operations against the md5 field.
+        :param relative_path: One or more :class:`FieldQuery` operations against the relative path field.
+        :param mime_type: One or more :class:`FieldQuery` operations against the mime type field.
+        :param sha256: One or more :class:`FieldQuery` operations against the sha256 field.
+        :param md5: One or more :class:`FieldQuery` operations against the md5 field.
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
         :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
         is missing that should be extracted (and the overall query is still satisfied).
-        :param tags: One or more :class:`FieldOperation` operations against the tags field.
-        :param length: One or more :class:`FieldOperation` operations against the length field.
-        :param offset: One or more :class:`FieldOperation` operations against the offset field.
+        :param tags: One or more :class:`FieldQuery` operations against the tags field.
+        :param length: One or more :class:`FieldQuery` operations against the length field.
+        :param offset: One or more :class:`FieldQuery` operations against the offset field.
         """
         super(FileReferenceQuery, self).__init__(logic=logic, extract_as=extract_as, extract_all=extract_all,
                                                  extract_when_missing=extract_when_missing, tags=tags,
@@ -43,7 +43,7 @@ class FileReferenceQuery(BaseObjectQuery):
 
     @relative_path.setter
     def relative_path(self, relative_path):
-        self._relative_path = self._get_object(FieldOperation, relative_path)
+        self._relative_path = self._get_object(FieldQuery, relative_path)
 
     @relative_path.deleter
     def relative_path(self):
@@ -55,7 +55,7 @@ class FileReferenceQuery(BaseObjectQuery):
 
     @mime_type.setter
     def mime_type(self, mime_type):
-        self._mime_type = self._get_object(FieldOperation, mime_type)
+        self._mime_type = self._get_object(FieldQuery, mime_type)
 
     @mime_type.deleter
     def mime_type(self):
@@ -67,7 +67,7 @@ class FileReferenceQuery(BaseObjectQuery):
 
     @sha256.setter
     def sha256(self, sha256):
-        self._sha256 = self._get_object(FieldOperation, sha256)
+        self._sha256 = self._get_object(FieldQuery, sha256)
 
     @sha256.deleter
     def sha256(self):
@@ -79,7 +79,7 @@ class FileReferenceQuery(BaseObjectQuery):
 
     @md5.setter
     def md5(self, md5):
-        self._md5 = self._get_object(FieldOperation, md5)
+        self._md5 = self._get_object(FieldQuery, md5)
 
     @md5.deleter
     def md5(self):
