@@ -1,7 +1,5 @@
 language: python
 
-sudo: false
-
 env:
   global:
   - CITRINATION_API_KEY=IeReqZ4bK4TS1jjbg3q2zAtt
