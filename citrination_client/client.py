@@ -15,6 +15,7 @@ from citrination_client.search.pif.query.core.system_query import SystemQuery
 from citrination_client.search.pif.query.chemical.chemical_field_operation import  ChemicalFieldOperation
 from citrination_client.search.pif.query.chemical.chemical_filter import ChemicalFilter
 from citrination_client.search.pif.result.pif_search_result import PifSearchResult
+from citrination_client.search.pif.result.pif_multi_search_result import PifMultiSearchResult
 
 
 class CitrinationClient(object):
@@ -34,6 +35,7 @@ class CitrinationClient(object):
         self.headers = {'X-API-Key': quote(api_key), 'Content-Type': 'application/json'}
         self.api_url = site + '/api'
         self.pif_search_url = self.api_url + '/search/pif_search'
+        self.pif_multi_search_url = self.api_url + '/search/pif_multi_search'
 
     def search(self, pif_query):
         """
@@ -62,6 +64,18 @@ class CitrinationClient(object):
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return PifSearchResult(**keys_to_snake_case(response.json()['results']))
+
+    def pif_multi_search(self, pif_multi_query):
+        """
+        Run each in a list of PIF queries against Citrination.
+
+        :param pif_multi_query: :class:`.PifMultiQuery` object to execute.
+        :return: :class:`.PifMultiSearchResult` object with the results of the query.
+        """
+        response = requests.post(self.pif_multi_search_url, data=pif.dumps(pif_multi_query), headers=self.headers)
+        if response.status_code != requests.codes.ok:
+            raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
+        return PifMultiSearchResult(**keys_to_snake_case(response.json()['results']))
 
     def simple_chemical_search(self, name=None, chemical_formula=None, property_name=None, property_value=None,
                                property_min=None, property_max=None, property_units=None, reference_doi=None,
