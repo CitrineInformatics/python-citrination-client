@@ -65,14 +65,14 @@ class CitrinationClient(object):
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return PifSearchResult(**keys_to_snake_case(response.json()['results']))
 
-    def multi_pif_search(self, pif_queries):
+    def multi_pif_search(self, multi_pif_query):
         """
         Run each in a list of PIF queries against Citrination.
 
-        :param pif_queries: List of :class:`.PifQuery` objects to execute.
+        :param multi_pif_query: :class:`.MultiPifQuery` object to execute.
         :return: :class:`.PifMultiSearchResult` object with the results of the query.
         """
-        response = requests.post(self.pif_multi_search_url, data=pif.dumps(pif_queries), headers=self.headers)
+        response = requests.post(self.pif_multi_search_url, data=pif.dumps(multi_pif_query), headers=self.headers)
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return PifMultiSearchResult(**keys_to_snake_case(response.json()['results']))
