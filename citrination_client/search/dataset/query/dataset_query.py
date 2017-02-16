@@ -7,12 +7,15 @@ class DatasetQuery(Serializable):
     Class to store information about a dataset query.
     """
 
-    def __init__(self, from_index=None, size=None, score_relevance=None, count_pifs=None, system=None, **kwargs):
+    def __init__(self, from_index=None, size=None, random_results=None, random_seed=None, score_relevance=None,
+                 count_pifs=None, system=None, **kwargs):
         """
         Constructor.
 
         :param from_index: Integer with the first index of the record to return.
         :param size: Integer with the number of records to return.
+        :param random_results: True/False to set whether random results are returned.
+        :param random_seed: Integer to set the seed for generating random results.
         :param score_relevance: True/False to set whether relevance scores should be used.
         :param count_pifs: True/False to set whether to count the number of PIFs in each dataset.
         :param system: One or more :class:`SystemQuery` objects with the query to run.
@@ -24,6 +27,10 @@ class DatasetQuery(Serializable):
         self.from_index = from_index
         self._size = None
         self.size = size
+        self._random_results = None
+        self.random_results = random_results
+        self._random_seed = None
+        self.random_seed = random_seed
         self._score_relevance = None
         self.score_relevance = score_relevance
         self._count_pifs = None
@@ -54,6 +61,30 @@ class DatasetQuery(Serializable):
     @size.deleter
     def size(self):
         self._size = None
+
+    @property
+    def random_results(self):
+        return self._random_results
+
+    @random_results.setter
+    def random_results(self, random_results):
+        self._random_results = random_results
+
+    @random_results.deleter
+    def random_results(self):
+        self._random_results = None
+
+    @property
+    def random_seed(self):
+        return self._random_seed
+
+    @random_seed.setter
+    def random_seed(self, random_seed):
+        self._random_seed = random_seed
+
+    @random_seed.deleter
+    def random_seed(self):
+        self._random_seed = None
 
     @property
     def score_relevance(self):
