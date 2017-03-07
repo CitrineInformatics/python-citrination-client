@@ -1,5 +1,5 @@
 from citrination_client.search.pif.query.core.base_object_query import BaseObjectQuery
-from citrination_client.search.pif.query.core.field_operation import FieldOperation
+from citrination_client.search.pif.query.core.field_query import FieldQuery
 from citrination_client.search.pif.query.core.name_query import NameQuery
 from citrination_client.search.pif.query.core.pages_query import PagesQuery
 
@@ -16,30 +16,30 @@ class ReferenceQuery(BaseObjectQuery):
         """
         Constructor.
 
-        :param doi: One or more :class:`FieldOperation` operations against the doi field.
-        :param isbn: One or more :class:`FieldOperation` operations against the isbn field.
-        :param issn: One or more :class:`FieldOperation` operations against the issn field.
-        :param url: One or more :class:`FieldOperation` operations against the url field.
-        :param title: One or more :class:`FieldOperation` operations against the title field.
-        :param publisher: One or more :class:`FieldOperation` operations against the publisher field.
-        :param journal: One or more :class:`FieldOperation` operations against the journal field.
-        :param volume: One or more :class:`FieldOperation` operations against the volume field.
-        :param issue: One or more :class:`FieldOperation` operations against the issue field.
-        :param year: One or more :class:`FieldOperation` operations against the year field.
+        :param doi: One or more :class:`FieldQuery` operations against the doi field.
+        :param isbn: One or more :class:`FieldQuery` operations against the isbn field.
+        :param issn: One or more :class:`FieldQuery` operations against the issn field.
+        :param url: One or more :class:`FieldQuery` operations against the url field.
+        :param title: One or more :class:`FieldQuery` operations against the title field.
+        :param publisher: One or more :class:`FieldQuery` operations against the publisher field.
+        :param journal: One or more :class:`FieldQuery` operations against the journal field.
+        :param volume: One or more :class:`FieldQuery` operations against the volume field.
+        :param issue: One or more :class:`FieldQuery` operations against the issue field.
+        :param year: One or more :class:`FieldQuery` operations against the year field.
         :param pages: One or more :class:`PagesQuery` operations against the pages field.
         :param authors: One or more :class:`NameQuery` operations against the authors field.
         :param editors: One or more :class:`NameQuery` operations against the editors field.
-        :param affiliations: One or more :class:`FieldOperation` operations against the affiliations field.
-        :param acknowledgements: One or more :class:`FieldOperation` operations against the acknowledgements field.
+        :param affiliations: One or more :class:`FieldQuery` operations against the affiliations field.
+        :param acknowledgements: One or more :class:`FieldQuery` operations against the acknowledgements field.
         :param references: One or more :class:`ReferenceQuery` operations against the references field.
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
         :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
         is missing that should be extracted (and the overall query is still satisfied).
-        :param tags: One or more :class:`FieldOperation` operations against the tags field.
-        :param length: One or more :class:`FieldOperation` operations against the length field.
-        :param offset: One or more :class:`FieldOperation` operations against the offset field.
+        :param tags: One or more :class:`FieldQuery` operations against the tags field.
+        :param length: One or more :class:`FieldQuery` operations against the length field.
+        :param offset: One or more :class:`FieldQuery` operations against the offset field.
         """
         super(ReferenceQuery, self).__init__(logic=logic, extract_as=extract_as, extract_all=extract_all,
                                              extract_when_missing=extract_when_missing, tags=tags, length=length,
@@ -83,7 +83,7 @@ class ReferenceQuery(BaseObjectQuery):
 
     @doi.setter
     def doi(self, doi):
-        self._doi = self._get_object(FieldOperation, doi)
+        self._doi = self._get_object(FieldQuery, doi)
 
     @doi.deleter
     def doi(self):
@@ -95,7 +95,7 @@ class ReferenceQuery(BaseObjectQuery):
 
     @isbn.setter
     def isbn(self, isbn):
-        self._isbn = self._get_object(FieldOperation, isbn)
+        self._isbn = self._get_object(FieldQuery, isbn)
 
     @isbn.deleter
     def isbn(self):
@@ -107,7 +107,7 @@ class ReferenceQuery(BaseObjectQuery):
 
     @issn.setter
     def issn(self, issn):
-        self._issn = self._get_object(FieldOperation, issn)
+        self._issn = self._get_object(FieldQuery, issn)
 
     @issn.deleter
     def issn(self):
@@ -119,7 +119,7 @@ class ReferenceQuery(BaseObjectQuery):
 
     @url.setter
     def url(self, url):
-        self._url = self._get_object(FieldOperation, url)
+        self._url = self._get_object(FieldQuery, url)
 
     @url.deleter
     def url(self):
@@ -131,7 +131,7 @@ class ReferenceQuery(BaseObjectQuery):
 
     @title.setter
     def title(self, title):
-        self._title = self._get_object(FieldOperation, title)
+        self._title = self._get_object(FieldQuery, title)
 
     @title.deleter
     def title(self):
@@ -143,7 +143,7 @@ class ReferenceQuery(BaseObjectQuery):
 
     @publisher.setter
     def publisher(self, publisher):
-        self._publisher = self._get_object(FieldOperation, publisher)
+        self._publisher = self._get_object(FieldQuery, publisher)
 
     @publisher.deleter
     def publisher(self):
@@ -155,7 +155,7 @@ class ReferenceQuery(BaseObjectQuery):
 
     @journal.setter
     def journal(self, journal):
-        self._journal = self._get_object(FieldOperation, journal)
+        self._journal = self._get_object(FieldQuery, journal)
 
     @journal.deleter
     def journal(self):
@@ -167,7 +167,7 @@ class ReferenceQuery(BaseObjectQuery):
 
     @volume.setter
     def volume(self, volume):
-        self._volume = self._get_object(FieldOperation, volume)
+        self._volume = self._get_object(FieldQuery, volume)
 
     @volume.deleter
     def volume(self):
@@ -179,7 +179,7 @@ class ReferenceQuery(BaseObjectQuery):
 
     @issue.setter
     def issue(self, issue):
-        self._issue = self._get_object(FieldOperation, issue)
+        self._issue = self._get_object(FieldQuery, issue)
 
     @issue.deleter
     def issue(self):
@@ -191,7 +191,7 @@ class ReferenceQuery(BaseObjectQuery):
 
     @year.setter
     def year(self, year):
-        self._year = self._get_object(FieldOperation, year)
+        self._year = self._get_object(FieldQuery, year)
 
     @year.deleter
     def year(self):
@@ -239,7 +239,7 @@ class ReferenceQuery(BaseObjectQuery):
 
     @affiliations.setter
     def affiliations(self, affiliations):
-        self._affiliations = self._get_object(FieldOperation, affiliations)
+        self._affiliations = self._get_object(FieldQuery, affiliations)
 
     @affiliations.deleter
     def affiliations(self):
@@ -251,7 +251,7 @@ class ReferenceQuery(BaseObjectQuery):
 
     @acknowledgements.setter
     def acknowledgements(self, acknowledgements):
-        self._acknowledgements = self._get_object(FieldOperation, acknowledgements)
+        self._acknowledgements = self._get_object(FieldQuery, acknowledgements)
 
     @acknowledgements.deleter
     def acknowledgements(self):

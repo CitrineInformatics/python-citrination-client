@@ -8,8 +8,8 @@ class PifQuery(Serializable):
     Class to store information about a PIF query.
     """
 
-    def __init__(self, from_index=None, size=None, random_results=None, return_system=None, add_latex=None,
-                 score_relevance=None, sort_extracted=None, system=None, include_datasets=None,
+    def __init__(self, from_index=None, size=None, random_results=None, random_seed=None, return_system=None, 
+                 add_latex=None, score_relevance=None, sort_extracted=None, system=None, include_datasets=None,
                  exclude_datasets=None, **kwargs):
         """
         Constructor.
@@ -17,6 +17,7 @@ class PifQuery(Serializable):
         :param from_index: Integer with the first index of the record to return.
         :param size: Integer with the number of records to return.
         :param random_results: True/False to set whether random sets of hits will be returned.
+        :param random_seed: Integer to set the seed for generating random results.
         :param return_system: True/False to set whether PIF systems will be returned.
         :param add_latex: True/False to set whether latex will be injected into results.
         :param score_relevance: True/False to set whether relevance scores should be used.
@@ -34,6 +35,8 @@ class PifQuery(Serializable):
         self.size = size
         self._random_results = None
         self.random_results = random_results
+        self._random_seed = None
+        self.random_seed = random_seed
         self._return_system = None
         self.return_system = return_system
         self._add_latex = None
@@ -84,6 +87,18 @@ class PifQuery(Serializable):
     @random_results.deleter
     def random_results(self):
         self._random_results = None
+
+    @property
+    def random_seed(self):
+        return self._random_seed
+
+    @random_seed.setter
+    def random_seed(self, random_seed):
+        self._random_seed = random_seed
+
+    @random_seed.deleter
+    def random_seed(self):
+        self._random_seed = None
 
     @property
     def return_system(self):
