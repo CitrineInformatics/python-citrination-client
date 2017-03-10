@@ -8,5 +8,6 @@ setup(name='citrination-client',
       install_requires=[
           'requests<3',
           'pypif',
-          'six<2'
+          'six<2',
+          'enum34'
       ])

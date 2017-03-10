@@ -6,6 +6,7 @@ from time import sleep
 from pypif import pif
 from pypif.util.case import keys_to_snake_case
 from citrination_client.util.quote_finder import quote
+from citrination_client.util.move_enum import Action
 from citrination_client.search.pif.query.pif_query import PifQuery
 from citrination_client.search.pif.query.core.field_operation import FieldOperation
 from citrination_client.search.pif.query.core.filter import Filter
@@ -191,15 +192,15 @@ class CitrinationClient(object):
     def _get_predict_url(self, model_name):
         return self.api_url + '/csv_to_models/' + model_name + '/predict'
 
-    def transfer(self, dataset_id, source_path, dest_path=None):
+    def upload(self, dataset_id, source_path, dest_path=None):
         """
         Upload a file, specifying source and dest paths a file (acts as the scp command)
         :param source_path: The path to the file on the source host
-        :param dest_path: The path to the file where the contents of the transfer will be written (on the dest host)
-        :return: The response object or a boolean False if the file was not uploaded
+        :param dest_path: The path to the file where the contents of the upload will be written (on the dest host)
+        :return: A JSON blob with a message indicating the status of the upload
         """
         source_path = str(source_path)
-        if dest_path == None:
+        if not dest_path:
             dest_path = source_path
         else:
             dest_path = str(dest_path)
@@ -207,13 +208,15 @@ class CitrinationClient(object):
         if os.path.isdir(source_path):
             for path, subdirs, files in os.walk(source_path):
                 for name in files:
-                    success = self.transfer(dataset_id, os.path.join(path, name))
-                    print(success)
+                    path_without_root_dir = path.split("/")[1:] + [name]
+                    current_dest_path = os.path.join(dest_path, *path_without_root_dir)
+                    current_source_path = os.path.join(path, name)
+                    success = self.upload(dataset_id, current_source_path, current_dest_path)
             message = {"message": "Upload of files is complete."}
             return json.dumps(message)
-        else:
+        elif os.path.isfile(source_path):
             url = self._get_upload_url(dataset_id)
-            file_data = { "file": { "dest_path": str(dest_path), "src_path": str(source_path)}}
+            file_data = { "dest_path": str(dest_path), "src_path": str(source_path)}
             r = requests.post(url, data=json.dumps(file_data), headers=self.headers)
             if r.status_code == 200:
                 j = json.loads(r.content.decode('utf-8'))
@@ -225,7 +228,7 @@ class CitrinationClient(object):
                         requests.post(self._get_update_file_upload_url(j['file_id']),
                                       data=json.dumps(url_data), headers=self.headers)
                         message = {"message": "Upload is complete.",
-                                   "dataset_id": str(dataset_id),
+                                   "data_set_id": str(dataset_id),
                                    "version": j['dataset_version_id']}
                         return json.dumps(message)
                     else:
@@ -236,6 +239,10 @@ class CitrinationClient(object):
                 message = {"message": "Upload failed.",
                                    "status": r.status_code}
                 return json.dumps(message)
+        else:
+            return json.dumps({
+                    "message": "No file at specified path {0}".format(source_path)
+                })
 
     def upload_file(self, file_path, dataset_id, root_path=None):
         """
@@ -244,9 +251,61 @@ class CitrinationClient(object):
         :param data_set_id: The dataset id to upload the file to.
         :return: Response object or return code if the file was not uploaded.
         """
-        return self.transfer(dataset_id, file_path)
+        return self.upload(dataset_id, file_path)
 
-    def get_matched_dataset_files(self, dataset_id, glob, is_dir=False, latest=True):
+    def list(self, dataset_id, glob=".", is_dir=False):
+        """
+        List matched filenames in a dataset on Citrination.
+        :param dataset_id: The ID of the dataset to search for files.
+        :param glob: A pattern which will be matched against files in the dataset.
+        :param is_dir: A boolean indicating whether or not the pattern should match against the beginning of paths in the dataset.
+        :return: Response object or return code if the file was not uploaded.
+        """
+        url = self.api_url + '/datasets/' + str(dataset_id) + '/list_filepaths'
+        data = {
+            "list": {
+                "glob": glob,
+                "is_dir": is_dir
+            }
+        }
+        r = requests.post(url, data=json.dumps(data), headers=self.headers)
+        return json.loads(r.content.decode('utf-8'))
+
+    def matched_file_count(self, dataset_id, glob=".", is_dir=False):
+        list_result = self.list(dataset_id, glob, is_dir)
+        if isinstance(list_result["files"], list):
+            return len(list_result["files"])
+        else:
+            return list_result
+
+    def move(self, dataset_id, original_path, target_path, is_dir=False):
+        return self._move_or_copy(dataset_id, Action.move, original_path, target_path, is_dir)
+
+    def copy(self, dataset_id, original_path, target_path, is_dir=False):
+        return self._move_or_copy(dataset_id, Action.copy, original_path, target_path, is_dir)
+
+    def _move_or_copy(self, dataset_id, move_or_copy, original_path, target_path, is_dir=False):
+        """
+        Move a file within the "filesystem" of a dataset on Citrination.
+        :param dataset_id: The ID of the dataset in which the move will occur
+        :param move_or_copy: A string equal to either "move" or "copy", indicating which action should be performed
+        :param original_path: The path (to a file or to a directory) to move
+        :param target_path: The location to move the file(s)
+        :param is_dir: Boolean indicating whether or not you are moving a directory
+        """
+        if not isinstance(move_or_copy, Action):
+            raise TypeError
+
+        url = self.api_url + '/datasets/' + str(dataset_id) + '/' + move_or_copy.value
+        data = {
+                    "from": original_path,
+                    "to": target_path,
+                    "is_dir": is_dir
+                }
+        r = requests.post(url, data=json.dumps(data), headers=self.headers)
+        return json.loads(r.content.decode('utf-8'))
+
+    def get_matched_dataset_files(self, dataset_id, glob, is_dir=False, latest_version_only=True):
         """
         Retrieves URLs for the files matched by a glob or a path to a directory
         in a given dataset.
@@ -261,16 +320,15 @@ class CitrinationClient(object):
             "download_request": {
                 "glob": glob,
                 "is_dir": is_dir,
-                "latest": latest
+                "latest": latest_version_only
             }
         }
         url = self.api_url + '/datasets/' + str(dataset_id) + '/download_files'
         r = requests.post(url,data=json.dumps(data), headers=self.headers)
-        if r.status_code == 200:
-            return json.loads(r.content.decode('utf-8'))
+        return json.loads(r.content.decode('utf-8'))
 
 
-    def get_dataset_files(self, dataset_id, latest = False):
+    def get_dataset_files(self, dataset_id, latest_version_only = False):
         """
         Retrieves URLs for the files contained in a given dataset.
 
@@ -278,8 +336,8 @@ class CitrinationClient(object):
         :param latest: A boolean flag indicating that results should be limited to reporting files from the latest dataset version
         :return: The response object, or an error message object if the request failed
         """
-        if latest == False or latest == True:
-            return self.get_matched_dataset_files(dataset_id, ".", False, latest)
+        if isinstance(latest_version_only, bool):
+            return self.get_matched_dataset_files(dataset_id, ".", False, latest_version_only)
         else:
             return {
                 "message": "If provided, the second parameter must be a boolean"
@@ -296,9 +354,9 @@ class CitrinationClient(object):
         :return: The response object, or an error message object if the request failed
         """
         if version == None:
-            return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/file/' + quote(file_path))
+            return self._get_content_from_url(self.api_url + '/datasets/' + str(dataset_id) + '/file/' + quote(file_path))
         else:
-            return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/version/' + str(version) + '/files/' + quote(file_path))
+            return self._get_content_from_url(self.api_url + '/datasets/' + str(dataset_id) + '/version/' + str(version) + '/files/' + quote(file_path))
 
     def get_pif(self, dataset_id, uid, version = None):
         """
