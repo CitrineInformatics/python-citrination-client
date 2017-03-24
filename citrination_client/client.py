@@ -177,18 +177,25 @@ class CitrinationClient(object):
         if not isinstance(candidates, list):
             candidates = [candidates]
 
-        url = self._get_predict_url(model_name)
         body = pif.dumps(
-            {"predictionRequest": {"predictionSource": "scalar", "usePrior": True, "candidates": candidates}}
+             {"predictionRequest": {"predictionSource": "scalar", "usePrior": True, "candidates": candidates}}
         )
 
+        url = self._get_predict_url(model_name)
         response = requests.post(url, data=body, headers=self.headers)
+        if response.status_code == 404:
+            url = self._get_deprecated_predict_url(model_name)
+            response = requests.post(url, data=body, headers=self.headers)
+
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
 
         return response.json()
 
     def _get_predict_url(self, model_name):
+        return self.api_url + '/data_views/' + model_name + '/predict'
+
+    def _get_deprecated_predict_url(self, model_name):
         return self.api_url + '/csv_to_models/' + model_name + '/predict'
 
     def upload_file(self, file_path, data_set_id, root_path=None):
