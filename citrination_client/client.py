@@ -168,9 +168,10 @@ class CitrinationClient(object):
     def predict(self, model_name, candidates):
         """
         Predict endpoint
-        :param model_name: The model path
-        :param candidates: A list of candidates
-        :return: list of predicted candidates as a map {property: [value, uncertainty]}
+
+        :param model_name: The model identifier (id number for data views)
+        :param candidates: A list of candidates to make predictions on
+        :return: the response, containing a list of predicted candidates as a map {property: [value, uncertainty]}
         """
 
         # If a single candidate is passed, wrap in a list for the user
