@@ -168,27 +168,35 @@ class CitrinationClient(object):
     def predict(self, model_name, candidates):
         """
         Predict endpoint
-        :param model_name: The model path
-        :param candidates: A list of candidates
-        :return: list of predicted candidates as a map {property: [value, uncertainty]}
+
+        :param model_name: The model identifier (id number for data views)
+        :param candidates: A list of candidates to make predictions on
+        :return: the response, containing a list of predicted candidates as a map {property: [value, uncertainty]}
         """
 
         # If a single candidate is passed, wrap in a list for the user
         if not isinstance(candidates, list):
             candidates = [candidates]
 
-        url = self._get_predict_url(model_name)
         body = pif.dumps(
-            {"predictionRequest": {"predictionSource": "scalar", "usePrior": True, "candidates": candidates}}
+             {"predictionRequest": {"predictionSource": "scalar", "usePrior": True, "candidates": candidates}}
         )
 
+        url = self._get_predict_url(model_name)
         response = requests.post(url, data=body, headers=self.headers)
+        if response.status_code == 404:
+            url = self._get_deprecated_predict_url(model_name)
+            response = requests.post(url, data=body, headers=self.headers)
+
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
 
         return response.json()
 
     def _get_predict_url(self, model_name):
+        return self.api_url + '/data_views/' + model_name + '/predict'
+
+    def _get_deprecated_predict_url(self, model_name):
         return self.api_url + '/csv_to_models/' + model_name + '/predict'
 
     def upload_file(self, file_path, data_set_id, root_path=None):
