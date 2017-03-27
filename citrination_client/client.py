@@ -174,13 +174,7 @@ class CitrinationClient(object):
         :return: the response, containing a list of predicted candidates as a map {property: [value, uncertainty]}
         """
 
-        # If a single candidate is passed, wrap in a list for the user
-        if not isinstance(candidates, list):
-            candidates = [candidates]
-
-        body = pif.dumps(
-             {"predictionRequest": {"predictionSource": "scalar", "usePrior": True, "candidates": candidates}}
-        )
+        body = self._get_predict_body(candidates)
 
         url = self._get_predict_url(model_name)
         response = requests.post(url, data=body, headers=self.headers)
@@ -192,6 +186,37 @@ class CitrinationClient(object):
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
 
         return response.json()
+
+    def predict_custom(self, model_path, candidates):
+        """
+        Predict endpoint for a custom model
+
+        :param model_path: The path from the custom model url (https://citrination.com/predict/{{model_path}}
+        :param candidates: A list of candidates to make predictions on
+        :return: the response, containing a list of predicted candidates as a map {property: [value, uncertainty]}
+        """
+
+        body = self._get_predict_body(candidates)
+
+        url = self._get_custom_predict_url(model_path)
+        response = requests.post(url, data=body, headers=self.headers)
+
+        if response.status_code != requests.codes.ok:
+            raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
+
+        return response.json()
+
+    def _get_predict_body(self, candidates):
+        # If a single candidate is passed, wrap in a list for the user
+        if not isinstance(candidates, list):
+            candidates = [candidates]
+
+        return pif.dumps(
+             {"predictionRequest": {"predictionSource": "scalar", "usePrior": True, "candidates": candidates}}
+        )
+
+    def _get_custom_predict_url(self, model_path):
+        return self.api_url + '/ml_templates/' + model_path + '/predict'
 
     def _get_predict_url(self, model_name):
         return self.api_url + '/data_views/' + model_name + '/predict'
