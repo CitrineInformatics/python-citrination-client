@@ -191,7 +191,7 @@ class CitrinationClient(object):
         """
         Predict endpoint for a custom model
 
-        :param model_path: The path from the custom model url (https://citrination.com/predict/{{model_path}}
+        :param model_path: The path from the custom model url (https://citrination.com/predict/{{model_path}})
         :param candidates: A list of candidates to make predictions on
         :return: the response, containing a list of predicted candidates as a map {property: [value, uncertainty]}
         """
