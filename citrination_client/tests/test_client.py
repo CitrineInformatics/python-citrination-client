@@ -29,3 +29,15 @@ def test_predict():
     resp = client.predict("betterdensitydemo", inputs)
     prediction = resp['candidates'][0]['Density']
     assert abs(prediction[0] - 5.786) < 0.1
+
+
+@pytest.mark.skipif(True, reason="Depends on model that user doesn't always have access to")
+def test_predict_custom():
+    client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
+    input = {"canary_x": "0.5", "temperature": "100", "canary_y": "0.75"}
+    resp = client.predict_custom("canary", input)
+    prediction = resp['candidates'][0]
+    assert 'canary_zz' in prediction.keys()
+    assert 'canary_z' in prediction.keys()
+
+test_predict_custom()
