@@ -39,5 +39,3 @@ def test_predict_custom():
     prediction = resp['candidates'][0]
     assert 'canary_zz' in prediction.keys()
     assert 'canary_z' in prediction.keys()
-
-test_predict_custom()
