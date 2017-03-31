@@ -224,53 +224,133 @@ class CitrinationClient(object):
     def _get_deprecated_predict_url(self, model_name):
         return self.api_url + '/csv_to_models/' + model_name + '/predict'
 
-    def upload_file(self, file_path, data_set_id, root_path=None):
+    def upload(self, dataset_id, source_path, dest_path=None):
         """
-        Upload file to Citrination.
-
-        :param file_path: File path to upload.
-        :param data_set_id: The dataset id to upload the file to.
-        :return: Response object or return code if the file was not uploaded.
+        Upload a file, specifying source and dest paths a file (acts as the scp command)
+        :param source_path: The path to the file on the source host
+        :param dest_path: The path to the file where the contents of the upload will be written (on the dest host)
+        :return: A JSON block with a "message" key indicating that the upload if files is complete:
+                {
+                    "message": "Upload of files is complete.",
+                    "successes": List of filepaths which were uploaded successfully,
+                    "failures": List of filepaths which failed to upload
+                }
         """
-        if os.path.isdir(str(file_path)):
-            for path, subdirs, files in os.walk(file_path):
-                for name in files:
-                    if root_path:
-                       root = root_path
-                    else:
-                       root = str(file_path)
-                    success = self.upload_file(os.path.join(path, name), data_set_id, root)
-                    print(success)
-            message = {"message": "Upload of files in " + str(root) + " is complete."}
-            return json.dumps(message)
+        source_path = str(source_path)
+        if not dest_path:
+            dest_path = source_path
         else:
-            url = self._get_upload_url(data_set_id)
-            file_data = {"file_path": str(file_path)}
-            if root_path:
-                file_data["root_path"] = root_path
+            dest_path = str(dest_path)
 
+        if os.path.isdir(source_path):
+            successes = []
+            failures = []
+            for path, subdirs, files in os.walk(source_path):
+                for name in files:
+                    path_without_root_dir = path.split("/")[1:] + [name]
+                    current_dest_path = os.path.join(dest_path, *path_without_root_dir)
+                    current_source_path = os.path.join(path, name)
+                    result = json.loads(self.upload(dataset_id, current_source_path, current_dest_path))
+                    if result["success"]:
+                        successes.append(current_source_path)
+                    else:
+                        failures.append(current_source_path)
+            message = {
+                "message": "Upload of files is complete.",
+                "successes": successes,
+                "failures": failures
+            }
+            return json.dumps(message)
+        elif os.path.isfile(source_path):
+            url = self._get_upload_url(dataset_id)
+            file_data = { "dest_path": str(dest_path), "src_path": str(source_path)}
             r = requests.post(url, data=json.dumps(file_data), headers=self.headers)
             if r.status_code == 200:
                 j = json.loads(r.content.decode('utf-8'))
                 s3url = self._get_s3_presigned_url(j)
-                with open(file_path, 'rb') as f:
+                with open(source_path, 'rb') as f:
                     r = requests.put(s3url, data=f)
                     if r.status_code == 200:
                         url_data = {'s3object': j['url']['path'], 's3bucket': j['bucket']}
                         requests.post(self._get_update_file_upload_url(j['file_id']),
                                       data=json.dumps(url_data), headers=self.headers)
                         message = {"message": "Upload is complete.",
-                                   "data_set_id": str(data_set_id),
-                                   "version": j['dataset_version_id']}
+                                   "data_set_id": str(dataset_id),
+                                   "version": j['dataset_version_id'],
+                                   "success": True}
                         return json.dumps(message)
                     else:
                         message = {"message": "Upload failed.",
-                                   "status": r.status_code}
+                                   "status": r.status_code,
+                                   "success": False}
                         return json.dumps(message)
             else:
                 message = {"message": "Upload failed.",
-                                   "status": r.status_code}
+                                   "status": r.status_code,
+                                   "success": False}
                 return json.dumps(message)
+        else:
+            return json.dumps({
+                    "message": "No file at specified path {0}".format(source_path),
+                    "success": False
+                })
+
+    def upload_file(self, file_path, dataset_id, root_path=None):
+        """
+        Upload file to Citrination.
+        :param file_path: File path to upload.
+        :param data_set_id: The dataset id to upload the file to.
+        :return: Response object or return code if the file was not uploaded.
+        """
+        return self.upload(dataset_id, file_path)
+
+    def list_files(self, dataset_id, glob=".", is_dir=False):
+        """
+        List matched filenames in a dataset on Citrination.
+        :param dataset_id: The ID of the dataset to search for files.
+        :param glob: A pattern which will be matched against files in the dataset.
+        :param is_dir: A boolean indicating whether or not the pattern should match against the beginning of paths in the dataset.
+        :return: Response object or return code if the file was not uploaded.
+        """
+        url = self.api_url + '/datasets/' + str(dataset_id) + '/list_filepaths'
+        data = {
+            "list": {
+                "glob": glob,
+                "isDir": is_dir
+            }
+        }
+        r = requests.post(url, data=json.dumps(data), headers=self.headers)
+        return json.loads(r.content.decode('utf-8'))
+
+    def matched_file_count(self, dataset_id, glob=".", is_dir=False):
+        list_result = self.list_files(dataset_id, glob, is_dir)
+        if isinstance(list_result["files"], list):
+            return len(list_result["files"])
+        else:
+            return list_result
+
+    def get_matched_dataset_files(self, dataset_id, glob, is_dir=False, latest=True):
+        """
+        Retrieves URLs for the files matched by a glob or a path to a directory
+        in a given dataset.
+
+        :param dataset_id: The id of the dataset to retrieve files from
+        :param glob: A regex used to select one or more files in the dataset
+        :param is_dir: A flag used to indicate that the glob should be matched against the start of the paths in the dataset (simulates directory matching)
+        :param latest: A boolean flag indicating that results should be limited to reporting files from the latest dataset version
+        :return: The response object, or an error message object if the request failed
+        """
+        data = {
+            "download_request": {
+                "glob": glob,
+                "isDir": is_dir,
+                "latest": latest
+            }
+        }
+        url = self.api_url + '/datasets/' + str(dataset_id) + '/download_files'
+        r = requests.post(url,data=json.dumps(data), headers=self.headers)
+        return json.loads(r.content.decode('utf-8'))
+
 
     def get_dataset_files(self, dataset_id, latest = False):
         """
@@ -280,10 +360,8 @@ class CitrinationClient(object):
         :param latest: A boolean flag indicating that results should be limited to reporting files from the latest dataset version
         :return: The response object, or an error message object if the request failed
         """
-        if latest == False:
-            return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/files')
-        elif latest == True:
-            return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/latest')
+        if isinstance(latest, bool):
+            return self.get_matched_dataset_files(dataset_id, ".", False, latest)
         else:
             return {
                 "message": "If provided, the second parameter must be a boolean"
@@ -300,9 +378,9 @@ class CitrinationClient(object):
         :return: The response object, or an error message object if the request failed
         """
         if version == None:
-            return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/file/' + quote(file_path))
+            return self._get_content_from_url(self.api_url + '/datasets/' + str(dataset_id) + '/file/' + quote(file_path))
         else:
-            return self._get_content_from_url(self.api_url + '/data_sets/' + str(dataset_id) + '/version/' + str(version) + '/files/' + quote(file_path))
+            return self._get_content_from_url(self.api_url + '/datasets/' + str(dataset_id) + '/version/' + str(version) + '/files/' + quote(file_path))
 
     def get_pif(self, dataset_id, uid, version = None):
         """
