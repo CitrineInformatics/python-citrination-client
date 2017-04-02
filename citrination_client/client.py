@@ -165,6 +165,19 @@ class CitrinationClient(object):
         else:
             return [values]
 
+    def retrain(self, model_path):
+        """
+        Retrain a model.
+
+        :param model_path: path of the model, e.g. view_ml_N_1 for view ID N
+        :return: response as json
+        """
+        url = self._get_retrain_url(model_path)
+        response = requests.post(url, headers=self.headers)
+        if response.status_code != requests.codes.ok:
+            raise RuntimeError('Retrain received ' + str(response.status_code) + ' response: ' + str(response.reason))
+        return response.json()
+
     def predict(self, model_name, candidates):
         """
         Predict endpoint
@@ -438,3 +451,6 @@ class CitrinationClient(object):
         :return: URL for creating new data set versions.
         """
         return self.api_url+'/data_sets/'+str(data_set_id)+'/create_dataset_version'
+
+    def _get_retrain_url(self, model_path):
+        return "{}/ml_templates/{}/force_retrain".format(self.api_url, model_path)
