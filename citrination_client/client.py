@@ -178,7 +178,7 @@ class CitrinationClient(object):
             raise RuntimeError('Retrain received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return response.json()
 
-    def predict(self, model_name, candidates):
+    def predict(self, model_name, candidates, method='scalar'):
         """
         Predict endpoint
 
@@ -187,7 +187,7 @@ class CitrinationClient(object):
         :return: the response, containing a list of predicted candidates as a map {property: [value, uncertainty]}
         """
 
-        body = self._get_predict_body(candidates)
+        body = self._get_predict_body(candidates, method=method)
 
         url = self._get_predict_url(model_name)
         response = requests.post(url, data=body, headers=self.headers)
@@ -241,13 +241,13 @@ class CitrinationClient(object):
         return self._get_content_from_url(url)
 
 
-    def _get_predict_body(self, candidates):
+    def _get_predict_body(self, candidates, method='scalar'):
         # If a single candidate is passed, wrap in a list for the user
         if not isinstance(candidates, list):
             candidates = [candidates]
 
         return pif.dumps(
-             {"predictionRequest": {"predictionSource": "scalar", "usePrior": True, "candidates": candidates}}
+             {"predictionRequest": {"predictionSource": method, "usePrior": True, "candidates": candidates}}
         )
 
     def _get_custom_predict_url(self, model_path):
@@ -424,6 +424,33 @@ class CitrinationClient(object):
         dataset = {"dataset": data}
         return requests.post(url, headers=self.headers, data=json.dumps(dataset))
 
+    def design(self, view_id, version, user_id, constraints):
+        targets = {}
+        targets['constraints'] = [
+            {"name": x[0], "@class": ".SimpleConstraint", "min": x[1], "max" : x[2]}
+            for x in constraints
+        ]
+        targets['maxEvaluations'] = 500
+        targets['requestedCandidates'] = 25
+        template = {}
+        template['templateVersion'] = {
+                'key' : "view_ml_{}_1".format(view_id),
+                'version' : version
+        }
+        template['userId'] = user_id
+        template['viewId'] = view_id
+        targets['mlTemplate'] = template
+        body = {'targets' : targets}
+        # body = targets
+        
+        url = self._get_new_design_url(view_id)
+        print("Posting to {}".format(url))
+        print("Data is: {}".format(json.dumps(body)))
+
+        return requests.post(url, headers=self.headers, data=json.dumps(body))
+
+
+
     def _get_create_data_set_url(self):
         """
         Helper method to generate the url for creating a new data set.
@@ -482,3 +509,7 @@ class CitrinationClient(object):
 
     def _get_retrain_url(self, model_path):
         return "{}/ml_templates/{}/force_retrain".format(self.api_url, model_path)
+
+    def _get_new_design_url(self, view_id):
+        # return "{}/data_views/{}/design/new".format(self.api_url, view_id)
+        return "{}/design/new".format(self.api_url)
