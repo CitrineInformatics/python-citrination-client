@@ -219,6 +219,28 @@ class CitrinationClient(object):
 
         return response.json()
 
+    def data_analysis(self, model_name):
+        """
+        Data analysis endpoint
+
+        :param model_name: The model identifier (id number for data views)
+        :return: dictionary containing information about the data, e.g. dCorr and tsne
+        """
+        url = self._get_data_analysis_url(model_name)
+        return self._get_content_from_url(url)
+
+    def estimators(self, model_name):
+        """
+        Estimators endpoint
+
+        :param model_name: The model identifier (id number for data views)
+        :return: dict containing information about the estimators
+        """
+        url = self._get_estimators_url(model_name)
+        print(url)
+        return self._get_content_from_url(url)
+
+
     def _get_predict_body(self, candidates):
         # If a single candidate is passed, wrap in a list for the user
         if not isinstance(candidates, list):
@@ -233,6 +255,12 @@ class CitrinationClient(object):
 
     def _get_predict_url(self, model_name):
         return self.api_url + '/data_views/' + model_name + '/predict'
+
+    def _get_data_analysis_url(self, model_name):
+        return self.api_url + '/data_views/' + model_name + '/data_analysis'
+
+    def _get_estimators_url(self, model_name):
+        return self.api_url + '/data_views/' + model_name + '/estimators'
 
     def _get_deprecated_predict_url(self, model_name):
         return self.api_url + '/csv_to_models/' + model_name + '/predict'
