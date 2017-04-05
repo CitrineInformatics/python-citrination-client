@@ -23,6 +23,11 @@ have issues installing this library, run the following command:
 $ pip install --ignore-installed six citrination-client
 ```
 
+### Legacy information
+
+In order to interact with older versions of Citrination, please clone
+the legacy branch on this repo.
+
 
 ### Troubleshooting
 
