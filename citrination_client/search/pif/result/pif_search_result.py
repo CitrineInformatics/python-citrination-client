@@ -7,13 +7,14 @@ class PifSearchResult(Serializable):
     Class to store the results of a PIF query.
     """
 
-    def __init__(self, took=None, total_num_hits=None, hits=None):
+    def __init__(self, took=None, total_num_hits=None, hits=None, csv=None):
         """
         Constructor.
 
         :param took: Number of milliseconds that the query took to execute.
         :param total_num_hits: Total number of hits.
         :param hits: List of :class:`.PifSearchHit` objects.
+        :param csv: String with the serialized extracted values CSV.
         """
         self._took = None
         self.took = took
@@ -21,6 +22,8 @@ class PifSearchResult(Serializable):
         self.total_num_hits = total_num_hits
         self._hits = None
         self.hits = hits
+        self._csv = None
+        self.csv = csv
 
     @property
     def took(self):
@@ -57,3 +60,15 @@ class PifSearchResult(Serializable):
     @hits.deleter
     def hits(self):
         self._hits = None
+
+    @property
+    def csv(self):
+        return self._csv
+
+    @csv.setter
+    def csv(self, csv):
+        self._csv = csv
+
+    @csv.deleter
+    def csv(self):
+        self._csv = None

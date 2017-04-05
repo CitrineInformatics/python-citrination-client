@@ -8,9 +8,9 @@ class PifQuery(Serializable):
     Class to store information about a PIF query.
     """
 
-    def __init__(self, from_index=None, size=None, random_results=None, random_seed=None, return_system=None, 
-                 add_latex=None, score_relevance=None, sort_extracted=None, system=None, include_datasets=None,
-                 exclude_datasets=None, **kwargs):
+    def __init__(self, from_index=None, size=None, random_results=None, random_seed=None, return_csv=None,
+                 csv_headers=None, return_hits=None, return_system=None, add_latex=None, score_relevance=None,
+                 sort_extracted=None, system=None, include_datasets=None, exclude_datasets=None, **kwargs):
         """
         Constructor.
 
@@ -18,6 +18,9 @@ class PifQuery(Serializable):
         :param size: Integer with the number of records to return.
         :param random_results: True/False to set whether random sets of hits will be returned.
         :param random_seed: Integer to set the seed for generating random results.
+        :param return_csv: True/False to set whether to return extracted values in a CSV.
+        :param csv_headers: List of strings with the headers to return.
+        :param return_hits: True/False to set whether search hits will be returned.
         :param return_system: True/False to set whether PIF systems will be returned.
         :param add_latex: True/False to set whether latex will be injected into results.
         :param score_relevance: True/False to set whether relevance scores should be used.
@@ -37,6 +40,12 @@ class PifQuery(Serializable):
         self.random_results = random_results
         self._random_seed = None
         self.random_seed = random_seed
+        self._return_csv = None
+        self.return_csv = return_csv
+        self._csv_headers = None
+        self.csv_headers = csv_headers
+        self._return_hits = None
+        self.return_hits = return_hits
         self._return_system = None
         self.return_system = return_system
         self._add_latex = None
@@ -99,6 +108,42 @@ class PifQuery(Serializable):
     @random_seed.deleter
     def random_seed(self):
         self._random_seed = None
+
+    @property
+    def return_csv(self):
+        return self._return_csv
+
+    @return_csv.setter
+    def return_csv(self, return_csv):
+        self._return_csv = return_csv
+
+    @return_csv.deleter
+    def return_csv(self):
+        self._return_csv = None
+
+    @property
+    def csv_headers(self):
+        return self._csv_headers
+
+    @csv_headers.setter
+    def csv_headers(self, csv_headers):
+        self._csv_headers = csv_headers
+
+    @csv_headers.deleter
+    def csv_headers(self):
+        self._csv_headers = None
+
+    @property
+    def return_hits(self):
+        return self._return_hits
+
+    @return_hits.setter
+    def return_hits(self, return_hits):
+        self._return_hits = return_hits
+
+    @return_hits.deleter
+    def return_hits(self):
+        self._return_hits = None
 
     @property
     def return_system(self):
