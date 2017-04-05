@@ -440,13 +440,13 @@ class CitrinationClient(object):
         dataset = {"dataset": data}
         return requests.post(url, headers=self.headers, data=json.dumps(dataset))
 
-    def new_design(self, view_id, version, user_id, constraints):
+    def new_design(self, view_id, version, user_id, constraints, max_evaluations=500):
         targets = {}
         targets['constraints'] = [
             {"name": x[0], "@class": ".SimpleConstraint", "min": x[1], "max" : x[2]}
             for x in constraints
         ]
-        targets['maxEvaluations'] = 500
+        targets['maxEvaluations'] = max_evaluations
         targets['requestedCandidates'] = 25
         template = {}
         template['templateVersion'] = {
