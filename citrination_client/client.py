@@ -178,6 +178,22 @@ class CitrinationClient(object):
             raise RuntimeError('Retrain received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return response.json()
 
+    def template_latest_version(self, model_path):
+        """
+        Get the latest version of a template 
+
+        :param model_path: path of the model, e.g. view_ml_N_1 for view ID N
+        :return: template version 
+        """
+        url = self._get_version_url(model_path)
+        print(url)
+        response = requests.get(url, headers=self.headers)
+        print(response)
+        if response.status_code != requests.codes.ok:
+            raise RuntimeError('Retrain received ' + str(response.status_code) + ' response: ' + str(response.reason))
+        return response.json()
+
+
     def predict(self, model_name, candidates, method='scalar'):
         """
         Predict endpoint
@@ -424,7 +440,7 @@ class CitrinationClient(object):
         dataset = {"dataset": data}
         return requests.post(url, headers=self.headers, data=json.dumps(dataset))
 
-    def design(self, view_id, version, user_id, constraints):
+    def new_design(self, view_id, version, user_id, constraints):
         targets = {}
         targets['constraints'] = [
             {"name": x[0], "@class": ".SimpleConstraint", "min": x[1], "max" : x[2]}
@@ -443,12 +459,26 @@ class CitrinationClient(object):
         body = {'targets' : targets}
         # body = targets
         
-        url = self._get_new_design_url(view_id)
+        url = self._get_design_new_url()
         print("Posting to {}".format(url))
         print("Data is: {}".format(json.dumps(body)))
 
-        return requests.post(url, headers=self.headers, data=json.dumps(body))
+        response = requests.post(url, headers=self.headers, data=json.dumps(body))
 
+        return response.json()['design_id']
+
+
+    def design_status(self, design_id):
+        url = self._get_design_status_url(design_id)
+        response = requests.get(url, headers=self.headers)
+        return response.json()['status_code']
+
+
+    def design_results(self, design_id):
+        url = self._get_design_results_url(design_id)
+        print(url)
+        response = requests.get(url, headers=self.headers)
+        return response.json()
 
 
     def _get_create_data_set_url(self):
@@ -510,6 +540,15 @@ class CitrinationClient(object):
     def _get_retrain_url(self, model_path):
         return "{}/ml_templates/{}/force_retrain".format(self.api_url, model_path)
 
-    def _get_new_design_url(self, view_id):
-        # return "{}/data_views/{}/design/new".format(self.api_url, view_id)
+    def _get_version_url(self, model_path):
+        return "{}/ml_templates/{}/latest_version".format(self.api_url, model_path)
+
+    def _get_design_new_url(self):
         return "{}/design/new".format(self.api_url)
+    
+    def _get_design_status_url(self, design_id):
+        return "{}/design/status/{}".format(self.api_url, design_id)
+   
+    def _get_design_results_url(self, design_id):
+        return "{}/design/results/{}".format(self.api_url, design_id)
+
