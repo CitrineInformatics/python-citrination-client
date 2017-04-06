@@ -213,6 +213,8 @@ class CitrinationClient(object):
 
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
+        print(response)
+        print(response.content)
 
         return response.json()
 
@@ -270,7 +272,7 @@ class CitrinationClient(object):
         return self.api_url + '/ml_templates/' + model_path + '/predict'
 
     def _get_predict_url(self, model_name):
-        return self.api_url + '/data_views/' + model_name + '/predict'
+        return "{}/data_views/{}/predict".format(self.api_url, model_name)
 
     def _get_data_analysis_url(self, model_name):
         return self.api_url + '/data_views/' + model_name + '/data_analysis'
