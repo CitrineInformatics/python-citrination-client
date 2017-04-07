@@ -186,9 +186,7 @@ class CitrinationClient(object):
         :return: template version 
         """
         url = self._get_version_url(model_path)
-        print(url)
         response = requests.get(url, headers=self.headers)
-        print(response)
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Retrain received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return response.json()
@@ -213,8 +211,6 @@ class CitrinationClient(object):
 
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
-        print(response)
-        print(response.content)
 
         return response.json()
 
