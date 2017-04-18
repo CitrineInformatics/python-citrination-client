@@ -4,15 +4,19 @@ from json import loads
 from pypif.obj.system import System
 from pypif.pif import dump
 import pytest
-
+import random
+import string
 
 def test_start_client():
     client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
 
-
 def test_upload_pif():
     client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
-    dataset = loads(client.create_data_set(name="Tutorial dataset", description="Dataset for tutorial", share=0).content.decode('utf-8'))['id']
+    # Append dataset name with random string because one user can't have more than
+    # one dataset with the same name
+    random_string = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))
+    dataset_name = "Tutorial dataset " + random_string
+    dataset = loads(client.create_data_set(name=dataset_name, description="Dataset for tutorial", share=0).content.decode('utf-8'))['id']
     pif = System()
     pif.id = 0
 
