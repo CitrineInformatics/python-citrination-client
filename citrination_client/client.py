@@ -474,9 +474,12 @@ class CitrinationClient(object):
 
     def design_results(self, design_id):
         url = self._get_design_results_url(design_id)
-        print(url)
         response = requests.get(url, headers=self.headers)
-        return response.json()
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print('Design results recieved a non-200 return code: ' + str(response.status_code) + ' - ' + str(response.reason) )
+            return None
 
 
     def _get_create_data_set_url(self):
