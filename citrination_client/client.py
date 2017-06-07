@@ -165,7 +165,34 @@ class CitrinationClient(object):
         else:
             return [values]
 
-    def predict(self, model_name, candidates):
+    def retrain(self, model_path):
+        """
+        Retrain a model.
+
+        :param model_path: path of the model, e.g. view_ml_N_1 for view ID N
+        :return: response as json
+        """
+        url = self._get_retrain_url(model_path)
+        response = requests.post(url, headers=self.headers)
+        if response.status_code != requests.codes.ok:
+            raise RuntimeError('Retrain received ' + str(response.status_code) + ' response: ' + str(response.reason))
+        return response.json()
+
+    def template_latest_version(self, model_path):
+        """
+        Get the latest version of a template 
+
+        :param model_path: path of the model, e.g. view_ml_N_1 for view ID N
+        :return: template version 
+        """
+        url = self._get_version_url(model_path)
+        response = requests.get(url, headers=self.headers)
+        if response.status_code != requests.codes.ok:
+            raise RuntimeError('Retrain received ' + str(response.status_code) + ' response: ' + str(response.reason))
+        return response.json()
+
+
+    def predict(self, model_name, candidates, method='scalar'):
         """
         Predict endpoint
 
@@ -174,7 +201,7 @@ class CitrinationClient(object):
         :return: the response, containing a list of predicted candidates as a map {property: [value, uncertainty]}
         """
 
-        body = self._get_predict_body(candidates)
+        body = self._get_predict_body(candidates, method=method)
 
         url = self._get_predict_url(model_name)
         response = requests.post(url, data=body, headers=self.headers)
@@ -206,20 +233,48 @@ class CitrinationClient(object):
 
         return response.json()
 
-    def _get_predict_body(self, candidates):
+    def data_analysis(self, model_name):
+        """
+        Data analysis endpoint
+
+        :param model_name: The model identifier (id number for data views)
+        :return: dictionary containing information about the data, e.g. dCorr and tsne
+        """
+        url = self._get_data_analysis_url(model_name)
+        return self._get_content_from_url(url)
+
+    def estimators(self, model_name):
+        """
+        Estimators endpoint
+
+        :param model_name: The model identifier (id number for data views)
+        :return: dict containing information about the estimators
+        """
+        url = self._get_estimators_url(model_name)
+        print(url)
+        return self._get_content_from_url(url)
+
+
+    def _get_predict_body(self, candidates, method='scalar'):
         # If a single candidate is passed, wrap in a list for the user
         if not isinstance(candidates, list):
             candidates = [candidates]
 
         return pif.dumps(
-             {"predictionRequest": {"predictionSource": "scalar", "usePrior": True, "candidates": candidates}}
+             {"predictionRequest": {"predictionSource": method, "usePrior": True, "candidates": candidates}}
         )
 
     def _get_custom_predict_url(self, model_path):
         return self.api_url + '/ml_templates/' + model_path + '/predict'
 
     def _get_predict_url(self, model_name):
-        return self.api_url + '/data_views/' + model_name + '/predict'
+        return "{}/data_views/{}/predict".format(self.api_url, model_name)
+
+    def _get_data_analysis_url(self, model_name):
+        return self.api_url + '/data_views/' + model_name + '/data_analysis'
+
+    def _get_estimators_url(self, model_name):
+        return self.api_url + '/data_views/' + model_name + '/estimators'
 
     def _get_deprecated_predict_url(self, model_name):
         return self.api_url + '/csv_to_models/' + model_name + '/predict'
@@ -383,6 +438,50 @@ class CitrinationClient(object):
         dataset = {"dataset": data}
         return requests.post(url, headers=self.headers, data=json.dumps(dataset))
 
+    def new_design(self, view_id, version, user_id, constraints, max_evaluations=500):
+        targets = {}
+        targets['constraints'] = [
+            {"name": x[0], "@class": ".SimpleConstraint", "min": x[1], "max" : x[2]}
+            for x in constraints
+        ]
+        targets['maxEvaluations'] = max_evaluations
+        targets['requestedCandidates'] = 25
+        template = {}
+        template['templateVersion'] = {
+                'key' : "view_ml_{}_1".format(view_id),
+                'version' : version
+        }
+        template['userId'] = user_id
+        template['viewId'] = view_id
+        targets['mlTemplate'] = template
+        body = {'targets' : targets}
+        # body = targets
+        
+        url = self._get_design_new_url()
+        print("Posting to {}".format(url))
+        print("Data is: {}".format(json.dumps(body)))
+
+        response = requests.post(url, headers=self.headers, data=json.dumps(body))
+
+        return response.json()['design_id']
+
+
+    def design_status(self, design_id):
+        url = self._get_design_status_url(design_id)
+        response = requests.get(url, headers=self.headers)
+        return response.json()['status_code']
+
+
+    def design_results(self, design_id):
+        url = self._get_design_results_url(design_id)
+        response = requests.get(url, headers=self.headers)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print('Design results recieved a non-200 return code: ' + str(response.status_code) + ' - ' + str(response.reason) )
+            return None
+
+
     def _get_create_data_set_url(self):
         """
         Helper method to generate the url for creating a new data set.
@@ -438,3 +537,19 @@ class CitrinationClient(object):
         :return: URL for creating new data set versions.
         """
         return self.api_url+'/data_sets/'+str(data_set_id)+'/create_dataset_version'
+
+    def _get_retrain_url(self, model_path):
+        return "{}/ml_templates/{}/force_retrain".format(self.api_url, model_path)
+
+    def _get_version_url(self, model_path):
+        return "{}/ml_templates/{}/latest_version".format(self.api_url, model_path)
+
+    def _get_design_new_url(self):
+        return "{}/design/new".format(self.api_url)
+    
+    def _get_design_status_url(self, design_id):
+        return "{}/design/status/{}".format(self.api_url, design_id)
+   
+    def _get_design_results_url(self, design_id):
+        return "{}/design/results/{}".format(self.api_url, design_id)
+
