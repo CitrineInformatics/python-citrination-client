@@ -585,7 +585,9 @@ class CitrinationClient(object):
         :return: Dictionary containing status information about the
                  requested service for the view.
         """
-        if not isinstance(service_name, MLServiceNames): return False
+        if not isinstance(service_name, MLServiceNames):
+            raise TypeError
+
         url = self._get_view_ml_service_status_url(data_view_id, service_name)
         status_response = self._get_content_from_url(url)
         if status_response and "status" in status_response:
@@ -637,5 +639,7 @@ class CitrinationClient(object):
                         indicates which service to retrieve the status for
         :return: URL for creating new data set versions.
         """
-        if not isinstance(service, MLServiceNames): return False
+        if not isinstance(service, MLServiceNames):
+            raise TypeError
+
         return "{}/data_views/{}/service/{}/status".format(self.api_url, str(data_view_id), service.value)
