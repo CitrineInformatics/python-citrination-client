@@ -555,3 +555,15 @@ class CitrinationClient(object):
     def _get_design_results_url(self, design_id):
         return "{}/design/results/{}".format(self.api_url, design_id)
 
+    def _get_view_ml_service_status_url(self, data_view_id, service):
+        """
+        Helper method to generate the url for retrieving the status of an ML
+        service for a given data view
+
+        :param data_view_id: The ID number for the data view in question
+        :param service: An instance of the MLServiceNames enumeration which
+                        indicates which service to retrieve the status for
+        :return: URL for creating new data set versions.
+        """
+        if not isinstance(service, MLServiceNames): return False
+        return "{}/data_views/{}/service/{}/status".format(self.api_url, str(data_view_id), service.value)
