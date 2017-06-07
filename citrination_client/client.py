@@ -532,6 +532,78 @@ class CitrinationClient(object):
         url = self._get_create_data_set_version_url(data_set_id)
         return requests.post(url, headers=self.headers)
 
+    def get_data_view_predict_status(self, data_view_id):
+        """
+        Retrieves the JSON status block for the ML predict service.
+
+        :param data_view_id: ID of the data view for which to retrieve
+                             the predict service status.
+        :return: Dictionary containing status information about the
+                 predict service for the view.
+        """
+        return self._retrieve_and_process_ml_service_status(data_view_id, MLServiceNames.predict)
+
+    def get_data_view_design_status(self, data_view_id):
+        """
+        Retrieves the JSON status block for the ML design service.
+
+        :param data_view_id: ID of the data view for which to retrieve
+                             the design service status.
+        :return: Dictionary containing status information about the
+                 design service for the view.
+        """
+        return self._retrieve_and_process_ml_service_status(data_view_id, MLServiceNames.design)
+
+    def get_data_view_data_reports_status(self, data_view_id):
+        """
+        Retrieves the JSON status block for the ML data reports service.
+
+        :param data_view_id: ID of the data view for which to retrieve
+                             the data reports service status.
+        :return: Dictionary containing status information about the
+                 data reports service for the view.
+        """
+        return self._retrieve_and_process_ml_service_status(data_view_id, MLServiceNames.data_reports)
+
+    def get_data_view_model_reports_status(self, data_view_id):
+        """
+        Retrieves the JSON status block for the ML model reports service.
+
+        :param data_view_id: ID of the data view for which to retrieve
+                             the model reports service status.
+        :return: Dictionary containing status information about the
+                 model reports service for the view.
+        """
+        return self._retrieve_and_process_ml_service_status(data_view_id, MLServiceNames.model_reports)
+
+    def _retrieve_and_process_ml_service_status(self, data_view_id, service_name):
+        """
+        Retrieves the JSON status block for the an ML service.
+
+        :param data_view_id: ID of the data view for which to retrieve
+                             the requested service status.
+        :return: Dictionary containing status information about the
+                 requested service for the view.
+        """
+        if not isinstance(service_name, MLServiceNames): return False
+        url = self._get_view_ml_service_status_url(data_view_id, service_name)
+        status_response = self._get_content_from_url(url)
+        if status_response and "status" in status_response:
+            return self._prune_ml_service_status(status_response['status'])
+        else:
+            return status_response
+
+    def _prune_ml_service_status(self, status):
+        """
+        Helper method to prune a ML service status block down to only the keys
+        that should be returned to the user
+
+        :return: Dictionary shaped according to the ML service status API. Typically
+                 this will just be the return value from the API request.
+        """
+        status.pop("event", None)
+        return status
+
     def _get_create_data_set_version_url(self, data_set_id):
         """
         Helper method to generate the url for creating a new data set version.
