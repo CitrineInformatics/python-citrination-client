@@ -386,6 +386,7 @@ class CitrinationClient(object):
             return json.loads(result.content.decode('utf-8'))
         else:
             print('An error ocurred during this action: ' + str(result.status_code) + ' - ' + str(result.reason) )
+            print(result.content)
             return False
 
     def _get_upload_url(self, data_set_id):
