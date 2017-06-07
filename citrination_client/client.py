@@ -6,6 +6,7 @@ from time import sleep
 from pypif import pif
 from pypif.util.case import keys_to_snake_case
 from citrination_client.util.quote_finder import quote
+from citrination_client.util.ml_service_enum import MLServiceNames
 from citrination_client.search.pif.query.pif_query import PifQuery
 from citrination_client.search.pif.query.core.field_operation import FieldOperation
 from citrination_client.search.pif.query.core.filter import Filter
