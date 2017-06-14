@@ -54,17 +54,38 @@ class TestClient():
         after_count = self.client.matched_file_count(self.set_id)
         assert after_count == (before_count + count_to_add)
 
-    @pytest.mark.skipif(True, reason="Depends on model that user doesn't always have access to")
-    def test_predict():
+
+
+    @pytest.mark.skipif(False, reason="Depends on model that user doesn't always have access to")
+    def test_predict(self):
+        """
+        Test retraining and subsequent predictions on the standard organic model
+ 
+        This model is trained on HCEP data.  The prediction mirrors that on the
+        organics demo script
+        """
+
         client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
-        inputs = [{"CHEMICAL_FORMULA": "AlCu"}, ]
-        resp = client.predict("betterdensitydemo", inputs)
-        prediction = resp['candidates'][0]['Density']
-        assert abs(prediction[0] - 5.786) < 0.1
+        inputs = [{"SMILES": "c1(C=O)cc(OC)c(O)cc1"}, ]
+        vid = "177" 
+  
+        resp = client.predict(vid, inputs)
+        prediction = resp['candidates'][0]
+        egap = '$\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)'
+        voltage = 'Open-circuit voltage (V$_{OC}$)'
+        assert 'Mass'  in prediction, "Mass prediction missing (check ML logic)"
+        assert egap    in prediction, "E_gap prediction missing (check ML logic)"
+        assert voltage in prediction, "V_OC prediction missing (check ML logic)"
+ 
+        assert abs(prediction['Mass'][0] - 250) < 50.0, "Mass mean prediction beyond tolerance (check ML logic)"
+        assert abs(prediction['Mass'][1] - 30.0) < 30.0, "Mass sigma prediction beyond tolerance (check ML logic)"
+        assert abs(prediction[egap][0] - 2.6) < 0.6, "E_gap mean prediction beyond tolerance (check ML logic)"
+        assert abs(prediction[egap][1] - 0.50) < 0.45, "E_gap sigma prediction beyond tolerance (check ML logic)"
+        assert abs(prediction[voltage][0] - 1.0) < 0.8, "V_OC mean prediction beyond tolerance (check ML logic)"
+        assert abs(prediction[voltage][1] - 0.8) < 0.8, "V_OC sigma prediction beyond tolerance (check ML logic)"
 
-
-    @pytest.mark.skipif(True, reason="Depends on model that user doesn't always have access to")
-    def test_predict_custom():
+    @pytest.mark.skipif(False, reason="Depends on model that user doesn't always have access to")
+    def test_predict_custom(self):
         client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
         input = {"canary_x": "0.5", "temperature": "100", "canary_y": "0.75"}
         resp = client.predict_custom("canary", input)
