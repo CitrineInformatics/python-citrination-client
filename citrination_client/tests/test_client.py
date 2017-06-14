@@ -9,6 +9,14 @@ import random
 import string
 import unittest
 
+
+def _almost_equal(test_value, reference_value, tolerance=1.0e-9):
+    """
+    Numerical equality with a tolerance
+    """
+    return abs(test_value - reference_value) < tolerance
+
+
 class TestClient():
 
     @classmethod
@@ -24,6 +32,7 @@ class TestClient():
     def get_test_file_hierarchy_count(self):
         test_dir = self.test_file_root
         return sum([len(files) for r, d, files in os.walk(test_dir)])
+
 
     def test_start_client(self):
         assert self.client is not None
@@ -77,12 +86,12 @@ class TestClient():
         assert egap    in prediction, "E_gap prediction missing (check ML logic)"
         assert voltage in prediction, "V_OC prediction missing (check ML logic)"
  
-        assert abs(prediction['Mass'][0] - 250) < 50.0, "Mass mean prediction beyond tolerance (check ML logic)"
-        assert abs(prediction['Mass'][1] - 30.0) < 30.0, "Mass sigma prediction beyond tolerance (check ML logic)"
-        assert abs(prediction[egap][0] - 2.6) < 0.6, "E_gap mean prediction beyond tolerance (check ML logic)"
-        assert abs(prediction[egap][1] - 0.50) < 0.45, "E_gap sigma prediction beyond tolerance (check ML logic)"
-        assert abs(prediction[voltage][0] - 1.0) < 0.8, "V_OC mean prediction beyond tolerance (check ML logic)"
-        assert abs(prediction[voltage][1] - 0.8) < 0.8, "V_OC sigma prediction beyond tolerance (check ML logic)"
+        assert _almost_equal(prediction['Mass'][0], 250,  50.0), "Mass mean prediction beyond tolerance (check ML logic)"
+        assert _almost_equal(prediction['Mass'][1], 30.0, 30.0), "Mass sigma prediction beyond tolerance (check ML logic)"
+        assert _almost_equal(prediction[egap][0], 2.6,  0.6), "E_gap mean prediction beyond tolerance (check ML logic)"
+        assert _almost_equal(prediction[egap][1], 0.50, 0.45), "E_gap sigma prediction beyond tolerance (check ML logic)"
+        assert _almost_equal(prediction[voltage][0], 1.0, 0.8), "V_OC mean prediction beyond tolerance (check ML logic)"
+        assert _almost_equal(prediction[voltage][1], 0.8, 0.8), "V_OC sigma prediction beyond tolerance (check ML logic)"
 
     @pytest.mark.skipif(False, reason="Depends on model that user doesn't always have access to")
     def test_predict_custom(self):
