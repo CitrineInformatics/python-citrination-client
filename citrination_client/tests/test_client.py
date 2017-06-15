@@ -98,7 +98,10 @@ class TestClient():
         assert 'canary_zz' in prediction.keys()
         assert 'canary_z' in prediction.keys()
 
-    def test_tsen(self):
+    def test_tsne(self):
+        """
+        Test that we can grab the t-SNE from a pre-trained view
+        """
         client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
         resp = client.tsne("774")
 
