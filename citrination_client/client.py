@@ -304,6 +304,35 @@ class CitrinationClient(object):
         """
         return self.upload(dataset_id, file_path)
 
+    def _data_analysis(self, model_name):
+        """
+        Data analysis endpoint
+        :param model_name: The model identifier (id number for data views)
+        :return: dictionary containing information about the data, e.g. dCorr and tsne
+        """
+        url = self._get_data_analysis_url(model_name)
+        return self._get_content_from_url(url)
+
+    def tsne(self, model_name):
+        """
+        Get the t-SNE projection, including z-values and labels
+        :param model_name: The model identifier (id number for data views)
+        :return: dictionary containing property names and the projection for each
+        """
+        analysis = self._data_analysis(model_name)
+        projections = analysis['projections']
+        cleaned = {}
+        for k, v in projections.items():
+            d = {}
+            d['x'] = v['x']
+            d['y'] = v['y']
+            d['z'] = v['label']
+            d['label'] = v['inputs']
+            d['uid'] = v['uid']
+            cleaned[k] = d
+
+        return cleaned
+
     def list_files(self, dataset_id, glob=".", is_dir=False):
         """
         List matched filenames in a dataset on Citrination.
@@ -516,3 +545,7 @@ class CitrinationClient(object):
         :return: URL for creating new data set versions.
         """
         return self.api_url+'/data_sets/'+str(data_set_id)+'/create_dataset_version'
+
+
+    def _get_data_analysis_url(self, model_name):
+        return self.api_url + '/data_views/' + model_name + '/data_analysis'
