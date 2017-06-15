@@ -549,6 +549,3 @@ class CitrinationClient(object):
 
     def _get_data_analysis_url(self, model_name):
         return self.api_url + '/data_views/' + model_name + '/data_analysis'
-
-    def _get_estimators_url(self, model_name):
-        return self.api_url + '/data_views/' + model_name + '/estimators'
