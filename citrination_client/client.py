@@ -315,7 +315,7 @@ class CitrinationClient(object):
 
     def tsne(self, model_name):
         """
-        Get the t-SNE project, including z-values and labels
+        Get the t-SNE projection, including z-values and labels
         :param model_name: The model identifier (id number for data views)
         :return: dictionary containing property names and the projection for each
         """
