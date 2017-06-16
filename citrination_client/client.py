@@ -333,6 +333,32 @@ class CitrinationClient(object):
 
         return cleaned
 
+    def describe_ingesters(self):
+        """
+        Lists ingesters registered on Citrination
+        :return: A list of dictionaries containing the following keys for each
+            ingester:
+                id: a unique identifier for the ingester
+                version: the version of the ingester
+                description: a description of the ingester's function
+                displayName: the name for the ingester in the web GUI
+                arguments: a list of dictionaries representing arguments required for
+                    the ingester, each containing the following keys:
+                    name: the name of the argument
+                    desc: a description of the argument
+                    type: the data type for the argument
+                    required: whether or not the argument is required for successful ingestion
+        """
+        url = self.api_url + "/ingest/list_ingesters"
+        ingesters = self._get_content_from_url(url)
+        ingesters = map(self._decode_ingester_arguments, ingesters )
+        return ingesters
+
+    def _decode_ingester_arguments(self, ingester):
+        arguments = json.loads(ingester["arguments"])
+        ingester["arguments"] = arguments
+        return ingester
+
     def list_files(self, dataset_id, glob=".", is_dir=False):
         """
         List matched filenames in a dataset on Citrination.
