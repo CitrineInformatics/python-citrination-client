@@ -37,7 +37,7 @@ class ClassificationQuery(BaseObjectQuery):
     
     @name.setter
     def name(self, name):
-        self._get_object(FieldQuery, name)
+        self._name = self._get_object(FieldQuery, name)
     
     @name.deleter
     def name(self):
@@ -49,7 +49,7 @@ class ClassificationQuery(BaseObjectQuery):
 
     @value.setter
     def value(self, value):
-        self._get_object(FieldQuery, value)
+        self._value = self._get_object(FieldQuery, value)
 
     @value.deleter
     def value(self):
