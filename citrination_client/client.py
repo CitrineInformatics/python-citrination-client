@@ -350,9 +350,12 @@ class CitrinationClient(object):
                     required: whether or not the argument is required for successful ingestion
         """
         url = self.api_url + "/ingest/list_ingesters"
-        ingesters = self._get_content_from_url(url)
-        ingesters = map(self._decode_ingester_arguments, ingesters )
-        return ingesters
+        response = self._get_content_from_url(url)
+        if response != False:
+            ingesters = map(self._decode_ingester_arguments, response["ingesters"] )
+            return ingesters
+        else:
+            return False
 
     def _decode_ingester_arguments(self, ingester):
         arguments = json.loads(ingester["arguments"])
