@@ -119,3 +119,9 @@ class TestClient():
         assert len(tsne_y["x"]) == len(tsne_y["label"]), "tSNE components x and uid had different lengths"
         assert len(tsne_y["x"]) == len(tsne_y["uid"]),   "tSNE components x and label had different lengths"
 
+    def test_ingester_listing(self):
+        client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
+        ingesters = client.describe_ingesters()
+        assert isinstance(ingesters, list), "Ingester request did not return correctly formatted ingester list"
+        display_names = map(lambda i: i["displayName"], ingesters)
+        assert "Citrine: Template CSV" in display_names
