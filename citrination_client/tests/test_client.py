@@ -4,6 +4,7 @@ import os
 from json import loads
 from pypif.obj.system import System
 from pypif.pif import dump
+import ingest_test_helper
 import pytest
 import random
 import string
@@ -16,6 +17,11 @@ def _almost_equal(test_value, reference_value, tolerance=1.0e-9):
     """
     return abs(test_value - reference_value) < tolerance
 
+def _random_string(desired_length=5):
+    """
+    Returns a random string with provided length or 5
+    """
+    return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(desired_length))
 
 class TestClient():
 
@@ -24,15 +30,13 @@ class TestClient():
         self.client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
         # Append dataset name with random string because one user can't have more than
         # one dataset with the same name
-        random_string = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))
-        dataset_name = "Tutorial dataset " + random_string
+        dataset_name = "Tutorial dataset " + _random_string()
         self.set_id = loads(self.client.create_data_set(name=dataset_name, description="Dataset for tutorial", share=0).content.decode('utf-8'))['id']
         self.test_file_root = './citrination_client/tests/test_files/'
 
     def get_test_file_hierarchy_count(self):
         test_dir = self.test_file_root
         return sum([len(files) for r, d, files in os.walk(test_dir)])
-
 
     def test_start_client(self):
         assert self.client is not None
@@ -66,15 +70,15 @@ class TestClient():
     def test_predict(self):
         """
         Test retraining and subsequent predictions on the standard organic model
- 
+
         This model is trained on HCEP data.  The prediction mirrors that on the
         organics demo script
         """
 
         client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
         inputs = [{"SMILES": "c1(C=O)cc(OC)c(O)cc1"}, ]
-        vid = "177" 
-  
+        vid = "177"
+
         resp = client.predict(vid, inputs)
         prediction = resp['candidates'][0]
         egap = '$\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)'
@@ -82,7 +86,7 @@ class TestClient():
         assert 'Mass'  in prediction, "Mass prediction missing (check ML logic)"
         assert egap    in prediction, "E_gap prediction missing (check ML logic)"
         assert voltage in prediction, "V_OC prediction missing (check ML logic)"
- 
+
         assert _almost_equal(prediction['Mass'][0], 250,  50.0), "Mass mean prediction beyond tolerance (check ML logic)"
         assert _almost_equal(prediction['Mass'][1], 30.0, 30.0), "Mass sigma prediction beyond tolerance (check ML logic)"
         assert _almost_equal(prediction[egap][0], 2.6,  0.6), "E_gap mean prediction beyond tolerance (check ML logic)"
@@ -120,8 +124,46 @@ class TestClient():
         assert len(tsne_y["x"]) == len(tsne_y["uid"]),   "tSNE components x and label had different lengths"
 
     def test_ingester_listing(self):
-        client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
-        ingesters = client.describe_ingesters()
+        ingesters = self.client.describe_ingesters()
         assert isinstance(ingesters, list), "Ingester request did not return correctly formatted ingester list"
         display_names = map(lambda i: i["displayName"], ingesters)
         assert "Citrine: Template CSV" in display_names
+
+    def test_valid_ingestion_request_submission(self):
+        ingester_id = "citrine/ingest/2d_general_converter/2d_general_converter/latest"
+        arguments = ingest_test_helper.valid_general_csv_ingester_args
+
+        src_path = self.test_file_root + "scrubbed.csv"
+        dest_path = _random_string() + "valid_ingestion_submission_request_target.csv"
+        response = loads(self.client.upload(self.set_id, src_path, dest_path))
+        assert response["message"] == "Upload is complete."
+
+        submission_response = self.client.submit_ingestion_request(self.set_id, dest_path, ingester_id, arguments)
+        assert submission_response["message"] == 'Ingestion request submitted successfully', "Ingestion request did not return success message"
+
+    def test_ingestion_request_submission_with_invalid_args(self):
+        ingester_id = "citrine/ingest/2d_general_converter/2d_general_converter/latest"
+        arguments = ingest_test_helper.general_csv_ingester_args_wrong_types
+
+        src_path = self.test_file_root + "scrubbed.csv"
+        dest_path = _random_string() + "invalid_args_ingestion_submission_request_target.csv"
+        response = loads(self.client.upload(self.set_id, src_path, dest_path))
+        assert response["message"] == "Upload is complete."
+
+        submission_response = self.client.submit_ingestion_request(self.set_id, dest_path, ingester_id, arguments)
+
+        assert len(submission_response["validation_errors"]) == 2
+        assert submission_response["message"] == 'Supplied ingestion arguments invalid'
+
+    def test_ingestion_request_submission_with_missing_args(self):
+        ingester_id = "citrine/ingest/2d_general_converter/2d_general_converter/latest"
+        arguments = []
+
+        src_path = self.test_file_root + "scrubbed.csv"
+        dest_path = _random_string() + "missing_args_ingestion_submission_request_target.csv"
+        response = loads(self.client.upload(self.set_id, src_path, dest_path))
+        assert response["message"] == "Upload is complete."
+
+        submission_response = self.client.submit_ingestion_request(self.set_id, dest_path, ingester_id, arguments)
+        assert len(submission_response["validation_errors"]) == 3
+        assert submission_response["message"] == 'Supplied ingestion arguments invalid'

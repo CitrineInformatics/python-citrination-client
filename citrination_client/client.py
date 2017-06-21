@@ -357,6 +357,27 @@ class CitrinationClient(object):
         else:
             return False
 
+    def submit_ingestion_request(self, dataset_id, target_file_path, ingester_id, arguments=[]):
+        """
+        List matched filenames in a dataset on Citrination.
+        :param dataset_id: The ID of the dataset where the target file exists.
+        :param target_file_path: The path of the target file for the ingestion as it exists in the dataset
+        :param ingester_id: An ID of an ingester in the return dictionary of describe_ingesters
+        :param arguments: An array of dictionaries with the keys "name" and "value" which fulfill any
+            requirements for arguments described in the ingester registration information (as shown in
+            describe_ingesters)
+        """
+        url = self.api_url + "/ingest/submit"
+        data = {
+            "dataset_id": dataset_id,
+            "target_path": target_file_path,
+            "ingester_fqn": ingester_id,
+            "arguments": arguments
+        }
+        r = requests.post(url, data=json.dumps(data), headers=self.headers)
+        return json.loads(r.content.decode('utf-8'))
+
+
     def _decode_ingester_arguments(self, ingester):
         arguments = json.loads(ingester["arguments"])
         ingester["arguments"] = arguments
