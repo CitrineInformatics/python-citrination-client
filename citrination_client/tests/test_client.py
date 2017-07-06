@@ -130,7 +130,9 @@ class TestClient():
         assert "Citrine: Template CSV" in display_names
 
     def test_valid_ingestion_request_submission(self):
-        ingester_id = "citrine/ingest/2d_general_converter/2d_general_converter/latest"
+        ingester_namespace = "citrine/ingest/2d_general_converter"
+        ingester_name = "2d_general_converter"
+        ingester_version = "latest"
         arguments = ingest_test_helper.valid_general_csv_ingester_args
 
         src_path = self.test_file_root + "scrubbed.csv"
@@ -138,11 +140,13 @@ class TestClient():
         response = loads(self.client.upload(self.set_id, src_path, dest_path))
         assert response["message"] == "Upload is complete."
 
-        submission_response = self.client.submit_ingestion_request(self.set_id, dest_path, ingester_id, arguments)
+        submission_response = self.client.submit_ingestion_request(self.set_id, dest_path, ingester_namespace, ingester_name, ingester_version, arguments)
         assert submission_response["message"] == 'Ingestion request submitted successfully', "Ingestion request did not return success message"
 
     def test_ingestion_request_submission_with_invalid_args(self):
-        ingester_id = "citrine/ingest/2d_general_converter/2d_general_converter/latest"
+        ingester_namespace = "citrine/ingest/2d_general_converter"
+        ingester_name = "2d_general_converter"
+        ingester_version = "latest"
         arguments = ingest_test_helper.general_csv_ingester_args_wrong_types
 
         src_path = self.test_file_root + "scrubbed.csv"
@@ -150,13 +154,15 @@ class TestClient():
         response = loads(self.client.upload(self.set_id, src_path, dest_path))
         assert response["message"] == "Upload is complete."
 
-        submission_response = self.client.submit_ingestion_request(self.set_id, dest_path, ingester_id, arguments)
+        submission_response = self.client.submit_ingestion_request(self.set_id, dest_path, ingester_namespace, ingester_name, ingester_version, arguments)
 
         assert len(submission_response["validation_errors"]) == 2
         assert submission_response["message"] == 'Supplied ingestion arguments invalid'
 
     def test_ingestion_request_submission_with_missing_args(self):
-        ingester_id = "citrine/ingest/2d_general_converter/2d_general_converter/latest"
+        ingester_namespace = "citrine/ingest/2d_general_converter"
+        ingester_name = "2d_general_converter"
+        ingester_version = "latest"
         arguments = []
 
         src_path = self.test_file_root + "scrubbed.csv"
@@ -164,6 +170,6 @@ class TestClient():
         response = loads(self.client.upload(self.set_id, src_path, dest_path))
         assert response["message"] == "Upload is complete."
 
-        submission_response = self.client.submit_ingestion_request(self.set_id, dest_path, ingester_id, arguments)
+        submission_response = self.client.submit_ingestion_request(self.set_id, dest_path, ingester_namespace, ingester_name, ingester_version, arguments)
         assert len(submission_response["validation_errors"]) == 3
         assert submission_response["message"] == 'Supplied ingestion arguments invalid'

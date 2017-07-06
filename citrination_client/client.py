@@ -352,12 +352,11 @@ class CitrinationClient(object):
         url = self.api_url + "/ingest/list_ingesters"
         response = self._get_content_from_url(url)
         if response != False:
-            ingesters = map(self._decode_ingester_arguments, response["ingesters"] )
-            return ingesters
+            return response["ingesters"]
         else:
             return False
 
-    def submit_ingestion_request(self, dataset_id, target_file_path, ingester_id, arguments=[]):
+    def submit_ingestion_request(self, dataset_id, target_file_path, ingester_namespace, ingester_name, ingester_version="latest", arguments=[]):
         """
         List matched filenames in a dataset on Citrination.
         :param dataset_id: The ID of the dataset where the target file exists.
@@ -371,7 +370,9 @@ class CitrinationClient(object):
         data = {
             "dataset_id": dataset_id,
             "target_path": target_file_path,
-            "ingester_fqn": ingester_id,
+            "ingester_namespace": ingester_namespace,
+            "ingester_name": ingester_name,
+            "ingester_version": ingester_version,
             "arguments": arguments
         }
         r = requests.post(url, data=json.dumps(data), headers=self.headers)
