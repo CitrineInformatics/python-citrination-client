@@ -269,7 +269,7 @@ class CitrinationClient(object):
                 j = json.loads(r.content.decode('utf-8'))
                 s3url = self._get_s3_presigned_url(j)
                 with open(source_path, 'rb') as f:
-                    r = requests.put(s3url, data=f)
+                    r = requests.put(s3url, data=f, headers=self._upload_put_url_headers())
                     if r.status_code == 200:
                         url_data = {'s3object': j['url']['path'], 's3bucket': j['bucket']}
                         requests.post(self._get_update_file_upload_url(j['file_id']),
@@ -303,6 +303,18 @@ class CitrinationClient(object):
         :return: Response object or return code if the file was not uploaded.
         """
         return self.upload(dataset_id, file_path)
+
+    def _upload_put_url_headers(self):
+        """
+        Returns headers necessary for requests to presigned put urls
+        :return: A dictionary representing the headers required for requests
+                to presigned URLs for uploading files
+        """
+        headers = {
+            "x-amz-server-side-encryption": "AES256",
+            "x-amz-acl": "private"
+        }
+        return headers
 
     def _data_analysis(self, model_name):
         """
