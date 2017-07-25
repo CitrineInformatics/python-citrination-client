@@ -60,7 +60,7 @@ class CitrinationClient(object):
                     hits.extend(partial_results.hits)
             return PifSearchResult(hits=hits, total_num_hits=total, took=time)
 
-        response = requests.post(self.pif_search_url, data=pif.dumps(pif_query), headers=self.headers)
+        response = self._post_with_version_check(self.pif_search_url, data=pif.dumps(pif_query), headers=self.headers)
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return PifSearchResult(**keys_to_snake_case(response.json()['results']))
@@ -72,7 +72,7 @@ class CitrinationClient(object):
         :param pif_multi_query: :class:`.PifMultiQuery` object to execute.
         :return: :class:`.PifMultiSearchResult` object with the results of the query.
         """
-        response = requests.post(self.pif_multi_search_url, data=pif.dumps(pif_multi_query), headers=self.headers)
+        response = self._post_with_version_check(self.pif_multi_search_url, data=pif.dumps(pif_multi_query), headers=self.headers)
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return PifMultiSearchResult(**keys_to_snake_case(response.json()['results']))
@@ -177,10 +177,10 @@ class CitrinationClient(object):
         body = self._get_predict_body(candidates)
 
         url = self._get_predict_url(model_name)
-        response = requests.post(url, data=body, headers=self.headers)
+        response = self._post_with_version_check(url, data=body, headers=self.headers)
         if response.status_code == 404:
             url = self._get_deprecated_predict_url(model_name)
-            response = requests.post(url, data=body, headers=self.headers)
+            response = self._post_with_version_check(url, data=body, headers=self.headers)
 
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
@@ -199,7 +199,7 @@ class CitrinationClient(object):
         body = self._get_predict_body(candidates)
 
         url = self._get_custom_predict_url(model_path)
-        response = requests.post(url, data=body, headers=self.headers)
+        response = self._post_with_version_check(url, data=body, headers=self.headers)
 
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
@@ -264,7 +264,7 @@ class CitrinationClient(object):
         elif os.path.isfile(source_path):
             url = self._get_upload_url(dataset_id)
             file_data = { "dest_path": str(dest_path), "src_path": str(source_path)}
-            r = requests.post(url, data=json.dumps(file_data), headers=self.headers)
+            r = self._post_with_version_check(url, data=json.dumps(file_data), headers=self.headers)
             if r.status_code == 200:
                 j = json.loads(r.content.decode('utf-8'))
                 s3url = self._get_s3_presigned_url(j)
@@ -272,7 +272,7 @@ class CitrinationClient(object):
                     r = requests.put(s3url, data=f, headers=j["required_headers"])
                     if r.status_code == 200:
                         url_data = {'s3object': j['url']['path'], 's3bucket': j['bucket']}
-                        requests.post(self._get_update_file_upload_url(j['file_id']),
+                        self._post_with_version_check(self._get_update_file_upload_url(j['file_id']),
                                       data=json.dumps(url_data), headers=self.headers)
                         message = {"message": "Upload is complete.",
                                    "data_set_id": str(dataset_id),
@@ -348,7 +348,7 @@ class CitrinationClient(object):
                 "isDir": is_dir
             }
         }
-        r = requests.post(url, data=json.dumps(data), headers=self.headers)
+        r = self._post_with_version_check(url, data=json.dumps(data), headers=self.headers)
         return json.loads(r.content.decode('utf-8'))
 
     def matched_file_count(self, dataset_id, glob=".", is_dir=False):
@@ -377,7 +377,7 @@ class CitrinationClient(object):
             }
         }
         url = self.api_url + '/datasets/' + str(dataset_id) + '/download_files'
-        r = requests.post(url,data=json.dumps(data), headers=self.headers)
+        r = self._post_with_version_check(url,data=json.dumps(data), headers=self.headers)
         return json.loads(r.content.decode('utf-8'))
 
 
@@ -448,6 +448,30 @@ class CitrinationClient(object):
         """
         return self.api_url+'/data_sets/'+str(data_set_id)+'/upload'
 
+    def _get_with_version_check(self, url, headers):
+        result = requests.get(url, headers=headers)
+        return self._check_response_for_version_mismatch(result)
+
+    def _post_with_version_check(self, url, data, headers):
+        result = requests.post(url, headers=headers, data=data)
+        return self._check_response_for_version_mismatch(result)
+
+    def _put_with_version_check(self, url, data, headers):
+        result = requests.put(s3url, data=data, headers=headers)
+        return self._check_response_for_version_mismatch(result)
+
+    def _check_response_for_version_mismatch(self, response):
+        response_content = json.loads(response.content.decode('utf-8'))
+        try:
+            if response.status_code == 400:
+                error_type = response_content["error_type"]
+                if error_type == "Version Mismatch":
+                    print("Version mismatch with Citrination identified. Please check for available PyCC updates")
+                    return False
+            return response
+        except KeyError:
+            return response
+
     @staticmethod
     def _get_s3_presigned_url(input_json):
         """
@@ -488,7 +512,7 @@ class CitrinationClient(object):
         if share:
             data["public"] = share
         dataset = {"dataset": data}
-        return requests.post(url, headers=self.headers, data=json.dumps(dataset))
+        return self._post_with_version_check(url, headers=self.headers, data=json.dumps(dataset))
 
     def _get_create_data_set_url(self):
         """
@@ -518,7 +542,7 @@ class CitrinationClient(object):
         if share:
             data["public"] = share
         dataset = {"dataset": data}
-        return requests.post(url, headers=self.headers, data=json.dumps(dataset))
+        return self._post_with_version_check(url, headers=self.headers, data=json.dumps(dataset))
 
     def _get_update_data_set_url(self, data_set_id):
         """
@@ -536,7 +560,7 @@ class CitrinationClient(object):
         :return: Response from the create data set version request.
         """
         url = self._get_create_data_set_version_url(data_set_id)
-        return requests.post(url, headers=self.headers)
+        return self._post_with_version_check(url, headers=self.headers)
 
     def _get_create_data_set_version_url(self, data_set_id):
         """
