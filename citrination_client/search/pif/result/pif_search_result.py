@@ -7,7 +7,7 @@ class PifSearchResult(Serializable):
     Class to store the results of a PIF query.
     """
 
-    def __init__(self, took=None, total_num_hits=None, hits=None):
+    def __init__(self, took=None, total_num_hits=None, hits=None, **kwargs):
         """
         Constructor.
 

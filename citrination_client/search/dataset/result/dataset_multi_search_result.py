@@ -7,7 +7,7 @@ class DatasetMultiSearchResult(Serializable):
     Class to store the results of a dataset multi-query.
     """
 
-    def __init__(self, took=None, results=None):
+    def __init__(self, took=None, results=None, **kwargs):
         """
         Constructor.
 

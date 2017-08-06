@@ -7,7 +7,7 @@ class PifMultiSearchResult(Serializable):
     Class to store the results of a PIF multi-query.
     """
 
-    def __init__(self, took=None, results=None):
+    def __init__(self, took=None, results=None, **kwargs):
         """
         Constructor.
 
