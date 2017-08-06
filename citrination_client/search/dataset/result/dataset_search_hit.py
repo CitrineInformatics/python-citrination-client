@@ -6,7 +6,7 @@ class DatasetSearchHit(Serializable):
     Class to store a single dataset search hit.
     """
 
-    def __init__(self, id=None, score=None, num_pifs=None):
+    def __init__(self, id=None, score=None, num_pifs=None, **kwargs):
         """
         Constructor.
 
