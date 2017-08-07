@@ -103,11 +103,11 @@ class TestClient():
         Test that we can grab the t-SNE from a pre-trained view
         """
         client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
-        resp = client.tsne("774")
+        resp = client.tsne("1623")
 
-        assert "y" in resp, "Couldn't find tSNE projection for y"
+        assert len(resp) == 1, "Expected a single tSNE block but got {}".format(len(resp))
 
-        tsne_y = resp["y"]
+        tsne_y = resp[list(resp.keys())[0]]
         assert "x" in tsne_y, "Couldn't find x component of tsne projection"
         assert "y" in tsne_y, "Couldn't find y component of tsne projection"
         assert "z" in tsne_y, "Couldn't find property label for tsne projection"
