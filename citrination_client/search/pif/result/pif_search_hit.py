@@ -9,7 +9,7 @@ class PifSearchHit(Serializable):
     Class to store a single PIF search hit.
     """
 
-    def __init__(self, id=None, dataset=None, dataset_version=None, score=None, system=None, extracted=None):
+    def __init__(self, id=None, dataset=None, dataset_version=None, score=None, system=None, extracted=None, **kwargs):
         """
         Constructor.
 
