@@ -560,7 +560,7 @@ class CitrinationClient(object):
         :return: Response from the create data set version request.
         """
         url = self._get_create_data_set_version_url(data_set_id)
-        return self._post_with_version_check(url, headers=self.headers)
+        return self._post_with_version_check(url, headers=self.headers, data=json.dumps({}))
 
     def _get_create_data_set_version_url(self, data_set_id):
         """
