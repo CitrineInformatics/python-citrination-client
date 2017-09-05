@@ -1,13 +1,11 @@
 from citrination_client import CitrinationClient
-from os import environ, path, listdir
+from os import environ
 import os
 from json import loads
 from pypif.obj.system import System
 from pypif.pif import dump
-import pytest
 import random
 import string
-import unittest
 
 
 def _almost_equal(test_value, reference_value, tolerance=1.0e-9):
@@ -32,7 +30,6 @@ class TestClient():
     def get_test_file_hierarchy_count(self):
         test_dir = self.test_file_root
         return sum([len(files) for r, d, files in os.walk(test_dir)])
-
 
     def test_start_client(self):
         assert self.client is not None
@@ -63,20 +60,11 @@ class TestClient():
         after_count = self.client.matched_file_count(self.set_id)
         assert after_count == (before_count + count_to_add)
 
-    def test_predict(self):
+    @staticmethod
+    def _test_prediction_values(prediction):
         """
-        Test retraining and subsequent predictions on the standard organic model
- 
-        This model is trained on HCEP data.  The prediction mirrors that on the
-        organics demo script
+        Assertions for the test_predict and test_predict_distribution methods
         """
-
-        client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
-        inputs = [{"SMILES": "c1(C=O)cc(OC)c(O)cc1"}, ]
-        vid = "177" 
-  
-        resp = client.predict(vid, inputs)
-        prediction = resp['candidates'][0]
         egap = '$\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)'
         voltage = 'Open-circuit voltage (V$_{OC}$)'
         assert 'Mass'  in prediction, "Mass prediction missing (check ML logic)"
@@ -89,6 +77,37 @@ class TestClient():
         assert _almost_equal(prediction[egap][1], 0.50, 0.45), "E_gap sigma prediction beyond tolerance (check ML logic)"
         assert _almost_equal(prediction[voltage][0], 1.0, 0.8), "V_OC mean prediction beyond tolerance (check ML logic)"
         assert _almost_equal(prediction[voltage][1], 0.8, 0.8), "V_OC sigma prediction beyond tolerance (check ML logic)"
+
+    def test_predict(self):
+        """
+        Test predictions on the standard organic model
+ 
+        This model is trained on HCEP data.  The prediction mirrors that on the
+        organics demo script
+        """
+
+        client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
+        inputs = [{"SMILES": "c1(C=O)cc(OC)c(O)cc1"}, ]
+        vid = "177" 
+  
+        resp = client.predict(vid, inputs, method="scalar")
+        prediction = resp['candidates'][0]
+        self._test_prediction_values(prediction)
+
+    def test_predict_from_distribution(self):
+        """
+        Test predictions on the standard organic model
+ 
+        Same as `test_predict` but using the `from_distribution` method
+        """
+
+        client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
+        inputs = [{"SMILES": "c1(C=O)cc(OC)c(O)cc1"}, ]
+        vid = "177" 
+  
+        resp = client.predict(vid, inputs, method="from_distribution")
+        prediction = resp['candidates'][0]
+        self._test_prediction_values(prediction)
 
     def test_predict_custom(self):
         client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
