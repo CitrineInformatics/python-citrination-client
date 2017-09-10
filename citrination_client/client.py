@@ -165,16 +165,17 @@ class CitrinationClient(object):
         else:
             return [values]
 
-    def predict(self, model_name, candidates):
+    def predict(self, model_name, candidates, method="scalar", use_prior=True):
         """
         Predict endpoint
 
         :param model_name: The model identifier (id number for data views)
         :param candidates: A list of candidates to make predictions on
+        :param method:     Method for propagating predictions through model graphs
+        :param use_prior:  Whether to apply prior values implied by the property descriptors
         :return: the response, containing a list of predicted candidates as a map {property: [value, uncertainty]}
         """
-
-        body = self._get_predict_body(candidates)
+        body = self._get_predict_body(candidates, method, use_prior)
 
         url = self._get_predict_url(model_name)
         response = self._post_with_version_check(url, data=body, headers=self.headers)
@@ -206,13 +207,16 @@ class CitrinationClient(object):
 
         return response.json()
 
-    def _get_predict_body(self, candidates):
+    def _get_predict_body(self, candidates, method="scalar", use_prior=True):
+        if not (method == "scalar" or method == "from_distribution"):
+            raise ValueError("{} method not supported".format(method))
+
         # If a single candidate is passed, wrap in a list for the user
         if not isinstance(candidates, list):
             candidates = [candidates]
 
         return pif.dumps(
-             {"predictionRequest": {"predictionSource": "scalar", "usePrior": True, "candidates": candidates}}
+             {"predictionRequest": {"predictionSource": method, "usePrior": use_prior, "candidates": candidates}}
         )
 
     def _get_custom_predict_url(self, model_path):
