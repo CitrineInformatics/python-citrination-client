@@ -1,6 +1,7 @@
 from citrination_client.search.pif.query.core.base_object_query import BaseObjectQuery
 from citrination_client.search.pif.query.core.classification_query import ClassificationQuery
 from citrination_client.search.pif.query.core.field_query import FieldQuery
+from citrination_client.search.pif.query.core.filter import Filter
 from citrination_client.search.pif.query.core.id_query import IdQuery
 from citrination_client.search.pif.query.core.process_step_query import ProcessStepQuery
 from citrination_client.search.pif.query.core.property_query import PropertyQuery
@@ -16,12 +17,13 @@ class SystemQuery(BaseObjectQuery):
     Class to query against a PIF System.
     """
 
-    def __init__(self, names=None, ids=None, classifications=None, source=None, quantity=None, chemical_formula=None, 
+    def __init__(self, uid=None, names=None, ids=None, classifications=None, source=None, quantity=None, chemical_formula=None, 
                  composition=None, properties=None, preparation=None, references=None, sub_systems=None, logic=None, 
                  extract_as=None, extract_all=None, extract_when_missing=None, tags=None, length=None, offset=None):
         """
         Constructor.
 
+        :param uid: One or more :class:`Filter` operations against the uid field.
         :param names: One or more :class:`FieldQuery` operations against the names field.
         :param ids: One or more :class:`IdQuery` operations against the ids field.
         :param classifications: One or more :class:`ClassificationQuery` operations against the classifications field.
@@ -46,6 +48,8 @@ class SystemQuery(BaseObjectQuery):
         super(SystemQuery, self).__init__(logic=logic, extract_as=extract_as, extract_all=extract_all,
                                           extract_when_missing=extract_when_missing, tags=tags, length=length,
                                           offset=offset)
+        self._uid = None
+        self.uid = uid
         self._names = None
         self.names = names
         self._ids = None
@@ -68,6 +72,18 @@ class SystemQuery(BaseObjectQuery):
         self.references = references
         self._sub_systems = None
         self.sub_systems = sub_systems
+
+    @property
+    def uid(self):
+        return self._uid
+
+    @uid.setter
+    def uid(self, uid):
+        self._uid = self._get_object(Filter, uid)
+
+    @uid.deleter
+    def uid(self):
+        self._uid = None
 
     @property
     def names(self):

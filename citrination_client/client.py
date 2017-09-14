@@ -7,6 +7,7 @@ from pypif import pif
 from pypif.util.case import keys_to_snake_case
 from citrination_client.util.quote_finder import quote
 from citrination_client.search.pif.query.pif_query import PifQuery
+from citrination_client.search.dataset.result.dataset_search_result import DatasetSearchResult
 from citrination_client.search.pif.query.core.field_operation import FieldOperation
 from citrination_client.search.pif.query.core.filter import Filter
 from citrination_client.search.pif.query.core.property_query import PropertyQuery
@@ -36,8 +37,19 @@ class CitrinationClient(object):
         self.api_url = site + '/api'
         self.pif_search_url = self.api_url + '/search/pif_search'
         self.pif_multi_search_url = self.api_url + '/search/pif_multi_search'
+        self.dataset_search_url = self.api_url + '/search/dataset'
 
     def search(self, pif_query):
+        """
+        Run a PIF query against Citrination. This is just an alias for the pif_search method for backwards
+        compatibility.
+
+        :param pif_query: :class:`.PifQuery` to execute.
+        :return: :class:`.PifSearchResult` object with the results of the query.
+        """
+        return self.pif_search(pif_query)
+
+    def pif_search(self, pif_query):
         """
         Run a PIF query against Citrination.
 
@@ -53,7 +65,7 @@ class CitrinationClient(object):
                     sleep(3)
                 sub_query = deepcopy(pif_query)
                 sub_query.from_index = len(hits)
-                partial_results = self.search(sub_query)
+                partial_results = self.pif_search(sub_query)
                 total = partial_results.total_num_hits
                 time += partial_results.took
                 if partial_results.hits is not None:
@@ -76,6 +88,35 @@ class CitrinationClient(object):
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return PifMultiSearchResult(**keys_to_snake_case(response.json()['results']))
+
+    def dataset_search(self, dataset_query):
+        """
+        Run a dataset query against Citrination.
+
+        :param dataset_query: :class:`.DatasetQuery` to execute.
+        :return: :class:`.DatasetSearchResult` object with the results of the query.
+        """
+        if dataset_query.size is None and dataset_query.from_index is None:
+            total = 1; time = 0.0; hits = []; first = True
+            while len(hits) < min(total, 10000):
+                if first:
+                    first = False
+                else:
+                    sleep(3)
+                sub_query = deepcopy(dataset_query)
+                sub_query.from_index = len(hits)
+                partial_results = self.dataset_search(sub_query)
+                total = partial_results.total_num_hits
+                time += partial_results.took
+                if partial_results.hits is not None:
+                    hits.extend(partial_results.hits)
+            return DatasetSearchResult(hits=hits, total_num_hits=total, took=time)
+
+        response = self._post_with_version_check(
+            self.dataset_search_url, data=pif.dumps(dataset_query), headers=self.headers)
+        if response.status_code != requests.codes.ok:
+            raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
+        return DatasetSearchResult(**keys_to_snake_case(response.json()['results']))
 
     def simple_chemical_search(self, name=None, chemical_formula=None, property_name=None, property_value=None,
                                property_min=None, property_max=None, property_units=None, reference_doi=None,
@@ -165,16 +206,17 @@ class CitrinationClient(object):
         else:
             return [values]
 
-    def predict(self, model_name, candidates):
+    def predict(self, model_name, candidates, method="scalar", use_prior=True):
         """
         Predict endpoint
 
         :param model_name: The model identifier (id number for data views)
         :param candidates: A list of candidates to make predictions on
+        :param method:     Method for propagating predictions through model graphs
+        :param use_prior:  Whether to apply prior values implied by the property descriptors
         :return: the response, containing a list of predicted candidates as a map {property: [value, uncertainty]}
         """
-
-        body = self._get_predict_body(candidates)
+        body = self._get_predict_body(candidates, method, use_prior)
 
         url = self._get_predict_url(model_name)
         response = self._post_with_version_check(url, data=body, headers=self.headers)
@@ -206,13 +248,16 @@ class CitrinationClient(object):
 
         return response.json()
 
-    def _get_predict_body(self, candidates):
+    def _get_predict_body(self, candidates, method="scalar", use_prior=True):
+        if not (method == "scalar" or method == "from_distribution"):
+            raise ValueError("{} method not supported".format(method))
+
         # If a single candidate is passed, wrap in a list for the user
         if not isinstance(candidates, list):
             candidates = [candidates]
 
         return pif.dumps(
-             {"predictionRequest": {"predictionSource": "scalar", "usePrior": True, "candidates": candidates}}
+             {"predictionRequest": {"predictionSource": method, "usePrior": use_prior, "candidates": candidates}}
         )
 
     def _get_custom_predict_url(self, model_path):
