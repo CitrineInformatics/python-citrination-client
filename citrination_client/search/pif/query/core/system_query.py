@@ -1,6 +1,7 @@
 from citrination_client.search.pif.query.core.base_object_query import BaseObjectQuery
 from citrination_client.search.pif.query.core.classification_query import ClassificationQuery
 from citrination_client.search.pif.query.core.field_query import FieldQuery
+from citrination_client.search.pif.query.core.filter import Filter
 from citrination_client.search.pif.query.core.id_query import IdQuery
 from citrination_client.search.pif.query.core.process_step_query import ProcessStepQuery
 from citrination_client.search.pif.query.core.property_query import PropertyQuery
@@ -22,7 +23,7 @@ class SystemQuery(BaseObjectQuery):
         """
         Constructor.
 
-        :param uid: One or more :class:`FieldQuery` operations against the uid field.
+        :param uid: One or more :class:`Filter` operations against the uid field.
         :param names: One or more :class:`FieldQuery` operations against the names field.
         :param ids: One or more :class:`IdQuery` operations against the ids field.
         :param classifications: One or more :class:`ClassificationQuery` operations against the classifications field.
@@ -78,7 +79,7 @@ class SystemQuery(BaseObjectQuery):
 
     @uid.setter
     def uid(self, uid):
-        self._uid = self._get_object(FieldQuery, uid)
+        self._uid = self._get_object(Filter, uid)
 
     @uid.deleter
     def uid(self):
