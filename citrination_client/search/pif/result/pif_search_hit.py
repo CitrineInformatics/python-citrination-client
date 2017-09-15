@@ -1,7 +1,7 @@
-from six import string_types
 from pypif import pif
 from pypif.obj.common.pio import Pio
 from pypif.util.serializable import Serializable
+from six import string_types
 
 
 class PifSearchHit(Serializable):
@@ -9,7 +9,8 @@ class PifSearchHit(Serializable):
     Class to store a single PIF search hit.
     """
 
-    def __init__(self, id=None, dataset=None, dataset_version=None, score=None, system=None, extracted=None, **kwargs):
+    def __init__(self, id=None, dataset=None, dataset_version=None, score=None, updated_at=None, system=None, 
+                 extracted=None, extracted_path=None, **kwargs):
         """
         Constructor.
 
@@ -17,8 +18,10 @@ class PifSearchHit(Serializable):
         :param dataset: Integer with the dataset of the record.
         :param dataset_version: Integer with the dataset version of the record.
         :param score: Score with the relevancy of the result.
+        :param updated_at: String with the last time that the record was updated.
         :param system: Pif System object that matched.
         :param extracted: Dictionary with a map of extracted property names to values.
+        :param extracted_path: Dictionary with a map of extracted property names to paths in a PIF.
         """
         self._id = None
         self.id = id
@@ -28,10 +31,14 @@ class PifSearchHit(Serializable):
         self.dataset_version = dataset_version
         self._score = None
         self.score = score
+        self._updated_at = None
+        self.updated_at = updated_at
         self._system = None
         self.system = system
         self._extracted = None
         self.extracted = extracted
+        self._extracted_path = None
+        self.extracted_path = extracted_path
 
     @property
     def id(self):
@@ -82,6 +89,18 @@ class PifSearchHit(Serializable):
         self._score = None
 
     @property
+    def updated_at(self):
+        return self._updated_at
+
+    @updated_at.setter
+    def updated_at(self, updated_at):
+        self._updated_at = updated_at
+
+    @updated_at.deleter
+    def updated_at(self):
+        self._updated_at = None
+
+    @property
     def system(self):
         return self._system
 
@@ -113,3 +132,15 @@ class PifSearchHit(Serializable):
     @extracted.deleter
     def extracted(self):
         self._extracted = None
+
+    @property
+    def extracted_path(self):
+        return self._extracted_path
+
+    @extracted_path.setter
+    def extracted_path(self, extracted_path):
+        self._extracted_path = extracted_path
+
+    @extracted_path.deleter
+    def extracted_path(self):
+        self._extracted_path = None

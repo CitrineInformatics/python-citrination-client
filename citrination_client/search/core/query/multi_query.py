@@ -1,17 +1,16 @@
 from pypif.util.serializable import Serializable
-from citrination_client.search.pif.query.pif_query import PifQuery
 
 
-class PifMultiQuery(Serializable):
+class MultiQuery(Serializable):
     """
-    Class to store information about a PIF multi-query.
+    Base class for all multi-search requests.
     """
 
-    def __init__(self, queries=None):
+    def __init__(self, queries=None, **kwargs):
         """
         Constructor.
 
-        :param queries: One or more :class:`.PifQuery` objects with the queries to run.
+        :param queries: One or more queries to run.
         """
         self._queries = None
         self.queries = queries
@@ -22,7 +21,7 @@ class PifMultiQuery(Serializable):
 
     @queries.setter
     def queries(self, queries):
-        self._queries = self._get_object(PifQuery, queries)
+        self._queries = queries
 
     @queries.deleter
     def queries(self):

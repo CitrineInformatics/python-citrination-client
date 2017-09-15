@@ -1,19 +1,16 @@
-from citrination_client import CitrinationClient
-from citrination_client import DatasetQuery, SystemQuery, FieldQuery, Filter
-
 from os import environ
-from pypif.pif import dumps
+
+from citrination_client import CitrinationClient
+from citrination_client import DatasetReturningQuery
 
 
 def test_full_dataset_query():
     """Test a public dataset query with every option on"""
-    query = DatasetQuery(
-        system=SystemQuery(),
+    query = DatasetReturningQuery(
         size=8,
         score_relevance=True,
         count_pifs=True,
-        random_results=True
-    )
+        random_results=True)
 
     client = CitrinationClient(environ["CITRINATION_API_KEY"])
     result = client.dataset_search(query)

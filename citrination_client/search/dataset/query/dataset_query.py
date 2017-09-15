@@ -1,5 +1,7 @@
 from pypif.util.serializable import Serializable
-from citrination_client.search.pif.query.core.system_query import SystemQuery
+
+from citrination_client.search.core.query.boolean_filter import BooleanFilter
+from citrination_client.search.core.query.filter import Filter
 
 
 class DatasetQuery(Serializable):
@@ -7,117 +9,144 @@ class DatasetQuery(Serializable):
     Class to store information about a dataset query.
     """
 
-    def __init__(self, from_index=None, size=None, random_results=None, random_seed=None, score_relevance=None,
-                 count_pifs=None, system=None, **kwargs):
+    def __init__(self, logic=None, simple=None, id=None, is_featured=None, name=None, description=None,
+                 owner=None, email=None, query=None, **kwargs):
         """
         Constructor.
 
-        :param from_index: Integer with the first index of the record to return.
-        :param size: Integer with the number of records to return.
-        :param random_results: True/False to set whether random results are returned.
-        :param random_seed: Integer to set the seed for generating random results.
-        :param score_relevance: True/False to set whether relevance scores should be used.
-        :param count_pifs: True/False to set whether to count the number of PIFs in each dataset.
-        :param system: One or more :class:`SystemQuery` objects with the query to run.
-        :param kwargs: Any other arguments. The only supported key is "from".
+        :param logic: The logic to apply to the query ('SHOULD', 'MUST', 'MUST_NOT', or 'OPTIONAL').
+        :param simple: String with the simple search to run against all fields.
+        :param id: One or more :class:`Filter` objects with filters against the id field.
+        :param is_featured:  One or more :class:`BooleanFilter` objects with filters against the isFeatured field.
+        :param name: One or more :class:`Filter` objects with filters against the name field.
+        :param description: One or more :class:`Filter` objects with filters against the description field.
+        :param owner: One or more :class:`Filter` objects with filters against the owner field.
+        :param email: One or more :class:`Filter` objects with filters against the email field.
+        :param query: One or more :class:`DatasetQuery` objects with nested queries.
         """
-        if 'from' in 'kwargs':
-            self.from_index = kwargs['from']
-        self._from = None
-        self.from_index = from_index
-        self._size = None
-        self.size = size
-        self._random_results = None
-        self.random_results = random_results
-        self._random_seed = None
-        self.random_seed = random_seed
-        self._score_relevance = None
-        self.score_relevance = score_relevance
-        self._count_pifs = None
-        self.count_pifs = count_pifs
-        self._system = None
-        self.system = system
+        self._logic = None
+        self.logic = logic
+        self._simple = None
+        self.simple = simple
+        self._id = None
+        self.id = id
+        self._is_featured = None
+        self.is_featured = is_featured
+        self._name = None
+        self.name = name
+        self._description = None
+        self.description = description
+        self._owner = None
+        self.owner = owner
+        self._email = None
+        self.email = email
+        self._query = None
+        self.query = query
 
     @property
-    def from_index(self):
-        return self._from
+    def logic(self):
+        return self._logic
 
-    @from_index.setter
-    def from_index(self, from_index):
-        self._from = from_index
+    @logic.setter
+    def logic(self, logic):
+        self._logic = logic
 
-    @from_index.deleter
-    def from_index(self):
-        self._from = None
-
-    @property
-    def size(self):
-        return self._size
-
-    @size.setter
-    def size(self, size):
-        self._size = size
-
-    @size.deleter
-    def size(self):
-        self._size = None
+    @logic.deleter
+    def logic(self):
+        self._logic = None
 
     @property
-    def random_results(self):
-        return self._random_results
+    def simple(self):
+        return self._simple
 
-    @random_results.setter
-    def random_results(self, random_results):
-        self._random_results = random_results
+    @simple.setter
+    def simple(self, simple):
+        self._simple = simple
 
-    @random_results.deleter
-    def random_results(self):
-        self._random_results = None
-
-    @property
-    def random_seed(self):
-        return self._random_seed
-
-    @random_seed.setter
-    def random_seed(self, random_seed):
-        self._random_seed = random_seed
-
-    @random_seed.deleter
-    def random_seed(self):
-        self._random_seed = None
+    @simple.deleter
+    def simple(self):
+        self._simple = None
 
     @property
-    def score_relevance(self):
-        return self._score_relevance
+    def id(self):
+        return self._id
 
-    @score_relevance.setter
-    def score_relevance(self, score_relevance):
-        self._score_relevance = score_relevance
+    @id.setter
+    def id(self, id):
+        self._id = self._get_object(Filter, id)
 
-    @score_relevance.deleter
-    def score_relevance(self):
-        self._score_relevance = None
-
-    @property
-    def count_pifs(self):
-        return self._count_pifs
-
-    @count_pifs.setter
-    def count_pifs(self, count_pifs):
-        self._count_pifs = count_pifs
-
-    @count_pifs.deleter
-    def count_pifs(self):
-        self._count_pifs = None
+    @id.deleter
+    def id(self):
+        self._id = None
 
     @property
-    def system(self):
-        return self._system
+    def is_featured(self):
+        return self._is_featured
 
-    @system.setter
-    def system(self, system):
-        self._system = self._get_object(SystemQuery, system)
+    @is_featured.setter
+    def is_featured(self, is_featured):
+        self._is_featured = self._get_object(BooleanFilter, is_featured)
 
-    @system.deleter
-    def system(self):
-        self._system = None
+    @is_featured.deleter
+    def is_featured(self):
+        self._is_featured = None
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        self._name = self._get_object(Filter, name)
+
+    @name.deleter
+    def name(self):
+        self._name = None
+
+    @property
+    def description(self):
+        return self._description
+
+    @description.setter
+    def description(self, description):
+        self._description = self._get_object(Filter, description)
+
+    @description.deleter
+    def description(self):
+        self._description = None
+
+    @property
+    def owner(self):
+        return self._owner
+
+    @owner.setter
+    def owner(self, owner):
+        self._owner = self._get_object(Filter, owner)
+
+    @owner.deleter
+    def owner(self):
+        self._owner = None
+
+    @property
+    def email(self):
+        return self._email
+
+    @email.setter
+    def email(self, email):
+        self._email = self._get_object(Filter, email)
+
+    @email.deleter
+    def email(self):
+        self._email = None
+
+    @property
+    def query(self):
+        return self._query
+
+    @query.setter
+    def query(self, query):
+        self._query = self._get_object(DatasetQuery, query)
+
+    @query.deleter
+    def query(self):
+        self._query = None

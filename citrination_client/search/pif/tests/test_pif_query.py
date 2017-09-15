@@ -1,14 +1,13 @@
-from citrination_client import CitrinationClient
-from citrination_client import PifQuery, SystemQuery, FieldQuery, Filter
-
 from os import environ
-from pypif.pif import dumps
+
+from citrination_client import CitrinationClient
+from citrination_client import PifSystemReturningQuery, DataQuery, PifSystemQuery, Filter
 
 
 def test_uid_query():
     """Testing that a query against a UID only pulls back that record"""
     target_uid = "000496A81BDD616A5BBA1FC4D3B5AC1A"
-    query = PifQuery(system=SystemQuery(uid=Filter(equal=target_uid)))
+    query = PifSystemReturningQuery(query=DataQuery(system=PifSystemQuery(uid=Filter(equal=target_uid))))
     
     client = CitrinationClient(environ["CITRINATION_API_KEY"])
     result = client.pif_search(query)

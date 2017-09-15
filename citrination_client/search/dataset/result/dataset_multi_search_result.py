@@ -1,5 +1,6 @@
 from pypif.util.serializable import Serializable
-from citrination_client.search.dataset.result.dataset_search_result import DatasetSearchResult
+
+from citrination_client.search.dataset.result.dataset_multi_search_result_element import DatasetMultiSearchResultElement
 
 
 class DatasetMultiSearchResult(Serializable):
@@ -12,7 +13,7 @@ class DatasetMultiSearchResult(Serializable):
         Constructor.
 
         :param took: Number of milliseconds that the query took to execute.
-        :param results: List of :class:`.DatasetSearchResult` objects.
+        :param results: List of :class:`DatasetMultiSearchResultElement` objects.
         """
         self._took = None
         self.took = took
@@ -37,7 +38,7 @@ class DatasetMultiSearchResult(Serializable):
 
     @results.setter
     def results(self, results):
-        self._results = self._get_object(DatasetSearchResult, results)
+        self._results = self._get_object(DatasetMultiSearchResultElement, results)
 
     @results.deleter
     def results(self):
