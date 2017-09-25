@@ -6,11 +6,12 @@ class BaseFieldQuery(Serializable):
     Base class for all field queries.
     """
 
-    def __init__(self, logic=None, simple=None, extract_as=None, extract_all=None, extract_when_missing=None,
-                 length=None, offset=None, **kwargs):
+    def __init__(self, sort=None, logic=None, simple=None, extract_as=None, extract_all=None,
+                 extract_when_missing=None, length=None, offset=None, **kwargs):
         """
         Constructor.
 
+        :param sort: ASCENDING or DESCENDING to set the sort order on this field.
         :param logic: Logic for this query. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
         :param simple: String with the simple search to run against all fields.
         :param extract_as: String with the alias to save this field under.
@@ -20,6 +21,8 @@ class BaseFieldQuery(Serializable):
         :param length: One or more :class:`FieldQuery` operations against the length field.
         :param offset: One or more :class:`FieldQuery` operations against the offset field.
         """
+        self._sort = None
+        self.sort = sort
         self._logic = None
         self.logic = logic
         self._simple = None
@@ -34,6 +37,18 @@ class BaseFieldQuery(Serializable):
         self.length = length
         self._offset = None
         self.offset = offset
+
+    @property
+    def sort(self):
+        return self._sort
+
+    @sort.setter
+    def sort(self, sort):
+        self._sort = sort
+
+    @sort.deleter
+    def sort(self):
+        self._sort = None
 
     @property
     def logic(self):

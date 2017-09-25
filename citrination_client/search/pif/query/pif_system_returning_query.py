@@ -6,13 +6,14 @@ class PifSystemReturningQuery(BaseReturningQuery):
     Query used to return information about PIFs.
     """
 
-    def __init__(self, query=None, from_index=None, size=None, random_results=None, random_seed=None,
-                 score_relevance=None, return_max_score=None, return_system=None, add_latex=None,
+    def __init__(self, query=None, extraction_sort=None, from_index=None, size=None, random_results=None,
+                 random_seed=None, score_relevance=None, return_max_score=None, return_system=None, add_latex=None,
                  return_extracted_path=None, unwrap_single_value_extractions=None, **kwargs):
         """
         Constructor.
 
         :param query: One or more :class:`DataQuery` objects with the queries to run.
+        :param extraction_sort: A single :class:`ExtractionSort` object for sorting.
         :param from_index: Index of the first hit that should be returned.
         :param size: Total number of hits the should be returned.
         :param random_results: Whether to return a random set of records.
@@ -25,8 +26,9 @@ class PifSystemReturningQuery(BaseReturningQuery):
         :param unwrap_single_value_extractions: Whether to unwrap extracted values when they are lists with one value.
         """
         super(PifSystemReturningQuery, self).__init__(
-            query=query, from_index=from_index, size=size, random_results=random_results, random_seed=random_seed,
-            score_relevance=score_relevance, return_max_score=return_max_score, **kwargs)
+            query=query, extraction_sort=extraction_sort, from_index=from_index, size=size,
+            random_results=random_results, random_seed=random_seed, score_relevance=score_relevance,
+            return_max_score=return_max_score, **kwargs)
         self._return_system = None
         self.return_system = return_system
         self._add_latex = None

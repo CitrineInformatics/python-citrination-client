@@ -7,11 +7,12 @@ class FieldQuery(BaseFieldQuery):
     Class for all field queries.
     """
 
-    def __init__(self, logic=None, simple=None, extract_as=None, extract_all=None, extract_when_missing=None,
-                 length=None, offset=None, filter=None, **kwargs):
+    def __init__(self, sort=None, logic=None, simple=None, extract_as=None, extract_all=None,
+                 extract_when_missing=None, length=None, offset=None, filter=None, **kwargs):
         """
         Constructor.
 
+        :param sort: ASCENDING or DESCENDING to set the sort order on this field.
         :param logic: Logic for this query. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
         :param simple: String with the simple search to run against all fields.
         :param extract_as: String with the alias to save this field under.
@@ -23,7 +24,7 @@ class FieldQuery(BaseFieldQuery):
         :param filter: One or more :class:`Filter` objects against this field.
         """
         super(FieldQuery, self).__init__(
-            logic=logic, simple=simple, extract_as=extract_as, extract_all=extract_all,
+            sort=sort, logic=logic, simple=simple, extract_as=extract_as, extract_all=extract_all,
             extract_when_missing=extract_when_missing, length=length, offset=offset, **kwargs)
         self._filter = None
         self.filter = filter

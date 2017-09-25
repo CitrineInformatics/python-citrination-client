@@ -6,12 +6,13 @@ class BaseReturningQuery(DataScope):
     Base class for all queries against datasets and the items that they contain on Citrination.
     """
 
-    def __init__(self, query=None, from_index=None, size=None, random_results=None, random_seed=None,
-                 score_relevance=None, return_max_score=None, **kwargs):
+    def __init__(self, query=None, extraction_sort=None, from_index=None, size=None, random_results=None,
+                 random_seed=None, score_relevance=None, return_max_score=None, **kwargs):
         """
         Base class for all queries against datasets and the items that they contain on Citrination.
 
         :param query: One or more :class:`DataQuery` objects with the queries to run.
+        :param extraction_sort: A single :class:`ExtractionSort` object for sorting.
         :param from_index: Index of the first hit that should be returned.
         :param size: Total number of hits the should be returned.
         :param random_results: Whether to return a random set of records.
@@ -19,7 +20,7 @@ class BaseReturningQuery(DataScope):
         :param score_relevance: Whether to use relevance scoring.
         :param return_max_score: Whether to return the maximum score.
         """
-        super(BaseReturningQuery, self).__init__(query=query, **kwargs)
+        super(BaseReturningQuery, self).__init__(query=query, extraction_sort=extraction_sort, **kwargs)
         if 'from' in 'kwargs':
             self.from_index = kwargs['from']
         self._from = None
