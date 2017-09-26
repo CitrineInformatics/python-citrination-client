@@ -6,13 +6,12 @@ class DatasetReturningQuery(BaseReturningQuery):
     Query used to return information about datasets.
     """
 
-    def __init__(self, query=None, extraction_sort=None, from_index=None, size=None, random_results=None,
-                 random_seed=None, score_relevance=None, return_max_score=None, count_pifs=None, **kwargs):
+    def __init__(self, query=None, from_index=None, size=None, random_results=None, random_seed=None,
+                 score_relevance=None, return_max_score=None, count_pifs=None, **kwargs):
         """
         Constructor.
         
         :param query: One or more :class:`DataQuery` objects with the queries to run.
-        :param extraction_sort: A single :class:`ExtractionSort` object for sorting.
         :param from_index: Index of the first hit that should be returned.
         :param size: Total number of hits the should be returned.
         :param random_results: Whether to return a random set of records.
@@ -22,9 +21,8 @@ class DatasetReturningQuery(BaseReturningQuery):
         :param count_pifs: Whether to return counts of PIFs for each dataset.
         """
         super(DatasetReturningQuery, self).__init__(
-            query=query, extraction_sort=extraction_sort, from_index=from_index, size=size,
-            random_results=random_results, random_seed=random_seed, score_relevance=score_relevance,
-            return_max_score=return_max_score, **kwargs)
+            query=query, from_index=from_index, size=size, random_results=random_results, random_seed=random_seed,
+            score_relevance=score_relevance, return_max_score=return_max_score, **kwargs)
         self._count_pifs = None
         self.count_pifs = count_pifs
 

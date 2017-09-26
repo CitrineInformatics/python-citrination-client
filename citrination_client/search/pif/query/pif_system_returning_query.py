@@ -26,9 +26,8 @@ class PifSystemReturningQuery(BaseReturningQuery):
         :param unwrap_single_value_extractions: Whether to unwrap extracted values when they are lists with one value.
         """
         super(PifSystemReturningQuery, self).__init__(
-            query=query, extraction_sort=extraction_sort, from_index=from_index, size=size,
-            random_results=random_results, random_seed=random_seed, score_relevance=score_relevance,
-            return_max_score=return_max_score, **kwargs)
+            query=query, from_index=from_index, size=size, random_results=random_results, random_seed=random_seed,
+            score_relevance=score_relevance, return_max_score=return_max_score, **kwargs)
         self._return_system = None
         self.return_system = return_system
         self._add_latex = None
@@ -37,6 +36,8 @@ class PifSystemReturningQuery(BaseReturningQuery):
         self.return_extracted_path = return_extracted_path
         self._unwrap_single_value_extractions = None
         self.unwrap_single_value_extractions = unwrap_single_value_extractions
+        self._extraction_sort = None
+        self.extraction_sort = extraction_sort
 
     @property
     def return_system(self):
@@ -85,3 +86,15 @@ class PifSystemReturningQuery(BaseReturningQuery):
     @unwrap_single_value_extractions.deleter
     def unwrap_single_value_extractions(self):
         self._unwrap_single_value_extractions = None
+
+    @property
+    def extraction_sort(self):
+        return self._extraction_sort
+
+    @extraction_sort.setter
+    def extraction_sort(self, extraction_sort):
+        self._extraction_sort = self._get_object(ExtractionSort, extraction_sort)
+
+    @extraction_sort.deleter
+    def extraction_sort(self):
+        self._extraction_sort = None

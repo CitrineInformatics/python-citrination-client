@@ -27,6 +27,7 @@ from citrination_client.search.pif.query.core.quantity_query import QuantityQuer
 from citrination_client.search.pif.query.core.reference_query import ReferenceQuery
 from citrination_client.search.pif.query.core.source_query import SourceQuery
 from citrination_client.search.pif.query.core.value_query import ValueQuery
+from citrination_client.search.pif.query.extraction_sort import ExtractionSort
 from citrination_client.search.pif.query.pif_system_query import PifSystemQuery
 from citrination_client.search.pif.query.pif_system_returning_query import PifSystemReturningQuery
 from citrination_client.search.pif.result.pif_multi_search_result import PifMultiSearchResult
