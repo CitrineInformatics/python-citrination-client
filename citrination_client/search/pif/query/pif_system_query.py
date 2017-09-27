@@ -18,9 +18,9 @@ class PifSystemQuery(BaseObjectQuery):
     """
 
     def __init__(self, logic=None, simple=None, extract_as=None, extract_all=None, extract_when_missing=None,
-                 tags=None, length=None, offset=None, uid=None, names=None, ids=None, classifications=None,
-                 source=None, quantity=None, chemical_formula=None, composition=None, properties=None,
-                 preparation=None, references=None, sub_systems=None, query=None, **kwargs):
+                 tags=None, length=None, offset=None, uid=None, updated_at=None, names=None, ids=None, 
+                 classifications=None, source=None, quantity=None, chemical_formula=None, composition=None, 
+                 properties=None, preparation=None, references=None, sub_systems=None, query=None, **kwargs):
         """
         Constructor.
 
@@ -34,6 +34,8 @@ class PifSystemQuery(BaseObjectQuery):
         :param length: One or more :class:`FieldQuery` operations against the length field.
         :param offset: One or more :class:`FieldQuery` operations against the offset field.
         :param uid: One or more :class:`Filter` objects with the filters against the uid field.
+        :param updated_at: One or more :class:`Filter` objects with filters against the time that the PIF record was 
+        last updated.
         :param names: One or more :class:`FieldQuery` objects with queries against the names field.
         :param ids: One or more :class:`IdQuery` objects with queries against the ids field.
         :param classifications: One or more :class:`ClassificationQuery` objects with queries against the
@@ -54,6 +56,8 @@ class PifSystemQuery(BaseObjectQuery):
             extract_when_missing=extract_when_missing, tags=tags, length=length, offset=offset, **kwargs)
         self._uid = None
         self.uid = uid
+        self._updated_at = None
+        self.updated_at = updated_at
         self._names = None
         self.names = names
         self._ids = None
@@ -90,6 +94,18 @@ class PifSystemQuery(BaseObjectQuery):
     @uid.deleter
     def uid(self):
         self._uid = None
+
+    @property
+    def updated_at(self):
+        return self._updated_at
+
+    @updated_at.setter
+    def updated_at(self, updated_at):
+        self._updated_at = self._get_object(Filter, updated_at)
+
+    @updated_at.deleter
+    def updated_at(self):
+        self._updated_at = None
 
     @property
     def names(self):

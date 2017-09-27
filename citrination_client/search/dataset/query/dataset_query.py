@@ -10,7 +10,7 @@ class DatasetQuery(Serializable):
     """
 
     def __init__(self, logic=None, simple=None, id=None, is_featured=None, name=None, description=None,
-                 owner=None, email=None, query=None, **kwargs):
+                 owner=None, email=None, updated_at=None, query=None, **kwargs):
         """
         Constructor.
 
@@ -22,6 +22,8 @@ class DatasetQuery(Serializable):
         :param description: One or more :class:`Filter` objects with filters against the description field.
         :param owner: One or more :class:`Filter` objects with filters against the owner field.
         :param email: One or more :class:`Filter` objects with filters against the email field.
+        :param updated_at: One or more :class:`Filter` objects with filters against the time that the dataset was
+        last updated.
         :param query: One or more :class:`DatasetQuery` objects with nested queries.
         """
         self._logic = None
@@ -40,6 +42,8 @@ class DatasetQuery(Serializable):
         self.owner = owner
         self._email = None
         self.email = email
+        self._updated_at = None
+        self.updated_at = updated_at
         self._query = None
         self.query = query
 
@@ -138,6 +142,18 @@ class DatasetQuery(Serializable):
     @email.deleter
     def email(self):
         self._email = None
+
+    @property
+    def updated_at(self):
+        return self._updated_at
+
+    @updated_at.setter
+    def updated_at(self, updated_at):
+        self._updated_at = self._get_object(Filter, updated_at)
+
+    @updated_at.deleter
+    def updated_at(self):
+        self._updated_at = None
 
     @property
     def query(self):
