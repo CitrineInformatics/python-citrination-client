@@ -616,6 +616,5 @@ class CitrinationClient(object):
         """
         return self.api_url+'/data_sets/'+str(data_set_id)+'/create_dataset_version'
 
-
     def _get_data_analysis_url(self, model_name):
         return self.api_url + '/data_views/' + model_name + '/data_analysis'
