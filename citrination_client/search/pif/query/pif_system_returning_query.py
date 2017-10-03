@@ -1,4 +1,5 @@
 from citrination_client.search.core.query.base_returning_query import BaseReturningQuery
+from citrination_client.search.pif.query.extraction_sort import ExtractionSort
 
 
 class PifSystemReturningQuery(BaseReturningQuery):
