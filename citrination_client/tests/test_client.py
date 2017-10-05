@@ -4,6 +4,7 @@ import os
 from json import loads
 from pypif.obj.system import System
 from pypif.pif import dump
+from citrination_client.search import *
 import random
 import string
 
@@ -59,6 +60,46 @@ class TestClient():
         self.client.upload(self.set_id, src_path, dest_path)
         after_count = self.client.matched_file_count(self.set_id)
         assert after_count == (before_count + count_to_add)
+
+    def test_pif_search(self):
+        response = self.client.pif_search(PifSystemReturningQuery(
+            size=0,
+            query=DataQuery(
+                system=PifSystemQuery(
+                    chemical_formula=ChemicalFieldQuery(
+                        filter=ChemicalFilter(
+                            equal='C22H15NSSi'))))))
+        assert 5 == response.total_num_hits
+
+    def test_pif_multi_search(self):
+        response = self.client.pif_multi_search(MultiQuery(
+            queries=[
+                PifSystemReturningQuery(
+                    size=0,
+                    query=DataQuery(
+                        system=PifSystemQuery(
+                            chemical_formula=ChemicalFieldQuery(
+                                filter=ChemicalFilter(
+                                    equal='C22H15NSSi'))))),
+                PifSystemReturningQuery(
+                    size=0,
+                    query=DataQuery(
+                        system=PifSystemQuery(
+                            chemical_formula=ChemicalFieldQuery(
+                                filter=ChemicalFilter(
+                                    equal='C22H12N4S3SeSi')))))
+            ]))
+        assert 2 == len(response.results)
+        assert 5 == response.results[0].result.total_num_hits
+        assert 1 == response.results[1].result.total_num_hits
+
+    def test_dataset_search(self):
+        response = self.client.dataset_search(DatasetReturningQuery(
+            size=0,
+            query=DataQuery(
+                dataset=DatasetQuery(
+                    id=Filter(equal='151278')))))
+        assert 1 == response.total_num_hits
 
     @staticmethod
     def _test_prediction_values(prediction):
