@@ -1,6 +1,7 @@
 from pypif.util.serializable import Serializable
 
 from citrination_client.search.dataset.query.dataset_query import DatasetQuery
+from citrination_client.search.file.query.file_query import FileQuery
 from citrination_client.search.pif.query.pif_system_query import PifSystemQuery
 
 
@@ -9,7 +10,7 @@ class DataQuery(Serializable):
     Query against dataset metadata, PIF content, file content, or some combination of those types.
     """
 
-    def __init__(self, logic=None, simple=None, dataset=None, system=None, query=None, **kwargs):
+    def __init__(self, logic=None, simple=None, dataset=None, system=None, file=None, query=None, **kwargs):
         """
         Constructor.
 
@@ -17,6 +18,7 @@ class DataQuery(Serializable):
         :param simple: String with the simple search to run against all fields.
         :param dataset: One or more :class:`DatasetQuery` objects with queries against dataset metadata.
         :param system: One or more :class:`PifSystemQuery` objects with queries against PIF systems.
+        :param file: One or more :class:`FileQuery` objects with queries against file content or metadata.
         :param query: Nested list of :class:`DataQuery` objects.
         """
         self._logic = None
@@ -27,6 +29,8 @@ class DataQuery(Serializable):
         self.dataset = dataset
         self._system = None
         self.system = system
+        self._file = None
+        self.file = file
         self._query = None
         self.query = query
 
@@ -77,6 +81,18 @@ class DataQuery(Serializable):
     @system.deleter
     def system(self):
         self._system = None
+
+    @property
+    def file(self):
+        return self._file
+
+    @file.setter
+    def file(self, file):
+        self._file = self._get_object(FileQuery, file)
+
+    @file.deleter
+    def file(self):
+        self._file = None
 
     @property
     def query(self):

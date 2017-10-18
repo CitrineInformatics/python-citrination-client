@@ -9,6 +9,12 @@ from citrination_client.search.dataset.result.dataset_multi_search_result import
 from citrination_client.search.dataset.result.dataset_multi_search_result_element import DatasetMultiSearchResultElement
 from citrination_client.search.dataset.result.dataset_search_hit import DatasetSearchHit
 from citrination_client.search.dataset.result.dataset_search_result import DatasetSearchResult
+from citrination_client.search.file.query.file_query import FileQuery
+from citrination_client.search.file.query.file_returning_query import FileReturningQuery
+from citrination_client.search.file.result.file_multi_search_result import FileMultiSearchResult
+from citrination_client.search.file.result.file_multi_search_result_element import FileMultiSearchResultElement
+from citrination_client.search.file.result.file_search_hit import FileSearchHit
+from citrination_client.search.file.result.file_search_result import FileSearchResult
 from citrination_client.search.pif.query.chemical.chemical_field_query import ChemicalFieldQuery
 from citrination_client.search.pif.query.chemical.chemical_filter import ChemicalFilter
 from citrination_client.search.pif.query.chemical.composition_query import CompositionQuery
