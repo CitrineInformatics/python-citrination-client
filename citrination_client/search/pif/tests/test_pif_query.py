@@ -9,7 +9,7 @@ def test_uid_query():
     target_uid = "000496A81BDD616A5BBA1FC4D3B5AC1A"
     query = PifSystemReturningQuery(query=DataQuery(system=PifSystemQuery(uid=Filter(equal=target_uid))))
     
-    client = CitrinationClient(environ["CITRINATION_API_KEY"])
+    client = CitrinationClient(environ["CITRINATION_API_KEY"], environ['CITRINATION_SITE'])
     result = client.pif_search(query)
     assert result.total_num_hits == 1
     assert result.hits[0].system.uid == target_uid

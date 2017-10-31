@@ -12,7 +12,7 @@ def test_full_dataset_query():
         count_pifs=True,
         random_results=True)
 
-    client = CitrinationClient(environ["CITRINATION_API_KEY"])
+    client = CitrinationClient(environ["CITRINATION_API_KEY"], environ['CITRINATION_SITE'])
     result = client.dataset_search(query)
 
     assert len(result.hits) == 8, "Number of hits didn't match query size"
