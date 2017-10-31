@@ -4,7 +4,6 @@ import os
 from json import loads
 from pypif.obj.system import System
 from pypif.pif import dump
-from citrination_client.search import *
 import random
 import string
 
@@ -19,14 +18,14 @@ def _almost_equal(test_value, reference_value, tolerance=1.0e-9):
 class TestClient():
 
     @classmethod
-    def setup_class(self):
-        self.client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
+    def setup_class(cls):
+        cls.client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
         # Append dataset name with random string because one user can't have more than
         # one dataset with the same name
         random_string = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))
         dataset_name = "Tutorial dataset " + random_string
-        self.set_id = loads(self.client.create_data_set(name=dataset_name, description="Dataset for tutorial", share=0).content.decode('utf-8'))['id']
-        self.test_file_root = './citrination_client/tests/test_files/'
+        cls.set_id = loads(cls.client.create_data_set(name=dataset_name, description="Dataset for tutorial", share=0).content.decode('utf-8'))['id']
+        cls.test_file_root = './citrination_client/tests/test_files/'
 
     def get_test_file_hierarchy_count(self):
         test_dir = self.test_file_root
@@ -61,27 +60,6 @@ class TestClient():
         after_count = self.client.matched_file_count(self.set_id)
         assert after_count == (before_count + count_to_add)
 
-    def test_pif_search(self):
-        response = self.client.pif_search(PifSystemReturningQuery(
-            size=0,
-            query=DataQuery(
-                dataset=DatasetQuery(
-                    id=Filter(equal='151278')
-                ),
-                system=PifSystemQuery(
-                    chemical_formula=ChemicalFieldQuery(
-                        filter=ChemicalFilter(
-                            equal='C22H15NSSi'))))))
-        assert 5 == response.total_num_hits
-
-    def test_dataset_search(self):
-        response = self.client.dataset_search(DatasetReturningQuery(
-            size=0,
-            query=DataQuery(
-                dataset=DatasetQuery(
-                    id=Filter(equal='151278')))))
-        assert 1 == response.total_num_hits
-
     @staticmethod
     def _test_prediction_values(prediction):
         """
@@ -111,7 +89,7 @@ class TestClient():
         client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
         inputs = [{"SMILES": "c1(C=O)cc(OC)c(O)cc1"}, ]
         vid = "177" 
-  
+
         resp = client.predict(vid, inputs, method="scalar")
         prediction = resp['candidates'][0]
         self._test_prediction_values(prediction)
