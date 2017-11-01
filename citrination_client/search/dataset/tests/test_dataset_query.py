@@ -14,8 +14,7 @@ class TestDatasetQuery():
         query = DatasetReturningQuery(
             size=8,
             score_relevance=True,
-            count_pifs=True,
-            random_results=True)
+            count_pifs=True)
         result = self.client.dataset_search(query)
 
         assert len(result.hits) == 8, "Number of hits didn't match query size"
