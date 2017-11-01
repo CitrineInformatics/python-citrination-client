@@ -25,7 +25,7 @@ class TestDatasetQuery():
             assert len(hit.name) > 0, "Returned empty name"
             assert len(hit.email) > 0, "Returned empty email"
             assert hit.num_pifs >= 0, "Dataset had no pifs"
-            assert hit.score > 0, "Score not greater than zero"
+            assert hit.score is not None, "Score is not returned"
 
     def test_dataset_search(self):
         response = self.client.dataset_search(DatasetReturningQuery(
