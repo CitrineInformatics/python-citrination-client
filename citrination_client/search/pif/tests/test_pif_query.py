@@ -28,3 +28,39 @@ class TestPifQuery():
                         filter=ChemicalFilter(
                             equal='C22H15NSSi'))))))
         assert 5 == response.total_num_hits
+        assert response.hits[0].updated_at is not None
+
+    def test_pif_simple_search(self):
+        response = self.client.pif_search(PifSystemReturningQuery(
+            size=0,
+            query=DataQuery(
+                dataset=DatasetQuery(
+                    id=Filter(equal='151278')
+                ),
+                simple='C22H15NSSi')))
+        assert 5 == response.total_num_hits
+
+    def test_extracted(self):
+        response = self.client.pif_search(PifSystemReturningQuery(
+            size=0,
+            query=DataQuery(
+                dataset=DatasetQuery(
+                    id=Filter(equal='151278')
+                ),
+                system=PifSystemQuery(
+                    chemical_formula=ChemicalFieldQuery(
+                        extract_as='Chemical formula',
+                        filter=ChemicalFilter(
+                            equal='C22H15NSSi'))))))
+        assert response.hits[0].extracted['Chemical formula'] == 'C22H15NSSi'
+        assert response.hits[0].extracted_path['Chemical formula'] == '/chemicalFormula'
+
+    def test_updated_at(self):
+        all_response = self.client.pif_search(PifSystemReturningQuery(size=0))
+        subset_response = self.client.pif_search(PifSystemReturningQuery(
+            size=0,
+            query=DataQuery(
+                system=PifSystemQuery(
+                    updated_at=Filter(
+                        max='20171001T00:00:00Z')))))
+        assert all_response.total_num_hits != subset_response.total_num_hits
