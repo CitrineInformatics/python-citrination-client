@@ -41,7 +41,7 @@ class TestPifQuery():
 
     def test_extracted(self):
         response = self.client.pif_search(PifSystemReturningQuery(
-            size=0,
+            size=1,
             query=DataQuery(
                 dataset=DatasetQuery(
                     id=Filter(equal='151278')
