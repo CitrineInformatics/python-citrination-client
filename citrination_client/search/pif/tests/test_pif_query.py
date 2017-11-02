@@ -51,7 +51,7 @@ class TestPifQuery():
                         extract_as='Chemical formula',
                         filter=ChemicalFilter(
                             equal='C22H15NSSi'))))))
-        assert response.hits[0].extracted['Chemical formula'] == 'C22H15NSSi'
+        assert response.hits[0].extracted['Chemical formula'] == '$\\rm$C$_{22}$$\\rm$H$_{15}$$\\rm$N$\\rm$S$\\rm$Si'
         assert response.hits[0].extracted_path['Chemical formula'] == '/chemicalFormula'
 
     def test_updated_at(self):
