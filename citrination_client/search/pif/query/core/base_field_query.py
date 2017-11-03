@@ -6,21 +6,27 @@ class BaseFieldQuery(Serializable):
     Base class for all field queries.
     """
 
-    def __init__(self, logic=None, extract_as=None, extract_all=None, extract_when_missing=None,
-                 length=None, offset=None):
+    def __init__(self, sort=None, logic=None, simple=None, extract_as=None, extract_all=None,
+                 extract_when_missing=None, length=None, offset=None, **kwargs):
         """
         Constructor.
 
+        :param sort: ASCENDING or DESCENDING to set the sort order on this field.
         :param logic: Logic for this query. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
+        :param simple: String with the simple search to run against all fields.
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
         :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
         is missing that should be extracted (and the overall query is still satisfied).
-        :param length: One or more :class:`.FieldQuery` operations against the length field.
-        :param offset: One or more :class:`.FieldQuery` operations against the offset field.
+        :param length: One or more :class:`FieldQuery` operations against the length field.
+        :param offset: One or more :class:`FieldQuery` operations against the offset field.
         """
+        self._sort = None
+        self.sort = sort
         self._logic = None
         self.logic = logic
+        self._simple = None
+        self.simple = simple
         self._extract_as = None
         self.extract_as = extract_as
         self._extract_all = None
@@ -33,6 +39,18 @@ class BaseFieldQuery(Serializable):
         self.offset = offset
 
     @property
+    def sort(self):
+        return self._sort
+
+    @sort.setter
+    def sort(self, sort):
+        self._sort = sort
+
+    @sort.deleter
+    def sort(self):
+        self._sort = None
+
+    @property
     def logic(self):
         return self._logic
 
@@ -43,6 +61,18 @@ class BaseFieldQuery(Serializable):
     @logic.deleter
     def logic(self):
         self._logic = None
+
+    @property
+    def simple(self):
+        return self._simple
+
+    @simple.setter
+    def simple(self, simple):
+        self._simple = simple
+
+    @simple.deleter
+    def simple(self):
+        self._simple = None
 
     @property
     def extract_as(self):

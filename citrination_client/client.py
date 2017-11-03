@@ -1,22 +1,15 @@
 import json
 import os
-import requests
 from copy import deepcopy
 from time import sleep
+
+import requests
+
+from citrination_client.search import *
+from citrination_client.util.quote_finder import quote
+
 from pypif import pif
 from pypif.util.case import keys_to_snake_case
-from citrination_client.util.quote_finder import quote
-from citrination_client.search.pif.query.pif_query import PifQuery
-from citrination_client.search.dataset.result.dataset_search_result import DatasetSearchResult
-from citrination_client.search.pif.query.core.field_operation import FieldOperation
-from citrination_client.search.pif.query.core.filter import Filter
-from citrination_client.search.pif.query.core.property_query import PropertyQuery
-from citrination_client.search.pif.query.core.reference_query import ReferenceQuery
-from citrination_client.search.pif.query.core.system_query import SystemQuery
-from citrination_client.search.pif.query.chemical.chemical_field_operation import  ChemicalFieldOperation
-from citrination_client.search.pif.query.chemical.chemical_filter import ChemicalFilter
-from citrination_client.search.pif.result.pif_search_result import PifSearchResult
-from citrination_client.search.pif.result.pif_multi_search_result import PifMultiSearchResult
 
 
 class CitrinationClient(object):
@@ -39,31 +32,31 @@ class CitrinationClient(object):
         self.pif_multi_search_url = self.api_url + '/search/pif_multi_search'
         self.dataset_search_url = self.api_url + '/search/dataset'
 
-    def search(self, pif_query):
+    def search(self, pif_system_returning_query):
         """
         Run a PIF query against Citrination. This is just an alias for the pif_search method for backwards
         compatibility.
 
-        :param pif_query: :class:`.PifQuery` to execute.
-        :return: :class:`.PifSearchResult` object with the results of the query.
+        :param pif_system_returning_query: :class:`PifSystemReturningQuery` to execute.
+        :return: :class:`PifSearchResult` object with the results of the query.
         """
-        return self.pif_search(pif_query)
+        return self.pif_search(pif_system_returning_query)
 
-    def pif_search(self, pif_query):
+    def pif_search(self, pif_system_returning_query):
         """
         Run a PIF query against Citrination.
 
-        :param pif_query: :class:`.PifQuery` to execute.
-        :return: :class:`.PifSearchResult` object with the results of the query.
+        :param pif_system_returning_query: :class:`PifSystemReturningQuery` to execute.
+        :return: :class:`PifSearchResult` object with the results of the query.
         """
-        if pif_query.size is None and pif_query.from_index is None:
+        if pif_system_returning_query.size is None and pif_system_returning_query.from_index is None:
             total = 1; time = 0.0; hits = []; first = True
             while len(hits) < min(total, 10000):
                 if first:
                     first = False
                 else:
                     sleep(3)
-                sub_query = deepcopy(pif_query)
+                sub_query = deepcopy(pif_system_returning_query)
                 sub_query.from_index = len(hits)
                 partial_results = self.pif_search(sub_query)
                 total = partial_results.total_num_hits
@@ -72,38 +65,38 @@ class CitrinationClient(object):
                     hits.extend(partial_results.hits)
             return PifSearchResult(hits=hits, total_num_hits=total, took=time)
 
-        response = self._post_with_version_check(self.pif_search_url, data=pif.dumps(pif_query), headers=self.headers)
+        response = self._post_with_version_check(self.pif_search_url, data=pif.dumps(pif_system_returning_query), headers=self.headers)
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return PifSearchResult(**keys_to_snake_case(response.json()['results']))
 
-    def pif_multi_search(self, pif_multi_query):
+    def pif_multi_search(self, multi_query):
         """
         Run each in a list of PIF queries against Citrination.
 
-        :param pif_multi_query: :class:`.PifMultiQuery` object to execute.
-        :return: :class:`.PifMultiSearchResult` object with the results of the query.
+        :param multi_query: :class:`MultiQuery` object to execute.
+        :return: :class:`PifMultiSearchResult` object with the results of the query.
         """
-        response = self._post_with_version_check(self.pif_multi_search_url, data=pif.dumps(pif_multi_query), headers=self.headers)
+        response = self._post_with_version_check(self.pif_multi_search_url, data=pif.dumps(multi_query), headers=self.headers)
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return PifMultiSearchResult(**keys_to_snake_case(response.json()['results']))
 
-    def dataset_search(self, dataset_query):
+    def dataset_search(self, dataset_returning_query):
         """
         Run a dataset query against Citrination.
 
-        :param dataset_query: :class:`.DatasetQuery` to execute.
-        :return: :class:`.DatasetSearchResult` object with the results of the query.
+        :param dataset_returning_query: :class:`DatasetReturningQuery` to execute.
+        :return: :class:`DatasetSearchResult` object with the results of the query.
         """
-        if dataset_query.size is None and dataset_query.from_index is None:
+        if dataset_returning_query.size is None and dataset_returning_query.from_index is None:
             total = 1; time = 0.0; hits = []; first = True
             while len(hits) < min(total, 10000):
                 if first:
                     first = False
                 else:
                     sleep(3)
-                sub_query = deepcopy(dataset_query)
+                sub_query = deepcopy(dataset_returning_query)
                 sub_query.from_index = len(hits)
                 partial_results = self.dataset_search(sub_query)
                 total = partial_results.total_num_hits
@@ -113,7 +106,7 @@ class CitrinationClient(object):
             return DatasetSearchResult(hits=hits, total_num_hits=total, took=time)
 
         response = self._post_with_version_check(
-            self.dataset_search_url, data=pif.dumps(dataset_query), headers=self.headers)
+            self.dataset_search_url, data=pif.dumps(dataset_returning_query), headers=self.headers)
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return DatasetSearchResult(**keys_to_snake_case(response.json()['results']))
@@ -122,17 +115,18 @@ class CitrinationClient(object):
                                property_min=None, property_max=None, property_units=None, reference_doi=None,
                                include_datasets=[], exclude_datasets=[], from_index=None, size=None):
         """
-        Run a query against Citrination. This method generates a :class:`.PifQuery` object using the supplied arguments.
-        All arguments that accept lists have logical OR's on the queries that they generate. This means that, for
-        example, simple_chemical_search(name=['A', 'B']) will match records that have name equal to 'A' or 'B'.
+        Run a query against Citrination. This method generates a :class:`PifSystemReturningQuery` object using the
+        supplied arguments. All arguments that accept lists have logical OR's on the queries that they generate.
+        This means that, for example, simple_chemical_search(name=['A', 'B']) will match records that have name
+        equal to 'A' or 'B'.
 
-        Results will be pulled into the extracted field of the :class:`.PifSearchHit` objects that are returned. The
+        Results will be pulled into the extracted field of the :class:`PifSearchHit` objects that are returned. The
         name will appear under the key "name", chemical formula under "chemical_formula", property name under
         "property_name", value of the property under "property_value", units of the property under "property_units",
         and reference DOI under "reference_doi".
 
         This method is only meant for execution of very simple queries. More complex queries must use the search method
-        that accepts a :class:`.PifQuery` object.
+        that accepts a :class:`PifSystemReturningQuery` object.
 
         :param name: One or more strings with the names of the chemical system to match.
         :param chemical_formula:  One or more strings with the chemical formulas to match.
@@ -146,27 +140,27 @@ class CitrinationClient(object):
         :param exclude_datasets: One or more integers with dataset IDs that must not match.
         :param from_index: Index of the first record to match.
         :param size: Total number of records to return.
-        :return: :class:`.PifSearchResult` object with the results of the query.
+        :return: :class:`PifSearchResult` object with the results of the query.
         """
-        system_query = SystemQuery()
-        system_query.names = FieldOperation(
+        pif_system_query = PifSystemQuery()
+        pif_system_query.names = FieldQuery(
             extract_as='name',
             filter=[Filter(equal=i) for i in self._get_list(name)])
-        system_query.chemical_formula = ChemicalFieldOperation(
+        pif_system_query.chemical_formula = ChemicalFieldQuery(
             extract_as='chemical_formula',
             filter=[ChemicalFilter(equal=i) for i in self._get_list(chemical_formula)])
-        system_query.references = ReferenceQuery(doi=FieldOperation(
+        pif_system_query.references = ReferenceQuery(doi=FieldQuery(
             extract_as='reference_doi',
             filter=[Filter(equal=i) for i in self._get_list(reference_doi)]))
 
         # Generate the parts of the property query
-        property_name_query = FieldOperation(
+        property_name_query = FieldQuery(
             extract_as='property_name',
             filter=[Filter(equal=i) for i in self._get_list(property_name)])
-        property_units_query = FieldOperation(
+        property_units_query = FieldQuery(
             extract_as='property_units',
             filter=[Filter(equal=i) for i in self._get_list(property_units)])
-        property_value_query = FieldOperation(
+        property_value_query = FieldQuery(
             extract_as='property_value',
             filter=[])
         for i in self._get_list(property_value):
@@ -175,20 +169,27 @@ class CitrinationClient(object):
             property_value_query.filter.append(Filter(min=property_min, max=property_max))
 
         # Generate the full property query
-        system_query.properties = PropertyQuery(
+        pif_system_query.properties = PropertyQuery(
             name=property_name_query,
             value=property_value_query,
             units=property_units_query)
 
+        # Generate the dataset query
+        dataset_query = list()
+        if include_datasets:
+            dataset_query.append(DatasetQuery(logic='MUST', id=[Filter(equal=i) for i in include_datasets]))
+        if exclude_datasets:
+            dataset_query.append(DatasetQuery(logic='MUST_NOT', id=[Filter(equal=i) for i in exclude_datasets]))
+
         # Run the query
-        query = PifQuery(
-            system=system_query,
+        pif_system_returning_query = PifSystemReturningQuery(
+            query=DataQuery(
+                system=pif_system_query,
+                dataset=dataset_query),
             from_index=from_index,
             size=size,
-            score_relevance=True,
-            include_datasets=include_datasets,
-            exclude_datasets=exclude_datasets)
-        return self.search(query)
+            score_relevance=True)
+        return self.pif_search(pif_system_returning_query)
 
     @staticmethod
     def _get_list(values):
@@ -502,7 +503,7 @@ class CitrinationClient(object):
         return self._check_response_for_version_mismatch(result)
 
     def _put_with_version_check(self, url, data, headers):
-        result = requests.put(s3url, data=data, headers=headers)
+        result = requests.put(url, data=data, headers=headers)
         return self._check_response_for_version_mismatch(result)
 
     def _check_response_for_version_mismatch(self, response):
@@ -614,7 +615,6 @@ class CitrinationClient(object):
         :return: URL for creating new data set versions.
         """
         return self.api_url+'/data_sets/'+str(data_set_id)+'/create_dataset_version'
-
 
     def _get_data_analysis_url(self, model_name):
         return self.api_url + '/data_views/' + model_name + '/data_analysis'

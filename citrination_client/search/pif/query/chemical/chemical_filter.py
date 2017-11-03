@@ -6,7 +6,8 @@ class ChemicalFilter(Serializable):
     Filter that can be applied to a field that stores chemical information.
     """
 
-    def __init__(self, logic=None, exists=None, equal=None, element=None, partial=None, exact=None, filter=None):
+    def __init__(self, logic=None, exists=None, equal=None, element=None, partial=None, exact=None, filter=None,
+                 **kwargs):
         """
         Constructor.
 

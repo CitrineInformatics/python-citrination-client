@@ -6,23 +6,27 @@ class DatasetSearchHit(Serializable):
     Class to store a single dataset search hit.
     """
 
-    def __init__(self, id=None, score=None, name=None, description=None, owner=None, email=None, 
-                 num_pifs=None, **kwargs):
+    def __init__(self, id=None, score=None, is_featured=None, name=None, description=None, owner=None, email=None, 
+                 num_pifs=None, updated_at=None, **kwargs):
         """
         Constructor.
 
         :param id: String with the ID of the record.
         :param score: Score with the relevancy of the result.
+        :param is_featured: Whether the dataset is a featured one.
         :param name: Name of the dataset.
         :param description: Description of the dataset.
         :param owner: Name of the owner of the dataset.
         :param email: Email address of the owner of the dataset.
         :param num_pifs: Number of PIFs in the dataset.
+        :param updated_at: String with the last time that the dataset was updated.
         """
         self._id = None
         self.id = id
         self._score = None
         self.score = score
+        self._is_featured = None
+        self.is_featured = is_featured
         self._name = None
         self.name = name
         self._description = None
@@ -33,6 +37,8 @@ class DatasetSearchHit(Serializable):
         self.email = email
         self._num_pifs = None
         self.num_pifs = num_pifs
+        self._updated_at = None
+        self.updated_at = updated_at
 
     @property
     def id(self):
@@ -57,6 +63,18 @@ class DatasetSearchHit(Serializable):
     @score.deleter
     def score(self):
         self._score = None
+
+    @property
+    def is_featured(self):
+        return self._is_featured
+
+    @is_featured.setter
+    def is_featured(self, is_featured):
+        self._is_featured = is_featured
+
+    @is_featured.deleter
+    def is_featured(self):
+        self._is_featured = None
 
     @property
     def name(self):
@@ -117,3 +135,15 @@ class DatasetSearchHit(Serializable):
     @num_pifs.deleter
     def num_pifs(self):
         self._num_pifs = None
+
+    @property
+    def updated_at(self):
+        return self._updated_at
+
+    @updated_at.setter
+    def updated_at(self, updated_at):
+        self._updated_at = updated_at
+
+    @updated_at.deleter
+    def updated_at(self):
+        self._updated_at = None

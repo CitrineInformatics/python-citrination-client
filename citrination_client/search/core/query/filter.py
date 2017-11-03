@@ -6,7 +6,7 @@ class Filter(Serializable):
     Filter that can be applied to any field.
     """
 
-    def __init__(self, logic=None, exists=None, equal=None, min=None, max=None, exact=None, filter=None):
+    def __init__(self, logic=None, exists=None, equal=None, min=None, max=None, exact=None, filter=None, **kwargs):
         """
         Constructor.
 
@@ -16,7 +16,7 @@ class Filter(Serializable):
         :param min: String with the minimum value of a range to match against.
         :param max: String with the maximum value of a range to match against.
         :param exact: True/False to set whether the "equal" filter should be an exact match.
-        :param filter: List of :class:`.Filter` objects with sub-filters.
+        :param filter: List of :class:`Filter` objects with sub-filters.
         """
         self._logic = None
         self.logic = logic

@@ -2,13 +2,13 @@ from citrination_client.search.pif.query.core.base_object_query import BaseObjec
 from citrination_client.search.pif.query.core.field_query import FieldQuery
 
 
-class PagesQuery(BaseObjectQuery):
+class DisplayItemQuery(BaseObjectQuery):
     """
-    Class to query against a Pif Pages object.
+    Class to query against a Pif DisplayItem object.
     """
 
     def __init__(self, logic=None, simple=None, extract_as=None, extract_all=None, extract_when_missing=None,
-                 tags=None, length=None, offset=None, start=None, end=None, query=None, **kwargs):
+                 tags=None, length=None, offset=None, number=None, title=None, caption=None, query=None, **kwargs):
         """
         Constructor.
 
@@ -21,43 +21,58 @@ class PagesQuery(BaseObjectQuery):
         :param tags: One or more :class:`FieldQuery` operations against the tags field.
         :param length: One or more :class:`FieldQuery` operations against the length field.
         :param offset: One or more :class:`FieldQuery` operations against the offset field.
-        :param start: One or more :class:`FieldQuery` operations against the starting page field.
-        :param end: One or more :class:`FieldQuery` operations against the ending page field.
-        :param query: One or more :class:`PagesQuery` objects with nested queries.
+        :param number: One or more :class:`FieldQuery` operations against the number field.
+        :param title: One or more :class:`FieldQuery` operations against the title field.
+        :param caption: One or more :class:`FieldQuery` operations against the caption field.
+        :param query: One or more :class:`DisplayItemQuery` objects as nested queries.
         """
-        super(PagesQuery, self).__init__(
+        super(DisplayItemQuery, self).__init__(
             logic=logic, simple=simple, extract_as=extract_as, extract_all=extract_all,
             extract_when_missing=extract_when_missing, tags=tags, length=length, offset=offset, **kwargs)
-        self._start = None
-        self.start = start
-        self._end = None
-        self.end = end
+        self._title = None
+        self.title = title
+        self._number = None
+        self.number = number
+        self._caption = None
+        self.caption = caption
         self._query = None
         self.query = query
 
     @property
-    def start(self):
-        return self._start
+    def number(self):
+        return self._number
 
-    @start.setter
-    def start(self, start):
-        self._start = start
+    @number.setter
+    def number(self, number):
+        self._number = self._get_object(FieldQuery, number)
 
-    @start.deleter
-    def start(self):
-        self._start = None
+    @number.deleter
+    def number(self):
+        self._number = None
 
     @property
-    def end(self):
-        return self._end
+    def title(self):
+        return self._title
 
-    @end.setter
-    def end(self, end):
-        self._end = self._get_object(FieldQuery, end)
+    @title.setter
+    def title(self, title):
+        self._title = self._get_object(FieldQuery, title)
 
-    @end.deleter
-    def end(self):
-        self._end = None
+    @title.deleter
+    def title(self):
+        self._title = None
+
+    @property
+    def caption(self):
+        return self._caption
+
+    @caption.setter
+    def caption(self, caption):
+        self._caption = self._get_object(FieldQuery, caption)
+
+    @caption.deleter
+    def caption(self):
+        self._caption = None
 
     @property
     def query(self):
@@ -65,7 +80,7 @@ class PagesQuery(BaseObjectQuery):
 
     @query.setter
     def query(self, query):
-        self._query = self._get_object(PagesQuery, query)
+        self._query = self._get_object(DisplayItemQuery, query)
 
     @query.deleter
     def query(self):
