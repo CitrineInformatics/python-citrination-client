@@ -1,7 +1,6 @@
 from citrination_client.search.pif.query.core.base_object_query import BaseObjectQuery
 from citrination_client.search.pif.query.core.field_query import FieldQuery
 from citrination_client.search.pif.query.core.file_reference_query import FileReferenceQuery
-from citrination_client.search.pif.query.core.units_normalization import UnitsNormalization
 
 
 class ValueQuery(BaseObjectQuery):
@@ -9,17 +8,14 @@ class ValueQuery(BaseObjectQuery):
     Class to query against a single value.
     """
 
-    def __init__(self, name=None, value=None, file=None, units=None, units_normalization=None, logic=None,
-                 extract_as=None, extract_all=None, extract_when_missing=None, tags=None, length=None, offset=None):
+    def __init__(self, logic=None, simple=None, extract_as=None, extract_all=None, extract_when_missing=None, 
+                 tags=None, length=None, offset=None, name=None, value=None, file=None, units=None, query=None, 
+                 **kwargs):
         """
         Constructor.
 
-        :param name: One or more :class:`FieldQuery` operations against the name field.
-        :param value: One or more :class:`FieldQuery` operations against the value.
-        :param file: One or more :class:`FileReferenceQuery` operations against the file.
-        :param units: One or more :class:`FieldQuery` operations against the units field.
-        :param units_normalization: :class:`UnitsNormalization` object for normalizing units.
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
+        :param simple: String with the simple query to run against all fields.
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
         :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
@@ -27,10 +23,15 @@ class ValueQuery(BaseObjectQuery):
         :param tags: One or more :class:`FieldQuery` operations against the tags field.
         :param length: One or more :class:`FieldQuery` operations against the length field.
         :param offset: One or more :class:`FieldQuery` operations against the offset field.
+        :param name: One or more :class:`FieldQuery` operations against the name field.
+        :param value: One or more :class:`FieldQuery` operations against the value.
+        :param file: One or more :class:`FileReferenceQuery` operations against the file.
+        :param units: One or more :class:`FieldQuery` operations against the units field.
+        :param query: One or more :class:`ValueQuery` objects with nested queries.
         """
-        super(ValueQuery, self).__init__(logic=logic, extract_as=extract_as, extract_all=extract_all,
-                                         extract_when_missing=extract_when_missing, tags=tags,
-                                         length=length, offset=offset)
+        super(ValueQuery, self).__init__(
+            logic=logic, simple=simple, extract_as=extract_as, extract_all=extract_all,
+            extract_when_missing=extract_when_missing, tags=tags, length=length, offset=offset, **kwargs)
         self._name = None
         self.name = name
         self._value = None
@@ -39,8 +40,8 @@ class ValueQuery(BaseObjectQuery):
         self.file = file
         self._units = None
         self.units = units
-        self._units_normalization = None
-        self.units_normalization = units_normalization
+        self._query = None
+        self.query = query
 
     @property
     def name(self):
@@ -91,13 +92,13 @@ class ValueQuery(BaseObjectQuery):
         self._units = None
 
     @property
-    def units_normalization(self):
-        return self._units_normalization
+    def query(self):
+        return self._query
 
-    @units_normalization.setter
-    def units_normalization(self, units_normalization):
-        self._units_normalization = self._get_object(UnitsNormalization, units_normalization)
+    @query.setter
+    def query(self, query):
+        self._query = self._get_object(ValueQuery, query)
 
-    @units_normalization.deleter
-    def units_normalization(self):
-        self._units_normalization = None
+    @query.deleter
+    def query(self):
+        self._query = None

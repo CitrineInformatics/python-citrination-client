@@ -1,4 +1,5 @@
 from citrination_client.search.pif.query.core.base_object_query import BaseObjectQuery
+from citrination_client.search.pif.query.core.display_item_query import DisplayItemQuery
 from citrination_client.search.pif.query.core.field_query import FieldQuery
 from citrination_client.search.pif.query.core.name_query import NameQuery
 from citrination_client.search.pif.query.core.pages_query import PagesQuery
@@ -9,13 +10,23 @@ class ReferenceQuery(BaseObjectQuery):
     Class used to query against a PIF Reference object.
     """
 
-    def __init__(self, doi=None, isbn=None, issn=None, url=None, title=None, publisher=None, journal=None,
-                 volume=None, issue=None, year=None, pages=None, authors=None, editors=None, affiliations=None,
-                 acknowledgements=None, references=None, logic=None, extract_as=None, extract_all=None,
-                 extract_when_missing=None, tags=None, length=None, offset=None):
+    def __init__(self, logic=None, simple=None, extract_as=None, extract_all=None, extract_when_missing=None, 
+                 tags=None, length=None, offset=None, doi=None, isbn=None, issn=None, url=None, title=None, 
+                 publisher=None, journal=None, volume=None, issue=None, year=None, figure=None, table=None, 
+                 pages=None, authors=None, editors=None, affiliations=None, acknowledgements=None, references=None, 
+                 query=None, **kwargs):
         """
         Constructor.
 
+        :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
+        :param simple: String with the simple query to run against all fields.
+        :param extract_as: String with the alias to save this field under.
+        :param extract_all: Boolean setting whether all values in an array should be extracted.
+        :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
+        is missing that should be extracted (and the overall query is still satisfied).
+        :param tags: One or more :class:`FieldQuery` operations against the tags field.
+        :param length: One or more :class:`FieldQuery` operations against the length field.
+        :param offset: One or more :class:`FieldQuery` operations against the offset field.
         :param doi: One or more :class:`FieldQuery` operations against the doi field.
         :param isbn: One or more :class:`FieldQuery` operations against the isbn field.
         :param issn: One or more :class:`FieldQuery` operations against the issn field.
@@ -26,24 +37,19 @@ class ReferenceQuery(BaseObjectQuery):
         :param volume: One or more :class:`FieldQuery` operations against the volume field.
         :param issue: One or more :class:`FieldQuery` operations against the issue field.
         :param year: One or more :class:`FieldQuery` operations against the year field.
+        :param figure: One or more :class:`DisplayItemQuery` operations against the figure field.
+        :param table: One or more :class:`DisplayItemQuery` operations against the table field.
         :param pages: One or more :class:`PagesQuery` operations against the pages field.
         :param authors: One or more :class:`NameQuery` operations against the authors field.
         :param editors: One or more :class:`NameQuery` operations against the editors field.
         :param affiliations: One or more :class:`FieldQuery` operations against the affiliations field.
         :param acknowledgements: One or more :class:`FieldQuery` operations against the acknowledgements field.
         :param references: One or more :class:`ReferenceQuery` operations against the references field.
-        :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
-        :param extract_as: String with the alias to save this field under.
-        :param extract_all: Boolean setting whether all values in an array should be extracted.
-        :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
-        is missing that should be extracted (and the overall query is still satisfied).
-        :param tags: One or more :class:`FieldQuery` operations against the tags field.
-        :param length: One or more :class:`FieldQuery` operations against the length field.
-        :param offset: One or more :class:`FieldQuery` operations against the offset field.
+        :param query: One or more :class:`ReferenceQuery` objects with nested queries.
         """
-        super(ReferenceQuery, self).__init__(logic=logic, extract_as=extract_as, extract_all=extract_all,
-                                             extract_when_missing=extract_when_missing, tags=tags, length=length,
-                                             offset=offset)
+        super(ReferenceQuery, self).__init__(
+            logic=logic, simple=simple, extract_as=extract_as, extract_all=extract_all,
+            extract_when_missing=extract_when_missing, tags=tags, length=length, offset=offset, **kwargs)
         self._doi = None
         self.doi = doi
         self._isbn = None
@@ -64,6 +70,10 @@ class ReferenceQuery(BaseObjectQuery):
         self.issue = issue
         self._year = None
         self.year = year
+        self._figure = None
+        self.figure = figure
+        self._table = None
+        self.table = table
         self._pages = None
         self.pages = pages
         self._authors = None
@@ -76,6 +86,8 @@ class ReferenceQuery(BaseObjectQuery):
         self.acknowledgements = acknowledgements
         self._references = None
         self.references = references
+        self._query = None
+        self.query = query
 
     @property
     def doi(self):
@@ -198,6 +210,30 @@ class ReferenceQuery(BaseObjectQuery):
         self._year = None
 
     @property
+    def figure(self):
+        return self._figure
+
+    @figure.setter
+    def figure(self, figure):
+        self._figure = self._get_object(DisplayItemQuery, figure)
+
+    @figure.deleter
+    def figure(self):
+        self._figure = None
+
+    @property
+    def table(self):
+        return self._table
+
+    @table.setter
+    def table(self, table):
+        self._table = self._get_object(DisplayItemQuery, table)
+
+    @table.deleter
+    def table(self):
+        self._table = None
+
+    @property
     def pages(self):
         return self._pages
 
@@ -268,3 +304,15 @@ class ReferenceQuery(BaseObjectQuery):
     @references.deleter
     def references(self):
         self._references = None
+
+    @property
+    def query(self):
+        return self._query
+
+    @query.setter
+    def query(self, query):
+        self._query = self._get_object(ReferenceQuery, query)
+
+    @query.deleter
+    def query(self):
+        self._query = None

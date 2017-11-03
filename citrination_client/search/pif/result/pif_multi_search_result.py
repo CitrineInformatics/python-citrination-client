@@ -1,5 +1,6 @@
 from pypif.util.serializable import Serializable
-from citrination_client.search.pif.result.pif_search_result import PifSearchResult
+
+from citrination_client.search.pif.result.pif_multi_search_result_element import PifMultiSearchResultElement
 
 
 class PifMultiSearchResult(Serializable):
@@ -12,7 +13,7 @@ class PifMultiSearchResult(Serializable):
         Constructor.
 
         :param took: Number of milliseconds that the query took to execute.
-        :param results: List of :class:`.PifSearchResult` objects.
+        :param results: List of :class:`PifMultiSearchResultElement` objects.
         """
         self._took = None
         self.took = took
@@ -37,7 +38,7 @@ class PifMultiSearchResult(Serializable):
 
     @results.setter
     def results(self, results):
-        self._results = self._get_object(PifSearchResult, results)
+        self._results = self._get_object(PifMultiSearchResultElement, results)
 
     @results.deleter
     def results(self):

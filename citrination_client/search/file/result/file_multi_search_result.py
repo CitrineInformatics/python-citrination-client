@@ -1,11 +1,11 @@
 from pypif.util.serializable import Serializable
 
-from citrination_client.search.dataset.result.dataset_multi_search_result_element import DatasetMultiSearchResultElement
+from citrination_client.search.file.result.file_multi_search_result_element import FileMultiSearchResultElement
 
 
-class DatasetMultiSearchResult(Serializable):
+class FileMultiSearchResult(Serializable):
     """
-    Class to store the results of a dataset multi-query.
+    Class to store the results of a file multi-query.
     """
 
     def __init__(self, took=None, results=None, **kwargs):
@@ -13,7 +13,7 @@ class DatasetMultiSearchResult(Serializable):
         Constructor.
 
         :param took: Number of milliseconds that the query took to execute.
-        :param results: List of :class:`DatasetMultiSearchResultElement` objects.
+        :param results: List of :class:`FileMultiSearchResultElement` objects.
         """
         self._took = None
         self.took = took
@@ -38,7 +38,7 @@ class DatasetMultiSearchResult(Serializable):
 
     @results.setter
     def results(self, results):
-        self._results = self._get_object(DatasetMultiSearchResultElement, results)
+        self._results = self._get_object(FileMultiSearchResultElement, results)
 
     @results.deleter
     def results(self):

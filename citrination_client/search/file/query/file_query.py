@@ -1,27 +1,23 @@
 from pypif.util.serializable import Serializable
 
-from citrination_client.search.core.query.boolean_filter import BooleanFilter
 from citrination_client.search.core.query.filter import Filter
 
 
-class DatasetQuery(Serializable):
+class FileQuery(Serializable):
     """
-    Class to store information about a dataset query.
+    Class to store information about a file query.
     """
 
-    def __init__(self, logic=None, simple=None, id=None, is_featured=None, name=None, description=None,
-                 owner=None, email=None, updated_at=None, query=None, **kwargs):
+    def __init__(self, logic=None, simple=None, id=None, name=None, content=None, updated_at=None,
+                 query=None, **kwargs):
         """
         Constructor.
 
         :param logic: The logic to apply to the query ('SHOULD', 'MUST', 'MUST_NOT', or 'OPTIONAL').
         :param simple: String with the simple search to run against all fields.
         :param id: One or more :class:`Filter` objects with filters against the id field.
-        :param is_featured:  One or more :class:`BooleanFilter` objects with filters against the isFeatured field.
         :param name: One or more :class:`Filter` objects with filters against the name field.
-        :param description: One or more :class:`Filter` objects with filters against the description field.
-        :param owner: One or more :class:`Filter` objects with filters against the owner field.
-        :param email: One or more :class:`Filter` objects with filters against the email field.
+        :param content: One or more :class:`Filter` objects with filters against the content field.
         :param updated_at: One or more :class:`Filter` objects with filters against the time that the dataset was
         last updated.
         :param query: One or more :class:`DatasetQuery` objects with nested queries.
@@ -32,16 +28,10 @@ class DatasetQuery(Serializable):
         self.simple = simple
         self._id = None
         self.id = id
-        self._is_featured = None
-        self.is_featured = is_featured
         self._name = None
         self.name = name
-        self._description = None
-        self.description = description
-        self._owner = None
-        self.owner = owner
-        self._email = None
-        self.email = email
+        self._content = None
+        self.content = content
         self._updated_at = None
         self.updated_at = updated_at
         self._query = None
@@ -84,18 +74,6 @@ class DatasetQuery(Serializable):
         self._id = None
 
     @property
-    def is_featured(self):
-        return self._is_featured
-
-    @is_featured.setter
-    def is_featured(self, is_featured):
-        self._is_featured = self._get_object(BooleanFilter, is_featured)
-
-    @is_featured.deleter
-    def is_featured(self):
-        self._is_featured = None
-
-    @property
     def name(self):
         return self._name
 
@@ -108,40 +86,16 @@ class DatasetQuery(Serializable):
         self._name = None
 
     @property
-    def description(self):
-        return self._description
+    def content(self):
+        return self._content
 
-    @description.setter
-    def description(self, description):
-        self._description = self._get_object(Filter, description)
+    @content.setter
+    def content(self, content):
+        self._content = self._get_object(Filter, content)
 
-    @description.deleter
-    def description(self):
-        self._description = None
-
-    @property
-    def owner(self):
-        return self._owner
-
-    @owner.setter
-    def owner(self, owner):
-        self._owner = self._get_object(Filter, owner)
-
-    @owner.deleter
-    def owner(self):
-        self._owner = None
-
-    @property
-    def email(self):
-        return self._email
-
-    @email.setter
-    def email(self, email):
-        self._email = self._get_object(Filter, email)
-
-    @email.deleter
-    def email(self):
-        self._email = None
+    @content.deleter
+    def content(self):
+        self._content = None
 
     @property
     def updated_at(self):
@@ -161,7 +115,7 @@ class DatasetQuery(Serializable):
 
     @query.setter
     def query(self, query):
-        self._query = self._get_object(DatasetQuery, query)
+        self._query = self._get_object(FileQuery, query)
 
     @query.deleter
     def query(self):

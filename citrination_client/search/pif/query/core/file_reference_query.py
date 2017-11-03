@@ -7,16 +7,14 @@ class FileReferenceQuery(BaseObjectQuery):
     Class to query against a Pif FileReference object.
     """
 
-    def __init__(self, relative_path=None, mime_type=None, sha256=None, md5=None, logic=None, extract_as=None,
-                 extract_all=None, extract_when_missing=None, tags=None, length=None, offset=None):
+    def __init__(self, logic=None, simple=None, extract_as=None, extract_all=None, extract_when_missing=None,
+                 tags=None, length=None, offset=None, relative_path=None, mime_type=None, sha256=None, md5=None,
+                 query=None, **kwargs):
         """
         Constructor.
 
-        :param relative_path: One or more :class:`FieldQuery` operations against the relative path field.
-        :param mime_type: One or more :class:`FieldQuery` operations against the mime type field.
-        :param sha256: One or more :class:`FieldQuery` operations against the sha256 field.
-        :param md5: One or more :class:`FieldQuery` operations against the md5 field.
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
+        :param simple: String with the simple query to run against all fields.
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
         :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
@@ -24,10 +22,15 @@ class FileReferenceQuery(BaseObjectQuery):
         :param tags: One or more :class:`FieldQuery` operations against the tags field.
         :param length: One or more :class:`FieldQuery` operations against the length field.
         :param offset: One or more :class:`FieldQuery` operations against the offset field.
+        :param relative_path: One or more :class:`FieldQuery` operations against the relative path field.
+        :param mime_type: One or more :class:`FieldQuery` operations against the mime type field.
+        :param sha256: One or more :class:`FieldQuery` operations against the sha256 field.
+        :param md5: One or more :class:`FieldQuery` operations against the md5 field.
+        :param query: One or more :class:`FileReferenceQuery` objects as nested queries.
         """
-        super(FileReferenceQuery, self).__init__(logic=logic, extract_as=extract_as, extract_all=extract_all,
-                                                 extract_when_missing=extract_when_missing, tags=tags,
-                                                 length=length, offset=offset)
+        super(FileReferenceQuery, self).__init__(
+            logic=logic, simple=simple, extract_as=extract_as, extract_all=extract_all,
+            extract_when_missing=extract_when_missing, tags=tags, length=length, offset=offset, **kwargs)
         self._relative_path = None
         self.relative_path = relative_path
         self._mime_type = None
@@ -36,6 +39,8 @@ class FileReferenceQuery(BaseObjectQuery):
         self.sha256 = sha256
         self._md5 = None
         self.md5 = md5
+        self._query = None
+        self.query = query
 
     @property
     def relative_path(self):
@@ -84,3 +89,15 @@ class FileReferenceQuery(BaseObjectQuery):
     @md5.deleter
     def md5(self):
         self._md5 = None
+
+    @property
+    def query(self):
+        return self._query
+
+    @query.setter
+    def query(self, query):
+        self._query = self._get_object(FileReferenceQuery, query)
+
+    @query.deleter
+    def query(self):
+        self._query = None
