@@ -10,15 +10,16 @@ class ReferenceQuery(BaseObjectQuery):
     Class used to query against a PIF Reference object.
     """
 
-    def __init__(self, logic=None, simple=None, extract_as=None, extract_all=None, extract_when_missing=None, 
-                 tags=None, length=None, offset=None, doi=None, isbn=None, issn=None, url=None, title=None, 
-                 publisher=None, journal=None, volume=None, issue=None, year=None, figure=None, table=None, 
-                 pages=None, authors=None, editors=None, affiliations=None, acknowledgements=None, references=None, 
-                 query=None, **kwargs):
+    def __init__(self, logic=None, weight=None, simple=None, extract_as=None, extract_all=None,
+                 extract_when_missing=None, tags=None, length=None, offset=None, doi=None, isbn=None, issn=None,
+                 url=None, title=None, publisher=None, journal=None, volume=None, issue=None, year=None,
+                 figure=None, table=None, pages=None, authors=None, editors=None, affiliations=None,
+                 acknowledgements=None, references=None, query=None, **kwargs):
         """
         Constructor.
 
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
+        :param weight: Weight of the query.
         :param simple: String with the simple query to run against all fields.
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
@@ -48,7 +49,7 @@ class ReferenceQuery(BaseObjectQuery):
         :param query: One or more :class:`ReferenceQuery` objects with nested queries.
         """
         super(ReferenceQuery, self).__init__(
-            logic=logic, simple=simple, extract_as=extract_as, extract_all=extract_all,
+            logic=logic, weight=weight, simple=simple, extract_as=extract_as, extract_all=extract_all,
             extract_when_missing=extract_when_missing, tags=tags, length=length, offset=offset, **kwargs)
         self._doi = None
         self.doi = doi

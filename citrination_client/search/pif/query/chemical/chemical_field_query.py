@@ -7,13 +7,14 @@ class ChemicalFieldQuery(BaseFieldQuery):
     Class for all field operations against chemical information.
     """
 
-    def __init__(self, sort=None, logic=None, simple=None, extract_as=None, extract_all=None,
+    def __init__(self, sort=None, logic=None, weight=None, simple=None, extract_as=None, extract_all=None,
                  extract_when_missing=None, length=None, offset=None, filter=None, **kwargs):
         """
         Constructor.
 
         :param sort: ASCENDING or DESCENDING to set the sort order on this field.
         :param logic: Logic for this query. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
+        :param weight: Weight for the query.
         :param simple: String with the simple search to run against all fields.
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
@@ -24,7 +25,7 @@ class ChemicalFieldQuery(BaseFieldQuery):
         :param filter: One or more :class:`ChemicalFilter` objects against this field.
         """
         super(ChemicalFieldQuery, self).__init__(
-            sort=sort, logic=logic, simple=simple, extract_as=extract_as, extract_all=extract_all,
+            sort=sort, weight=weight, logic=logic, simple=simple, extract_as=extract_as, extract_all=extract_all,
             extract_when_missing=extract_when_missing, length=length, offset=offset, **kwargs)
         self._filter = None
         self.filter = filter

@@ -8,12 +8,13 @@ class BaseObjectQuery(Serializable):
     Base class for all PIF object queries.
     """
 
-    def __init__(self, logic=None, simple=None, extract_as=None, extract_all=None, extract_when_missing=None, 
-                 tags=None, length=None, offset=None, **kwargs):
+    def __init__(self, logic=None, weight=None, simple=None, extract_as=None, extract_all=None,
+                 extract_when_missing=None, tags=None, length=None, offset=None, **kwargs):
         """
         Constructor.
 
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
+        :param weight: Weight for the query.
         :param simple: String with the simple search to run against all fields.
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
@@ -25,6 +26,8 @@ class BaseObjectQuery(Serializable):
         """
         self._logic = None
         self.logic = logic
+        self._weight = None
+        self.weight = weight
         self._simple = None
         self.simple = simple
         self._extract_as = None
@@ -51,6 +54,18 @@ class BaseObjectQuery(Serializable):
     @logic.deleter
     def logic(self):
         self._logic = None
+
+    @property
+    def weight(self):
+        return self._weight
+
+    @weight.setter
+    def weight(self, weight):
+        self._weight = weight
+
+    @weight.deleter
+    def weight(self):
+        self._weight = None
 
     @property
     def simple(self):

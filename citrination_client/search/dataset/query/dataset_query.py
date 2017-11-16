@@ -9,12 +9,13 @@ class DatasetQuery(Serializable):
     Class to store information about a dataset query.
     """
 
-    def __init__(self, logic=None, simple=None, id=None, is_featured=None, name=None, description=None,
+    def __init__(self, logic=None, weight=None, simple=None, id=None, is_featured=None, name=None, description=None,
                  owner=None, email=None, updated_at=None, query=None, **kwargs):
         """
         Constructor.
 
         :param logic: The logic to apply to the query ('SHOULD', 'MUST', 'MUST_NOT', or 'OPTIONAL').
+        :param weight: Weight for the query.
         :param simple: String with the simple search to run against all fields.
         :param id: One or more :class:`Filter` objects with filters against the id field.
         :param is_featured:  One or more :class:`BooleanFilter` objects with filters against the isFeatured field.
@@ -28,6 +29,8 @@ class DatasetQuery(Serializable):
         """
         self._logic = None
         self.logic = logic
+        self._weight = None
+        self.weight = weight
         self._simple = None
         self.simple = simple
         self._id = None
@@ -58,6 +61,18 @@ class DatasetQuery(Serializable):
     @logic.deleter
     def logic(self):
         self._logic = None
+
+    @property
+    def weight(self):
+        return self._weight
+
+    @weight.setter
+    def weight(self, weight):
+        self._weight = weight
+
+    @weight.deleter
+    def weight(self):
+        self._weight = None
 
     @property
     def simple(self):

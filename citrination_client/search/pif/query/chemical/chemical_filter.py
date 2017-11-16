@@ -6,12 +6,13 @@ class ChemicalFilter(Serializable):
     Filter that can be applied to a field that stores chemical information.
     """
 
-    def __init__(self, logic=None, exists=None, equal=None, element=None, partial=None, exact=None, filter=None,
-                 **kwargs):
+    def __init__(self, logic=None, weight=None, exists=None, equal=None, element=None, partial=None, exact=None,
+                 filter=None, **kwargs):
         """
         Constructor.
 
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
+        :param weight: Weight for the query.
         :param exists: True/False to simply test whether the field exists and has a non-null value.
         :param equal: String with the phrase to match against.
         :param element: True to match against the single element field.
@@ -21,6 +22,8 @@ class ChemicalFilter(Serializable):
         """
         self._logic = None
         self.logic = logic
+        self._weight = None
+        self.weight = weight
         self._exists = None
         self.exists = exists
         self._equal = None
@@ -45,6 +48,18 @@ class ChemicalFilter(Serializable):
     @logic.deleter
     def logic(self):
         self._logic = None
+
+    @property
+    def weight(self):
+        return self._weight
+
+    @weight.setter
+    def weight(self, weight):
+        self._weight = weight
+
+    @weight.deleter
+    def weight(self):
+        self._weight = None
 
     @property
     def exists(self):

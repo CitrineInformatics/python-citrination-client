@@ -8,7 +8,7 @@ class CompositionQuery(BaseObjectQuery):
     Class to query against a PIF Composition object.
     """
 
-    def __init__(self, logic=None, simple=None, extract_as=None,
+    def __init__(self, logic=None, weight=None, simple=None, extract_as=None,
                  extract_all=None, extract_when_missing=None, tags=None, length=None, offset=None, element=None,
                  actual_weight_percent=None, actual_atomic_percent=None, ideal_weight_percent=None,
                  ideal_atomic_percent=None, query=None, **kwargs):
@@ -16,6 +16,7 @@ class CompositionQuery(BaseObjectQuery):
         Constructor.
 
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
+        :param weight: Weight of the query.
         :param simple: String with the simple query to run against all fields.
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
@@ -36,7 +37,7 @@ class CompositionQuery(BaseObjectQuery):
         :param query: One or more :class:`CompositionQuery` objects with the nest queries.
         """
         super(CompositionQuery, self).__init__(
-            logic=logic, simple=simple, extract_as=extract_as, extract_all=extract_all,
+            logic=logic, weight=weight, simple=simple, extract_as=extract_as, extract_all=extract_all,
             extract_when_missing=extract_when_missing, tags=tags, length=length, offset=offset, **kwargs)
         self._element = None
         self.element = element
