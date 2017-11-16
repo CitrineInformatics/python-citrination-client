@@ -10,7 +10,7 @@ class ReferenceQuery(BaseObjectQuery):
     Class used to query against a PIF Reference object.
     """
 
-    def __init__(self, logic=None, weight=None, simple=None, extract_as=None, extract_all=None,
+    def __init__(self, logic=None, weight=None, simple=None, simple_weight=None, extract_as=None, extract_all=None,
                  extract_when_missing=None, tags=None, length=None, offset=None, doi=None, isbn=None, issn=None,
                  url=None, title=None, publisher=None, journal=None, volume=None, issue=None, year=None,
                  figure=None, table=None, pages=None, authors=None, editors=None, affiliations=None,
@@ -21,6 +21,7 @@ class ReferenceQuery(BaseObjectQuery):
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
         :param weight: Weight of the query.
         :param simple: String with the simple query to run against all fields.
+        :param simple_weight: Dictionary of relative paths to their weights for simple queries.
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
         :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
@@ -49,8 +50,9 @@ class ReferenceQuery(BaseObjectQuery):
         :param query: One or more :class:`ReferenceQuery` objects with nested queries.
         """
         super(ReferenceQuery, self).__init__(
-            logic=logic, weight=weight, simple=simple, extract_as=extract_as, extract_all=extract_all,
-            extract_when_missing=extract_when_missing, tags=tags, length=length, offset=offset, **kwargs)
+            logic=logic, weight=weight, simple=simple, simple_weight=simple_weight, extract_as=extract_as,
+            extract_all=extract_all, extract_when_missing=extract_when_missing, tags=tags, length=length,
+            offset=offset, **kwargs)
         self._doi = None
         self.doi = doi
         self._isbn = None

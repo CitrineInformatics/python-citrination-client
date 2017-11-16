@@ -10,7 +10,7 @@ class DataQuery(Serializable):
     Query against dataset metadata, PIF content, file content, or some combination of those types.
     """
 
-    def __init__(self, logic=None, weight=None, simple=None, dataset=None, system=None, file=None,
+    def __init__(self, logic=None, weight=None, simple=None, simple_weight=None, dataset=None, system=None, file=None,
                  query=None, **kwargs):
         """
         Constructor.
@@ -18,6 +18,7 @@ class DataQuery(Serializable):
         :param logic: The logic to apply to the query ('SHOULD', 'MUST', 'MUST_NOT', or 'OPTIONAL').
         :param weight: Weight for the query.
         :param simple: String with the simple search to run against all fields.
+        :param simple_weight: Dictionary of relative paths to their weights for simple queries.
         :param dataset: One or more :class:`DatasetQuery` objects with queries against dataset metadata.
         :param system: One or more :class:`PifSystemQuery` objects with queries against PIF systems.
         :param file: One or more :class:`FileQuery` objects with queries against file content or metadata.
@@ -29,6 +30,8 @@ class DataQuery(Serializable):
         self.weight = weight
         self._simple = None
         self.simple = simple
+        self._simple_weight = None
+        self.simple_weight = simple_weight
         self._dataset = None
         self.dataset = dataset
         self._system = None
@@ -73,6 +76,18 @@ class DataQuery(Serializable):
     @simple.deleter
     def simple(self):
         self._simple = None
+
+    @property
+    def simple_weight(self):
+        return self._simple_weight
+
+    @simple_weight.setter
+    def simple_weight(self, simple_weight):
+        self._simple_weight = simple_weight
+
+    @simple_weight.deleter
+    def simple_weight(self):
+        self._simple_weight = None
 
     @property
     def dataset(self):

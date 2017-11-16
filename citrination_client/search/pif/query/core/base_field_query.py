@@ -6,8 +6,8 @@ class BaseFieldQuery(Serializable):
     Base class for all field queries.
     """
 
-    def __init__(self, sort=None, logic=None, weight=None, simple=None, extract_as=None, extract_all=None,
-                 extract_when_missing=None, length=None, offset=None, **kwargs):
+    def __init__(self, sort=None, logic=None, weight=None, simple=None, simple_weight=None, extract_as=None,
+                 extract_all=None, extract_when_missing=None, length=None, offset=None, **kwargs):
         """
         Constructor.
 
@@ -15,6 +15,7 @@ class BaseFieldQuery(Serializable):
         :param logic: Logic for this query. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
         :param weight: Weight for the query.
         :param simple: String with the simple search to run against all fields.
+        :param simple_weight: Dictionary of relative paths to their weights for simple queries.
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
         :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
@@ -30,6 +31,8 @@ class BaseFieldQuery(Serializable):
         self.weight = weight
         self._simple = None
         self.simple = simple
+        self._simple_weight = None
+        self.simple_weight = simple_weight
         self._extract_as = None
         self.extract_as = extract_as
         self._extract_all = None
@@ -88,6 +91,18 @@ class BaseFieldQuery(Serializable):
     @simple.deleter
     def simple(self):
         self._simple = None
+
+    @property
+    def simple_weight(self):
+        return self._simple_weight
+
+    @simple_weight.setter
+    def simple_weight(self, simple_weight):
+        self._simple_weight = simple_weight
+
+    @simple_weight.deleter
+    def simple_weight(self):
+        self._simple_weight = None
 
     @property
     def extract_as(self):
