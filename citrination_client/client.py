@@ -28,7 +28,7 @@ class CitrinationClient(object):
         self.headers = {'X-API-Key': quote(api_key), 'Content-Type': 'application/json', 'X-Citrination-API-Version': '1.0.0'}
         self.api_url = site + '/api'
         self.pif_search_url = self.api_url + '/search/pif_search'
-        self.pif_multi_search_url = self.api_url + 'search/pif/multi_pif_search'
+        self.pif_multi_search_url = self.api_url + '/search/pif/multi_pif_search'
         self.dataset_search_url = self.api_url + '/search/dataset'
 
     def search(self, pif_system_returning_query):

@@ -135,7 +135,7 @@ class TestPifQuery():
                         system=PifSystemQuery(
                             uid=Filter(equal=uid)),
                         simple=reference_hit.system.names[0],
-                        simple_weight={'system.names', 2.0}))
+                        simple_weight={'system.names': 2.0}))
             ]))
 
         # Make sure that the two weights are off by the correct amount
