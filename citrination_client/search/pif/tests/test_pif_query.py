@@ -76,7 +76,7 @@ class TestPifQuery():
                     names=FieldQuery(
                         filter=Filter(exists=True)))))
         ).hits[0]
-        uid = reference_hit.id.split('.')[2]
+        uid = reference_hit.id.split('/')[2]
 
         # Run two queries where everything is the same except the weight on the name query
         search_result = self.client.pif_multi_search(MultiQuery(
@@ -116,7 +116,7 @@ class TestPifQuery():
                     names=FieldQuery(
                         filter=Filter(exists=True)))))
         ).hits[0]
-        uid = reference_hit.id.split('.')[2]
+        uid = reference_hit.id.split('/')[2]
 
         # Run two queries where everything is the same except the weight on the name query
         search_result = self.client.pif_multi_search(MultiQuery(
