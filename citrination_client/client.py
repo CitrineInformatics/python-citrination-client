@@ -8,6 +8,7 @@ import requests
 from citrination_client.search import *
 from citrination_client.util.quote_finder import quote
 
+from pypif.util.case import to_camel_case
 from pypif.util.case import keys_to_snake_case
 
 
@@ -640,6 +641,16 @@ class QueryEncoder(json.JSONEncoder):
         elif isinstance(obj, list):
             return [i.as_dictionary() for i in obj]
         elif isinstance(obj, dict):
-            return obj
+            return self._keys_to_camel_case(obj)
         else:
             return obj.as_dictionary()
+
+    def _keys_to_camel_case(self, obj):
+        """
+        Make a copy of a dictionary with all keys converted to camel case. This is just calls to_camel_case on
+        each of the keys in the dictionary and returns a new dictionary.
+
+        :param obj: Dictionary to convert keys to camel case.
+        :return: Dictionary with the input values and all keys in camel case
+        """
+        return dict((to_camel_case(key), value) for (key, value) in obj.items())
