@@ -8,7 +8,6 @@ import requests
 from citrination_client.search import *
 from citrination_client.util.quote_finder import quote
 
-from pypif import pif
 from pypif.util.case import keys_to_snake_case
 
 
@@ -65,7 +64,9 @@ class CitrinationClient(object):
                     hits.extend(partial_results.hits)
             return PifSearchResult(hits=hits, total_num_hits=total, took=time)
 
-        response = self._post_with_version_check(self.pif_search_url, data=pif.dumps(pif_system_returning_query), headers=self.headers)
+        response = self._post_with_version_check(
+            self.pif_search_url, data=json.dumps(pif_system_returning_query, cls=QueryEncoder),
+            headers=self.headers)
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return PifSearchResult(**keys_to_snake_case(response.json()['results']))
@@ -77,7 +78,8 @@ class CitrinationClient(object):
         :param multi_query: :class:`MultiQuery` object to execute.
         :return: :class:`PifMultiSearchResult` object with the results of the query.
         """
-        response = self._post_with_version_check(self.pif_multi_search_url, data=pif.dumps(multi_query), headers=self.headers)
+        response = self._post_with_version_check(
+            self.pif_multi_search_url, data=json.dumps(multi_query, cls=QueryEncoder), headers=self.headers)
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return PifMultiSearchResult(**keys_to_snake_case(response.json()['results']))
@@ -106,7 +108,7 @@ class CitrinationClient(object):
             return DatasetSearchResult(hits=hits, total_num_hits=total, took=time)
 
         response = self._post_with_version_check(
-            self.dataset_search_url, data=pif.dumps(dataset_returning_query), headers=self.headers)
+            self.dataset_search_url, data=json.dumps(dataset_returning_query, cls=QueryEncoder), headers=self.headers)
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return DatasetSearchResult(**keys_to_snake_case(response.json()['results']))
@@ -257,9 +259,9 @@ class CitrinationClient(object):
         if not isinstance(candidates, list):
             candidates = [candidates]
 
-        return pif.dumps(
-             {"predictionRequest": {"predictionSource": method, "usePrior": use_prior, "candidates": candidates}}
-        )
+        return json.dumps(
+            {"predictionRequest": {"predictionSource": method, "usePrior": use_prior, "candidates": candidates}},
+            cls=QueryEncoder)
 
     def _get_custom_predict_url(self, model_path):
         return self.api_url + '/ml_templates/' + model_path + '/predict'
@@ -618,3 +620,26 @@ class CitrinationClient(object):
 
     def _get_data_analysis_url(self, model_name):
         return self.api_url + '/data_views/' + model_name + '/data_analysis'
+
+
+class QueryEncoder(json.JSONEncoder):
+    """
+    Class used to convert a query to json.
+    """
+
+    def default(self, obj):
+        """
+        Convert an object to a form ready to dump to json.
+
+        :param obj: Object being serialized. The type of this object must be one of the following: None; a single
+        object derived from the Pio class; or a list of objects, each derived from the Pio class.
+        :return: List of dictionaries, each representing a physical information object, ready to be serialized.
+        """
+        if obj is None:
+            return []
+        elif isinstance(obj, list):
+            return [i.as_dictionary() for i in obj]
+        elif isinstance(obj, dict):
+            return obj
+        else:
+            return obj.as_dictionary()
