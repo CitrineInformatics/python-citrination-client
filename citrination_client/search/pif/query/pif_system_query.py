@@ -17,15 +17,18 @@ class PifSystemQuery(BaseObjectQuery):
     Class to store information about a PIF query.
     """
 
-    def __init__(self, logic=None, simple=None, extract_as=None, extract_all=None, extract_when_missing=None,
-                 tags=None, length=None, offset=None, uid=None, updated_at=None, names=None, ids=None, 
-                 classifications=None, source=None, quantity=None, chemical_formula=None, composition=None, 
-                 properties=None, preparation=None, references=None, sub_systems=None, query=None, **kwargs):
+    def __init__(self, logic=None, weight=None, simple=None, simple_weight=None, extract_as=None, extract_all=None,
+                 extract_when_missing=None, tags=None, length=None, offset=None, uid=None, updated_at=None,
+                 names=None, ids=None, classifications=None, source=None, quantity=None, chemical_formula=None,
+                 composition=None, properties=None, preparation=None, references=None, sub_systems=None,
+                 query=None, **kwargs):
         """
         Constructor.
 
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
+        :param weight: Weight of the query.
         :param simple: String with the simple search to run against all fields.
+        :param simple_weight: Dictionary of relative paths to their weights for simple queries.
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
         :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
@@ -52,8 +55,9 @@ class PifSystemQuery(BaseObjectQuery):
         :param query: One or more :class:`PifSystemQuery` objects with nested queries.
         """
         super(PifSystemQuery, self).__init__(
-            logic=logic, simple=simple, extract_as=extract_as, extract_all=extract_all, 
-            extract_when_missing=extract_when_missing, tags=tags, length=length, offset=offset, **kwargs)
+            logic=logic, weight=weight, simple=simple, simple_weight=simple_weight, extract_as=extract_as,
+            extract_all=extract_all, extract_when_missing=extract_when_missing, tags=tags, length=length,
+            offset=offset, **kwargs)
         self._uid = None
         self.uid = uid
         self._updated_at = None

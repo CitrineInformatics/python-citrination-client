@@ -64,3 +64,81 @@ class TestPifQuery():
                         max='20171001T00:00:00Z')))))
         assert all_response.hits[0].updated_at is not None
         assert all_response.total_num_hits != subset_response.total_num_hits
+
+    def test_search_weight(self):
+
+        # Run a query to get a record with a name
+        reference_hit = self.client.pif_search(PifSystemReturningQuery(
+            size=1,
+            return_system=False,
+            query=DataQuery(
+                system=PifSystemQuery(
+                    names=FieldQuery(
+                        filter=Filter(exists=True)))))
+        ).hits[0]
+        uid = reference_hit.id.split('/')[2]
+
+        # Run two queries where everything is the same except the weight on the name query
+        search_result = self.client.pif_multi_search(MultiQuery(
+            queries=[
+                PifSystemReturningQuery(
+                    return_system=False,
+                    score_relevance=True,
+                    query=DataQuery(
+                        system=PifSystemQuery(
+                            uid=Filter(equal=uid),
+                            names=FieldQuery(
+                                filter=Filter(exists=True))))),
+                PifSystemReturningQuery(
+                    return_system=False,
+                    score_relevance=True,
+                    query=DataQuery(
+                        system=PifSystemQuery(
+                            uid=Filter(equal=uid),
+                            names=FieldQuery(
+                                weight=2.0,
+                                filter=Filter(exists=True)))))
+            ]))
+
+        # Make sure that the two weights are off by the correct amount
+        unweighted_score = search_result.results[0].result.hits[0].score
+        weighted_score = search_result.results[1].result.hits[0].score
+        assert abs(weighted_score - unweighted_score) > 0.01
+
+    def test_simple_search_weight(self):
+
+        # Run a query to get a record with a name
+        reference_hit = self.client.pif_search(PifSystemReturningQuery(
+            size=1,
+            return_system=True,
+            query=DataQuery(
+                system=PifSystemQuery(
+                    names=FieldQuery(
+                        filter=Filter(exists=True)))))
+        ).hits[0]
+        uid = reference_hit.id.split('/')[2]
+
+        # Run two queries where everything is the same except the weight on the name query
+        search_result = self.client.pif_multi_search(MultiQuery(
+            queries=[
+                PifSystemReturningQuery(
+                    return_system=False,
+                    score_relevance=True,
+                    query=DataQuery(
+                        system=PifSystemQuery(
+                            uid=Filter(equal=uid)),
+                        simple=reference_hit.system.names[0])),
+                PifSystemReturningQuery(
+                    return_system=False,
+                    score_relevance=True,
+                    query=DataQuery(
+                        system=PifSystemQuery(
+                            uid=Filter(equal=uid)),
+                        simple=reference_hit.system.names[0],
+                        simple_weight={'system.names': 2.0}))
+            ]))
+
+        # Make sure that the two weights are off by the correct amount
+        unweighted_score = search_result.results[0].result.hits[0].score
+        weighted_score = search_result.results[1].result.hits[0].score
+        assert abs(weighted_score - unweighted_score) > 0.01

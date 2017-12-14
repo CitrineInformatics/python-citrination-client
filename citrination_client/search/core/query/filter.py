@@ -6,11 +6,13 @@ class Filter(Serializable):
     Filter that can be applied to any field.
     """
 
-    def __init__(self, logic=None, exists=None, equal=None, min=None, max=None, exact=None, filter=None, **kwargs):
+    def __init__(self, logic=None, weight=None, exists=None, equal=None, min=None, max=None, exact=None,
+                 filter=None, **kwargs):
         """
         Constructor.
 
         :param logic: Logic for this filter. Must be equal to one of "MUST", "MUST_NOT", "SHOULD", or "OPTIONAL".
+        :param weight: Weight for the filter.
         :param exists: True/False to simply test whether the field exists and has a non-null value.
         :param equal: String with the phrase to match against.
         :param min: String with the minimum value of a range to match against.
@@ -20,6 +22,8 @@ class Filter(Serializable):
         """
         self._logic = None
         self.logic = logic
+        self._weight = None
+        self.weight = weight
         self._exists = None
         self.exists = exists
         self._equal = None
@@ -44,6 +48,18 @@ class Filter(Serializable):
     @logic.deleter
     def logic(self):
         self._logic = None
+
+    @property
+    def weight(self):
+        return self._weight
+
+    @weight.setter
+    def weight(self, weight):
+        self._weight = weight
+
+    @weight.deleter
+    def weight(self):
+        self._weight = None
 
     @property
     def exists(self):
