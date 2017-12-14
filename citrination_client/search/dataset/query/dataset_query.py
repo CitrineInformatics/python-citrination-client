@@ -9,13 +9,15 @@ class DatasetQuery(Serializable):
     Class to store information about a dataset query.
     """
 
-    def __init__(self, logic=None, simple=None, id=None, is_featured=None, name=None, description=None,
-                 owner=None, email=None, updated_at=None, query=None, **kwargs):
+    def __init__(self, logic=None, weight=None, simple=None, simple_weight=None, id=None, is_featured=None,
+                 name=None, description=None, owner=None, email=None, updated_at=None, query=None, **kwargs):
         """
         Constructor.
 
         :param logic: The logic to apply to the query ('SHOULD', 'MUST', 'MUST_NOT', or 'OPTIONAL').
+        :param weight: Weight for the query.
         :param simple: String with the simple search to run against all fields.
+        :param simple_weight: Dictionary of relative paths to their weights for simple queries.
         :param id: One or more :class:`Filter` objects with filters against the id field.
         :param is_featured:  One or more :class:`BooleanFilter` objects with filters against the isFeatured field.
         :param name: One or more :class:`Filter` objects with filters against the name field.
@@ -28,8 +30,12 @@ class DatasetQuery(Serializable):
         """
         self._logic = None
         self.logic = logic
+        self._weight = None
+        self.weight = weight
         self._simple = None
         self.simple = simple
+        self._simple_weight = None
+        self.simple_weight = simple_weight
         self._id = None
         self.id = id
         self._is_featured = None
@@ -60,6 +66,18 @@ class DatasetQuery(Serializable):
         self._logic = None
 
     @property
+    def weight(self):
+        return self._weight
+
+    @weight.setter
+    def weight(self, weight):
+        self._weight = weight
+
+    @weight.deleter
+    def weight(self):
+        self._weight = None
+
+    @property
     def simple(self):
         return self._simple
 
@@ -70,6 +88,18 @@ class DatasetQuery(Serializable):
     @simple.deleter
     def simple(self):
         self._simple = None
+
+    @property
+    def simple_weight(self):
+        return self._simple_weight
+
+    @simple_weight.setter
+    def simple_weight(self, simple_weight):
+        self._simple_weight = simple_weight
+
+    @simple_weight.deleter
+    def simple_weight(self):
+        self._simple_weight = None
 
     @property
     def id(self):
