@@ -31,7 +31,7 @@ class TestClient():
 
     def test_create_public_dataset(self):
         user_A = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
-        dataset_name = "New dataset " + uuid.uuid4()
+        dataset_name = "New dataset " + str(uuid.uuid4())
         dataset_id = user_A.create_data_set(name="new dataset", share=1)
 
         user_B = CitrinationClient(environ['CITRINATION_API_KEY_B'], environ['CITRINATION_SITE'])
