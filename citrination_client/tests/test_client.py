@@ -1,4 +1,6 @@
-from citrination_client import CitrinationClient
+import uuid
+
+from citrination_client import *
 from os import environ
 import os
 from json import loads
@@ -26,6 +28,15 @@ class TestClient():
         dataset_name = "Tutorial dataset " + random_string
         cls.set_id = loads(cls.client.create_data_set(name=dataset_name, description="Dataset for tutorial", share=0).content.decode('utf-8'))['id']
         cls.test_file_root = './citrination_client/tests/test_files/'
+
+    def test_create_public_dataset(self):
+        user_A = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
+        dataset_name = "New dataset " + uuid.uuid4()
+        dataset_id = user_A.create_data_set(name="new dataset", share=1)
+
+        user_B = CitrinationClient(environ['CITRINATION_API_KEY_B'], environ['CITRINATION_SITE'])
+        query = DatasetReturningQuery( query=DataQuery( dataset=DatasetQuery(logic="MUST", name=Filter(logic="MUST", equal=dataset_name, exact=True))) )
+        assert len(user_B.dataset_search(query).hits) == 1
 
     def get_test_file_hierarchy_count(self):
         test_dir = self.test_file_root
@@ -70,7 +81,7 @@ class TestClient():
         assert 'Mass'  in prediction, "Mass prediction missing (check ML logic)"
         assert egap    in prediction, "E_gap prediction missing (check ML logic)"
         assert voltage in prediction, "V_OC prediction missing (check ML logic)"
- 
+
         assert _almost_equal(prediction['Mass'][0], 250,  60.0), "Mass mean prediction beyond tolerance (check ML logic)"
         assert _almost_equal(prediction['Mass'][1], 30.0, 40.0), "Mass sigma prediction beyond tolerance (check ML logic)"
         assert _almost_equal(prediction[egap][0], 2.6,  0.7), "E_gap mean prediction beyond tolerance (check ML logic)"
@@ -81,14 +92,14 @@ class TestClient():
     def test_predict(self):
         """
         Test predictions on the standard organic model
- 
+
         This model is trained on HCEP data.  The prediction mirrors that on the
         organics demo script
         """
 
         client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
         inputs = [{"SMILES": "c1(C=O)cc(OC)c(O)cc1"}, ]
-        vid = "177" 
+        vid = "177"
 
         resp = client.predict(vid, inputs, method="scalar")
         prediction = resp['candidates'][0]
@@ -97,14 +108,14 @@ class TestClient():
     def test_predict_from_distribution(self):
         """
         Test predictions on the standard organic model
- 
+
         Same as `test_predict` but using the `from_distribution` method
         """
 
         client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
         inputs = [{"SMILES": "c1(C=O)cc(OC)c(O)cc1"}, ]
-        vid = "177" 
-  
+        vid = "177"
+
         resp = client.predict(vid, inputs, method="from_distribution")
         prediction = resp['candidates'][0]
         self._test_prediction_values(prediction)
