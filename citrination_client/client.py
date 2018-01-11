@@ -49,22 +49,33 @@ class CitrinationClient(object):
         :param pif_system_returning_query: :class:`PifSystemReturningQuery` to execute.
         :return: :class:`PifSearchResult` object with the results of the query.
         """
-        if pif_system_returning_query.size is None and pif_system_returning_query.from_index is None:
-            total = 1; time = 0.0; hits = []; first = True
-            while len(hits) < min(total, 10000):
-                if first:
-                    first = False
-                else:
-                    sleep(3)
-                sub_query = deepcopy(pif_system_returning_query)
-                sub_query.from_index = len(hits)
-                partial_results = self.pif_search(sub_query)
-                total = partial_results.total_num_hits
-                time += partial_results.took
-                if partial_results.hits is not None:
-                    hits.extend(partial_results.hits)
-            return PifSearchResult(hits=hits, total_num_hits=total, took=time)
+        if pif_system_returning_query.from_index:
+            from_index = pif_system_returning_query.from_index
+        else:
+            from_index = 0
 
+        if pif_system_returning_query.size:
+            max_size = min(pif_system_returning_query.size, 10000)
+        else:
+            max_size = 10000
+
+
+        total = 1; time = 0.0; hits = []; first = True
+        while len(hits) < total:
+            if first:
+                first = False
+            else:
+                sleep(3)
+            sub_query = deepcopy(pif_system_returning_query)
+            sub_query.from_index = from_index + len(hits)
+            partial_results = self._pif_search_internal(sub_query)
+            total = min(max_size, partial_results.total_num_hits - from_index)
+            time += partial_results.took
+            if partial_results.hits is not None:
+                hits.extend(partial_results.hits)
+        return PifSearchResult(hits=hits, total_num_hits=total, took=time)
+
+    def _pif_search_internal(self, pif_system_returning_query):
         response = self._post_with_version_check(
             self.pif_search_url, data=json.dumps(pif_system_returning_query, cls=QueryEncoder),
             headers=self.headers)
