@@ -17,7 +17,7 @@ class CitrinationClient(object):
     Class for interacting with the Citrination api.
     """
 
-    def __init__(self, api_key, site='https://citrination.com'):
+    def __init__(self, api_key, site='https://citrination.com', proxies=None):
         """
         Constructor.
 
@@ -25,12 +25,15 @@ class CitrinationClient(object):
         :param site: Specific site on citrination.com to work with. By default this client interacts with
         https://citrination.com. This should point to the full url of the site to access. For example, to access
         the STEEL site on citrination, use 'https://STEEL.citrination.com'.
+        :param proxies: A map of proxies to use when making the request. For example, to proxy all https requests
+        through https://myproxysite.com use {'https': 'https://myproxysite.com'}.
         """
         self.headers = {'X-API-Key': quote(api_key), 'Content-Type': 'application/json', 'X-Citrination-API-Version': '1.0.0'}
         self.api_url = site + '/api'
         self.pif_search_url = self.api_url + '/search/pif_search'
         self.pif_multi_search_url = self.api_url + '/search/pif/multi_pif_search'
         self.dataset_search_url = self.api_url + '/search/dataset'
+        self.proxies = proxies
 
     def search(self, pif_system_returning_query):
         """
@@ -318,7 +321,7 @@ class CitrinationClient(object):
                 j = json.loads(r.content.decode('utf-8'))
                 s3url = self._get_s3_presigned_url(j)
                 with open(source_path, 'rb') as f:
-                    r = requests.put(s3url, data=f, headers=j["required_headers"])
+                    r = requests.put(s3url, data=f, headers=j["required_headers"], proxies=self.proxies)
                     if r.status_code == 200:
                         url_data = {'s3object': j['url']['path'], 's3bucket': j['bucket']}
                         self._post_with_version_check(self._get_update_file_upload_url(j['file_id']),
@@ -481,7 +484,7 @@ class CitrinationClient(object):
         :param url: The URL to make the GET request to
         :return: The response object, or an error message object if the request failed
         """
-        result = requests.get(url, headers=self.headers)
+        result = requests.get(url, headers=self.headers, proxies=self.proxies)
         if result.status_code == 200:
             return json.loads(result.content.decode('utf-8'))
         else:
@@ -498,15 +501,15 @@ class CitrinationClient(object):
         return self.api_url+'/data_sets/'+str(data_set_id)+'/upload'
 
     def _get_with_version_check(self, url, headers):
-        result = requests.get(url, headers=headers)
+        result = requests.get(url, headers=headers, proxies=self.proxies)
         return self._check_response_for_version_mismatch(result)
 
     def _post_with_version_check(self, url, data, headers):
-        result = requests.post(url, headers=headers, data=data)
+        result = requests.post(url, headers=headers, data=data, proxies=self.proxies)
         return self._check_response_for_version_mismatch(result)
 
     def _put_with_version_check(self, url, data, headers):
-        result = requests.put(url, data=data, headers=headers)
+        result = requests.put(url, data=data, headers=headers, proxies=self.proxies)
         return self._check_response_for_version_mismatch(result)
 
     def _check_response_for_version_mismatch(self, response):
