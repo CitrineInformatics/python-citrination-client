@@ -33,7 +33,7 @@ class CitrinationClient(object):
         self.pif_search_url = self.api_url + '/search/pif_search'
         self.pif_multi_search_url = self.api_url + '/search/pif/multi_pif_search'
         self.dataset_search_url = self.api_url + '/search/dataset'
-        self.proxies = proxies if proxies else {}
+        self.proxies = proxies
 
     def search(self, pif_system_returning_query):
         """
