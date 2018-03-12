@@ -1,5 +1,6 @@
 from citrination_client.base.base_client import BaseClient
 from citrination_client.errors import CitrinationClientError
+import citrination_client.util.http as http_utils
 import json
 import os
 import requests
@@ -60,7 +61,7 @@ class DataManagementClient(BaseClient):
             r = self._post_json(routes.upload_to_dataset(dataset_id), data=file_data)
             if r.status_code == 200:
                 j = r.json()
-                s3url = self._get_s3_presigned_url(j)
+                s3url = _get_s3_presigned_url(j)
                 with open(source_path, 'rb') as f:
                     r = requests.put(s3url, data=f, headers=j["required_headers"])
                     if r.status_code == 200:
@@ -121,7 +122,9 @@ class DataManagementClient(BaseClient):
                 "latest": latest
             }
         }
-        return self._post_json(routes.matched_files(dataset_id), data).json()
+        response = self._post_json(routes.matched_files(dataset_id), data)
+        failure_message = "Failed to get matched files in dataset {}".format(dataset_id)
+        return http_utils.get_success_json(response, failure_message)
 
     def get_dataset_files(self, dataset_id, latest = False):
         """
@@ -131,7 +134,9 @@ class DataManagementClient(BaseClient):
         :param latest: A boolean flag indicating that results should be limited to reporting files from the latest dataset version
         :return: The response object, or an error message object if the request failed
         """
-        return self.get_matched_dataset_files(dataset_id, ".", False, latest).json()
+        result = self.get_matched_dataset_files(dataset_id, ".", False, latest)
+        failure_message = "An error occurred retrieving files for dataset {}".format(dataset_id)
+        return http_utils.get_success_json(result, failure_message)
 
     def get_dataset_file(self, dataset_id, file_path, version = None):
         """
@@ -143,9 +148,12 @@ class DataManagementClient(BaseClient):
         :return: The response object, or an error message object if the request failed
         """
         if version == None:
-            return self._get(routes.file_dataset_path(dataset_id, file_path)).json()
+            result = self._get(routes.file_dataset_path(dataset_id, file_path))
         else:
-            return self._get(routes.file_dataset_version_path(dataset_id, version, file_path)).json()
+            result = self._get(routes.file_dataset_version_path(dataset_id, version, file_path))
+
+        return http_utils.get_success_json(result, "An error occurred retrieving file {}".format(file_path))
+
 
     def get_pif(self, dataset_id, uid, version = None):
         """
@@ -157,19 +165,13 @@ class DataManagementClient(BaseClient):
         :return: The response object, or an error message object if the request failed
         """
         if version == None:
-            return self._get(routes.pif_dataset_uid(dataset_id, uid)).json()
+            result = self._get(routes.pif_dataset_uid(dataset_id, uid))
         else:
-            return self._get(routes.pif_dataset_version_uid(dataset_id, uid, version)).json()
+            result = self._get(routes.pif_dataset_version_uid(dataset_id, uid, version))
 
-    @staticmethod
-    def _get_s3_presigned_url(input_json):
-        """
-        Helper method to create an S3 presigned url from the json.
-        """
-        url = input_json['url']
-        return url['scheme']+'://'+url['host']+url['path']+'?'+url['query']
+        return http_utils.get_success_json(result, "An error occurred retrieving PIF {}".format(uid))
 
-    def create_dataset(self, name=None, description=None, share=None):
+    def create_dataset(self, name=None, description=None, public=False):
         """
         Create a new data set.
         :param name: name of the dataset
@@ -180,37 +182,43 @@ class DataManagementClient(BaseClient):
 
         :return: Response from the create data set request.
         """
-        data = {}
-        data["public"] = '0'
+        data = {
+            "public": _convert_bool_to_public_value(public)
+        }
         if name:
             data["name"] = name
         if description:
             data["description"] = description
-        if share:
-            data["public"] = share
         dataset = {"dataset": data}
-        return self._post_json(routes.create_dataset(), dataset).json()
+        failure_message = "Unable to create dataset"
+        result = self._post_json(routes.create_dataset(), dataset)
+        return http_utils.get_success_json(result, failure_message)
 
-    def update_dataset(self, dataset_id, name=None, description=None, share=None):
+    def update_dataset(self, dataset_id, name=None, description=None, public=None):
         """
         Update a data set.
         :param dataset_id:
         :param name: name of the dataset
         :param description: description for the dataset
-        :param share: share the dataset with everyone on the site. Valid values are '1' or '0'.
+        :param public: share the dataset with everyone on the site. Valid values are '1' or '0'.
                       1 means share with everyone on the site. 0 means only the owner of the dataset
                       can see the dataset.
         :return: Response from the update data set request.
         """
-        data = {}
+        data = {
+            "public": _convert_bool_to_public_value(public)
+        }
+
         if name:
             data["name"] = name
         if description:
             data["description"] = description
-        if share:
-            data["public"] = share
+
         dataset = {"dataset": data}
-        return self._post_json(routes.update_dataset(dataset_id), data=json.dumps(dataset)).json()
+        return http_utils.get_success_json(
+                self._post_json(routes.update_dataset(dataset_id), data=dataset),
+                "Failed to update dataset {}".format(dataset_id)
+            )
 
     def create_dataset_version(self, dataset_id):
         """
@@ -219,4 +227,22 @@ class DataManagementClient(BaseClient):
         :param dataset_id: Id of the particular data set to upload to.
         :return: Response from the create data set version request.
         """
-        return self._post_json(routes.create_dataset_version(dataset_id), data=json.dumps({})).json()
+        return http_utils.get_success_json(
+                self._post_json(routes.create_dataset_version(dataset_id), data={}),
+                "Failed to create dataset version for dataset {}".format(dataset_id)
+            )
+
+def _convert_bool_to_public_value(val):
+    if val == None:
+        return None
+    if val == False:
+        return '0'
+    if val == True:
+        return '1'
+
+def _get_s3_presigned_url(input_json):
+    """
+    Helper method to create an S3 presigned url from the json.
+    """
+    url = input_json['url']
+    return url['scheme']+'://'+url['host']+url['path']+'?'+url['query']

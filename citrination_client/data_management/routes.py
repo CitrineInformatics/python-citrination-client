@@ -1,3 +1,5 @@
+from citrination_client.util.quote_finder import quote
+
 def update_file(file_id):
     return 'data_sets/update_file/{}'.format(file_id)
 
