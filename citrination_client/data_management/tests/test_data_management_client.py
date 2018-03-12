@@ -13,7 +13,7 @@ client = parent_client.data_management
 # one dataset with the same name
 random_string = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))
 dataset_name = "Tutorial dataset " + random_string
-dataset_id = client.create_data_set(name=dataset_name, description="Dataset for tutorial", share=0)['id']
+dataset_id = client.create_dataset(name=dataset_name, description="Dataset for tutorial", share=0)['id']
 test_file_root = './citrination_client/data_management/tests/test_files/'
 
 def get_test_file_hierarchy_count():
