@@ -14,17 +14,12 @@ class SearchClient(BaseClient):
         self.pif_search_endpoint = 'search/pif_search'
         self.pif_multi_search_endpoint = 'search/pif/multi_pif_search'
         self.dataset_search_endpoint = 'search/dataset'
-        BaseClient.__init__(self, api_key, webserver_host="https://citrination.com")
-
-    def search(self, pif_system_returning_query):
-        """
-        Run a PIF query against Citrination. This is just an alias for the pif_search method for backwards
-        compatibility.
-
-        :param pif_system_returning_query: :class:`PifSystemReturningQuery` to execute.
-        :return: :class:`PifSearchResult` object with the results of the query.
-        """
-        return self.pif_search(pif_system_returning_query)
+        members = [
+            "pif_search",
+            "pif_multi_search",
+            "dataset_search"
+        ]
+        super(SearchClient, self).__init__(api_key, webserver_host, members)
 
     def pif_search(self, pif_system_returning_query):
         """

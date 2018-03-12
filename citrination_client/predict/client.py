@@ -3,6 +3,13 @@ import requests
 
 class PredictClient(BaseClient):
 
+    def __init__(self, api_key, webserver_host="https://citrination.com"):
+        members = [
+            "predict",
+            "predict_custom"
+        ]
+        super(PredictClient, self).__init__(api_key, webserver_host, members)
+
     def predict(self, model_path, candidates, method="scalar", use_prior=True):
         """
         Predict endpoint

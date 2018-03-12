@@ -2,6 +2,12 @@ from citrination_client.base.base_client import BaseClient
 
 class ModelReportsClient(BaseClient):
 
+    def __init__(self, api_key, webserver_host="https://citrination.com"):
+        members = [
+            "tsne"
+        ]
+        super(ModelReportsClient, self).__init__(api_key, webserver_host, members)
+
     def tsne(self, model_name):
         """
         Get the t-SNE projection, including z-values and labels
