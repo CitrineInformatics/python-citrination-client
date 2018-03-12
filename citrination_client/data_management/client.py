@@ -6,10 +6,17 @@ import requests
 class DataManagementClient(BaseClient):
 
     def __init__(self, api_key, webserver_host="https://citrination.com"):
-        self.pif_search_endpoint = 'search/pif_search'
-        self.pif_multi_search_endpoint = 'search/pif/multi_pif_search'
-        self.dataset_search_endpoint = 'search/dataset'
-        BaseClient.__init__(self, api_key, webserver_host="https://citrination.com")
+        members = [
+            "upload",
+            "list_files",
+            "matched_file_count",
+            "get_matched_dataset_files",
+            "get_dataset_files",
+            "get_dataset_file",
+            "create_data_set",
+            "create_data_set_version"
+        ]
+        super(DataManagementClient, self).__init__(api_key, webserver_host, members)
 
     def upload(self, dataset_id, source_path, dest_path=None):
         """

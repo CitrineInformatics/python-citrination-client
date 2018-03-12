@@ -8,7 +8,7 @@ class BaseClient(object):
     Base class that holds the universal constructor, utilities, etc
     """
 
-    def __init__(self, api_key, webserver_host="https://citrination.com"):
+    def __init__(self, api_key, webserver_host="https://citrination.com", api_members=[]):
         """
         Constructor.
 
@@ -20,6 +20,7 @@ class BaseClient(object):
             'X-Citrination-API-Version': '1.0.0'
         }
         self.api_url = webserver_host + '/api'
+        self.api_members = api_members
 
     # ==== Private Utilities ===
 
@@ -102,3 +103,6 @@ class BaseClient(object):
             return response
         except KeyError:
             return response
+
+    def __repr__(self):
+        return "{}".format(self.api_members)
