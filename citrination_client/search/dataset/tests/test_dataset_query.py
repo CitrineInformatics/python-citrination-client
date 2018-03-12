@@ -7,7 +7,7 @@ class TestDatasetQuery(unittest.TestCase):
 
     @classmethod
     def setup_class(cls):
-        cls.client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
+        cls.client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE']).search
 
     def test_full_dataset_query(self):
         """Test a public dataset query with every option on"""
