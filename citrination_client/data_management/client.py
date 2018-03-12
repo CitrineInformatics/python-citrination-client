@@ -85,15 +85,6 @@ class DataManagementClient(BaseClient):
                     "success": False
                 }
 
-    def upload_file(self, file_path, dataset_id, root_path=None):
-        """
-        Upload file to Citrination.
-        :param file_path: File path to upload.
-        :param data_set_id: The dataset id to upload the file to.
-        :return: Response object or return code if the file was not uploaded.
-        """
-        return self.upload(dataset_id, file_path)
-
     def list_files(self, dataset_id, glob=".", is_dir=False):
         """
         List matched filenames in a dataset on Citrination.

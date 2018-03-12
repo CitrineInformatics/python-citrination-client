@@ -26,7 +26,7 @@ def test_upload_pif():
 
     with open("tmp.json", "w") as fp:
         dump(pif, fp)
-    response = client.upload_file("tmp.json", dataset_id)
+    response = client.upload(dataset_id, "tmp.json")
     assert response["message"] == "Upload is complete."
 
 def test_file_listing():
