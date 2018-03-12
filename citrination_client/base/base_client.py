@@ -60,7 +60,6 @@ class BaseClient(object):
         :return:
         """
         headers = self._get_headers(headers)
-        print(self.__get_qualified_route(route))
         result = requests.post(self.__get_qualified_route(route), headers=headers, data=data)
         return self._check_response_for_version_mismatch(result)
 
