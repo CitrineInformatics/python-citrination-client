@@ -1,4 +1,5 @@
 from citrination_client.base.base_client import BaseClient
+import routes
 
 class ModelReportsClient(BaseClient):
 
@@ -34,4 +35,4 @@ class ModelReportsClient(BaseClient):
         :param model_name: The model identifier (id number for data views)
         :return: dictionary containing information about the data, e.g. dCorr and tsne
         """
-        return self._get('data_views/' + model_name + '/data_analysis').json()
+        return self._get(routes.data_analysis(model_name)).json()

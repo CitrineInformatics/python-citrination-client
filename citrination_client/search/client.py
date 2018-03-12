@@ -7,13 +7,11 @@ from citrination_client.base.base_client import BaseClient
 from copy import deepcopy
 import json
 import requests
+import routes
 
 class SearchClient(BaseClient):
 
     def __init__(self, api_key, webserver_host="https://citrination.com"):
-        self.pif_search_endpoint = 'search/pif_search'
-        self.pif_multi_search_endpoint = 'search/pif/multi_pif_search'
-        self.dataset_search_endpoint = 'search/dataset'
         members = [
             "pif_search",
             "pif_multi_search",
@@ -45,7 +43,7 @@ class SearchClient(BaseClient):
             return PifSearchResult(hits=hits, total_num_hits=total, took=time)
 
         response = self._post(
-            self.pif_search_endpoint, data=json.dumps(pif_system_returning_query, cls=QueryEncoder),
+            routes.pif_search, data=json.dumps(pif_system_returning_query, cls=QueryEncoder),
           )
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
@@ -58,9 +56,8 @@ class SearchClient(BaseClient):
         :param multi_query: :class:`MultiQuery` object to execute.
         :return: :class:`PifMultiSearchResult` object with the results of the query.
         """
-        print(self.pif_multi_search_endpoint)
         response = self._post(
-            self.pif_multi_search_endpoint, data=json.dumps(multi_query, cls=QueryEncoder))
+            routes.pif_multi_search, data=json.dumps(multi_query, cls=QueryEncoder))
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return PifMultiSearchResult(**keys_to_snake_case(response.json()['results']))
@@ -89,7 +86,7 @@ class SearchClient(BaseClient):
             return DatasetSearchResult(hits=hits, total_num_hits=total, took=time)
 
         response = self._post(
-            self.dataset_search_endpoint, data=json.dumps(dataset_returning_query, cls=QueryEncoder))
+           routes.dataset_search, data=json.dumps(dataset_returning_query, cls=QueryEncoder))
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
         return DatasetSearchResult(**keys_to_snake_case(response.json()['results']))

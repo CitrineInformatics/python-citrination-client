@@ -2,6 +2,7 @@ from citrination_client.base.base_client import BaseClient
 import json
 import os
 import requests
+import routes
 
 class DataManagementClient(BaseClient):
 
@@ -55,9 +56,8 @@ class DataManagementClient(BaseClient):
             }
             return message
         elif os.path.isfile(source_path):
-            url = self._get_upload_url(dataset_id)
             file_data = { "dest_path": str(dest_path), "src_path": str(source_path)}
-            r = self._post_json(url, data=file_data)
+            r = self._post_json(routes.upload_to_dataset(dataset_id), data=file_data)
             if r.status_code == 200:
                 j = r.json()
                 s3url = self._get_s3_presigned_url(j)
@@ -65,8 +65,7 @@ class DataManagementClient(BaseClient):
                     r = requests.put(s3url, data=f, headers=j["required_headers"])
                     if r.status_code == 200:
                         data = {'s3object': j['url']['path'], 's3bucket': j['bucket']}
-                        endpoint = 'data_sets/update_file/' + str(j['file_id'])
-                        self._post_json(endpoint, data=data)
+                        self._post_json(routes.update_file(j['file_id']), data=data)
                         return {"message": "Upload is complete.",
                                    "data_set_id": str(dataset_id),
                                    "version": j['dataset_version_id'],
@@ -93,14 +92,13 @@ class DataManagementClient(BaseClient):
         :param is_dir: A boolean indicating whether or not the pattern should match against the beginning of paths in the dataset.
         :return: Response object or return code if the file was not uploaded.
         """
-        endpoint = 'datasets/' + str(dataset_id) + '/list_filepaths'
         data = {
             "list": {
                 "glob": glob,
                 "isDir": is_dir
             }
         }
-        return self._post_json(endpoint, data).json()
+        return self._post_json(routes.list_files(dataset_id), data).json()
 
     def matched_file_count(self, dataset_id, glob=".", is_dir=False):
         list_result = self.list_files(dataset_id, glob, is_dir)
@@ -127,8 +125,7 @@ class DataManagementClient(BaseClient):
                 "latest": latest
             }
         }
-        endpoint = 'datasets/' + str(dataset_id) + '/download_files'
-        return self._post_json(endpoint, data).json()
+        return self._post_json(routes.matched_files(dataset_id), data).json()
 
     def get_dataset_files(self, dataset_id, latest = False):
         """
@@ -138,13 +135,7 @@ class DataManagementClient(BaseClient):
         :param latest: A boolean flag indicating that results should be limited to reporting files from the latest dataset version
         :return: The response object, or an error message object if the request failed
         """
-        if isinstance(latest, bool):
-            return self.get_matched_dataset_files(dataset_id, ".", False, latest).json()
-        else:
-            return {
-                "message": "If provided, the second parameter must be a boolean"
-            }
-
+        return self.get_matched_dataset_files(dataset_id, ".", False, latest).json()
 
     def get_dataset_file(self, dataset_id, file_path, version = None):
         """
@@ -156,9 +147,9 @@ class DataManagementClient(BaseClient):
         :return: The response object, or an error message object if the request failed
         """
         if version == None:
-            return self._get('datasets/' + str(dataset_id) + '/file/' + quote(file_path)).json()
+            return self._get(routes.file_dataset_path(dataset_id, file_path)).json()
         else:
-            return self._get('datasets/' + str(dataset_id) + '/version/' + str(version) + '/files/' + quote(file_path)).json()
+            return self._get(routes.file_dataset_version_path(dataset_id, version, file_path)).json()
 
     def get_pif(self, dataset_id, uid, version = None):
         """
@@ -170,19 +161,9 @@ class DataManagementClient(BaseClient):
         :return: The response object, or an error message object if the request failed
         """
         if version == None:
-            return self._get('datasets/' + str(dataset_id) + '/pif/' + str(uid)).json()
+            return self._get(routes.pif_dataset_uid(dataset_id, uid)).json()
         else:
-            return self._get('datasets/' + str(dataset_id) + '/version/' + str(version) + '/pif/' + str(uid)).json()
-
-    def _get_upload_url(self, data_set_id):
-        """
-        Helper method to generate the url for file uploading.
-
-        :param data_set_id: Id of the particular data set to upload to.
-        :return: String with the url for uploading to Citrination.
-        """
-        return 'data_sets/'+str(data_set_id)+'/upload'
-
+            return self._get(routes.pif_dataset_version_uid(dataset_id, uid, version)).json()
 
     @staticmethod
     def _get_s3_presigned_url(input_json):
@@ -192,7 +173,7 @@ class DataManagementClient(BaseClient):
         url = input_json['url']
         return url['scheme']+'://'+url['host']+url['path']+'?'+url['query']
 
-    def create_data_set(self, name=None, description=None, share=None):
+    def create_dataset(self, name=None, description=None, share=None):
         """
         Create a new data set.
         :param name: name of the dataset
@@ -203,7 +184,6 @@ class DataManagementClient(BaseClient):
 
         :return: Response from the create data set request.
         """
-        endpoint = 'data_sets/create_dataset'
         data = {}
         data["public"] = '0'
         if name:
@@ -213,12 +193,12 @@ class DataManagementClient(BaseClient):
         if share:
             data["public"] = share
         dataset = {"dataset": data}
-        return self._post_json(endpoint, dataset).json()
+        return self._post_json(routes.create_dataset(), dataset).json()
 
-    def update_data_set(self, data_set_id, name=None, description=None, share=None):
+    def update_dataset(self, dataset_id, name=None, description=None, share=None):
         """
         Update a data set.
-        :param data_set_id:
+        :param dataset_id:
         :param name: name of the dataset
         :param description: description for the dataset
         :param share: share the dataset with everyone on the site. Valid values are '1' or '0'.
@@ -226,7 +206,6 @@ class DataManagementClient(BaseClient):
                       can see the dataset.
         :return: Response from the update data set request.
         """
-        url = self._get_update_data_set_url(data_set_id)
         data = {}
         if name:
             data["name"] = name
@@ -235,30 +214,13 @@ class DataManagementClient(BaseClient):
         if share:
             data["public"] = share
         dataset = {"dataset": data}
-        return self._post_json(url, data=json.dumps(dataset)).json()
+        return self._post_json(routes.update_dataset(dataset_id), data=json.dumps(dataset)).json()
 
-    def _get_update_data_set_url(self, data_set_id):
-        """
-        Helper method to generate the url for updating a data set.
-
-        :return: URL for creating a new data set.
-        """
-        return 'data_sets/'+str(data_set_id)+'/update'
-
-    def create_data_set_version(self, data_set_id):
+    def create_dataset_version(self, dataset_id):
         """
         Create a new data set version.
 
-        :param data_set_id: Id of the particular data set to upload to.
+        :param dataset_id: Id of the particular data set to upload to.
         :return: Response from the create data set version request.
         """
-        url = self._get_create_data_set_version_url(data_set_id)
-        return self._post_json(url, data=json.dumps({}))
-
-    def _get_create_data_set_version_url(self, data_set_id):
-        """
-        Helper method to generate the url for creating a new data set version.
-
-        :return: URL for creating new data set versions.
-        """
-        return 'data_sets/'+str(data_set_id)+'/create_dataset_version'
+        return self._post_json(routes.create_dataset_version(dataset_id), data=json.dumps({})).json()
