@@ -7,7 +7,7 @@ class TestPifQuery():
 
     @classmethod
     def setup_class(cls):
-        cls.client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
+        cls.client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE']).search
 
     @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
     def test_uid_query(self):

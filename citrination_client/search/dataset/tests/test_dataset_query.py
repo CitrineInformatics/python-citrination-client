@@ -8,7 +8,7 @@ class TestDatasetQuery(unittest.TestCase):
 
     @classmethod
     def setup_class(cls):
-        cls.client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
+        cls.client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE']).search
 
     @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Dataset search test only supported on public")
     def test_full_dataset_query(self):
