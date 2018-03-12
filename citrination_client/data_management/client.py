@@ -1,4 +1,5 @@
 from citrination_client.base.base_client import BaseClient
+from citrination_client.errors import CitrinationClientError
 import json
 import os
 import requests
@@ -14,8 +15,8 @@ class DataManagementClient(BaseClient):
             "get_matched_dataset_files",
             "get_dataset_files",
             "get_dataset_file",
-            "create_data_set",
-            "create_data_set_version"
+            "create_dataset",
+            "create_dataset_version"
         ]
         super(DataManagementClient, self).__init__(api_key, webserver_host, members)
 
@@ -44,13 +45,12 @@ class DataManagementClient(BaseClient):
                     path_without_root_dir = path.split("/")[1:] + [name]
                     current_dest_path = os.path.join(dest_path, *path_without_root_dir)
                     current_source_path = os.path.join(path, name)
-                    result = self.upload(dataset_id, current_source_path, current_dest_path)
-                    if result["success"]:
+                    try:
+                        self.upload(dataset_id, current_source_path, current_dest_path)
                         successes.append(current_source_path)
-                    else:
+                    except (CitrinationClientError, ValueError):
                         failures.append(current_source_path)
             message = {
-                "message": "Upload of files is complete.",
                 "successes": successes,
                 "failures": failures
             }
@@ -66,23 +66,19 @@ class DataManagementClient(BaseClient):
                     if r.status_code == 200:
                         data = {'s3object': j['url']['path'], 's3bucket': j['bucket']}
                         self._post_json(routes.update_file(j['file_id']), data=data)
-                        return {"message": "Upload is complete.",
-                                   "data_set_id": str(dataset_id),
-                                   "version": j['dataset_version_id'],
-                                   "success": True}
+                        if r.status_code == 200:
+                            return {
+                                "successes": [source_path],
+                                "failures": []
+                            }
+                        else:
+                            raise CitrinationClientError("Failure to upload {} to Citrination".format(source_path))
                     else:
-                        return {"message": "Upload failed.",
-                                   "status": r.status_code,
-                                   "success": False}
+                        raise CitrinationClientError("Failure to upload {} to Citrination".format(source_path))
             else:
-                return {"message": "Upload failed.",
-                                   "status": r.status_code,
-                                   "success": False}
+                raise CitrinationClientError("Failure to upload {} to Citrination".format(source_path))
         else:
-            return {
-                    "message": "No file at specified path {0}".format(source_path),
-                    "success": False
-                }
+            raise ValueError("No file at specified path {}".format(source_path))
 
     def list_files(self, dataset_id, glob=".", is_dir=False):
         """
