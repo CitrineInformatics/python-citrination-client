@@ -10,6 +10,8 @@ Welcome to Python Citrination Client's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   ./examples
+
 
 
 Indices and tables
