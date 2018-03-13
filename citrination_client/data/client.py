@@ -6,7 +6,7 @@ import os
 import requests
 import routes
 
-class DataManagementClient(BaseClient):
+class DataClient(BaseClient):
 
     def __init__(self, api_key, webserver_host="https://citrination.com"):
         members = [
@@ -19,7 +19,7 @@ class DataManagementClient(BaseClient):
             "create_dataset",
             "create_dataset_version"
         ]
-        super(DataManagementClient, self).__init__(api_key, webserver_host, members)
+        super(DataClient, self).__init__(api_key, webserver_host, members)
 
     def upload(self, dataset_id, source_path, dest_path=None):
         """

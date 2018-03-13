@@ -13,12 +13,12 @@ def random_string():
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))
 
 parent_client = CitrinationClient(os.environ['CITRINATION_API_KEY'], os.environ['CITRINATION_SITE'])
-client = parent_client.data_management
+client = parent_client.data
 # Append dataset name with random string because one user can't have more than
 # one dataset with the same name
 dataset_name = "Tutorial dataset " + random_string()
 dataset_id = client.create_dataset(name=dataset_name, description="Dataset for tutorial")['id']
-test_file_root = './citrination_client/data_management/tests/test_files/'
+test_file_root = './citrination_client/data/tests/test_files/'
 
 def random_dataset_name():
     return "PyCCTestDataset" + random_string()

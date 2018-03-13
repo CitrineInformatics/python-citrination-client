@@ -40,3 +40,4 @@ from citrination_client.search.pif.result.pif_multi_search_result import PifMult
 from citrination_client.search.pif.result.pif_multi_search_result_element import PifMultiSearchResultElement
 from citrination_client.search.pif.result.pif_search_hit import PifSearchHit
 from citrination_client.search.pif.result.pif_search_result import PifSearchResult
+from client import SearchClient
