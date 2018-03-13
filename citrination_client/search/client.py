@@ -1,7 +1,7 @@
 from .query_encoder import QueryEncoder
-from citrination_client.search import *
 from pypif.util.case import to_camel_case
 from pypif.util.case import keys_to_snake_case
+from citrination_client.search import *
 
 from citrination_client.base.base_client import BaseClient
 from copy import deepcopy
