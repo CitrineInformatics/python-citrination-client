@@ -4,6 +4,8 @@ from pypif.util.case import keys_to_snake_case
 from citrination_client.search import *
 
 from citrination_client.base.base_client import BaseClient
+from citrination_client.util import http as http_util
+
 from copy import deepcopy
 import json
 import requests
@@ -42,12 +44,13 @@ class SearchClient(BaseClient):
                     hits.extend(partial_results.hits)
             return PifSearchResult(hits=hits, total_num_hits=total, took=time)
 
-        response = self._post(
-            routes.pif_search, data=json.dumps(pif_system_returning_query, cls=QueryEncoder),
-          )
-        if response.status_code != requests.codes.ok:
-            raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
-        return PifSearchResult(**keys_to_snake_case(response.json()['results']))
+        response_json = http_util.get_success_json(
+            self._post(
+                routes.pif_search, data=json.dumps(pif_system_returning_query, cls=QueryEncoder),
+            ),
+            "Error while making PIF search request"
+        )
+        return PifSearchResult(**keys_to_snake_case(response_json['results']))
 
     def pif_multi_search(self, multi_query):
         """
@@ -56,11 +59,14 @@ class SearchClient(BaseClient):
         :param multi_query: :class:`MultiQuery` object to execute.
         :return: :class:`PifMultiSearchResult` object with the results of the query.
         """
-        response = self._post(
-            routes.pif_multi_search, data=json.dumps(multi_query, cls=QueryEncoder))
-        if response.status_code != requests.codes.ok:
-            raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
-        return PifMultiSearchResult(**keys_to_snake_case(response.json()['results']))
+        response_json = http_util.get_success_json(
+            self._post(
+                routes.pif_multi_search, data=json.dumps(multi_query, cls=QueryEncoder)
+            ),
+            "Error while making PIF multi search request"
+        )
+
+        return PifMultiSearchResult(**keys_to_snake_case(response_json['results']))
 
     def dataset_search(self, dataset_returning_query):
         """
@@ -85,11 +91,14 @@ class SearchClient(BaseClient):
                     hits.extend(partial_results.hits)
             return DatasetSearchResult(hits=hits, total_num_hits=total, took=time)
 
-        response = self._post(
-           routes.dataset_search, data=json.dumps(dataset_returning_query, cls=QueryEncoder))
-        if response.status_code != requests.codes.ok:
-            raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
-        return DatasetSearchResult(**keys_to_snake_case(response.json()['results']))
+        response_json = http_util.get_success_json(
+            self._post(
+                routes.dataset_search, data=json.dumps(dataset_returning_query, cls=QueryEncoder)
+            ),
+            "Error while making dataset search request"
+        )
+
+        return DatasetSearchResult(**keys_to_snake_case(response_json['results']))
 
     def simple_chemical_search(self, name=None, chemical_formula=None, property_name=None, property_value=None,
                                property_min=None, property_max=None, property_units=None, reference_doi=None,
