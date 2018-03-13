@@ -6,7 +6,8 @@ Subpackages
 
 .. toctree::
 
-    citrination_client.model_reports
+    citrination_client.data
+    citrination_client.models
     citrination_client.search
 
 Submodules
