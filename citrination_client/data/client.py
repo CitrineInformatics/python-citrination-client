@@ -58,26 +58,20 @@ class DataClient(BaseClient):
             return message
         elif os.path.isfile(source_path):
             file_data = { "dest_path": str(dest_path), "src_path": str(source_path)}
-            r = self._post_json(routes.upload_to_dataset(dataset_id), data=file_data)
-            if r.status_code == 200:
-                j = r.json()
-                s3url = _get_s3_presigned_url(j)
-                with open(source_path, 'rb') as f:
-                    r = requests.put(s3url, data=f, headers=j["required_headers"])
-                    if r.status_code == 200:
-                        data = {'s3object': j['url']['path'], 's3bucket': j['bucket']}
-                        self._post_json(routes.update_file(j['file_id']), data=data)
-                        if r.status_code == 200:
-                            return {
-                                "successes": [source_path],
-                                "failures": []
-                            }
-                        else:
-                            raise CitrinationClientError("Failure to upload {} to Citrination".format(source_path))
-                    else:
-                        raise CitrinationClientError("Failure to upload {} to Citrination".format(source_path))
-            else:
-                raise CitrinationClientError("Failure to upload {} to Citrination".format(source_path))
+            j = self._post_json(routes.upload_to_dataset(dataset_id), data=file_data).json()
+            s3url = _get_s3_presigned_url(j)
+            with open(source_path, 'rb') as f:
+                r = requests.put(s3url, data=f, headers=j["required_headers"])
+                if r.status_code == 200:
+                    data = {'s3object': j['url']['path'], 's3bucket': j['bucket']}
+                    self._post_json(routes.update_file(j['file_id']), data=data)
+                    return {
+                        "successes": [source_path],
+                        "failures": []
+                    }
+                else:
+                    raise CitrinationClientError("Failure to upload {} to Citrination".format(source_path))
+
         else:
             raise ValueError("No file at specified path {}".format(source_path))
 

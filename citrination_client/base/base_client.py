@@ -1,6 +1,7 @@
 import requests
 import json
 from citrination_client.util.quote_finder import quote
+from response_handling import raise_on_response
 from errors import *
 
 class BaseClient(object):
@@ -14,6 +15,9 @@ class BaseClient(object):
 
         :param webserver_host: local pointer to the tunnel to the cmc web host.
         """
+        if api_key == None or len(api_key) == 0:
+            raise CitrinationClientError("API key must be present to instantiate the client")
+
         self.headers = {
             'X-API-Key': quote(api_key),
             'Content-Type': 'application/json',
@@ -47,7 +51,7 @@ class BaseClient(object):
         """
         headers = self._get_headers(headers)
         result = requests.get(self.__get_qualified_route(route), headers=headers, verify=False)
-        return self._check_response_for_version_mismatch(result)
+        return raise_on_response(result)
 
     def _post_json(self, route, data, headers=None):
         return self._post(route, json.dumps(data), headers)
@@ -61,7 +65,7 @@ class BaseClient(object):
         """
         headers = self._get_headers(headers)
         result = requests.post(self.__get_qualified_route(route), headers=headers, data=data)
-        return self._check_response_for_version_mismatch(result)
+        return raise_on_response(result)
 
     def _put_json(self, route, data, headers=None):
         return self._put(route, json.dumps(data), headers)
@@ -76,7 +80,7 @@ class BaseClient(object):
         headers = self._get_headers(headers)
         result = requests.put(self.__get_qualified_route(route), headers=headers, data=data,
              verify=False)
-        return self._check_response_for_version_mismatch(result)
+        return raise_on_response(result)
 
     def _delete(self, route, headers=None):
         """
@@ -86,22 +90,7 @@ class BaseClient(object):
         """
         headers = self._get_headers(headers)
         result = requests.delete(self.__get_qualified_route(route), headers=headers, verify=False)
-        return self._check_response_for_version_mismatch(result)
-
-    def _check_response_for_version_mismatch(self, response):
-        try:
-            response_content = response.json()
-        except ValueError:
-            print("Received unparseable JSON: {}, {}".format(response.status_code, response.content))
-            raise
-        try:
-            if response.status_code == 400:
-                error_type = response_content["error_type"]
-                if error_type == "Version Mismatch":
-                    raise APIVersionMismatchException("Version mismatch with Citrination identified. Please check for available PyCC updates")
-            return response
-        except KeyError:
-            return response
+        return raise_on_response(result)
 
     def __repr__(self):
         return "{}".format(self.api_members)
