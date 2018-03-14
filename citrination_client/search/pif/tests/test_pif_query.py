@@ -16,6 +16,41 @@ class TestPifQuery():
         assert result.total_num_hits == 1
         assert result.hits[0].system.uid == target_uid
 
+    def test_pagination_overflow(self):
+        query = PifSystemReturningQuery(size=0,
+            query=DataQuery(
+                dataset=DatasetQuery(
+                    id=Filter(equal='1160'))))
+        response = self.client.pif_search(query)
+        total = response.total_num_hits
+        from_index = total - 20
+
+        query = PifSystemReturningQuery(size=45,
+            from_index=from_index,
+            query=DataQuery(
+                dataset=DatasetQuery(
+                    id=Filter(equal='1160'))))
+        response = self.client.pif_search(query)
+        assert 20 == len(response.hits)
+
+    def test_pagination_from_start(self):
+        query = PifSystemReturningQuery(size=200)
+        response = self.client.pif_search(query)
+        assert 200 == len(response.hits)
+
+    def test_pagination_with_from_index(self):
+        query = PifSystemReturningQuery(size=200, from_index=1000)
+        response = self.client.pif_search(query)
+        assert 200 == len(response.hits)
+
+    def test_auto_pagination(self):
+        query = PifSystemReturningQuery(
+            query=DataQuery(
+                dataset=DatasetQuery(
+                    id=Filter(equal='150670'))))
+        response = self.client.pif_search(query)
+        assert response.total_num_hits == len(response.hits)
+
     def test_pif_search(self):
         response = self.client.pif_search(PifSystemReturningQuery(
             size=0,

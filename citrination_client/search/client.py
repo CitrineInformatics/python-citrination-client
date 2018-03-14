@@ -7,6 +7,7 @@ from citrination_client.base.base_client import BaseClient
 from citrination_client.util import http as http_util
 
 from copy import deepcopy
+from time import sleep
 import json
 import requests
 import routes
@@ -28,30 +29,76 @@ class SearchClient(BaseClient):
         :param pif_system_returning_query: :class:`PifSystemReturningQuery` to execute.
         :return: :class:`PifSearchResult` object with the results of the query.
         """
-        if pif_system_returning_query.size is None and pif_system_returning_query.from_index is None:
-            total = 1; time = 0.0; hits = []; first = True
-            while len(hits) < min(total, 10000):
-                if first:
-                    first = False
-                else:
-                    sleep(3)
-                sub_query = deepcopy(pif_system_returning_query)
-                sub_query.from_index = len(hits)
-                partial_results = self.pif_search(sub_query)
-                total = partial_results.total_num_hits
-                time += partial_results.took
-                if partial_results.hits is not None:
-                    hits.extend(partial_results.hits)
-            return PifSearchResult(hits=hits, total_num_hits=total, took=time)
+        return self._execute_paginating_search(
+            pif_system_returning_query,
+            PifSearchResult
+        )
+
+    def dataset_search(self, dataset_returning_query):
+        """
+        Run a dataset query against Citrination.
+
+        :param dataset_returning_query: :class:`DatasetReturningQuery` to execute.
+        :return: :class:`DatasetSearchResult` object with the results of the query.
+        """
+        return self._execute_paginating_search(
+            dataset_returning_query,
+            DatasetSearchResult
+        )
+
+    def _execute_paginating_search(self, returning_query, result_class):
+        """
+        Run a PIF query against Citrination.
+
+        :param returning_query: :class:`BaseReturningQuery` to execute.
+        :param result_class: The class of the result to return.
+        :return: ``result_class`` object with the results of the query.
+        """
+        if returning_query.from_index:
+            from_index = returning_query.from_index
+        else:
+            from_index = 0
+
+        if returning_query.size != None:
+            size = min(returning_query.size, 10000)
+        else:
+            size = 10000
+
+        time = 0.0; hits = []; first = True
+        while True:
+            if first:
+                first = False
+            else:
+                sleep(1)
+            sub_query = deepcopy(returning_query)
+            sub_query.from_index = from_index + len(hits)
+            partial_results = self._search_internal(sub_query, result_class)
+            total = partial_results.total_num_hits
+            time += partial_results.took
+            # print("hits: {}".format(len(hits)))
+            if partial_results.hits is not None:
+                hits.extend(partial_results.hits)
+            if len(hits) >= size or len(hits) >= total or sub_query.from_index >= total:
+                break
+
+        return result_class(hits=hits, total_num_hits=total, took=time)
+
+    def _search_internal(self, returning_query, result_class):
+        if result_class == PifSearchResult:
+            route = routes.pif_search
+            failure_message = "Error while making PIF search request"
+
+        elif result_class == DatasetSearchResult:
+            route = routes.dataset_search
+            failure_message = "Error while making dataset search request"
 
         response_json = http_util.get_success_json(
-            self._post(
-                routes.pif_search, data=json.dumps(pif_system_returning_query, cls=QueryEncoder),
-            ),
-            "Error while making PIF search request"
-        )
-        return PifSearchResult(**keys_to_snake_case(response_json['results']))
-
+                self._post(
+                    route, data=json.dumps(returning_query, cls=QueryEncoder),
+                ),
+                failure_message
+            )
+        return result_class(**keys_to_snake_case(response_json['results']))
     def pif_multi_search(self, multi_query):
         """
         Run each in a list of PIF queries against Citrination.
@@ -67,38 +114,6 @@ class SearchClient(BaseClient):
         )
 
         return PifMultiSearchResult(**keys_to_snake_case(response_json['results']))
-
-    def dataset_search(self, dataset_returning_query):
-        """
-        Run a dataset query against Citrination.
-
-        :param dataset_returning_query: :class:`DatasetReturningQuery` to execute.
-        :return: :class:`DatasetSearchResult` object with the results of the query.
-        """
-        if dataset_returning_query.size is None and dataset_returning_query.from_index is None:
-            total = 1; time = 0.0; hits = []; first = True
-            while len(hits) < min(total, 10000):
-                if first:
-                    first = False
-                else:
-                    sleep(3)
-                sub_query = deepcopy(dataset_returning_query)
-                sub_query.from_index = len(hits)
-                partial_results = self.dataset_search(sub_query)
-                total = partial_results.total_num_hits
-                time += partial_results.took
-                if partial_results.hits is not None:
-                    hits.extend(partial_results.hits)
-            return DatasetSearchResult(hits=hits, total_num_hits=total, took=time)
-
-        response_json = http_util.get_success_json(
-            self._post(
-                routes.dataset_search, data=json.dumps(dataset_returning_query, cls=QueryEncoder)
-            ),
-            "Error while making dataset search request"
-        )
-
-        return DatasetSearchResult(**keys_to_snake_case(response_json['results']))
 
     def simple_chemical_search(self, name=None, chemical_formula=None, property_name=None, property_value=None,
                                property_min=None, property_max=None, property_units=None, reference_doi=None,
