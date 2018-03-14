@@ -12,7 +12,11 @@ Welcome to Python Citrination Client's documentation!
 
    ./examples
 
-
+   tutorial/data_examples
+   tutorial/exception_handling
+   tutorial/models_examples
+   tutorial/getting_started
+   tutorial/search_examples
 
 Indices and tables
 ==================

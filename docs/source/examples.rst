@@ -12,19 +12,12 @@ on the current client.
 
 .. literalinclude:: code_samples/general/client_serialization.py
 
-Initialization
---------------
-
-To instantiate ``CitrinationClient``, you will need to provide an
-API key and the host URL of the Citrination site you are trying
-to interact with.
-
-To avoid saving your API key as plaintext in a file somewhere, store 
-it as an environment variable.
-
-.. literalinclude:: code_samples/general/initialization.py
 
 Data Client
 -----------
 
-.. literalinclude:: code_samples/data/upload.py
+
+Models Client
+-------------
+
+
