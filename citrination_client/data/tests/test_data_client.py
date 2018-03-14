@@ -83,5 +83,8 @@ def test_upload_directory():
     dest_path = "test_directory_upload/"
     before_count = client.matched_file_count(dataset_id)
     client.upload(dataset_id, src_path, dest_path)
-    after_count = client.matched_file_count(dataset_id)
-    assert after_count == (before_count + count_to_add)
+    revolver_count = client.matched_file_count(dataset_id, "test_directory_upload/revolver")
+    assert client.matched_file_count(dataset_id, "weird_extensions.woodle") == 1
+    assert revolver_count == 3
+    after_total_count = client.matched_file_count(dataset_id)
+    assert after_total_count == (before_count + count_to_add)
