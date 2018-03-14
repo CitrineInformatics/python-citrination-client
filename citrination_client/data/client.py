@@ -1,5 +1,6 @@
 from citrination_client.base.base_client import BaseClient
 from citrination_client.errors import CitrinationClientError
+from pypif import pif
 import citrination_client.util.http as http_utils
 import json
 import os
@@ -156,11 +157,12 @@ class DataClient(BaseClient):
         :return: The response object, or an error message object if the request failed
         """
         if version == None:
-            result = self._get(routes.pif_dataset_uid(dataset_id, uid))
+            response = self._get(routes.pif_dataset_uid(dataset_id, uid))
         else:
-            result = self._get(routes.pif_dataset_version_uid(dataset_id, uid, version))
+            response = self._get(routes.pif_dataset_version_uid(dataset_id, uid, version))
 
-        return http_utils.get_success_json(result, "An error occurred retrieving PIF {}".format(uid))
+        response = http_utils.check_success(response, "An error occurred retrieving PIF {}".format(uid))
+        return pif.loads(response.content)
 
     def create_dataset(self, name=None, description=None, public=False):
         """

@@ -39,7 +39,7 @@ def test_upload_pif():
     time.sleep(4)
     pif = client.get_pif(dataset_id, uid)
     with open("tmp.json", "r") as fp:
-        assert json.loads(fp.read())["uid"] == pif["uid"]
+        assert json.loads(fp.read())["uid"] == pif.uid
 
 def test_dataset_version_bump():
     dataset_name = random_dataset_name()
