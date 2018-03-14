@@ -9,7 +9,7 @@ class BaseClient(object):
     Base class that holds the universal constructor, utilities, etc
     """
 
-    def __init__(self, api_key, webserver_host="https://citrination.com", api_members=[]):
+    def __init__(self, api_key, webserver_host="https://citrination.com", api_members=[], suppress_warnings=False):
         """
         Constructor.
 
@@ -23,6 +23,7 @@ class BaseClient(object):
             'Content-Type': 'application/json',
             'X-Citrination-API-Version': '1.0.0'
         }
+        self.suppress_warnings = suppress_warnings
         self.api_url = webserver_host + '/api'
         self.api_members = api_members
 
@@ -35,6 +36,10 @@ class BaseClient(object):
         :return: the fully qualified route (e.g., https://citrination.com/model)
         """
         return "{}/{}".format(self.api_url, route)
+
+    def _warn(self, message):
+        if not self.suppress_warnings:
+            print("Citrination Client Warning - {}".format(message))
 
     def _get_headers(self, headers=None):
         if headers:
