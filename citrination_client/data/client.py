@@ -89,16 +89,16 @@ class DataClient(BaseClient):
                 "isDir": is_dir
             }
         }
-        return self._post_json(routes.list_files(dataset_id), data).json()
+        return http_utils.get_success_json(
+            self._post_json(routes.list_files(dataset_id), data),
+            "Failed to list files for dataset {}".format(dataset_id)
+        )
 
     def matched_file_count(self, dataset_id, glob=".", is_dir=False):
         list_result = self.list_files(dataset_id, glob, is_dir)
-        if isinstance(list_result["files"], list):
-            return len(list_result["files"])
-        else:
-            return list_result
+        return len(list_result["files"])
 
-    def get_matched_dataset_files(self, dataset_id, glob, is_dir=False, latest=True):
+    def get_dataset_files(self, dataset_id, glob, is_dir=False, latest=True):
         """
         Retrieves URLs for the files matched by a glob or a path to a directory
         in a given dataset.
@@ -120,16 +120,6 @@ class DataClient(BaseClient):
         failure_message = "Failed to get matched files in dataset {}".format(dataset_id)
         return http_utils.get_success_json(response, failure_message)
 
-    def get_dataset_files(self, dataset_id, latest = False):
-        """
-        Retrieves URLs for the files contained in a given dataset.
-
-        :param data_set_id: The id of the dataset to retrieve files from
-        :param latest: A boolean flag indicating that results should be limited to reporting files from the latest dataset version
-        :return: The response object, or an error message object if the request failed
-        """
-        return self.get_matched_dataset_files(dataset_id, ".", False, latest)
-
     def get_dataset_file(self, dataset_id, file_path, version = None):
         """
         Retrieves the URL for a file contained in a given dataset by version (optional) and filepath.
@@ -145,7 +135,6 @@ class DataClient(BaseClient):
             result = self._get(routes.file_dataset_version_path(dataset_id, version, file_path))
 
         return http_utils.get_success_json(result, "An error occurred retrieving file {}".format(file_path))
-
 
     def get_pif(self, dataset_id, uid, version = None):
         """
