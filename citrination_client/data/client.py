@@ -1,6 +1,7 @@
 from citrination_client.base.base_client import BaseClient
 from citrination_client.errors import CitrinationClientError
 from pypif import pif
+from .upload_result import UploadResult
 import citrination_client.util.http as http_utils
 import json
 import os
@@ -34,28 +35,26 @@ class DataClient(BaseClient):
                     "failures": List of filepaths which failed to upload
                 }
         """
+        upload_result = UploadResult()
         source_path = str(source_path)
         if not dest_path:
             dest_path = source_path
         else:
             dest_path = str(dest_path)
         if os.path.isdir(source_path):
-            successes = []
-            failures = []
             for path, subdirs, files in os.walk(source_path):
                 for name in files:
                     path_without_root_dir = path.split("/")[-1:] + [name]
                     current_dest_path = os.path.join(dest_path, *path_without_root_dir)
                     current_source_path = os.path.join(path, name)
                     try:
-                        self.upload(dataset_id, current_source_path, current_dest_path)
-                        successes.append(current_source_path)
-                    except (CitrinationClientError, ValueError):
-                        failures.append(current_source_path)
-            return {
-                "successes": successes,
-                "failures": failures
-            }
+                        if self.upload(dataset_id, current_source_path, current_dest_path).successful():
+                            upload_result.add_success(current_source_path)
+                        else:
+                            upload_result.add_failure(current_source_path,"Upload failure")
+                    except (CitrinationClientError, ValueError) as e:
+                        upload_result.add_failure(current_source_path, e.message)
+            return upload_result
         elif os.path.isfile(source_path):
             file_data = { "dest_path": str(dest_path), "src_path": str(source_path)}
             j = self._post_json(routes.upload_to_dataset(dataset_id), data=file_data).json()
@@ -65,13 +64,10 @@ class DataClient(BaseClient):
                 if r.status_code == 200:
                     data = {'s3object': j['url']['path'], 's3bucket': j['bucket']}
                     self._post_json(routes.update_file(j['file_id']), data=data)
-                    return {
-                        "successes": [source_path],
-                        "failures": []
-                    }
+                    upload_result.add_success(source_path)
+                    return upload_result
                 else:
                     raise CitrinationClientError("Failure to upload {} to Citrination".format(source_path))
-
         else:
             raise ValueError("No file at specified path {}".format(source_path))
 

@@ -1,4 +1,5 @@
 from citrination_client.client import CitrinationClient
+from citrination_client.base.errors import CitrinationServerErrorException
 import os
 from json import loads
 from pypif.obj.system import System
@@ -35,9 +36,18 @@ def test_upload_pif():
 
     with open("tmp.json", "w") as fp:
         dump(pif, fp)
-    assert client.upload(dataset_id, "tmp.json")
-    time.sleep(4)
-    pif = client.get_pif(dataset_id, uid)
+    assert client.upload(dataset_id, "tmp.json").successful()
+    tries = 0
+    while True:
+        try:
+            pif = client.get_pif(dataset_id, uid)
+            break
+        except CitrinationServerErrorException:
+            if tries < 10:
+                tries += 1
+            else:
+                raise
+
     with open("tmp.json", "r") as fp:
         assert json.loads(fp.read())["uid"] == pif.uid
 
@@ -68,7 +78,7 @@ def test_public_update():
 def test_file_listing_and_url_retrieval():
     src_path = test_file_root + "keys_and_values.json"
     dest_path = "test_file_list.json"
-    client.upload(dataset_id, src_path, dest_path)
+    assert client.upload(dataset_id, src_path, dest_path).successful()
     listed_files = client.list_files(dataset_id, dest_path)["files"]
     assert len(listed_files) == 1
     assert listed_files[0] == dest_path
@@ -82,7 +92,7 @@ def test_upload_directory():
     src_path = test_file_root
     dest_path = "test_directory_upload/"
     before_count = client.matched_file_count(dataset_id)
-    client.upload(dataset_id, src_path, dest_path)
+    assert client.upload(dataset_id, src_path, dest_path).successful()
     revolver_count = client.matched_file_count(dataset_id, "test_directory_upload/revolver")
     assert client.matched_file_count(dataset_id, "weird_extensions.woodle") == 1
     assert revolver_count == 3
