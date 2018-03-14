@@ -43,7 +43,7 @@ class DataClient(BaseClient):
             failures = []
             for path, subdirs, files in os.walk(source_path):
                 for name in files:
-                    path_without_root_dir = path.split("/")[1:] + [name]
+                    path_without_root_dir = path.split("/")[-1:] + [name]
                     current_dest_path = os.path.join(dest_path, *path_without_root_dir)
                     current_source_path = os.path.join(path, name)
                     try:
@@ -51,11 +51,10 @@ class DataClient(BaseClient):
                         successes.append(current_source_path)
                     except (CitrinationClientError, ValueError):
                         failures.append(current_source_path)
-            message = {
+            return {
                 "successes": successes,
                 "failures": failures
             }
-            return message
         elif os.path.isfile(source_path):
             file_data = { "dest_path": str(dest_path), "src_path": str(source_path)}
             j = self._post_json(routes.upload_to_dataset(dataset_id), data=file_data).json()
@@ -128,9 +127,7 @@ class DataClient(BaseClient):
         :param latest: A boolean flag indicating that results should be limited to reporting files from the latest dataset version
         :return: The response object, or an error message object if the request failed
         """
-        result = self.get_matched_dataset_files(dataset_id, ".", False, latest)
-        failure_message = "An error occurred retrieving files for dataset {}".format(dataset_id)
-        return http_utils.get_success_json(result, failure_message)
+        return self.get_matched_dataset_files(dataset_id, ".", False, latest)
 
     def get_dataset_file(self, dataset_id, file_path, version = None):
         """
