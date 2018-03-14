@@ -2,7 +2,7 @@ from .query_encoder import QueryEncoder
 from pypif.util.case import to_camel_case
 from pypif.util.case import keys_to_snake_case
 from citrination_client.search import *
-
+from citrination_client.util import config as client_config
 from citrination_client.base.base_client import BaseClient
 from citrination_client.util import http as http_util
 
@@ -60,9 +60,13 @@ class SearchClient(BaseClient):
             from_index = 0
 
         if returning_query.size != None:
-            size = min(returning_query.size, 10000)
+            size = min(returning_query.size, client_config.max_query_size)
         else:
-            size = 10000
+            size = client_config.max_query_size
+
+        if (size == client_config.max_query_size and
+            size != returning_query.size):
+            self._warn("Query size greater than max system size - only {} results will be returned".format(size))
 
         time = 0.0; hits = []; first = True
         while True:
@@ -99,6 +103,7 @@ class SearchClient(BaseClient):
                 failure_message
             )
         return result_class(**keys_to_snake_case(response_json['results']))
+
     def pif_multi_search(self, multi_query):
         """
         Run each in a list of PIF queries against Citrination.

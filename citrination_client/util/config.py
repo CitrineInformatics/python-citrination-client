@@ -1,0 +1,1 @@
+max_query_size = 10000
