@@ -13,7 +13,7 @@ import json
 def random_string():
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))
 
-parent_client = CitrinationClient(os.environ['CITRINATION_API_KEY'], os.environ['CITRINATION_SITE'])
+parent_client = CitrinationClient()
 client = parent_client.data
 # Append dataset name with random string because one user can't have more than
 # one dataset with the same name
@@ -45,6 +45,7 @@ def test_upload_pif():
         except CitrinationServerErrorException:
             if tries < 10:
                 tries += 1
+                time.sleep(1)
             else:
                 raise
 
