@@ -6,7 +6,7 @@ class TestPifQuery():
 
     @classmethod
     def setup_class(cls):
-        cls.client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE']).search
+        cls.client = CitrinationClient().search
 
     def test_uid_query(self):
         """Testing that a query against a UID only pulls back that record"""

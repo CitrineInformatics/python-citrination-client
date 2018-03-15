@@ -9,7 +9,7 @@ class BaseClient(object):
     Base class that holds the universal constructor, utilities, etc
     """
 
-    def __init__(self, api_key, webserver_host="https://citrination.com", api_members=[], suppress_warnings=False):
+    def __init__(self, api_key, webserver_host, api_members=[], suppress_warnings=False):
         """
         Constructor.
 
