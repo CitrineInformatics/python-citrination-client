@@ -2,6 +2,8 @@ from citrination_client.base.base_client import BaseClient
 from citrination_client.errors import CitrinationClientError
 from pypif import pif
 from .upload_result import UploadResult
+from .dataset import Dataset
+from .dataset_file import DatasetFile
 import citrination_client.util.http as http_utils
 import json
 import os
@@ -88,13 +90,13 @@ class DataClient(BaseClient):
         return http_utils.get_success_json(
             self._post_json(routes.list_files(dataset_id), data),
             "Failed to list files for dataset {}".format(dataset_id)
-        )
+        )['files']
 
     def matched_file_count(self, dataset_id, glob=".", is_dir=False):
         list_result = self.list_files(dataset_id, glob, is_dir)
-        return len(list_result["files"])
+        return len(list_result)
 
-    def get_dataset_files(self, dataset_id, glob, is_dir=False, latest=True):
+    def get_dataset_files(self, dataset_id, glob=".", version_number=None):
         """
         Retrieves URLs for the files matched by a glob or a path to a directory
         in a given dataset.
@@ -102,9 +104,13 @@ class DataClient(BaseClient):
         :param dataset_id: The id of the dataset to retrieve files from
         :param glob: A regex used to select one or more files in the dataset
         :param is_dir: A flag used to indicate that the glob should be matched against the start of the paths in the dataset (simulates directory matching)
-        :param latest: A boolean flag indicating that results should be limited to reporting files from the latest dataset version
         :return: The response object, or an error message object if the request failed
         """
+        if version_number is None:
+            latest = True
+        else:
+            latest = False
+
         data = {
             "download_request": {
                 "glob": glob,
@@ -112,9 +118,21 @@ class DataClient(BaseClient):
                 "latest": latest
             }
         }
+
         response = self._post_json(routes.matched_files(dataset_id), data)
         failure_message = "Failed to get matched files in dataset {}".format(dataset_id)
-        return http_utils.get_success_json(response, failure_message)
+        versions = http_utils.get_success_json(response, failure_message)['versions']
+
+        if version_number is None:
+            version = versions[0]
+        else:
+            version = list(filter(lambda v: v['number'] == version_number, versions))
+
+        return list(
+            map(
+                lambda f: DatasetFile(path=f['filename'], url=f['url']), version['files']
+                )
+            )
 
     def get_dataset_file(self, dataset_id, file_path, version = None):
         """
@@ -130,7 +148,9 @@ class DataClient(BaseClient):
         else:
             result = self._get(routes.file_dataset_version_path(dataset_id, version, file_path))
 
-        return http_utils.get_success_json(result, "An error occurred retrieving file {}".format(file_path))
+        file = http_utils.get_success_json(result, "An error occurred retrieving file {}".format(file_path))['file']
+
+        return DatasetFile(path=file['filename'], url=file['url'])
 
     def get_pif(self, dataset_id, uid, version = None):
         """
@@ -170,7 +190,9 @@ class DataClient(BaseClient):
         dataset = {"dataset": data}
         failure_message = "Unable to create dataset"
         result = self._post_json(routes.create_dataset(), dataset)
-        return http_utils.get_success_json(result, failure_message)
+        response_dict = http_utils.get_success_json(result, failure_message)
+        
+        return _dataset_from_response_dict(response_dict)
 
     def update_dataset(self, dataset_id, name=None, description=None, public=None):
         """
@@ -193,10 +215,13 @@ class DataClient(BaseClient):
             data["description"] = description
 
         dataset = {"dataset": data}
-        return http_utils.get_success_json(
+
+        response = http_utils.get_success_json(
                 self._post_json(routes.update_dataset(dataset_id), data=dataset),
                 "Failed to update dataset {}".format(dataset_id)
             )
+
+        return _dataset_from_response_dict(response)
 
     def create_dataset_version(self, dataset_id):
         """
@@ -208,7 +233,11 @@ class DataClient(BaseClient):
         return http_utils.get_success_json(
                 self._post_json(routes.create_dataset_version(dataset_id), data={}),
                 "Failed to create dataset version for dataset {}".format(dataset_id)
-            )
+            )['dataset_scoped_id']
+
+def _dataset_from_response_dict(dataset):
+    return Dataset(dataset['id'], name=dataset['name'],
+        description=dataset['description'], created_at=dataset['created_at'])
 
 def _convert_bool_to_public_value(val):
     if val == None:
