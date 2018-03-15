@@ -31,4 +31,4 @@ def file_dataset_path(dataset_id, file_path):
     return 'datasets/{}/file/{}'.format(dataset_id, quote(file_path))
 
 def file_dataset_version_path(dataset_id, version, file_path):
-    return 'datasets/{}/version/{}/files/{}'.format(jdataset_id, version, quote(file_path))
+    return 'datasets/{}/version/{}/files/{}'.format(dataset_id, version, quote(file_path))
