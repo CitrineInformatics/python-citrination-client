@@ -1,5 +1,11 @@
 from citrination_client.base.base_client import BaseClient
 from citrination_client.util import http as http_util
+
+from .predicted_value import PredictedValue
+from .prediction_result import PredictionResult
+from .tsne import Tsne
+from .projection import Projection
+
 import routes
 
 class ModelsClient(BaseClient):
@@ -20,17 +26,18 @@ class ModelsClient(BaseClient):
         """
         analysis = self._data_analysis(model_name)
         projections = analysis['projections']
-        cleaned = {}
+        tsne = Tsne()
         for k, v in projections.items():
-            d = {}
-            d['x'] = v['x']
-            d['y'] = v['y']
-            d['z'] = v['label']
-            d['label'] = v['inputs']
-            d['uid'] = v['uid']
-            cleaned[k] = d
+            projection = Projection(
+                    xs=v['x'],
+                    ys=v['y'],
+                    zs=v['label'],
+                    labels=v['inputs'],
+                    uids=v['uid']
+                )
+            tsne.add_projection(k, projection)
 
-        return cleaned
+        return tsne
 
     def predict(self, data_view_id, candidates, method="scalar", use_prior=True):
         """
@@ -44,10 +51,12 @@ class ModelsClient(BaseClient):
         """
         body = self._get_predict_body(candidates, method, use_prior)
 
-        return http_util.get_success_json(
-            self._post_json(routes.data_view_predict(data_view_id), data=body),
-            "Error while making prediction for data view {}".format(data_view_id)
-        )
+        return _get_prediction_result_from_response(
+                http_util.get_success_json(
+                    self._post_json(routes.data_view_predict(data_view_id), data=body),
+                    "Error while making prediction for data view {}".format(data_view_id)
+                )
+            )
 
     def predict_custom(self, model_path, candidates):
         """
@@ -60,10 +69,12 @@ class ModelsClient(BaseClient):
 
         body = self._get_predict_body(candidates)
 
-        return http_util.get_success_json(
-            self._post_json(routes.custom_model_predict(model_path), data=body),
-            "Error while making prediction for custom model {}".format(model_path)
-        )
+        return _get_prediction_result_from_response(
+                http_util.get_success_json(
+                    self._post_json(routes.custom_model_predict(model_path), data=body),
+                    "Error while making prediction for custom model {}".format(model_path)
+                )
+            )
 
     def _data_analysis(self, data_view_id):
         """
@@ -91,3 +102,11 @@ class ModelsClient(BaseClient):
                 "candidates": candidates
                 }
             }
+
+def _get_prediction_result_from_response(response):
+    candidate = response['candidates'][0]
+    result = PredictionResult()
+    for k,v in candidate.items():
+        result.add_value(k, PredictedValue(k, v[0], v[1]))
+
+    return result

@@ -79,7 +79,6 @@ class SearchClient(BaseClient):
             partial_results = self._search_internal(sub_query, result_class)
             total = partial_results.total_num_hits
             time += partial_results.took
-            # print("hits: {}".format(len(hits)))
             if partial_results.hits is not None:
                 hits.extend(partial_results.hits)
             if len(hits) >= size or len(hits) >= total or sub_query.from_index >= total:
