@@ -7,7 +7,7 @@ class DatasetReturningQuery(BaseReturningQuery):
     """
 
     def __init__(self, query=None, from_index=None, size=None, random_results=None, random_seed=None,
-                 score_relevance=None, return_max_score=None, count_pifs=None, **kwargs):
+                 score_relevance=None, return_max_score=None, timeout=None, count_pifs=None, **kwargs):
         """
         Constructor.
         
@@ -18,11 +18,12 @@ class DatasetReturningQuery(BaseReturningQuery):
         :param random_seed: The random seed to use.
         :param score_relevance: Whether to use relevance scoring.
         :param return_max_score: Whether to return the maximum score.
+        :param timeout: The number of milliseconds to wait for the query to execute.
         :param count_pifs: Whether to return counts of PIFs for each dataset.
         """
         super(DatasetReturningQuery, self).__init__(
             query=query, from_index=from_index, size=size, random_results=random_results, random_seed=random_seed,
-            score_relevance=score_relevance, return_max_score=return_max_score, **kwargs)
+            score_relevance=score_relevance, return_max_score=return_max_score, timeout=timeout, **kwargs)
         self._count_pifs = None
         self.count_pifs = count_pifs
 

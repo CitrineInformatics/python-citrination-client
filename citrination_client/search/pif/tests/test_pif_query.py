@@ -61,7 +61,7 @@ class TestPifQuery():
             query=DataQuery(
                 system=PifSystemQuery(
                     updated_at=Filter(
-                        max='20171001T00:00:00Z')))))
+                        max='2017-10-01T00:00:00.000Z')))))
         assert all_response.hits[0].updated_at is not None
         assert all_response.total_num_hits != subset_response.total_num_hits
 
