@@ -16,16 +16,16 @@ def _assert_prediction_values(prediction):
     """
     egap = '$\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)'
     voltage = 'Open-circuit voltage (V$_{OC}$)'
-    assert 'Mass'  in prediction, "Mass prediction missing (check ML logic)"
-    assert egap    in prediction, "E_gap prediction missing (check ML logic)"
-    assert voltage in prediction, "V_OC prediction missing (check ML logic)"
+    assert prediction.get_value('Mass')  is not None, "Mass prediction missing (check ML logic)"
+    assert prediction.get_value(egap)    is not None, "E_gap prediction missing (check ML logic)"
+    assert prediction.get_value(voltage) is not None, "V_OC prediction missing (check ML logic)"
 
-    assert _almost_equal(prediction['Mass'][0], 250,  60.0), "Mass mean prediction beyond tolerance (check ML logic)"
-    assert _almost_equal(prediction['Mass'][1], 30.0, 40.0), "Mass sigma prediction beyond tolerance (check ML logic)"
-    assert _almost_equal(prediction[egap][0], 2.6,  0.7), "E_gap mean prediction beyond tolerance (check ML logic)"
-    assert _almost_equal(prediction[egap][1], 0.50, 0.55), "E_gap sigma prediction beyond tolerance (check ML logic)"
-    assert _almost_equal(prediction[voltage][0], 1.0, 0.9), "V_OC mean prediction beyond tolerance (check ML logic)"
-    assert _almost_equal(prediction[voltage][1], 0.8, 0.9), "V_OC sigma prediction beyond tolerance (check ML logic)"
+    assert _almost_equal(prediction.get_value('Mass').value, 250,  60.0), "Mass mean prediction beyond tolerance (check ML logic)"
+    assert _almost_equal(prediction.get_value('Mass').sigma, 30.0, 40.0), "Mass sigma prediction beyond tolerance (check ML logic)"
+    assert _almost_equal(prediction.get_value(egap).value, 2.6,  0.7), "E_gap mean prediction beyond tolerance (check ML logic)"
+    assert _almost_equal(prediction.get_value(egap).sigma, 0.50, 0.55), "E_gap sigma prediction beyond tolerance (check ML logic)"
+    assert _almost_equal(prediction.get_value(voltage).value, 1.0, 0.9), "V_OC mean prediction beyond tolerance (check ML logic)"
+    assert _almost_equal(prediction.get_value(voltage).sigma, 0.8, 0.9), "V_OC sigma prediction beyond tolerance (check ML logic)"
 
 def test_tsne():
     """
@@ -33,19 +33,18 @@ def test_tsne():
     """
     resp = client.tsne("1623")
 
-    assert len(resp) == 1, "Expected a single tSNE block but got {}".format(len(resp))
 
-    tsne_y = resp[list(resp.keys())[0]]
-    assert "x" in tsne_y, "Couldn't find x component of tsne projection"
-    assert "y" in tsne_y, "Couldn't find y component of tsne projection"
-    assert "z" in tsne_y, "Couldn't find property label for tsne projection"
-    assert "uid" in tsne_y, "Couldn't find uid in tsne projection"
-    assert "label" in tsne_y, "Couldn't find label in tsne projection"
+    tsne_y = resp.get_projection('Property  y')
+    assert tsne_y.xs is not None, "Couldn't find x component of tsne projection"
+    assert tsne_y.ys is not None, "Couldn't find y component of tsne projection"
+    assert tsne_y.zs is not None, "Couldn't find property label for tsne projection"
+    assert tsne_y.uids is not None, "Couldn't find uid in tsne projection"
+    assert tsne_y.labels is not None, "Couldn't find label in tsne projection"
 
-    assert len(tsne_y["x"]) == len(tsne_y["y"]),     "tSNE components x and y had different lengths"
-    assert len(tsne_y["x"]) == len(tsne_y["z"]),     "tSNE components x and z had different lengths"
-    assert len(tsne_y["x"]) == len(tsne_y["label"]), "tSNE components x and uid had different lengths"
-    assert len(tsne_y["x"]) == len(tsne_y["uid"]),   "tSNE components x and label had different lengths"
+    assert len(tsne_y.xs) == len(tsne_y.ys),     "tSNE components x and y had different lengths"
+    assert len(tsne_y.xs) == len(tsne_y.zs),     "tSNE components x and z had different lengths"
+    assert len(tsne_y.xs) == len(tsne_y.labels), "tSNE components x and uid had different lengths"
+    assert len(tsne_y.xs) == len(tsne_y.uids),   "tSNE components x and label had different lengths"
 
 
 def test_predict():
@@ -59,9 +58,8 @@ def test_predict():
     inputs = [{"SMILES": "c1(C=O)cc(OC)c(O)cc1"}, ]
     vid = "177" 
 
-    resp = client.predict(vid, inputs, method="scalar")
-    prediction = resp['candidates'][0]
-    _assert_prediction_values(prediction)
+    prediction_result = client.predict(vid, inputs, method="scalar")
+    _assert_prediction_values(prediction_result)
 
 def test_predict_from_distribution():
     """
@@ -73,13 +71,11 @@ def test_predict_from_distribution():
     inputs = [{"SMILES": "c1(C=O)cc(OC)c(O)cc1"}, ]
     vid = "177" 
 
-    resp = client.predict(vid, inputs, method="from_distribution")
-    prediction = resp['candidates'][0]
-    _assert_prediction_values(prediction)
+    prediction_result = client.predict(vid, inputs, method="from_distribution")
+    _assert_prediction_values(prediction_result)
 
 def test_predict_custom():
     input = {"canary_x": "0.5", "temperature": "100", "canary_y": "0.75"}
-    resp = client.predict_custom("canary", input)
-    prediction = resp['candidates'][0]
-    assert 'canary_zz' in prediction.keys()
-    assert 'canary_z' in prediction.keys()
+    prediction_result = client.predict_custom("canary", input)
+    assert prediction_result.get_value('canary_zz') is not None
+    assert prediction_result.get_value('canary_z') is not None
