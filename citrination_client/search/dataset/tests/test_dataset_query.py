@@ -1,9 +1,10 @@
 from os import environ
+import unittest
 
 from citrination_client import *
 
 
-class TestDatasetQuery():
+class TestDatasetQuery(unittest.TestCase):
 
     @classmethod
     def setup_class(cls):
@@ -34,3 +35,10 @@ class TestDatasetQuery():
                 dataset=DatasetQuery(
                     id=Filter(equal='151278')))))
         assert 1 == response.total_num_hits
+
+    def test_timeout(self):
+        """Test that timeouts are sent properly. This request should fail with an exception."""
+        self.assertRaises(
+            StandardError,
+            self.client.dataset_search(DatasetReturningQuery(timeout=0, size=10))
+        )
