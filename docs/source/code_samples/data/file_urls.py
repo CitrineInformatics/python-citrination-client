@@ -6,19 +6,9 @@ dataset_id = 1
 
 data_client.get_dataset_file(dataset_id, "my_file.json")
 
-# {'file': {'url': "my.file.url.com", 'filename': 'test_directory_upload/weird_extensions.woodle'}}
+# Returns a DatasetFile object
 
-# Gets all the files in a dataset, organized by version
+# Gets all the files in a dataset, organized by version,
+# represented as a list of DatasetFile objects
 
 data_client.get_dataset_files(dataset_id)
-
-# {'versions': [
-#   {'files': [
-#     {
-#       'url': 'my.file.url.com',
-#       'filename': 'my_file.json'
-#     }]
-#   }...]
-# }
-
-# Gets all the files matched 

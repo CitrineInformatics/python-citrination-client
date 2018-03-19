@@ -21,6 +21,11 @@ class UploadResult(object):
         return self._successes
 
     def successful(self):
+        """
+        Indicates whether or not the entire upload was successful.
+
+        :return: A boolean indicating success (True) or failure (False)
+        """
         return len(self._failures) == 0
 
     def add_failure(self, filepath, reason):

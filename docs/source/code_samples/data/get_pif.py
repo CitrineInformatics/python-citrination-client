@@ -6,4 +6,4 @@ dataset_id = 1
 
 data_client.get_pif(dataset_id, "1DF1C8EB706363DS2G3")
 
-# -> {u'category': u'system.chemical', u'uid': u'1DF1C8EB706363....
+# Returns a Pif object from the PyPif library
