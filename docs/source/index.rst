@@ -6,21 +6,21 @@
 Welcome to Python Citrination Client's documentation!
 =====================================================
 
+
+Tutorial
+--------
+
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
-   ./examples
+   tutorial/tutorial
 
-   tutorial/data_examples
-   tutorial/exception_handling
-   tutorial/models_examples
-   tutorial/getting_started
-   tutorial/search_examples
+Module Documentation
+--------------------
 
-Indices and tables
-==================
+.. toctree::
+   :maxdepth: 2
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   modules/data_client
+   modules/models_client
+   modules/search_client

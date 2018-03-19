@@ -36,7 +36,8 @@ class DataClient(BaseClient):
 
     def upload(self, dataset_id, source_path, dest_path=None):
         """
-        Upload a file, specifying source and dest paths a file (acts as the scp command)
+        Upload a file, specifying source and dest paths a file (acts as the scp command).
+
         :param source_path: The path to the file on the source host
         :param dest_path: The path to the file where the contents of the upload will be written (on the dest host)
         :return: A :class:`UploadResult` object summarizing the result of
@@ -81,6 +82,7 @@ class DataClient(BaseClient):
     def list_files(self, dataset_id, glob=".", is_dir=False):
         """
         List matched filenames in a dataset on Citrination.
+
         :param dataset_id: The ID of the dataset to search for files.
         :param glob: A pattern which will be matched against files in the dataset.
         :param is_dir: A boolean indicating whether or not the pattern should match against the beginning of paths in the dataset.
@@ -99,7 +101,8 @@ class DataClient(BaseClient):
 
     def matched_file_count(self, dataset_id, glob=".", is_dir=False):
         """
-        Returns the number of files matching a pattern in a dataset
+        Returns the number of files matching a pattern in a dataset.
+
         :param dataset_id: The ID of the dataset to search for files.
         :param glob: A pattern which will be matched against files in the dataset.
         :param is_dir: A boolean indicating whether or not the pattern should match against the beginning of paths in the dataset.
@@ -184,10 +187,10 @@ class DataClient(BaseClient):
     def create_dataset(self, name=None, description=None, public=False):
         """
         Create a new data set.
+
         :param name: name of the dataset
         :param description: description for the dataset
         :param public: A boolean indicating whether or not the dataset should be public.
-
         :return: A :class:`Dataset` object representing the newly created dataset.
         """
         data = {
@@ -207,6 +210,7 @@ class DataClient(BaseClient):
     def update_dataset(self, dataset_id, name=None, description=None, public=None):
         """
         Update a data set.
+
         :param dataset_id:
         :param name: name of the dataset
         :param description: description for the dataset

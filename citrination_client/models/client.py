@@ -17,13 +17,14 @@ class ModelsClient(BaseClient):
         members = [
             "tsne",
             "predict",
-            "predict_custom"            
+            "predict_custom"
         ]
         super(ModelsClient, self).__init__(api_key, webserver_host, members)
 
     def tsne(self, data_view_id):
         """
-        Get the t-SNE projection, including z-values and labels
+        Get the t-SNE projection, including z-values and labels.
+
         :param data_view_id: The ID of the data view to retrieve TSNE from
         :return: A :class:`Tsne` object representing the TSNE analysis
         """
@@ -81,7 +82,8 @@ class ModelsClient(BaseClient):
 
     def _data_analysis(self, data_view_id):
         """
-        Data analysis endpoint
+        Data analysis endpoint.
+
         :param data_view_id: The model identifier (id number for data views)
         :return: dictionary containing information about the data, e.g. dCorr and tsne
         """

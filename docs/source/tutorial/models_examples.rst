@@ -1,5 +1,5 @@
-Models Client
-=============
+Models Client Examples
+======================
 
 The ``ModelsClient`` class encapsulates interactions with
 trained models on Citrination.
