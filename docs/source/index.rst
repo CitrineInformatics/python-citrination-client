@@ -14,6 +14,7 @@ Tutorial
    :maxdepth: 2
 
    tutorial/tutorial
+   migrating_to_four
 
 Module Documentation
 --------------------
