@@ -1,6 +1,17 @@
 class PredictedValue(object):
+    """
+    The value/sigma output from a prediction.
+    """
 
     def __init__(self, key, value, sigma=None):
+        """
+        Constructor.
+
+        :param key: The descriptor key for the prediction
+        :param value: The predicted value
+        :param sigma: If the predicted value is a real number, the sigma
+            for the prediction
+        """
         self._key = key
         self._value = value
         if type(value) == str:
