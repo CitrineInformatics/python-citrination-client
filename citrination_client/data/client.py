@@ -11,8 +11,17 @@ import requests
 import routes
 
 class DataClient(BaseClient):
+    """
+    Client encapsulating data management behavior.
+    """
 
     def __init__(self, api_key, webserver_host="https://citrination.com"):
+        """
+        Constructor.
+
+        :param api_key: A users API key, as a string
+        :param webserver_host: The root site Url
+        """
         members = [
             "upload",
             "list_files",
@@ -30,12 +39,8 @@ class DataClient(BaseClient):
         Upload a file, specifying source and dest paths a file (acts as the scp command)
         :param source_path: The path to the file on the source host
         :param dest_path: The path to the file where the contents of the upload will be written (on the dest host)
-        :return: A JSON block with a "message" key indicating that the upload if files is complete:
-                {
-                    "message": "Upload of files is complete.",
-                    "successes": List of filepaths which were uploaded successfully,
-                    "failures": List of filepaths which failed to upload
-                }
+        :return: A :class:`UploadResult` object summarizing the result of
+            the upload process
         """
         upload_result = UploadResult()
         source_path = str(source_path)
@@ -79,7 +84,7 @@ class DataClient(BaseClient):
         :param dataset_id: The ID of the dataset to search for files.
         :param glob: A pattern which will be matched against files in the dataset.
         :param is_dir: A boolean indicating whether or not the pattern should match against the beginning of paths in the dataset.
-        :return: Response object or return code if the file was not uploaded.
+        :return: A list of filepaths in the dataset matching the provided glob.
         """
         data = {
             "list": {
@@ -93,6 +98,13 @@ class DataClient(BaseClient):
         )['files']
 
     def matched_file_count(self, dataset_id, glob=".", is_dir=False):
+        """
+        Returns the number of files matching a pattern in a dataset
+        :param dataset_id: The ID of the dataset to search for files.
+        :param glob: A pattern which will be matched against files in the dataset.
+        :param is_dir: A boolean indicating whether or not the pattern should match against the beginning of paths in the dataset.
+        :return: The number of matching files
+        """
         list_result = self.list_files(dataset_id, glob, is_dir)
         return len(list_result)
 
@@ -103,8 +115,8 @@ class DataClient(BaseClient):
 
         :param dataset_id: The id of the dataset to retrieve files from
         :param glob: A regex used to select one or more files in the dataset
-        :param is_dir: A flag used to indicate that the glob should be matched against the start of the paths in the dataset (simulates directory matching)
-        :return: The response object, or an error message object if the request failed
+        :param version_number: The version number of the dataset to retrieve files from
+        :return: A list of :class:`DatasetFile` objects matching the provided pattern.
         """
         if version_number is None:
             latest = True
@@ -136,12 +148,12 @@ class DataClient(BaseClient):
 
     def get_dataset_file(self, dataset_id, file_path, version = None):
         """
-        Retrieves the URL for a file contained in a given dataset by version (optional) and filepath.
+        Retrieves a dataset file matching a provided file path
 
         :param data_set_id: The id of the dataset to retrieve file from
         :param file_path: The file path within the dataset
         :param version: The dataset version to look for the file in. If nothing is supplied, the latest dataset version will be searched
-        :return: The response object, or an error message object if the request failed
+        :return: A :class:`DatasetFile` object matching the filepath provided
         """
         if version == None:
             result = self._get(routes.file_dataset_path(dataset_id, file_path))
@@ -159,7 +171,7 @@ class DataClient(BaseClient):
         :param data_set_id: The id of the dataset to retrieve PIF from
         :param uid: The uid of the PIF to retrieve
         :param version: The dataset version to look for the PIF in. If nothing is supplied, the latest dataset version will be searched
-        :return: The response object, or an error message object if the request failed
+        :return: A :class:`Pif` object
         """
         if version == None:
             response = self._get(routes.pif_dataset_uid(dataset_id, uid))
@@ -174,11 +186,9 @@ class DataClient(BaseClient):
         Create a new data set.
         :param name: name of the dataset
         :param description: description for the dataset
-        :param share: share the dataset with everyone on the site. Valid values are '1' or '0'.
-                      1 means share with everyone on the site. 0 means only the owner of the dataset
-                      can see the dataset.
+        :param public: A boolean indicating whether or not the dataset should be public.
 
-        :return: Response from the create data set request.
+        :return: A :class:`Dataset` object representing the newly created dataset.
         """
         data = {
             "public": _convert_bool_to_public_value(public)
@@ -191,7 +201,7 @@ class DataClient(BaseClient):
         failure_message = "Unable to create dataset"
         result = self._post_json(routes.create_dataset(), dataset)
         response_dict = http_utils.get_success_json(result, failure_message)
-        
+
         return _dataset_from_response_dict(response_dict)
 
     def update_dataset(self, dataset_id, name=None, description=None, public=None):
@@ -200,10 +210,8 @@ class DataClient(BaseClient):
         :param dataset_id:
         :param name: name of the dataset
         :param description: description for the dataset
-        :param public: share the dataset with everyone on the site. Valid values are '1' or '0'.
-                      1 means share with everyone on the site. 0 means only the owner of the dataset
-                      can see the dataset.
-        :return: Response from the update data set request.
+        :param public: A boolean indicating whether or not the dataset should be public.
+        :return: A :class:`Dataset` object representing the updated dataset.
         """
         data = {
             "public": _convert_bool_to_public_value(public)
@@ -227,8 +235,8 @@ class DataClient(BaseClient):
         """
         Create a new data set version.
 
-        :param dataset_id: Id of the particular data set to upload to.
-        :return: Response from the create data set version request.
+        :param dataset_id: The ID of the dataset for which the version must be bumped.
+        :return: The number of the new version.
         """
         return http_utils.get_success_json(
                 self._post_json(routes.create_dataset_version(dataset_id), data={}),
@@ -247,9 +255,9 @@ def _convert_bool_to_public_value(val):
     if val == True:
         return '1'
 
-def _get_s3_presigned_url(input_json):
+def _get_s3_presigned_url(response_dict):
     """
-    Helper method to create an S3 presigned url from the json.
+    Helper method to create an S3 presigned url from the response dictionary.
     """
-    url = input_json['url']
+    url = response_dict['url']
     return url['scheme']+'://'+url['host']+url['path']+'?'+url['query']
