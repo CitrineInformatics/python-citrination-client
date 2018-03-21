@@ -1,10 +1,9 @@
 from os import environ
 import unittest
 import pytest
-from citrination_client.base.errors import CitrinationServerErrorException
 from citrination_client import *
 
-class TestDatasetQuery(unittest.TestCase):
+class TestDatasetQuery():
 
     @classmethod
     def setup_class(cls):
