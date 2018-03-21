@@ -1,5 +1,15 @@
 from errors import *
 
+def check_general_success(response, failure_message):
+    if response.status_code >= 400:
+        raise CitrinationClientError(
+            "{} - Citrination returned {}".format(failure_message, response.status_code)
+        )
+    return response
+
+def get_response_json(response):
+    return response.json()
+
 def raise_on_response(response):
     _check_response_for_version_mismatch(response)
     _check_response_for_feature_availability(response)

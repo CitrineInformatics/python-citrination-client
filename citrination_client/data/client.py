@@ -1,10 +1,9 @@
 from citrination_client.base.base_client import BaseClient
-from citrination_client.errors import CitrinationClientError
+from citrination_client.base.errors import *
 from pypif import pif
 from .upload_result import UploadResult
 from .dataset import Dataset
 from .dataset_file import DatasetFile
-import citrination_client.util.http as http_utils
 import json
 import os
 import requests
@@ -26,7 +25,6 @@ class DataClient(BaseClient):
             "upload",
             "list_files",
             "matched_file_count",
-            "get_matched_dataset_files",
             "get_dataset_files",
             "get_dataset_file",
             "create_dataset",
@@ -94,10 +92,7 @@ class DataClient(BaseClient):
                 "isDir": is_dir
             }
         }
-        return http_utils.get_success_json(
-            self._post_json(routes.list_files(dataset_id), data),
-            "Failed to list files for dataset {}".format(dataset_id)
-        )['files']
+        return self._post_json(routes.list_files(dataset_id), data, failure_message="Failed to list files for dataset {}".format(dataset_id)).json()['files']
 
     def matched_file_count(self, dataset_id, glob=".", is_dir=False):
         """
@@ -134,14 +129,19 @@ class DataClient(BaseClient):
             }
         }
 
-        response = self._post_json(routes.matched_files(dataset_id), data)
         failure_message = "Failed to get matched files in dataset {}".format(dataset_id)
-        versions = http_utils.get_success_json(response, failure_message)['versions']
 
+        versions = self._post_json(routes.matched_files(dataset_id), data, failure_message=failure_message).json()['versions']
+
+        # if you don't provide a version number, only the latest
+        # will be included in the response body
         if version_number is None:
             version = versions[0]
         else:
-            version = list(filter(lambda v: v['number'] == version_number, versions))
+            try:
+                version = list(filter(lambda v: v['number'] == version_number, versions))[0]
+            except IndexError:
+                raise ResourceNotFoundException()
 
         return list(
             map(
@@ -158,12 +158,13 @@ class DataClient(BaseClient):
         :param version: The dataset version to look for the file in. If nothing is supplied, the latest dataset version will be searched
         :return: A :class:`DatasetFile` object matching the filepath provided
         """
+        failure_message = "An error occurred retrieving file {}".format(file_path)
         if version == None:
-            result = self._get(routes.file_dataset_path(dataset_id, file_path))
+            response = self._get(routes.file_dataset_path(dataset_id, file_path), failure_message=failure_message)
         else:
-            result = self._get(routes.file_dataset_version_path(dataset_id, version, file_path))
+            response = self._get(routes.file_dataset_version_path(dataset_id, version, file_path), failure_message=failure_message)
 
-        file = http_utils.get_success_json(result, "An error occurred retrieving file {}".format(file_path))['file']
+        file = response.json()['file']
 
         return DatasetFile(path=file['filename'], url=file['url'])
 
@@ -176,12 +177,12 @@ class DataClient(BaseClient):
         :param version: The dataset version to look for the PIF in. If nothing is supplied, the latest dataset version will be searched
         :return: A :class:`Pif` object
         """
+        failure_message = "An error occurred retrieving PIF {}".format(uid)
         if version == None:
-            response = self._get(routes.pif_dataset_uid(dataset_id, uid))
+            response = self._get(routes.pif_dataset_uid(dataset_id, uid), failure_message=failure_message)
         else:
-            response = self._get(routes.pif_dataset_version_uid(dataset_id, uid, version))
+            response = self._get(routes.pif_dataset_version_uid(dataset_id, uid, version), failure_message=failure_message)
 
-        response = http_utils.check_success(response, "An error occurred retrieving PIF {}".format(uid))
         return pif.loads(response.content)
 
     def create_dataset(self, name=None, description=None, public=False):
@@ -202,10 +203,9 @@ class DataClient(BaseClient):
             data["description"] = description
         dataset = {"dataset": data}
         failure_message = "Unable to create dataset"
-        result = self._post_json(routes.create_dataset(), dataset)
-        response_dict = http_utils.get_success_json(result, failure_message)
+        result = self._post_json(routes.create_dataset(), dataset, failure_message=failure_message).json()
 
-        return _dataset_from_response_dict(response_dict)
+        return _dataset_from_response_dict(result)
 
     def update_dataset(self, dataset_id, name=None, description=None, public=None):
         """
@@ -227,11 +227,8 @@ class DataClient(BaseClient):
             data["description"] = description
 
         dataset = {"dataset": data}
-
-        response = http_utils.get_success_json(
-                self._post_json(routes.update_dataset(dataset_id), data=dataset),
-                "Failed to update dataset {}".format(dataset_id)
-            )
+        failure_message = "Failed to update dataset {}".format(dataset_id)
+        response = self._post_json(routes.update_dataset(dataset_id), data=dataset, failure_message=failure_message).json()
 
         return _dataset_from_response_dict(response)
 
@@ -242,10 +239,8 @@ class DataClient(BaseClient):
         :param dataset_id: The ID of the dataset for which the version must be bumped.
         :return: The number of the new version.
         """
-        return http_utils.get_success_json(
-                self._post_json(routes.create_dataset_version(dataset_id), data={}),
-                "Failed to create dataset version for dataset {}".format(dataset_id)
-            )['dataset_scoped_id']
+        failure_message = "Failed to create dataset version for dataset {}".format(dataset_id)
+        return self._post_json(routes.create_dataset_version(dataset_id), data={}, failure_message=failure_message).json()['dataset_scoped_id']
 
 def _dataset_from_response_dict(dataset):
     return Dataset(dataset['id'], name=dataset['name'],

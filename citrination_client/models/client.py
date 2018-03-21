@@ -1,6 +1,4 @@
 from citrination_client.base.base_client import BaseClient
-from citrination_client.util import http as http_util
-
 from .predicted_value import PredictedValue
 from .prediction_result import PredictionResult
 from .tsne import Tsne
@@ -16,8 +14,7 @@ class ModelsClient(BaseClient):
     def __init__(self, api_key, webserver_host="https://citrination.com"):
         members = [
             "tsne",
-            "predict",
-            "predict_custom"
+            "predict"
         ]
         super(ModelsClient, self).__init__(api_key, webserver_host, members)
 
@@ -54,30 +51,9 @@ class ModelsClient(BaseClient):
         :return: A :class:`PredictionResult`
         """
         body = self._get_predict_body(candidates, method, use_prior)
-
+        failure_message = "Error while making prediction for data view {}".format(data_view_id)
         return _get_prediction_result_from_response(
-                http_util.get_success_json(
-                    self._post_json(routes.data_view_predict(data_view_id), data=body),
-                    "Error while making prediction for data view {}".format(data_view_id)
-                )
-            )
-
-    def predict_custom(self, model_path, candidates):
-        """
-        Predict endpoint for a custom model
-
-        :param model_path: The path from the custom model url (https://citrination.com/predict/{{model_path}})
-        :param candidates: A list of candidates to make predictions on
-        :return: A :class:`PredictionResult`
-        """
-
-        body = self._get_predict_body(candidates)
-
-        return _get_prediction_result_from_response(
-                http_util.get_success_json(
-                    self._post_json(routes.custom_model_predict(model_path), data=body),
-                    "Error while making prediction for custom model {}".format(model_path)
-                )
+                self._post_json(routes.data_view_predict(data_view_id), data=body, failure_message=failure_message).json()
             )
 
     def _data_analysis(self, data_view_id):
@@ -87,10 +63,8 @@ class ModelsClient(BaseClient):
         :param data_view_id: The model identifier (id number for data views)
         :return: dictionary containing information about the data, e.g. dCorr and tsne
         """
-        return http_util.get_success_json(
-            self._get(routes.data_analysis(data_view_id)),
-            "Error while retrieving data analysis for data view {}".format(data_view_id)
-        )
+        failure_message = "Error while retrieving data analysis for data view {}".format(data_view_id)
+        return self._get(routes.data_analysis(data_view_id), failure_message=failure_message).json()
 
     def _get_predict_body(self, candidates, method="scalar", use_prior=True):
         if not (method == "scalar" or method == "from_distribution"):

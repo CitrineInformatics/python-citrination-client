@@ -55,8 +55,8 @@ def test_predict():
     organics demo script
     """
 
-    inputs = [{"SMILES": "c1(C=O)cc(OC)c(O)cc1"}, ]
-    vid = "177" 
+    inputs = [{"SMILES": "c1(C=O)cc(OC)c(O)cc1"}]
+    vid = 177
 
     prediction_result = client.predict(vid, inputs, method="scalar")
     _assert_prediction_values(prediction_result)
@@ -73,9 +73,3 @@ def test_predict_from_distribution():
 
     prediction_result = client.predict(vid, inputs, method="from_distribution")
     _assert_prediction_values(prediction_result)
-
-def test_predict_custom():
-    input = {"canary_x": "0.5", "temperature": "100", "canary_y": "0.75"}
-    prediction_result = client.predict_custom("canary", input)
-    assert prediction_result.get_value('canary_zz') is not None
-    assert prediction_result.get_value('canary_z') is not None
