@@ -112,11 +112,11 @@ class SearchClient(BaseClient):
 
         return PifMultiSearchResult(**keys_to_snake_case(response_dict['results']))
 
-    def simple_chemical_search(self, name=None, chemical_formula=None, property_name=None, property_value=None,
+    def generate_simple_chemical_query(self, name=None, chemical_formula=None, property_name=None, property_value=None,
                                property_min=None, property_max=None, property_units=None, reference_doi=None,
                                include_datasets=[], exclude_datasets=[], from_index=None, size=None):
         """
-        Run a query against Citrination. This method generates a :class:`PifSystemReturningQuery` object using the
+        Generates a chemical system query with easily usable parameterization. This method generates a :class:`PifSystemReturningQuery` object using the
         supplied arguments. All arguments that accept lists have logical OR's on the queries that they generate.
         This means that, for example, simple_chemical_search(name=['A', 'B']) will match records that have name
         equal to 'A' or 'B'.
@@ -190,4 +190,5 @@ class SearchClient(BaseClient):
             from_index=from_index,
             size=size,
             score_relevance=True)
-        return self.pif_search(pif_system_returning_query)
+
+        return pif_system_returning_query
