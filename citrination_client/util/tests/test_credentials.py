@@ -17,6 +17,13 @@ def test_initialization_parameters_preferred():
     os.environ[citr_env_vars.CITRINATION_API_KEY] = ""
     os.environ[citr_env_vars.CITRINATION_SITE] = ""
 
+def test_only_initialization_parameters():
+    api_key = "mykey"
+    site = "mysite.citrination.com"
+    preferred_key, preferred_site = get_preferred_credentials(api_key, site, mock_credentials_path)
+    assert preferred_key == api_key
+    assert preferred_site == site
+
 def test_env_vars_preferred():
     api_key = "mykey"
     site = "mysite.citrination.com"
@@ -47,6 +54,6 @@ def test_creds_none_if_no_file():
     assert site is None
 
 def _reset_env():
-    os.environ[citr_env_vars.CITRINATION_API_KEY] = ""
-    os.environ[citr_env_vars.CITRINATION_SITE] = ""
-    os.environ[citr_env_vars.CITRINATION_PROFILE] = ""
+    os.environ.pop(citr_env_vars.CITRINATION_API_KEY, None)
+    os.environ.pop(citr_env_vars.CITRINATION_SITE, None)
+    os.environ.pop(citr_env_vars.CITRINATION_PROFILE, None)
