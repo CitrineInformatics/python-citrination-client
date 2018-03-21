@@ -106,7 +106,7 @@ class DataClient(BaseClient):
         list_result = self.list_files(dataset_id, glob, is_dir)
         return len(list_result)
 
-    def get_dataset_files(self, dataset_id, glob=".", version_number=None):
+    def get_dataset_files(self, dataset_id, glob=".", is_dir=False, version_number=None):
         """
         Retrieves URLs for the files matched by a glob or a path to a directory
         in a given dataset.
@@ -158,19 +158,11 @@ class DataClient(BaseClient):
         :param version: The dataset version to look for the file in. If nothing is supplied, the latest dataset version will be searched
         :return: A :class:`DatasetFile` object matching the filepath provided
         """
-        failure_message = "An error occurred retrieving file {}".format(file_path)
-        if version == None:
-            response = self._get(routes.file_dataset_path(dataset_id, file_path), failure_message=failure_message)
-        else:
-            response = self._get(routes.file_dataset_version_path(dataset_id, version, file_path), failure_message=failure_message)
-
-        file = response.json()['file']
-
-        return DatasetFile(path=file['filename'], url=file['url'])
+        return self.get_dataset_files(dataset_id, "^{}$".format(file_path), version_number=version)[0]
 
     def get_pif(self, dataset_id, uid, version = None):
         """
-        Retrieves JSON representation of a PIF from a given dataset.
+        Retrieves a PIF from a given dataset.
 
         :param data_set_id: The id of the dataset to retrieve PIF from
         :param uid: The uid of the PIF to retrieve
@@ -253,6 +245,9 @@ def _convert_bool_to_public_value(val):
         return '0'
     if val == True:
         return '1'
+    # for backwards compatability, support the old API #utahisrad
+    if val == '0' or val == '1':
+        return val
 
 def _get_s3_presigned_url(response_dict):
     """
