@@ -29,8 +29,8 @@ def get_credentials_from_file(file):
     except Exception:
         creds = {}
 
-    profile_name = os.environ[citr_env_vars.CITRINATION_PROFILE]
-    if len(profile_name) == 0:
+    profile_name = os.environ.get(citr_env_vars.CITRINATION_PROFILE)
+    if profile_name is None or len(profile_name) == 0:
         profile_name = DEFAULT_CITRINATION_PROFILE
     api_key = None
     site = None
@@ -46,13 +46,13 @@ def get_credentials_from_file(file):
 def get_preferred_credentials(api_key, site, cred_file=DEFAULT_CITRINATION_CREDENTIALS_FILE):
     profile_api_key, profile_site = get_credentials_from_file(cred_file)
     if api_key is None:
-        api_key =  os.environ[citr_env_vars.CITRINATION_API_KEY]
-    if len(api_key) == 0:
+        api_key =  os.environ.get(citr_env_vars.CITRINATION_API_KEY)
+    if api_key is None or len(api_key) == 0:
         api_key = profile_api_key
 
     if site is None:
-        site = os.environ[citr_env_vars.CITRINATION_SITE]
-    if len(site) == 0:
+        site = os.environ.get(citr_env_vars.CITRINATION_SITE)
+    if site is None or len(site) == 0:
         site = profile_site
     if site is None:
         site = "https://citrination.com"
