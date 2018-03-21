@@ -13,13 +13,13 @@ import routes
 
 class SearchClient(BaseClient):
 
-    def __init__(self, api_key, webserver_host="https://citrination.com"):
+    def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False):
         members = [
             "pif_search",
             "pif_multi_search",
             "dataset_search"
         ]
-        super(SearchClient, self).__init__(api_key, webserver_host, members)
+        super(SearchClient, self).__init__(api_key, webserver_host, members, suppress_warnings=suppress_warnings)
 
     def pif_search(self, pif_system_returning_query):
         """

@@ -16,11 +16,11 @@ def _generate_lambda_proxy_method(client, method_name):
 
 class CitrinationClient(object):
 
-    def __init__(self, api_key=None, site=None):
+    def __init__(self, api_key=None, site=None, suppress_warnings=False):
         api_key, site = get_preferred_credentials(api_key, site)
-        self.models = ModelsClient(api_key, site)
-        self.search = SearchClient(api_key, site)
-        self.data = DataClient(api_key, site)
+        self.models = ModelsClient(api_key, site, suppress_warnings=suppress_warnings)
+        self.search = SearchClient(api_key, site, suppress_warnings=suppress_warnings)
+        self.data = DataClient(api_key, site, suppress_warnings=suppress_warnings)
 
         clients = [self.models, self.search, self.data]
 
