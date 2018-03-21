@@ -25,3 +25,8 @@ class CitrinationServerErrorException(CitrinationClientError):
 
     def __init__(self, message=None):
         super(CitrinationServerErrorException, self).__init__(message)
+
+class RequestTimeoutException(CitrinationClientError):
+
+    def __init__(self, message="Request to Citrination host timed out"):
+        super(RequestTimeoutException, self).__init__(message)
