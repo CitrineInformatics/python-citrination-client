@@ -20,7 +20,7 @@ class ModelsClient(BaseClient):
 
     def tsne(self, data_view_id):
         """
-        Get the t-SNE projection, including z-values and labels.
+        Get the t-SNE projection, including responses and tags.
 
         :param data_view_id: The ID of the data view to retrieve TSNE from
         :return: A :class:`Tsne` object representing the TSNE analysis
@@ -32,8 +32,8 @@ class ModelsClient(BaseClient):
             projection = Projection(
                     xs=v['x'],
                     ys=v['y'],
-                    zs=v['label'],
-                    labels=v['inputs'],
+                    responses=v['label'],
+                    tags=v['inputs'],
                     uids=v['uid']
                 )
             tsne.add_projection(k, projection)

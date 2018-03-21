@@ -1,23 +1,20 @@
 class PredictedValue(object):
     """
-    The value/sigma output from a prediction.
+    The value/loss output from a prediction.
     """
 
-    def __init__(self, key, value, sigma=None):
+    def __init__(self, key, value, loss=None):
         """
         Constructor.
 
         :param key: The descriptor key for the prediction
         :param value: The predicted value
-        :param sigma: If the predicted value is a real number, the sigma
+        :param loss: If the predicted value is a real number, the loss
             for the prediction
         """
         self._key = key
         self._value = value
-        if type(value) == str:
-            self._sigma = None
-        else:
-            self._sigma = sigma
+        self._loss = loss
 
     @property
     def key(self):
@@ -28,5 +25,5 @@ class PredictedValue(object):
         return self._value
 
     @property
-    def sigma(self):
-        return self._sigma
+    def loss(self):
+        return self._loss

@@ -21,11 +21,11 @@ def _assert_prediction_values(prediction):
     assert prediction.get_value(voltage) is not None, "V_OC prediction missing (check ML logic)"
 
     assert _almost_equal(prediction.get_value('Mass').value, 250,  60.0), "Mass mean prediction beyond tolerance (check ML logic)"
-    assert _almost_equal(prediction.get_value('Mass').sigma, 30.0, 40.0), "Mass sigma prediction beyond tolerance (check ML logic)"
+    assert _almost_equal(prediction.get_value('Mass').loss, 30.0, 40.0), "Mass loss prediction beyond tolerance (check ML logic)"
     assert _almost_equal(prediction.get_value(egap).value, 2.6,  0.7), "E_gap mean prediction beyond tolerance (check ML logic)"
-    assert _almost_equal(prediction.get_value(egap).sigma, 0.50, 0.55), "E_gap sigma prediction beyond tolerance (check ML logic)"
+    assert _almost_equal(prediction.get_value(egap).loss, 0.50, 0.55), "E_gap loss prediction beyond tolerance (check ML logic)"
     assert _almost_equal(prediction.get_value(voltage).value, 1.0, 0.9), "V_OC mean prediction beyond tolerance (check ML logic)"
-    assert _almost_equal(prediction.get_value(voltage).sigma, 0.8, 0.9), "V_OC sigma prediction beyond tolerance (check ML logic)"
+    assert _almost_equal(prediction.get_value(voltage).loss, 0.8, 0.9), "V_OC loss prediction beyond tolerance (check ML logic)"
 
 def test_tsne():
     """
@@ -37,13 +37,13 @@ def test_tsne():
     tsne_y = resp.get_projection('Property  y')
     assert tsne_y.xs is not None, "Couldn't find x component of tsne projection"
     assert tsne_y.ys is not None, "Couldn't find y component of tsne projection"
-    assert tsne_y.zs is not None, "Couldn't find property label for tsne projection"
+    assert tsne_y.responses is not None, "Couldn't find property label for tsne projection"
     assert tsne_y.uids is not None, "Couldn't find uid in tsne projection"
-    assert tsne_y.labels is not None, "Couldn't find label in tsne projection"
+    assert tsne_y.tags is not None, "Couldn't find label in tsne projection"
 
     assert len(tsne_y.xs) == len(tsne_y.ys),     "tSNE components x and y had different lengths"
-    assert len(tsne_y.xs) == len(tsne_y.zs),     "tSNE components x and z had different lengths"
-    assert len(tsne_y.xs) == len(tsne_y.labels), "tSNE components x and uid had different lengths"
+    assert len(tsne_y.xs) == len(tsne_y.responses),     "tSNE components x and z had different lengths"
+    assert len(tsne_y.xs) == len(tsne_y.tags), "tSNE components x and uid had different lengths"
     assert len(tsne_y.xs) == len(tsne_y.uids),   "tSNE components x and label had different lengths"
 
 
