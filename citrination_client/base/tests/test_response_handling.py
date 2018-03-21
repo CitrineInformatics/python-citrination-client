@@ -1,4 +1,4 @@
-from citrination_client.base.response_handling import raise_on_response
+from citrination_client.base.response_handling import raise_on_response, check_general_success
 from citrination_client.base.errors import *
 from requests.models import Response
 import requests
@@ -23,3 +23,12 @@ def test_raises_exceptions_correctly():
             assert False
         except exception["exception_class"]:
             assert True
+
+def test_raises_client_error_if_error_code():
+    r = Response()
+    r.status_code = requests.codes.bad
+    try:
+        check_general_success(r, "failure detected")
+        assert False
+    except CitrinationClientError:
+        assert True

@@ -1,5 +1,5 @@
 from citrination_client.base import BaseClient
-from citrination_client.errors import CitrinationClientError
+from citrination_client.base.errors import CitrinationClientError
 
 def test_none_api_key():
   try:

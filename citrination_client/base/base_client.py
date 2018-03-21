@@ -1,8 +1,10 @@
 import requests
 import json
 from citrination_client.util.quote_finder import quote
-from response_handling import raise_on_response
+from response_handling import raise_on_response, check_general_success
 from errors import *
+
+DEFAULT_FAILURE_MESSAGE = "There was an error communicating with Citrination"
 
 class BaseClient(object):
     """
@@ -29,7 +31,12 @@ class BaseClient(object):
 
     # ==== Private Utilities ===
 
-    def __get_qualified_route(self, route):
+    def _handle_response(self, response, failure_message=DEFAULT_FAILURE_MESSAGE):
+        raise_on_response(response)
+        check_general_success(response, failure_message)
+        return response
+
+    def _get_qualified_route(self, route):
         """
         Get a fully qualified api route.
         :param route: the route (e.g., /model)
@@ -48,20 +55,20 @@ class BaseClient(object):
             headers = self.headers
         return headers
 
-    def _get(self, route, headers=None):
+    def _get(self, route, headers=None, failure_message=None):
         """
         Execute a post request and return the result
         :param headers:
         :return:
         """
         headers = self._get_headers(headers)
-        result = requests.get(self.__get_qualified_route(route), headers=headers, verify=False)
-        return raise_on_response(result)
+        result = requests.get(self._get_qualified_route(route), headers=headers, verify=False)
+        return self._handle_response(result, failure_message)
 
-    def _post_json(self, route, data, headers=None):
+    def _post_json(self, route, data, headers=None, failure_message=None):
         return self._post(route, json.dumps(data), headers)
 
-    def _post(self, route, data, headers=None):
+    def _post(self, route, data, headers=None, failure_message=None):
         """
         Execute a post request and return the result
         :param data:
@@ -69,13 +76,13 @@ class BaseClient(object):
         :return:
         """
         headers = self._get_headers(headers)
-        result = requests.post(self.__get_qualified_route(route), headers=headers, data=data)
-        return raise_on_response(result)
+        result = requests.post(self._get_qualified_route(route), headers=headers, data=data)
+        return self._handle_response(result, failure_message)
 
-    def _put_json(self, route, data, headers=None):
+    def _put_json(self, route, data, headers=None, failure_message=None):
         return self._put(route, json.dumps(data), headers)
 
-    def _put(self, route, data, headers=None):
+    def _put(self, route, data, headers=None, failure_message=None):
         """
         Execute a put request and return the result
         :param data:
@@ -83,19 +90,19 @@ class BaseClient(object):
         :return:
         """
         headers = self._get_headers(headers)
-        result = requests.put(self.__get_qualified_route(route), headers=headers, data=data,
+        result = requests.put(self._get_qualified_route(route), headers=headers, data=data,
              verify=False)
-        return raise_on_response(result)
+        return self._handle_response(result, failure_message)
 
-    def _delete(self, route, headers=None):
+    def _delete(self, route, headers=None, failure_message=None):
         """
         Execute a delete request and return the result
         :param headers:
         :return:
         """
         headers = self._get_headers(headers)
-        result = requests.delete(self.__get_qualified_route(route), headers=headers, verify=False)
-        return raise_on_response(result)
+        result = requests.delete(self._get_qualified_route(route), headers=headers, verify=False)
+        return self._handle_response(result, failure_message)
 
     def __repr__(self):
         return "{}".format(self.api_members)
