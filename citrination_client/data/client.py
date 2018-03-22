@@ -1,9 +1,9 @@
 from citrination_client.base.base_client import BaseClient
 from citrination_client.base.errors import *
+from citrination_client.data import *
+
 from pypif import pif
-from .upload_result import UploadResult
-from .dataset import Dataset
-from .dataset_file import DatasetFile
+
 import json
 import os
 import requests

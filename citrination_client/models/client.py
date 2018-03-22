@@ -1,8 +1,5 @@
 from citrination_client.base.base_client import BaseClient
-from .predicted_value import PredictedValue
-from .prediction_result import PredictionResult
-from .tsne import Tsne
-from .projection import Projection
+from citrination_client.models import *
 
 import routes
 
