@@ -1,1 +1,4 @@
-from client import DataClient
+from citrination_client.data.dataset import Dataset
+from citrination_client.data.dataset_file import DatasetFile
+from citrination_client.data.upload_result import UploadResult
+from citrination_client.data.client import DataClient
