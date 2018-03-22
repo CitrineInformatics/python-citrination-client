@@ -14,3 +14,11 @@ class DatasetVersion(object):
     @property
     def number(self):
         return self._number
+
+    @number.setter
+    def number(self, value):
+        self._number = value
+
+    @number.deleter
+    def number(self):
+        self._number = None

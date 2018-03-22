@@ -19,17 +19,41 @@ class Dataset(object):
         self._created_at = created_at
 
     @property
+    def id(self):
+        return self._id
+
+    @property
     def name(self):
         return self._name
+
+    @name.setter
+    def name(self, value):
+        self._name = value
+
+    @name.deleter
+    def name(self):
+        self._name = None
 
     @property
     def description(self):
         return self._description
 
-    @property
-    def id(self):
-        return self._id
+    @description.setter
+    def description(self, value):
+        self._description = value
+
+    @description.deleter
+    def description(self):
+        self._description = None
 
     @property
     def created_at(self):
         return self._created_at
+
+    @created_at.setter
+    def created_at(self, value):
+        self._created_at = value
+
+    @created_at.deleter
+    def created_at(self):
+        self._created_at = None

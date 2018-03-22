@@ -17,6 +17,22 @@ class DatasetFile(object):
     def path(self):
         return self._path
 
+    @path.setter
+    def path(self, value):
+        self._path = value
+
+    @path.deleter
+    def path(self):
+        self._path = None
+
     @property
     def url(self):
         return self._url
+
+    @url.setter
+    def url(self, value):
+        self._url = value
+
+    @url.deleter
+    def url(self):
+        self._url = None
