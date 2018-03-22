@@ -6,6 +6,7 @@ from time import sleep
 import requests
 
 from citrination_client.search import *
+from citrination_client.errors import *
 from citrination_client.util.quote_finder import quote
 
 from pypif.util.case import to_camel_case
@@ -502,17 +503,20 @@ class CitrinationClient(object):
 
     def _get_with_version_check(self, url, headers):
         result = requests.get(url, headers=headers, proxies=self.proxies)
-        return self._check_response_for_version_mismatch(result)
+        return self._check_response_for_errors(result)
 
     def _post_with_version_check(self, url, data, headers):
         result = requests.post(url, headers=headers, data=data, proxies=self.proxies)
-        return self._check_response_for_version_mismatch(result)
+        return self._check_response_for_errors(result)
 
     def _put_with_version_check(self, url, data, headers):
         result = requests.put(url, data=data, headers=headers, proxies=self.proxies)
-        return self._check_response_for_version_mismatch(result)
+        return self._check_response_for_errors(result)
 
-    def _check_response_for_version_mismatch(self, response):
+    def _check_response_for_errors(self, response):
+        if response.status_code == 524:
+            raise RequestTimeoutException()
+
         response_content = json.loads(response.content.decode('utf-8'))
         try:
             if response.status_code == 400:

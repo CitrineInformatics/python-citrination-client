@@ -3,7 +3,6 @@ import unittest
 
 from citrination_client import *
 
-
 class TestDatasetQuery(unittest.TestCase):
 
     @classmethod
@@ -38,7 +37,5 @@ class TestDatasetQuery(unittest.TestCase):
 
     def test_timeout(self):
         """Test that timeouts are sent properly. This request should fail with an exception."""
-        self.assertRaises(
-            Exception,
+        with self.assertRaises(RequestTimeoutException):
             self.client.dataset_search(DatasetReturningQuery(timeout=0, size=10))
-        )
