@@ -56,8 +56,8 @@ def test_upload_pif():
 def test_dataset_version_bump():
     dataset_name = random_dataset_name()
     dataset_id = client.create_dataset(name=dataset_name).id
-    assert client.create_dataset_version(dataset_id) == 2
-    assert client.create_dataset_version(dataset_id) == 3
+    assert client.create_dataset_version(dataset_id).number == 2
+    assert client.create_dataset_version(dataset_id).number == 3
 
 def test_dataset_update():
     dataset_name = random_dataset_name()

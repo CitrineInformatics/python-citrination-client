@@ -232,7 +232,9 @@ class DataClient(BaseClient):
         :return: The number of the new version.
         """
         failure_message = "Failed to create dataset version for dataset {}".format(dataset_id)
-        return self._post_json(routes.create_dataset_version(dataset_id), data={}, failure_message=failure_message).json()['dataset_scoped_id']
+        number = self._post_json(routes.create_dataset_version(dataset_id), data={}, failure_message=failure_message).json()['dataset_scoped_id']
+
+        return DatasetVersion(number=number)
 
 def _dataset_from_response_dict(dataset):
     return Dataset(dataset['id'], name=dataset['name'],
