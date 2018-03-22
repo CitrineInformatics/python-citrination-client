@@ -6,7 +6,6 @@ from citrination_client.util import config as client_config
 from citrination_client.base.base_client import BaseClient
 
 from copy import deepcopy
-from time import sleep
 import json
 import requests
 import routes
@@ -67,12 +66,8 @@ class SearchClient(BaseClient):
             size != returning_query.size):
             self._warn("Query size greater than max system size - only {} results will be returned".format(size))
 
-        time = 0.0; hits = []; first = True
+        time = 0.0; hits = [];
         while True:
-            if first:
-                first = False
-            else:
-                sleep(1)
             sub_query = deepcopy(returning_query)
             sub_query.from_index = from_index + len(hits)
             partial_results = self._search_internal(sub_query, result_class)
