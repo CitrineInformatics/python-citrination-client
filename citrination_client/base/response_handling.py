@@ -1,4 +1,15 @@
 from errors import *
+from time import sleep
+
+def check_for_rate_limiting(response, response_lambda, timeout=0, attempts=0):
+    if attempts >= 3:
+        raise RateLimitingException()
+    if response.status_code == 429:
+        sleep(timeout)
+        new_timeout = timeout + 1
+        new_attempts = attempts + 1
+        return check_for_rate_limiting(response_lambda(timeout, attempts), response_lambda, timeout=new_timeout, attempts=new_attempts)
+    return response
 
 def check_general_success(response, failure_message):
     if response.status_code >= 400:

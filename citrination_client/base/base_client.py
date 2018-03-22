@@ -1,7 +1,7 @@
 import requests
 import json
 from citrination_client.util.quote_finder import quote
-from response_handling import raise_on_response, check_general_success
+from response_handling import raise_on_response, check_general_success, check_for_rate_limiting
 from errors import *
 
 DEFAULT_FAILURE_MESSAGE = "There was an error communicating with Citrination"
@@ -62,8 +62,9 @@ class BaseClient(object):
         :return:
         """
         headers = self._get_headers(headers)
-        result = requests.get(self._get_qualified_route(route), headers=headers, verify=False)
-        return self._handle_response(result, failure_message)
+        response_lambda = (lambda: requests.get(self._get_qualified_route(route), headers=headers, verify=False))
+        response = check_for_rate_limiting(response_lambda(), response_lambda)
+        return self._handle_response(response, failure_message)
 
     def _post_json(self, route, data, headers=None, failure_message=None):
         return self._post(route, json.dumps(data), headers)
@@ -76,8 +77,9 @@ class BaseClient(object):
         :return:
         """
         headers = self._get_headers(headers)
-        result = requests.post(self._get_qualified_route(route), headers=headers, data=data)
-        return self._handle_response(result, failure_message)
+        response_lambda = (lambda: requests.post(self._get_qualified_route(route), headers=headers, data=data, verify=False))
+        response = check_for_rate_limiting(response_lambda(), response_lambda)
+        return self._handle_response(response, failure_message)
 
     def _put_json(self, route, data, headers=None, failure_message=None):
         return self._put(route, json.dumps(data), headers)
@@ -90,9 +92,9 @@ class BaseClient(object):
         :return:
         """
         headers = self._get_headers(headers)
-        result = requests.put(self._get_qualified_route(route), headers=headers, data=data,
-             verify=False)
-        return self._handle_response(result, failure_message)
+        response_lambda = (lambda: requests.put(self._get_qualified_route(route), headers=headers, data=data, verify=False))
+        response = check_for_rate_limiting(response_lambda(), response_lambda)
+        return self._handle_response(response, failure_message)
 
     def _delete(self, route, headers=None, failure_message=None):
         """
@@ -101,8 +103,9 @@ class BaseClient(object):
         :return:
         """
         headers = self._get_headers(headers)
-        result = requests.delete(self._get_qualified_route(route), headers=headers, verify=False)
-        return self._handle_response(result, failure_message)
+        response_lambda = (lambda: requests.delete(self._get_qualified_route(route), headers=headers, verify=False))
+        response = check_for_rate_limiting(response_lambda(), response_lambda)
+        return self._handle_response(response, failure_message)
 
     def __repr__(self):
         return "{}".format(self.api_members)
