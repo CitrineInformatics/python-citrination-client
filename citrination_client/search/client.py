@@ -4,11 +4,14 @@ from pypif.util.case import keys_to_snake_case
 from citrination_client.search import *
 from citrination_client.util import config as client_config
 from citrination_client.base.base_client import BaseClient
+from citrination_client.errors import RequestTimeoutException
 
 from copy import deepcopy
 import json
 import requests
 import routes
+
+DEFAULT_FAILURE_MESSAGE="An error occurred requesting search results from Citrination"
 
 class SearchClient(BaseClient):
 
@@ -19,6 +22,12 @@ class SearchClient(BaseClient):
             "dataset_search"
         ]
         super(SearchClient, self).__init__(api_key, webserver_host, members, suppress_warnings=suppress_warnings)
+
+    def _handle_response(self, response, failure_message=DEFAULT_FAILURE_MESSAGE):
+        if response.status_code == 204:
+            raise RequestTimeoutException()
+
+        return super(SearchClient, self)._handle_response(response, failure_message)
 
     def pif_search(self, pif_system_returning_query):
         """
