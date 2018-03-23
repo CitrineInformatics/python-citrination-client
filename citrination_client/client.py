@@ -69,7 +69,7 @@ class CitrinationClient(object):
                     hits.extend(partial_results.hits)
             return PifSearchResult(hits=hits, total_num_hits=total, took=time)
 
-        response = self._post_with_version_check(
+        response = self._post_search_with_version_check(
             self.pif_search_url, data=json.dumps(pif_system_returning_query, cls=QueryEncoder),
             headers=self.headers)
         if response.status_code != requests.codes.ok:
@@ -83,7 +83,7 @@ class CitrinationClient(object):
         :param multi_query: :class:`MultiQuery` object to execute.
         :return: :class:`PifMultiSearchResult` object with the results of the query.
         """
-        response = self._post_with_version_check(
+        response = self._post_search_with_version_check(
             self.pif_multi_search_url, data=json.dumps(multi_query, cls=QueryEncoder), headers=self.headers)
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
@@ -112,7 +112,7 @@ class CitrinationClient(object):
                     hits.extend(partial_results.hits)
             return DatasetSearchResult(hits=hits, total_num_hits=total, took=time)
 
-        response = self._post_with_version_check(
+        response = self._post_search_with_version_check(
             self.dataset_search_url, data=json.dumps(dataset_returning_query, cls=QueryEncoder), headers=self.headers)
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Received ' + str(response.status_code) + ' response: ' + str(response.reason))
@@ -509,14 +509,20 @@ class CitrinationClient(object):
         result = requests.post(url, headers=headers, data=data, proxies=self.proxies)
         return self._check_response_for_errors(result)
 
+    def _post_search_with_version_check(self, url, data, headers):
+        result = requests.post(url, headers=headers, data=data, proxies=self.proxies)
+        return self._check_search_response_for_errors(result)
+
     def _put_with_version_check(self, url, data, headers):
         result = requests.put(url, data=data, headers=headers, proxies=self.proxies)
         return self._check_response_for_errors(result)
 
-    def _check_response_for_errors(self, response):
+    def _check_search_response_for_errors(self, response):
         if response.status_code == 204 or response.status_code == 524:
             raise RequestTimeoutException()
+        return self._check_response_for_errors(response)
 
+    def _check_response_for_errors(self, response):
         response_content = json.loads(response.content.decode('utf-8'))
         try:
             if response.status_code == 400:
