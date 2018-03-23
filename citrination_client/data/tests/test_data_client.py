@@ -30,6 +30,10 @@ def get_test_file_hierarchy_count():
     return sum([len(files) for r, d, files in os.walk(test_dir)])
 
 def test_upload_pif():
+    """
+    Tests that a PIF can be created, serialized, uploaded
+    then downloaded and deserialized
+    """
     pif = System()
     pif.id = 0
     uid = random_string()
@@ -54,12 +58,19 @@ def test_upload_pif():
         assert json.loads(fp.read())["uid"] == pif.uid
 
 def test_dataset_version_bump():
+    """
+    Tests that create_dataset_version bumps the version
+    number
+    """
     dataset_name = random_dataset_name()
     dataset_id = client.create_dataset(name=dataset_name).id
     assert client.create_dataset_version(dataset_id).number == 2
     assert client.create_dataset_version(dataset_id).number == 3
 
 def test_dataset_update():
+    """
+    Tests that dataset metadata can be updated successfully
+    """
     dataset_name = random_dataset_name()
     dataset_id = client.create_dataset(name=dataset_name).id
     new_name = random_dataset_name()
@@ -85,17 +96,21 @@ def test_dataset_update():
     assert response.hits[0].description == new_description
 
 def test_public_update():
+    """
+    Tests that requests to make a dataset public are
+    successful
+    """
     dataset_name = random_dataset_name()
     dataset_id = client.create_dataset(name=dataset_name).id
     # Just ensure no 500s until we can check permissions from here
     client.update_dataset(dataset_id, public=True)
     client.update_dataset(dataset_id, public=False)
 
-"""
-Tests that files can be uploaded and then retrieved
-with presigned urls
-"""
 def test_file_listing_and_url_retrieval():
+    """
+    Tests that files can be uploaded and then retrieved
+    with presigned urls
+    """
     src_path = test_file_root + "keys_and_values.json"
     dest_path = "test_file_list.json"
     assert client.upload(dataset_id, src_path, dest_path).successful()
@@ -107,6 +122,10 @@ def test_file_listing_and_url_retrieval():
     assert requests.get(dataset_file.url).status_code == 200
 
 def test_upload_directory():
+    """
+    Tests that if a path to a directory is given to
+    `upload`, all the files get recursively uploaded
+    """
     count_to_add = get_test_file_hierarchy_count()
     src_path = test_file_root
     dest_path = "test_directory_upload/"
