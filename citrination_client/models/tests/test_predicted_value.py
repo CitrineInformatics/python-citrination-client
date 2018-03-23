@@ -1,6 +1,10 @@
 from citrination_client.models import PredictedValue
 
-def test_can_crud_value():
+def test_can_crud_key():
+    """
+    Tests that full get/set/delete functionality is
+    available for the key property
+    """
     original_key = "my_key"
     original_value = 2
     original_loss = 0.3
@@ -12,7 +16,11 @@ def test_can_crud_value():
     del(pv.key)
     assert pv.key is None
 
-def test_can_crud_key():
+def test_can_crud_value():
+    """
+    Tests that full get/set/delete functionality is
+    available for the value property
+    """
     original_key = "my_key"
     original_value = 2
     original_loss = 0.3
@@ -25,6 +33,10 @@ def test_can_crud_key():
     assert pv.value is None
 
 def test_can_crud_loss():
+    """
+    Tests that full get/set/delete functionality is
+    available for the loss property
+    """
     original_key = "my_key"
     original_value = 2
     original_loss = 0.3

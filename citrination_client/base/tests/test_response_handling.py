@@ -16,6 +16,10 @@ response_exceptions = [{
     }]
 
 def test_raises_exceptions_correctly():
+    """
+    Tests that the exceptions which map directly to a particular
+    error code are thrown correctly in the raise_on_response method
+    """
     for exception in response_exceptions:
         r = Response()
         r.status_code = exception["code"]
@@ -26,6 +30,11 @@ def test_raises_exceptions_correctly():
             assert True
 
 def test_check_response_for_version_mismatch():
+    """
+    Tests that the version mismatch check will throw an error
+    if the error_type key is present with the right value in the
+    JSON response
+    """
     r = Response()
     r.status_code = requests.codes.bad
     # accesses library private variable, but not sure how to mock responses
@@ -37,6 +46,10 @@ def test_check_response_for_version_mismatch():
         assert True
 
 def test_check_response_for_version_mismatch_not_json():
+    """
+    Tests that the version mismatch test passes a response through
+    if the content is not JSON parseable
+    """
     r = Response()
     r.status_code = requests.codes.bad
     # accesses library private variable, but not sure how to mock responses
@@ -44,6 +57,10 @@ def test_check_response_for_version_mismatch_not_json():
     assert r is _check_response_for_version_mismatch(r)
 
 def test_raises_client_error_if_error_code():
+    """
+    Tests that in the case of a generically bad response, a client
+    exception is thrown
+    """
     r = Response()
     r.status_code = requests.codes.bad
     try:
@@ -52,7 +69,12 @@ def test_raises_client_error_if_error_code():
     except CitrinationClientError:
         assert True
 
-def test_if_response_resolves_return():
+def test_if_rate_limiting_returns_on_resolve():
+    """
+    Tests that, if a rate limiting http code is returned and the
+    client retries the request after sleeping and a success code is
+    returned, no rate limiting exception will be raised
+    """
     bad_response = Response()
     bad_response.status_code = 429
     good_response = Response()
@@ -65,6 +87,9 @@ def test_if_response_resolves_return():
         assert False
 
 def test_after_three_attempts_rate_limit_errors():
+    """
+    Tests that if three rate limiting error codes are encountered in a row (with backoff), a custom exception will be thrown
+    """
     bad_response = Response()
     bad_response.status_code = 429
     response_lambda = (lambda t, a: bad_response)
@@ -75,8 +100,11 @@ def test_after_three_attempts_rate_limit_errors():
         assert True
 
 def test_success_does_not_trigger_rate_limiting_retry():
+    """
+    Tests that the retry lambda is not called if the original request is successful
+    """
     response = Response()
     response.status_code = 200
-    response_lambda = (lambda t, a: response)
+    response_lambda = (lambda t, a: 1/0) # will throw exception
     checked_resp = check_for_rate_limiting(response, response_lambda)
     assert response == checked_resp
