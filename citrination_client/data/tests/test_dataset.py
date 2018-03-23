@@ -1,5 +1,11 @@
 from citrination_client.data import Dataset
 
+"""
+Tests that the setters, getters, and deleters
+for the properties on the Dataset class are
+functioning correctly
+"""
+
 def test_can_crud_name():
     d =  Dataset(1)
     name = "name"

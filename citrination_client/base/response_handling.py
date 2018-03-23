@@ -50,9 +50,9 @@ def _check_response_for_server_error(response):
 def _check_response_for_version_mismatch(response):
     try:
         if response.status_code == 400:
-            error_type = response_content["error_type"]
+            error_type = response.json()["error_type"]
             if error_type == "Version Mismatch":
                 raise APIVersionMismatchException()
         return response
-    except KeyError:
+    except (ValueError, KeyError):
         return response

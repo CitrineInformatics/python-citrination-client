@@ -28,6 +28,7 @@ class TestDatasetQuery(unittest.TestCase):
             assert hit.score is not None, "Score is not returned"
 
     def test_dataset_search(self):
+        """Test that a basic query with a dataset ID returns 1 hit"""
         response = self.client.dataset_search(DatasetReturningQuery(
             size=0,
             query=DataQuery(

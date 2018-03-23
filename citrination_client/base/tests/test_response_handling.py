@@ -1,7 +1,8 @@
-from citrination_client.base.response_handling import raise_on_response, check_general_success, check_for_rate_limiting
+from citrination_client.base.response_handling import raise_on_response, check_general_success, check_for_rate_limiting, _check_response_for_version_mismatch
 from citrination_client.base.errors import *
 from requests.models import Response
 import requests
+import json
 
 response_exceptions = [{
         "code": requests.codes.server_error,
@@ -23,6 +24,24 @@ def test_raises_exceptions_correctly():
             assert False
         except exception["exception_class"]:
             assert True
+
+def test_check_response_for_version_mismatch():
+    r = Response()
+    r.status_code = requests.codes.bad
+    # accesses library private variable, but not sure how to mock responses
+    r._content = json.dumps({"error_type": "Version Mismatch"})
+    try:
+        _check_response_for_version_mismatch(r)
+        assert False
+    except APIVersionMismatchException:
+        assert True
+
+def test_check_response_for_version_mismatch_not_json():
+    r = Response()
+    r.status_code = requests.codes.bad
+    # accesses library private variable, but not sure how to mock responses
+    r._content = "definitely not json"
+    assert r is _check_response_for_version_mismatch(r)
 
 def test_raises_client_error_if_error_code():
     r = Response()

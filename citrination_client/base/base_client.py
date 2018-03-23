@@ -50,10 +50,9 @@ class BaseClient(object):
 
     def _get_headers(self, headers=None):
         if headers:
-            headers = headers
+            return headers
         else:
-            headers = self.headers
-        return headers
+            return self.headers
 
     def _get(self, route, headers=None, failure_message=None):
         """

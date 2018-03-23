@@ -14,8 +14,7 @@ def test_initialization_parameters_preferred():
     preferred_key, preferred_site = get_preferred_credentials(api_key, site, mock_credentials_path)
     assert preferred_key == api_key
     assert preferred_site == site
-    os.environ[citr_env_vars.CITRINATION_API_KEY] = ""
-    os.environ[citr_env_vars.CITRINATION_SITE] = ""
+    _reset_env()
 
 def test_only_initialization_parameters():
     api_key = "mykey"
