@@ -18,14 +18,26 @@ CREDENTIALS_API_KEY_KEY = "api_key"
 CREDENTIALS_SITE_KEY = "site"
 
 def load_file_as_yaml(path):
+    """
+    Given a filepath, loads the file as a dictionary from YAML
+
+    :param path: The path to a YAML file
+    """
     with open(path, "r") as f:
       raw_yaml = f.read()
       parsed_dict = yaml.load(raw_yaml)
     return parsed_dict
 
-def get_credentials_from_file(file):
+def get_credentials_from_file(filepath):
+    """
+    Extracts credentials from the yaml formatted credential filepath
+    passed in. Uses the default profile if the CITRINATION_PROFILE env var
+    is not set, otherwise looks for a profile with that name in the credentials file.
+
+    :param filepath: The path of the credentials file
+    """
     try:
-        creds = load_file_as_yaml(file)
+        creds = load_file_as_yaml(filepath)
     except Exception:
         creds = {}
 
@@ -44,6 +56,20 @@ def get_credentials_from_file(file):
     return (api_key, site)
 
 def get_preferred_credentials(api_key, site, cred_file=DEFAULT_CITRINATION_CREDENTIALS_FILE):
+    """
+    Given an API key, a site url and a credentials file path, runs through a prioritized list of credential sources to find credentials.
+
+    Specifically, this method ranks credential priority as follows:
+        1. Those passed in as the first two parameters to this method
+        2. Those found in the environment as variables
+        3. Those found in the credentials file at the profile specified
+           by the profile environment variable
+        4. Those found in the default stanza in the credentials file
+
+    :param api_key: A Citrination API Key or None
+    :param site: A Citrination site URL or None
+    :param cred_file: The path to a credentials file
+    """
     profile_api_key, profile_site = get_credentials_from_file(cred_file)
     if api_key is None:
         api_key =  os.environ.get(citr_env_vars.CITRINATION_API_KEY)

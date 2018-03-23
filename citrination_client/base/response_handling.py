@@ -1,7 +1,18 @@
 from errors import *
 from time import sleep
 
-def check_for_rate_limiting(response, response_lambda, timeout=0, attempts=0):
+def check_for_rate_limiting(response, response_lambda, timeout=1, attempts=0):
+    """
+    Takes an initial response, and a way to repeat the request that produced it and retries the request with an increasing sleep period between requests if rate limiting resposne codes are encountered.
+
+    If more than 3 attempts are made, a RateLimitingException is raised
+
+    :param response: a requests.Response instance
+    :param response_lambda: a callable that runs the request that returned the
+        response
+    :param timeout: the time to wait before retrying
+    :param attempts: the number of the retry being executed
+    """
     if attempts >= 3:
         raise RateLimitingException()
     if response.status_code == 429:
