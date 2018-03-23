@@ -30,6 +30,7 @@ class TestDatasetQuery():
 
     @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Dataset search test only supported on public")
     def test_dataset_search(self):
+        """Test that a basic query with a dataset ID returns 1 hit"""
         response = self.client.dataset_search(DatasetReturningQuery(
             size=0,
             query=DataQuery(

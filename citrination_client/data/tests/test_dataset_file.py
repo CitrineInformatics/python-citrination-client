@@ -1,5 +1,11 @@
 from citrination_client.data import DatasetFile
 
+"""
+Tests that the setters, getters, and deleters
+for the properties on the DatasetFile class are
+functioning correctly
+"""
+
 def test_can_crud_path():
     path = "path"
     d =  DatasetFile(path)

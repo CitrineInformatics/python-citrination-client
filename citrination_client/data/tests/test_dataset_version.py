@@ -1,6 +1,11 @@
 from citrination_client.data import DatasetVersion
 
-def test_can_cr_number():
+"""
+Tests that the setters, getters, and deleters
+for the properties on the DatasetVersion class are
+functioning correctly
+"""
+def test_can_crud_number():
     d =  DatasetVersion(1)
     number = 2
     assert d.number is 1

@@ -1,4 +1,4 @@
-from citrination_client.client import CitrinationClient
+from citrination_client import *
 from citrination_client.base.errors import CitrinationServerErrorException
 import os
 from json import loads
@@ -68,6 +68,22 @@ def test_dataset_update():
     assert dataset.name == new_name
     assert dataset.description == new_description
 
+    search_count = 0
+    while search_count < 10:
+        response = parent_client.dataset_search(DatasetReturningQuery(
+                size=1,
+                query=DataQuery(
+                    dataset=DatasetQuery(
+                        id=Filter(equal=dataset.id)))))
+        if len(response.hits) > 0:
+            break
+        else:
+            search_count += 1
+        time.sleep(1)
+
+    assert response.hits[0].name == new_name
+    assert response.hits[0].description == new_description
+
 def test_public_update():
     dataset_name = random_dataset_name()
     dataset_id = client.create_dataset(name=dataset_name).id
@@ -75,6 +91,10 @@ def test_public_update():
     client.update_dataset(dataset_id, public=True)
     client.update_dataset(dataset_id, public=False)
 
+"""
+Tests that files can be uploaded and then retrieved
+with presigned urls
+"""
 def test_file_listing_and_url_retrieval():
     src_path = test_file_root + "keys_and_values.json"
     dest_path = "test_file_list.json"
@@ -82,9 +102,9 @@ def test_file_listing_and_url_retrieval():
     listed_files = client.list_files(dataset_id, dest_path)
     assert len(listed_files) == 1
     assert listed_files[0] == dest_path
-    file = client.get_dataset_file(dataset_id, dest_path)
-    assert file.path == dest_path
-    assert requests.get(file.url).status_code == 200
+    dataset_file = client.get_dataset_file(dataset_id, dest_path)
+    assert dataset_file.path == dest_path
+    assert requests.get(dataset_file.url).status_code == 200
 
 def test_upload_directory():
     count_to_add = get_test_file_hierarchy_count()
