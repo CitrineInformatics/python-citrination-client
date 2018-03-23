@@ -514,7 +514,7 @@ class CitrinationClient(object):
         return self._check_response_for_errors(result)
 
     def _check_response_for_errors(self, response):
-        if response.status_code == 524:
+        if response.status_code == 204 or response.status_code == 524:
             raise RequestTimeoutException()
 
         response_content = json.loads(response.content.decode('utf-8'))
