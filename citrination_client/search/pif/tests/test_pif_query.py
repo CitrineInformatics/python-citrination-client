@@ -17,6 +17,11 @@ class TestPifQuery():
         assert result.hits[0].system.uid == target_uid
 
     def test_pagination_overflow(self):
+        """
+        Tests that if pagination controls (size and from) request a set of
+        results that would overflow the end of the results set, all the results
+        up to the end of the set are returned
+        """
         query = PifSystemReturningQuery(size=0,
             query=DataQuery(
                 dataset=DatasetQuery(
@@ -34,16 +39,25 @@ class TestPifQuery():
         assert 20 == len(response.hits)
 
     def test_pagination_from_start(self):
+        """
+        Tests that pagination works with no from value
+        """
         query = PifSystemReturningQuery(size=200)
         response = self.client.pif_search(query)
         assert 200 == len(response.hits)
 
     def test_pagination_with_from_index(self):
+        """
+        Test that basic queries with both size and from return results
+        """
         query = PifSystemReturningQuery(size=200, from_index=1000)
         response = self.client.pif_search(query)
         assert 200 == len(response.hits)
 
     def test_auto_pagination(self):
+        """
+        Tests that, given no pagination control (size nor from), the number of hits is equal to the total_num_hits
+        """
         query = PifSystemReturningQuery(
             query=DataQuery(
                 dataset=DatasetQuery(
@@ -52,6 +66,9 @@ class TestPifQuery():
         assert response.total_num_hits == len(response.hits)
 
     def test_pif_search(self):
+        """
+        Tests that a PIF search query can be executed
+        """
         response = self.client.pif_search(PifSystemReturningQuery(
             size=0,
             query=DataQuery(
@@ -65,6 +82,9 @@ class TestPifQuery():
         assert 5 == response.total_num_hits
 
     def test_pif_simple_search(self):
+        """
+        Tests that a simple pif search query can be executed
+        """
         response = self.client.pif_search(PifSystemReturningQuery(
             size=0,
             query=DataQuery(
@@ -75,6 +95,10 @@ class TestPifQuery():
         assert 5 == response.total_num_hits
 
     def test_extracted(self):
+        """
+        Tests that values are extracted according to the extract_as properties
+        of the input query
+        """
         response = self.client.pif_search(PifSystemReturningQuery(
             size=1,
             query=DataQuery(
@@ -90,6 +114,9 @@ class TestPifQuery():
         assert response.hits[0].extracted_path['Chemical formula'] == '/chemicalFormula'
 
     def test_updated_at(self):
+        """
+        Tests that the updated_at filter functions correctly
+        """
         all_response = self.client.pif_search(PifSystemReturningQuery(size=1))
         subset_response = self.client.pif_search(PifSystemReturningQuery(
             size=0,
@@ -101,7 +128,6 @@ class TestPifQuery():
         assert all_response.total_num_hits != subset_response.total_num_hits
 
     def test_search_weight(self):
-
         # Run a query to get a record with a name
         reference_hit = self.client.pif_search(PifSystemReturningQuery(
             size=1,
