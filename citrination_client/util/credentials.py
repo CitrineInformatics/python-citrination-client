@@ -2,7 +2,7 @@ import yaml
 import os
 import sys
 import citrination_client.util.env as citr_env_vars
-from citrination_client.errors import CitrinationClientError
+from citrination_client.base.errors import CitrinationClientError
 
 home = os.path.expanduser("~")
 

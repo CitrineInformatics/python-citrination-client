@@ -1,6 +1,6 @@
 from citrination_client.util.credentials import *
 from citrination_client.util import env as citr_env_vars
-from citrination_client.errors import CitrinationClientError
+from citrination_client.base.errors import CitrinationClientError
 import os
 
 mock_credentials_path = './citrination_client/util/tests/mock_credentials'

@@ -4,7 +4,7 @@ from pypif.util.case import keys_to_snake_case
 from citrination_client.search import *
 from citrination_client.util import config as client_config
 from citrination_client.base.base_client import BaseClient
-from citrination_client.errors import RequestTimeoutException
+from citrination_client.base.errors import RequestTimeoutException
 
 from copy import deepcopy
 import json
