@@ -15,7 +15,7 @@ help:
 
 .PHONY: help Makefile
 
-html: apidoc
+html: prepare
 	$(SPHINXBUILD) -b html $(SOURCEDIR) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."

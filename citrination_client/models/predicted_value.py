@@ -8,9 +8,11 @@ class PredictedValue(object):
         Constructor.
 
         :param key: The descriptor key for the prediction
+        :type key: str
         :param value: The predicted value
-        :param loss: If the predicted value is a real number, the loss
-            for the prediction
+        :type value: str or float
+        :param loss: The loss for the prediction
+        :type loss: float
         """
         self._key = key
         self._value = value

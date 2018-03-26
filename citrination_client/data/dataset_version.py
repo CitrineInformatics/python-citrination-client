@@ -8,6 +8,7 @@ class DatasetVersion(object):
         Constructor.
 
         :param number: The number of the dataset version
+        :type number: ints
         """
         self._number = number
 

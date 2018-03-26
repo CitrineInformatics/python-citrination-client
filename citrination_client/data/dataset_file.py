@@ -8,7 +8,9 @@ class DatasetFile(object):
         Constructor.
 
         :param path: The files path
+        :type path: str
         :param url: If present, a download URL for the file
+        :type url: str
         """
         self._path = path
         self._url = url

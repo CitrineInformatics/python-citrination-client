@@ -7,11 +7,15 @@ def check_for_rate_limiting(response, response_lambda, timeout=1, attempts=0):
 
     If more than 3 attempts are made, a RateLimitingException is raised
 
-    :param response: a requests.Response instance
+    :param response: A response from Citrination
+    :type response: requests.Response
     :param response_lambda: a callable that runs the request that returned the
         response
+    :type response_lambda: function
     :param timeout: the time to wait before retrying
+    :type timeout: int
     :param attempts: the number of the retry being executed
+    :type attempts: int
     """
     if attempts >= 3:
         raise RateLimitingException()

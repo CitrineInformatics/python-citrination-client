@@ -33,8 +33,10 @@ class SearchClient(BaseClient):
         """
         Run a PIF query against Citrination.
 
-        :param pif_system_returning_query: :class:`PifSystemReturningQuery` to execute.
+        :param pif_system_returning_query: The PIF system query to execute.
+        :type pif_system_returning_query: :class:`PifSystemReturningQuery`
         :return: :class:`PifSearchResult` object with the results of the query.
+        :rtype: :class:`PifSearchResult`
         """
         return self._execute_paginating_search(
             pif_system_returning_query,
@@ -46,7 +48,9 @@ class SearchClient(BaseClient):
         Run a dataset query against Citrination.
 
         :param dataset_returning_query: :class:`DatasetReturningQuery` to execute.
-        :return: :class:`DatasetSearchResult` object with the results of the query.
+        :type dataset_returning_query: :class:`DatasetReturningQuery`
+        :return: Dataset search result object with the results of the query.
+        :rtype: :class:`DatasetSearchResult`
         """
         return self._execute_paginating_search(
             dataset_returning_query,
@@ -120,7 +124,7 @@ class SearchClient(BaseClient):
                                property_min=None, property_max=None, property_units=None, reference_doi=None,
                                include_datasets=[], exclude_datasets=[], from_index=None, size=None):
         """
-        Generates a chemical system query with easily usable parameterization. This method generates a :class:`PifSystemReturningQuery` object using the
+        This method generates a :class:`PifSystemReturningQuery` object using the
         supplied arguments. All arguments that accept lists have logical OR's on the queries that they generate.
         This means that, for example, simple_chemical_search(name=['A', 'B']) will match records that have name
         equal to 'A' or 'B'.
@@ -134,18 +138,31 @@ class SearchClient(BaseClient):
         that accepts a :class:`PifSystemReturningQuery` object.
 
         :param name: One or more strings with the names of the chemical system to match.
+        :type name: str or list of str
         :param chemical_formula:  One or more strings with the chemical formulas to match.
+        :type chemical_formula: str or list of str
         :param property_name: One or more strings with the names of the property to match.
+        :type property_name: str or list of str
         :param property_value: One or more strings or numbers with the exact values to match.
+        :type property_value: str or int or float or list of str or int or float
         :param property_min: A single string or number with the minimum value to match.
+        :type property_min: str or int or float
         :param property_max: A single string or number with the maximum value to match.
+        :type property_max: str or int or float
         :param property_units: One or more strings with the property units to match.
+        :type property_units: str or list of str
         :param reference_doi: One or more strings with the DOI to match.
+        :type reference_doin: str or list of str
         :param include_datasets: One or more integers with dataset IDs to match.
+        :type include_datasets: int or list of int
         :param exclude_datasets: One or more integers with dataset IDs that must not match.
+        :type exclude_datasets: int or list of int
         :param from_index: Index of the first record to match.
+        :type from_index: int
         :param size: Total number of records to return.
-        :return: :class:`PifSearchResult` object with the results of the query.
+        :type size: int
+        :return: A query to to be submitted with the pif_search method
+        :rtype: :class:`PifSystemReturningQuery`
         """
         pif_system_query = PifSystemQuery()
         pif_system_query.names = FieldQuery(

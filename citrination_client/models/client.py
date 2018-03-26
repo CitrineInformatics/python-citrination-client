@@ -20,7 +20,9 @@ class ModelsClient(BaseClient):
         Get the t-SNE projection, including responses and tags.
 
         :param data_view_id: The ID of the data view to retrieve TSNE from
-        :return: A :class:`Tsne` object representing the TSNE analysis
+        :type data_view_id: int
+        :return: The TSNE analysis
+        :rtype: :class:`Tsne`
         """
         analysis = self._data_analysis(data_view_id)
         projections = analysis['projections']
@@ -42,10 +44,16 @@ class ModelsClient(BaseClient):
         Predict endpoint
 
         :param data_view_id: The ID of the data view to use for prediction
+        :type data_view_id: int
         :param candidates: A list of candidates to make predictions on
-        :param method:     Method for propagating predictions through model graphs
+        :type candidates: list of dicts
+        :param method: Method for propagating predictions through model
+            graphs
+        :type method: str ("scalar" or "from_distribution")
         :param use_prior:  Whether to apply prior values implied by the property descriptors
-        :return: A :class:`PredictionResult`
+        :type use_prior: bool
+        :return: The result of the prediction
+        :rtype: :class:`PredictionResult`
         """
         body = self._get_predict_body(candidates, method, use_prior)
         failure_message = "Error while making prediction for data view {}".format(data_view_id)

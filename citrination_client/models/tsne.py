@@ -5,6 +5,9 @@ class Tsne(object):
     """
 
     def __init__(self):
+        """
+        Constructor
+        """
         self._projections = {}
 
     def add_projection(self, key, projection):
@@ -12,7 +15,9 @@ class Tsne(object):
         Register a projection under a descriptor key.
 
         :param key: The descriptor key for the projection
-        :param projection: A :class:`Projection`
+        :type key: str
+        :param projection: The projection for the provided descriptor key
+        :type projection: :class:`Projection`
         """
         self._projections[key] = projection
 

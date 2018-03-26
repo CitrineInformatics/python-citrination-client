@@ -15,7 +15,15 @@ class BaseClient(object):
         """
         Constructor.
 
-        :param webserver_host: local pointer to the tunnel to the cmc web host.
+        :param api_key: Authentication token for the Citrination site
+        :type api_key: str
+        :param host: The base URL of the citrination site, e.g. https://citrination.com
+        :type host: str
+        :param api_members: The names of the member methods for this client
+        :type api_members: str[]
+        :param suppress_warnings: A flag indicating whether or not warning
+            messages to stdout should be printed
+        :type suppress_warnings: bool
         """
         if api_key == None or len(api_key) == 0:
             raise CitrinationClientError("API key must be present to instantiate the client")
