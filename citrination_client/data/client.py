@@ -71,7 +71,7 @@ class DataClient(BaseClient):
             return upload_result
         elif os.path.isfile(source_path):
             file_data = { "dest_path": str(dest_path), "src_path": str(source_path)}
-            j = self._post_json(routes.upload_to_dataset(dataset_id), data=file_data).json()
+            j = self._get_success_json(self._post_json(routes.upload_to_dataset(dataset_id), data=file_data))
             s3url = _get_s3_presigned_url(j)
             with open(source_path, 'rb') as f:
                 r = requests.put(s3url, data=f, headers=j["required_headers"])
@@ -104,7 +104,7 @@ class DataClient(BaseClient):
                 "isDir": is_dir
             }
         }
-        return self._post_json(routes.list_files(dataset_id), data, failure_message="Failed to list files for dataset {}".format(dataset_id)).json()['files']
+        return self._get_success_json(self._post_json(routes.list_files(dataset_id), data, failure_message="Failed to list files for dataset {}".format(dataset_id)))['files']
 
     def matched_file_count(self, dataset_id, glob=".", is_dir=False):
         """
@@ -151,7 +151,7 @@ class DataClient(BaseClient):
 
         failure_message = "Failed to get matched files in dataset {}".format(dataset_id)
 
-        versions = self._post_json(routes.matched_files(dataset_id), data, failure_message=failure_message).json()['versions']
+        versions = self._get_success_json(self._post_json(routes.matched_files(dataset_id), data, failure_message=failure_message))['versions']
 
         # if you don't provide a version number, only the latest
         # will be included in the response body
@@ -227,7 +227,7 @@ class DataClient(BaseClient):
             data["description"] = description
         dataset = {"dataset": data}
         failure_message = "Unable to create dataset"
-        result = self._post_json(routes.create_dataset(), dataset, failure_message=failure_message).json()
+        result = self._get_success_json(self._post_json(routes.create_dataset(), dataset, failure_message=failure_message))
 
         return _dataset_from_response_dict(result)
 
@@ -258,7 +258,7 @@ class DataClient(BaseClient):
 
         dataset = {"dataset": data}
         failure_message = "Failed to update dataset {}".format(dataset_id)
-        response = self._post_json(routes.update_dataset(dataset_id), data=dataset, failure_message=failure_message).json()
+        response = self._get_success_json(self._post_json(routes.update_dataset(dataset_id), data=dataset, failure_message=failure_message))
 
         return _dataset_from_response_dict(response)
 
@@ -272,7 +272,7 @@ class DataClient(BaseClient):
         :rtype: :class:`DatasetVersion`
         """
         failure_message = "Failed to create dataset version for dataset {}".format(dataset_id)
-        number = self._post_json(routes.create_dataset_version(dataset_id), data={}, failure_message=failure_message).json()['dataset_scoped_id']
+        number = self._get_success_json(self._post_json(routes.create_dataset_version(dataset_id), data={}, failure_message=failure_message))['dataset_scoped_id']
 
         return DatasetVersion(number=number)
 

@@ -103,9 +103,9 @@ class SearchClient(BaseClient):
             route = routes.dataset_search
             failure_message = "Error while making dataset search request"
 
-        response_json = self._post(
+        response_json = self._get_success_json(self._post(
                     route, data=json.dumps(returning_query, cls=QueryEncoder),
-                failure_message=failure_message).json()
+                failure_message=failure_message))
 
         return result_class(**keys_to_snake_case(response_json['results']))
 
@@ -117,7 +117,7 @@ class SearchClient(BaseClient):
         :return: :class:`PifMultiSearchResult` object with the results of the query.
         """
         failure_message = "Error while making PIF multi search request"
-        response_dict = self._post(routes.pif_multi_search, data=json.dumps(multi_query, cls=QueryEncoder), failure_message=failure_message).json()
+        response_dict = self._get_success_json(self._post(routes.pif_multi_search, data=json.dumps(multi_query, cls=QueryEncoder), failure_message=failure_message))
 
         return PifMultiSearchResult(**keys_to_snake_case(response_dict['results']))
 

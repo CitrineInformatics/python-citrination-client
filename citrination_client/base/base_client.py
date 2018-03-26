@@ -1,7 +1,7 @@
 import requests
 import json
 from citrination_client.util.quote_finder import quote
-from citrination_client.base.response_handling import raise_on_response, check_general_success, check_for_rate_limiting
+from citrination_client.base.response_handling import raise_on_response, check_general_success, check_for_rate_limiting, get_response_json
 from citrination_client.base.errors import *
 
 DEFAULT_FAILURE_MESSAGE = "There was an error communicating with Citrination"
@@ -43,6 +43,9 @@ class BaseClient(object):
         raise_on_response(response)
         check_general_success(response, failure_message)
         return response
+
+    def _get_success_json(self, response):
+        return get_response_json(response)
 
     def _get_qualified_route(self, route):
         """
