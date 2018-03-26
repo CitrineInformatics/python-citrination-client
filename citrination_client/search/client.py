@@ -1,15 +1,16 @@
-from .query_encoder import QueryEncoder
-from pypif.util.case import to_camel_case
-from pypif.util.case import keys_to_snake_case
+from citrination_client.search.query_encoder import QueryEncoder
 from citrination_client.search import *
+from citrination_client.search import routes as routes
 from citrination_client.util import config as client_config
 from citrination_client.base.base_client import BaseClient
 from citrination_client.base.errors import RequestTimeoutException
 
+from pypif.util.case import to_camel_case
+from pypif.util.case import keys_to_snake_case
+
 from copy import deepcopy
 import json
 import requests
-import routes
 
 DEFAULT_FAILURE_MESSAGE="An error occurred requesting search results from Citrination"
 

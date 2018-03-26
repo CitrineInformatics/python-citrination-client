@@ -1,7 +1,7 @@
 from citrination_client.base.base_client import BaseClient
 from citrination_client.models import *
 
-import routes
+from citrination_client.models import routes as routes
 
 class ModelsClient(BaseClient):
     """

@@ -1,8 +1,8 @@
 import requests
 import json
 from citrination_client.util.quote_finder import quote
-from response_handling import raise_on_response, check_general_success, check_for_rate_limiting
-from errors import *
+from citrination_client.base.response_handling import raise_on_response, check_general_success, check_for_rate_limiting
+from citrination_client.base.errors import *
 
 DEFAULT_FAILURE_MESSAGE = "There was an error communicating with Citrination"
 
