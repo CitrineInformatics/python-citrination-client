@@ -1,7 +1,7 @@
 from citrination_client.client import CitrinationClient
 from os import environ
 
-citrination_client = CitrinationClient()
+citrination_client = CitrinationClient(environ["CITRINATION_API_KEY"])
 client = citrination_client.models
 
 def _almost_equal(test_value, reference_value, tolerance=1.0e-9):

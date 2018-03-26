@@ -14,7 +14,7 @@ import json
 def random_string():
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))
 
-parent_client = CitrinationClient()
+parent_client = CitrinationClient(os.environ["CITRINATION_API_KEY"])
 client = parent_client.data
 # Append dataset name with random string because one user can't have more than
 # one dataset with the same name
