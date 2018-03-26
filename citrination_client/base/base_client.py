@@ -4,6 +4,10 @@ from citrination_client.util.quote_finder import quote
 from citrination_client.base.response_handling import raise_on_response, check_general_success, check_for_rate_limiting, get_response_json
 from citrination_client.base.errors import *
 
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+
 DEFAULT_FAILURE_MESSAGE = "There was an error communicating with Citrination"
 
 class BaseClient(object):
