@@ -8,10 +8,15 @@ class Projection(object):
         Constructor.
 
         :param xs: A list of x values of the projection.
+        :type xs: list of floats
         :param ys: A list of y values of the projection.
+        :type ys: list of floats
         :param responses: A list of z values of the projection.
+        :type responses: list of floats
         :param tags: A list of tags for the projected points
+        :type tags: list of strings
         :param uids: A list of record UIDs for the projected points
+        :type uids: list of strings
         """
         self._xs = xs
         self._ys = ys

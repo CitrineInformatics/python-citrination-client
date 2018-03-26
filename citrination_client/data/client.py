@@ -14,12 +14,17 @@ class DataClient(BaseClient):
     Client encapsulating data management behavior.
     """
 
-    def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False):
+    def __init__(self, api_key, host="https://citrination.com", suppress_warnings=False):
         """
         Constructor.
 
-        :param api_key: A users API key, as a string
-        :param webserver_host: The root site Url
+        :param api_key: A users API key, as a string asdfasdf
+        :type api_key: str
+        :param host: The base URL of the citrination site, e.g. https://citrination.com
+        :type host: str
+        :param suppress_warnings: Whether or not usage warnings should be
+            printed to stdout
+        :type suppress_warnings: bool
         """
         members = [
             "upload",
@@ -30,16 +35,18 @@ class DataClient(BaseClient):
             "create_dataset",
             "create_dataset_version"
         ]
-        super(DataClient, self).__init__(api_key, webserver_host, members, suppress_warnings=suppress_warnings)
+        super(DataClient, self).__init__(api_key, host, members, suppress_warnings=suppress_warnings)
 
     def upload(self, dataset_id, source_path, dest_path=None):
         """
-        Upload a file, specifying source and dest paths a file (acts as the scp command).
+        Upload a file, specifying source and dest paths a file (acts as the scp command).asdfasdf
 
-        :param source_path: The path to the file on the source host
+        :param source_path: The path to the file on the source host asdf
+        :type source_path: str
         :param dest_path: The path to the file where the contents of the upload will be written (on the dest host)
-        :return: A :class:`UploadResult` object summarizing the result of
-            the upload process
+        :type dest_path: str
+        :return: The result of the upload process
+        :rtype: :class:`UploadResult`
         """
         upload_result = UploadResult()
         source_path = str(source_path)
@@ -82,9 +89,13 @@ class DataClient(BaseClient):
         List matched filenames in a dataset on Citrination.
 
         :param dataset_id: The ID of the dataset to search for files.
+        :type dataset_id: int
         :param glob: A pattern which will be matched against files in the dataset.
+        :type glob: str
         :param is_dir: A boolean indicating whether or not the pattern should match against the beginning of paths in the dataset.
+        :type is_dir: bool
         :return: A list of filepaths in the dataset matching the provided glob.
+        :rtype: str[]
         """
         data = {
             "list": {
@@ -99,9 +110,13 @@ class DataClient(BaseClient):
         Returns the number of files matching a pattern in a dataset.
 
         :param dataset_id: The ID of the dataset to search for files.
+        :type dataset_id: int
         :param glob: A pattern which will be matched against files in the dataset.
+        :type glob: str
         :param is_dir: A boolean indicating whether or not the pattern should match against the beginning of paths in the dataset.
+        :type is_dir: bool
         :return: The number of matching files
+        :rtype: int
         """
         list_result = self.list_files(dataset_id, glob, is_dir)
         return len(list_result)
@@ -112,9 +127,13 @@ class DataClient(BaseClient):
         in a given dataset.
 
         :param dataset_id: The id of the dataset to retrieve files from
+        :type dataset_id: int
         :param glob: A regex used to select one or more files in the dataset
+        :type glob: str
         :param version_number: The version number of the dataset to retrieve files from
-        :return: A list of :class:`DatasetFile` objects matching the provided pattern.
+        :type version_number: int
+        :return: A list of dataset files whose paths match the provided pattern.
+        :rtype: list of :class:`DatasetFile`
         """
         if version_number is None:
             latest = True
@@ -153,10 +172,14 @@ class DataClient(BaseClient):
         """
         Retrieves a dataset file matching a provided file path
 
-        :param data_set_id: The id of the dataset to retrieve file from
+        :param dataset_id: The id of the dataset to retrieve file from
+        :type dataset_id: int
         :param file_path: The file path within the dataset
+        :type file_path: str
         :param version: The dataset version to look for the file in. If nothing is supplied, the latest dataset version will be searched
-        :return: A :class:`DatasetFile` object matching the filepath provided
+        :type version: int
+        :return: A dataset file matching the filepath provided
+        :rtype: :class:`DatasetFile`
         """
         return self.get_dataset_files(dataset_id, "^{}$".format(file_path), version_number=version)[0]
 
@@ -164,10 +187,14 @@ class DataClient(BaseClient):
         """
         Retrieves a PIF from a given dataset.
 
-        :param data_set_id: The id of the dataset to retrieve PIF from
+        :param dataset_id: The id of the dataset to retrieve PIF from
+        :type dataset_id: int
         :param uid: The uid of the PIF to retrieve
+        :type uid: str
         :param version: The dataset version to look for the PIF in. If nothing is supplied, the latest dataset version will be searched
+        :type version: int
         :return: A :class:`Pif` object
+        :rtype: :class:`Pif`
         """
         failure_message = "An error occurred retrieving PIF {}".format(uid)
         if version == None:
@@ -182,9 +209,13 @@ class DataClient(BaseClient):
         Create a new data set.
 
         :param name: name of the dataset
+        :type name: str
         :param description: description for the dataset
+        :type description: str
         :param public: A boolean indicating whether or not the dataset should be public.
-        :return: A :class:`Dataset` object representing the newly created dataset.
+        :type public: bool
+        :return: The newly created dataset.
+        :rtype: :class:`Dataset`
         """
         data = {
             "public": _convert_bool_to_public_value(public)
@@ -203,11 +234,17 @@ class DataClient(BaseClient):
         """
         Update a data set.
 
-        :param dataset_id:
+        :param dataset_id: The ID of the dataset to update
+        :type dataset_id: int
         :param name: name of the dataset
+        :type name: str
         :param description: description for the dataset
-        :param public: A boolean indicating whether or not the dataset should be public.
-        :return: A :class:`Dataset` object representing the updated dataset.
+        :type description: str
+        :param public: A boolean indicating whether or not the dataset should
+            be public.
+        :type public: bool
+        :return: The updated dataset.
+        :rtype: :class:`Dataset`
         """
         data = {
             "public": _convert_bool_to_public_value(public)
@@ -229,7 +266,9 @@ class DataClient(BaseClient):
         Create a new data set version.
 
         :param dataset_id: The ID of the dataset for which the version must be bumped.
-        :return: The number of the new version.
+        :type dataset_id: int
+        :return: The new dataset version.
+        :rtype: :class:`DatasetVersion`
         """
         failure_message = "Failed to create dataset version for dataset {}".format(dataset_id)
         number = self._post_json(routes.create_dataset_version(dataset_id), data={}, failure_message=failure_message).json()['dataset_scoped_id']

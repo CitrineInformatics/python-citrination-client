@@ -9,9 +9,13 @@ class Dataset(object):
         Constructor.
 
         :param id: The ID of the dataset (required for instantiation)
+        :type id: int
         :param name: The name of the dataset
+        :type name: str
         :param description: The description of the dataset
+        :type description: str
         :param created_at: The timestamp for creation of the dataset
+        :type created_at: str
         """
         self._name = name
         self._description = description

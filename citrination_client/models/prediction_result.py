@@ -11,8 +11,11 @@ class PredictionResult(object):
         Registers a predicted value in the result.
 
         :param key: The descriptor key for the predicted value
+        :type key: str
         :param value: A :class:`PredictedValue`
+        :type value: object
         :return: None
+        :rtype: NoneType
         """
         self._values[key] = value
 
@@ -21,7 +24,9 @@ class PredictionResult(object):
         Retrieves a predicted value.
 
         :param key: A descriptor key for a registered predicted value.
-        :return: a :class:`PredictedValue`
+        :type key: str
+        :return: The value stored at the provided descriptor key
+        :rtype: :class:`PredictedValue`
         """
         try:
             return self._values[key]

@@ -24,7 +24,8 @@ class UploadResult(object):
         """
         Indicates whether or not the entire upload was successful.
 
-        :return: A boolean indicating success (True) or failure (False)
+        :return: Whether or not the upload was successful
+        :rtype: bool
         """
         return len(self._failures) == 0
 
@@ -33,7 +34,9 @@ class UploadResult(object):
         Registers a file as a failure to upload.
 
         :param filepath: The path to the file which was to be uploaded.
+        :type filepath: str
         :param reason: The reason the file failed to upload
+        :type reason: str
         """
         self._failures.append({
                 "path": filepath,
@@ -45,6 +48,7 @@ class UploadResult(object):
         Registers a file as successfully uploaded.
 
         :param filepath: The path to the successfully uploaded file.
+        :type filepath: str
         """
         self._successes.append({
                 "path": filepath
