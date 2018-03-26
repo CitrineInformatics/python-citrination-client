@@ -203,7 +203,7 @@ class DataClient(BaseClient):
         else:
             response = self._get(routes.pif_dataset_version_uid(dataset_id, uid, version), failure_message=failure_message)
 
-        return pif.loads(response.content)
+        return pif.loads(response.content.decode("utf-8"))
 
     def create_dataset(self, name=None, description=None, public=False):
         """
