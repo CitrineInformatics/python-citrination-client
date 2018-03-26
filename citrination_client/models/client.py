@@ -57,9 +57,8 @@ class ModelsClient(BaseClient):
         """
         body = self._get_predict_body(candidates, method, use_prior)
         failure_message = "Error while making prediction for data view {}".format(data_view_id)
-        return _get_prediction_result_from_response(
-                self._post_json(routes.data_view_predict(data_view_id), data=body, failure_message=failure_message).json()
-            )
+        response_dict = self._get_success_json(self._post_json(routes.data_view_predict(data_view_id), data=body, failure_message=failure_message))
+        return _get_prediction_result_from_response(response_dict)
 
     def _data_analysis(self, data_view_id):
         """
@@ -69,7 +68,7 @@ class ModelsClient(BaseClient):
         :return: dictionary containing information about the data, e.g. dCorr and tsne
         """
         failure_message = "Error while retrieving data analysis for data view {}".format(data_view_id)
-        return self._get(routes.data_analysis(data_view_id), failure_message=failure_message).json()
+        return self._get_success_json(self._get(routes.data_analysis(data_view_id), failure_message=failure_message))
 
     def _get_predict_body(self, candidates, method="scalar", use_prior=True):
         if not (method == "scalar" or method == "from_distribution"):
