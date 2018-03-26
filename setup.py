@@ -10,4 +10,14 @@ setup(name='citrination-client',
           'pypif',
           'six<2',
           'pyyaml'
-      ])
+      ],
+      extras_require={
+        "dev": [
+          'sphinx_rtd_theme',
+          'sphinx'
+        ],
+        "test": [
+          'requests_mock',
+          'pytest',
+        ]
+      })
