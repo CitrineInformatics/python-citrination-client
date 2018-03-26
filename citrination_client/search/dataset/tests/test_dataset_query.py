@@ -1,13 +1,13 @@
 from os import environ
 import unittest
-
+from citrination_client.base.errors import RequestTimeoutException
 from citrination_client import *
 
 class TestDatasetQuery(unittest.TestCase):
 
     @classmethod
     def setup_class(cls):
-        cls.client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
+        cls.client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE']).search
 
     def test_full_dataset_query(self):
         """Test a public dataset query with every option on"""
@@ -28,6 +28,7 @@ class TestDatasetQuery(unittest.TestCase):
             assert hit.score is not None, "Score is not returned"
 
     def test_dataset_search(self):
+        """Test that a basic query with a dataset ID returns 1 hit"""
         response = self.client.dataset_search(DatasetReturningQuery(
             size=0,
             query=DataQuery(
