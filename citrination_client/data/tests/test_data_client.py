@@ -85,7 +85,8 @@ def test_dataset_update():
                 size=1,
                 query=DataQuery(
                     dataset=DatasetQuery(
-                        id=Filter(equal=dataset.id)))))
+                        id=Filter(equal=dataset.id),
+                        name=Filter(equal=dataset.name)))))
         if len(response.hits) > 0:
             break
         else:
