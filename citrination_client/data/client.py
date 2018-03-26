@@ -1,13 +1,14 @@
 from citrination_client.base.base_client import BaseClient
 from citrination_client.base.errors import *
 from citrination_client.data import *
+from citrination_client.data import routes as routes
 
 from pypif import pif
 
 import json
 import os
 import requests
-import routes
+
 
 class DataClient(BaseClient):
     """

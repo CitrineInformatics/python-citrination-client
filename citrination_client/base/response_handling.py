@@ -1,4 +1,4 @@
-from errors import *
+from citrination_client.base.errors import *
 from time import sleep
 
 def check_for_rate_limiting(response, response_lambda, timeout=1, attempts=0):
