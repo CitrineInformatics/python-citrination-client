@@ -2,6 +2,7 @@ from citrination_client.base.response_handling import raise_on_response, check_g
 from citrination_client.base.errors import *
 from requests.models import Response
 import requests
+import requests_mock
 import json
 
 response_exceptions = [{
@@ -30,31 +31,31 @@ def test_raises_exceptions_correctly():
             assert True
 
 def test_check_response_for_version_mismatch():
+    with requests_mock.mock() as m:
+        m.get("mock://myversion", json={"error_type": "Version Mismatch"}, status_code=requests.codes.bad)
+        resp = requests.get("mock://myversion")
     """
     Tests that the version mismatch check will throw an error
     if the error_type key is present with the right value in the
     JSON response
     """
-    r = Response()
-    r.status_code = requests.codes.bad
     # accesses library private variable, but not sure how to mock responses
-    r._content = json.dumps({"error_type": "Version Mismatch"})
     try:
-        _check_response_for_version_mismatch(r)
+        _check_response_for_version_mismatch(resp)
         assert False
     except APIVersionMismatchException:
         assert True
 
 def test_check_response_for_version_mismatch_not_json():
+    with requests_mock.mock() as m:
+        m.get("mock://myversion", text="definitely not json", status_code=requests.codes.bad)
+        resp = requests.get("mock://myversion")
     """
     Tests that the version mismatch test passes a response through
     if the content is not JSON parseable
     """
-    r = Response()
-    r.status_code = requests.codes.bad
     # accesses library private variable, but not sure how to mock responses
-    r._content = "definitely not json"
-    assert r is _check_response_for_version_mismatch(r)
+    assert resp is _check_response_for_version_mismatch(resp)
 
 def test_raises_client_error_if_error_code():
     """
