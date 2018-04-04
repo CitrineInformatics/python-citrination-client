@@ -1,10 +1,9 @@
-citrination\_client.search.core.result package
+Search - Core - Result package
 ==============================================
 
-citrination\_client.search.core.result.base\_search\_result module
+Base Search Result
 ------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.core.result.base_search_result
     :members:
-    :undoc-members:
     :show-inheritance:

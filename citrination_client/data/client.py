@@ -131,6 +131,8 @@ class DataClient(BaseClient):
         :type dataset_id: int
         :param glob: A regex used to select one or more files in the dataset
         :type glob: str
+        :param is_dir: Whether or not the supplied pattern should be treated as a directory to search in
+        :type is_dir: bool
         :param version_number: The version number of the dataset to retrieve files from
         :type version_number: int
         :return: A list of dataset files whose paths match the provided pattern.

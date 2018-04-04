@@ -1,7 +1,7 @@
-citrination\_client.search.pif.query.chemical package
+PIF Query - Chemical
 =====================================================
 
-citrination\_client.search.pif.query.chemical.chemical\_field\_query module
+Chemical Field Query
 ---------------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.chemical.chemical_field_query
@@ -9,7 +9,7 @@ citrination\_client.search.pif.query.chemical.chemical\_field\_query module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.query.chemical.chemical\_filter module
+Chemical Filter
 ---------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.chemical.chemical_filter
@@ -17,7 +17,7 @@ citrination\_client.search.pif.query.chemical.chemical\_filter module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.query.chemical.composition\_query module
+Composition Query
 -----------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.chemical.composition_query

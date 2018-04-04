@@ -1,7 +1,7 @@
-citrination\_client.search.dataset.result package
+Dataset Results
 =================================================
 
-citrination\_client.search.dataset.result.dataset\_multi\_search\_result module
+Dataset Multi Search Result
 -------------------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.dataset.result.dataset_multi_search_result
@@ -9,7 +9,7 @@ citrination\_client.search.dataset.result.dataset\_multi\_search\_result module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.dataset.result.dataset\_multi\_search\_result\_element module
+Dataset Multi Search Result Element
 ----------------------------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.dataset.result.dataset_multi_search_result_element
@@ -17,7 +17,7 @@ citrination\_client.search.dataset.result.dataset\_multi\_search\_result\_elemen
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.dataset.result.dataset\_search\_hit module
+Dataset Search Hit
 ---------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.dataset.result.dataset_search_hit
@@ -25,7 +25,7 @@ citrination\_client.search.dataset.result.dataset\_search\_hit module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.dataset.result.dataset\_search\_result module
+Dataset Search Result
 ------------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.dataset.result.dataset_search_result

@@ -1,7 +1,7 @@
-citrination\_client.search.file.result package
+File Results
 ==============================================
 
-citrination\_client.search.file.result.file\_multi\_search\_result module
+File Multi Search Result
 -------------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.file.result.file_multi_search_result
@@ -9,7 +9,7 @@ citrination\_client.search.file.result.file\_multi\_search\_result module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.file.result.file\_multi\_search\_result\_element module
+File Multi Search Result Element
 ----------------------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.file.result.file_multi_search_result_element
@@ -17,7 +17,7 @@ citrination\_client.search.file.result.file\_multi\_search\_result\_element modu
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.file.result.file\_search\_hit module
+File Search Hit
 ---------------------------------------------------------------
 
 .. automodule:: citrination_client.search.file.result.file_search_hit
@@ -25,7 +25,7 @@ citrination\_client.search.file.result.file\_search\_hit module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.file.result.file\_search\_result module
+File Search Result
 ------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.file.result.file_search_result

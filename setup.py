@@ -14,7 +14,7 @@ setup(name='citrination-client',
       extras_require={
         "dev": [
           'sphinx_rtd_theme',
-          'sphinx'
+          'sphinx',
         ],
         "test": [
           'requests_mock',

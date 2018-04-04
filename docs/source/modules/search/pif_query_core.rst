@@ -1,23 +1,7 @@
-citrination\_client.search.pif.query.core package
+PIF Query Core
 =================================================
 
-citrination\_client.search.pif.query.core.base\_field\_query module
--------------------------------------------------------------------
-
-.. automodule:: citrination_client.search.pif.query.core.base_field_query
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-citrination\_client.search.pif.query.core.base\_object\_query module
---------------------------------------------------------------------
-
-.. automodule:: citrination_client.search.pif.query.core.base_object_query
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-citrination\_client.search.pif.query.core.classification\_query module
+Classification Query
 ----------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.core.classification_query
@@ -25,7 +9,7 @@ citrination\_client.search.pif.query.core.classification\_query module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.query.core.display\_item\_query module
+Display Item Query
 ---------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.core.display_item_query
@@ -33,7 +17,7 @@ citrination\_client.search.pif.query.core.display\_item\_query module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.query.core.field\_query module
+Field Query
 -------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.core.field_query
@@ -41,7 +25,7 @@ citrination\_client.search.pif.query.core.field\_query module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.query.core.file\_reference\_query module
+File Reference Query
 -----------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.core.file_reference_query
@@ -49,7 +33,7 @@ citrination\_client.search.pif.query.core.file\_reference\_query module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.query.core.id\_query module
+ID Query
 ----------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.core.id_query
@@ -57,7 +41,7 @@ citrination\_client.search.pif.query.core.id\_query module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.query.core.name\_query module
+Name Query
 ------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.core.name_query
@@ -65,7 +49,7 @@ citrination\_client.search.pif.query.core.name\_query module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.query.core.pages\_query module
+Pages Query
 -------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.core.pages_query
@@ -73,7 +57,7 @@ citrination\_client.search.pif.query.core.pages\_query module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.query.core.process\_step\_query module
+Process Step Query
 ---------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.core.process_step_query
@@ -81,7 +65,7 @@ citrination\_client.search.pif.query.core.process\_step\_query module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.query.core.property\_query module
+Property Query
 ----------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.core.property_query
@@ -89,7 +73,7 @@ citrination\_client.search.pif.query.core.property\_query module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.query.core.quantity\_query module
+Quantity Query
 ----------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.core.quantity_query
@@ -97,7 +81,7 @@ citrination\_client.search.pif.query.core.quantity\_query module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.query.core.reference\_query module
+Reference Query
 -----------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.core.reference_query
@@ -105,7 +89,7 @@ citrination\_client.search.pif.query.core.reference\_query module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.query.core.source\_query module
+Source Query
 --------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.core.source_query
@@ -113,7 +97,7 @@ citrination\_client.search.pif.query.core.source\_query module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.query.core.value\_query module
+Value Query
 -------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.core.value_query

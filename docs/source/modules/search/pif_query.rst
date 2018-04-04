@@ -1,7 +1,7 @@
-citrination\_client.search.pif.query package
+PIF Query
 ============================================
 
-citrination\_client.search.pif.query.extraction\_sort module
+Extraction Sort
 ------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.extraction_sort
@@ -9,7 +9,7 @@ citrination\_client.search.pif.query.extraction\_sort module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.query.pif\_system\_query module
+PIF System Query
 --------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.pif_system_query
@@ -17,7 +17,7 @@ citrination\_client.search.pif.query.pif\_system\_query module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.query.pif\_system\_returning\_query module
+PIF System Returning Query
 -------------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.query.pif_system_returning_query

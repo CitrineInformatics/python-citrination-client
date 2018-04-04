@@ -12,7 +12,7 @@ on the current client.
 
 .. literalinclude:: code_samples/general/client_serialization.py
 
-The consequence of this is that all method invocations on the client must be directed to the appropriate subclient. In other words, rather than calling ``upload`` on the ``CitrinationClient`` instance, you must call it on the ``DataClient`` accessed by calling ``.data`` on the ``CitrinationClient``.
+The consequence of this is that all method invocations on the client should be directed to the appropriate subclient. In other words, rather than calling ``upload`` on the ``CitrinationClient`` instance, you must call it on the ``DataClient`` accessed by calling ``.data`` on the ``CitrinationClient``.
 
 Error Handling
 --------------

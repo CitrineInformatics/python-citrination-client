@@ -10,18 +10,29 @@ Welcome to Python Citrination Client's documentation!
 Tutorial
 --------
 
+Use the articles in this section to familiarize yourself with the basic usage of the Python Citrination Client.
+
 .. toctree::
    :maxdepth: 2
 
    tutorial/tutorial
-   migrating_to_four
 
-Module Documentation
---------------------
+Upgrading
+---------
 
 .. toctree::
    :maxdepth: 2
 
-   modules/data_client
-   modules/models_client
-   modules/search_client
+   upgrading/migration.rst
+
+Module Documentation
+--------------------
+
+For detailed method documentation, consult the articles in this section.b
+
+.. toctree::
+   :maxdepth: 2
+
+   modules/data_management
+   modules/models
+   modules/search

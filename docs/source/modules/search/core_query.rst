@@ -1,10 +1,7 @@
-citrination\_client.search.core.query package
+Search - Core - Query package
 =============================================
 
-Submodules
-----------
-
-citrination\_client.search.core.query.boolean\_filter module
+Boolean Filter
 ------------------------------------------------------------
 
 .. automodule:: citrination_client.search.core.query.boolean_filter
@@ -12,7 +9,7 @@ citrination\_client.search.core.query.boolean\_filter module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.core.query.data\_query module
+Data Query module
 --------------------------------------------------------
 
 .. automodule:: citrination_client.search.core.query.data_query
@@ -20,7 +17,7 @@ citrination\_client.search.core.query.data\_query module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.core.query.data\_scope module
+Data Scope module
 --------------------------------------------------------
 
 .. automodule:: citrination_client.search.core.query.data_scope
@@ -28,7 +25,7 @@ citrination\_client.search.core.query.data\_scope module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.core.query.filter module
+Filter module
 ---------------------------------------------------
 
 .. automodule:: citrination_client.search.core.query.filter
@@ -36,7 +33,7 @@ citrination\_client.search.core.query.filter module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.core.query.multi\_query module
+Multi Query module
 ---------------------------------------------------------
 
 .. automodule:: citrination_client.search.core.query.multi_query
