@@ -1,18 +1,16 @@
-citrination\_client.search.dataset.query package
+Dataset Queries
 ================================================
 
-citrination\_client.search.dataset.query.dataset\_query module
+Dataset Query
 --------------------------------------------------------------
 
 .. automodule:: citrination_client.search.dataset.query.dataset_query
     :members:
-    :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.dataset.query.dataset\_returning\_query module
+Dataset Returning Query
 -------------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.dataset.query.dataset_returning_query
     :members:
-    :undoc-members:
     :show-inheritance:

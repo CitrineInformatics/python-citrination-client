@@ -44,7 +44,7 @@ class ModelsClient(BaseClient):
         Predict endpoint
 
         :param data_view_id: The ID of the data view to use for prediction
-        :type data_view_id: int
+        :type data_view_id: str
         :param candidates: A list of candidates to make predictions on
         :type candidates: list of dicts
         :param method: Method for propagating predictions through model

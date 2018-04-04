@@ -1,7 +1,7 @@
-citrination\_client.search.file.query package
+File Queries
 =============================================
 
-citrination\_client.search.file.query.file\_query module
+File Query
 --------------------------------------------------------
 
 .. automodule:: citrination_client.search.file.query.file_query
@@ -9,7 +9,7 @@ citrination\_client.search.file.query.file\_query module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.file.query.file\_returning\_query module
+File Returning Query
 -------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.file.query.file_returning_query

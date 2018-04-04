@@ -1,5 +1,5 @@
-Search Client
-=============
+Search
+======
 
 .. toctree::
    :glob:

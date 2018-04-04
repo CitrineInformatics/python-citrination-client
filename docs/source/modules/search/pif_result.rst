@@ -1,7 +1,7 @@
-citrination\_client.search.pif.result package
+PIF Result
 =============================================
 
-citrination\_client.search.pif.result.pif\_multi\_search\_result module
+PIF Multi Search Result
 -----------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.result.pif_multi_search_result
@@ -9,7 +9,7 @@ citrination\_client.search.pif.result.pif\_multi\_search\_result module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.result.pif\_multi\_search\_result\_element module
+PIF Multi Search Result Element
 --------------------------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.result.pif_multi_search_result_element
@@ -17,7 +17,7 @@ citrination\_client.search.pif.result.pif\_multi\_search\_result\_element module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.result.pif\_search\_hit module
+PIF Search Hit
 -------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.result.pif_search_hit
@@ -25,7 +25,7 @@ citrination\_client.search.pif.result.pif\_search\_hit module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.pif.result.pif\_search\_result module
+PIF Search Result
 ----------------------------------------------------------------
 
 .. automodule:: citrination_client.search.pif.result.pif_search_result

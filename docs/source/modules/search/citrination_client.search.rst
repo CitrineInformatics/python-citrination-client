@@ -1,7 +1,7 @@
-citrination\_client.search package
+Search Module
 ==================================
 
-citrination\_client.search.client module
+Search Client
 ----------------------------------------
 
 .. automodule:: citrination_client.search.client
@@ -9,7 +9,7 @@ citrination\_client.search.client module
     :undoc-members:
     :show-inheritance:
 
-citrination\_client.search.query\_encoder module
+Query Encoder
 ------------------------------------------------
 
 .. automodule:: citrination_client.search.query_encoder

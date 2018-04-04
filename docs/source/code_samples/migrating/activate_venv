@@ -1,0 +1,3 @@
+$ cd my_project_folder
+$ virtualenv my_project
+$ source my_project/bin/activate
