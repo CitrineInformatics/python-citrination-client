@@ -37,7 +37,4 @@ class Tsne(object):
         :param key: A descriptor key
         :return: A :class:`Projection`
         """
-        try:
-            return self._projections[key]
-        except KeyError:
-            return None
+        return self._projections.get(key)
