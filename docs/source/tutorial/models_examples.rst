@@ -10,12 +10,6 @@ Predict
 The ``.predict()`` method allows you to make a prediction with
 a model by referencing the ID of a Data View.
 
-Custom Predict
---------------
-
-The ``.predict_custom()`` method allows you to make a prediction
-with a custom model, referenced by its name.
-
 t-SNE
 -----
 

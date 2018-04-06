@@ -5,12 +5,15 @@ To instantiate ``CitrinationClient``, you will need to provide an
 API key and the host URL of the Citrination site you are trying
 to interact with.
 
+API Key
+-------
+
 You can find your API key by navigation to ``https://citrination.com``,
 or your private Citrination deployment, logging in, and using the menu
 in the top right to visit your ``Account Settings`` page.
 
 .. attention::
-  Your API allows you (and anyone who knows it) to access your account.
+  Your API key allows you (and anyone who knows it) to access your account.
   Use caution when storing it on your filesystem.
 
 Host URL
@@ -18,6 +21,13 @@ Host URL
 
 The second parameter to ``CitrinationClient`` instantiation is the URL of the Citrination site you are trying to interact with. By default it is ``https://citrination.com``, but you can pass in any Citrination site.
 
+API Key From Environment
+------------------------
+
+Set the following values and ``CitrinationClient`` will pull in your authentication values from the environment:
+
+* ``CITRINATION_API_KEY``
+* ``CITRINATION_SITE``
 
 API Key From .citrination Folder
 --------------------------------
@@ -41,14 +51,6 @@ In the absence of any other configuration, when you initialize ``CitrinationClie
 
 To specify which credentials set will be used, set the environment variable ``CITRINATION_PROFILE`` to be equal to the name of the desired credentials stanza.
 
-API Key From Environment
-------------------------
-
-Set the following values and ``CitrinationClient`` will pull in your authentication values from the environment:
-
-* ``CITRINATION_API_KEY``
-* ``CITRINATION_SITE``
-
 
 API Key In Direct Initialization
 --------------------------------
@@ -56,6 +58,9 @@ API Key In Direct Initialization
 You may also pass your API key in directly as a constructor argument to the client class (along with the Citrination site you prefer).
 
 .. literalinclude:: code_samples/general/initialization.py
+
+.. attention::
+  Remember to be careful not to share your API key accidentally by including it in a shared script!
 
 Inititialization Mode Priority
 ------------------------------

@@ -19,7 +19,7 @@ class DataClient(BaseClient):
         """
         Constructor.
 
-        :param api_key: A users API key, as a string asdfasdf
+        :param api_key: A users API key, as a string
         :type api_key: str
         :param host: The base URL of the citrination site, e.g. https://citrination.com
         :type host: str
@@ -96,7 +96,7 @@ class DataClient(BaseClient):
         :param is_dir: A boolean indicating whether or not the pattern should match against the beginning of paths in the dataset.
         :type is_dir: bool
         :return: A list of filepaths in the dataset matching the provided glob.
-        :rtype: str[]
+        :rtype: list of strings
         """
         data = {
             "list": {

@@ -3,4 +3,4 @@ data_client = client.data
 
 directory_path = "characterizations/"
 dataset_id = 1
-data_client.upload(1, directory_path)
+data_client.upload(dataset_id, directory_path)

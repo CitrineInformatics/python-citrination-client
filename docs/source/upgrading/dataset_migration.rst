@@ -12,18 +12,18 @@ In the old version of PyCC, you might get the download URL for a file on Citrina
 
 .. code-block:: python
 
-    file = client.get_dataset_file(1, "my_file.json")
-    f["file"]["filename"] # my_file.json
-    f["file"]["url"]      # the download URL for the file
+    dataset_file = client.get_dataset_file(1, "my_file.json")
+    dataset_file["file"]["filename"] # my_file.json
+    dataset_file["file"]["url"]      # the download URL for the file
 
 Now, there is no need to navigate complex dictionary structures. Return values are all represented as ``DatasetFile`` instances.
 
 .. code-block:: python
     
     # file is an instance of DatasetFile
-    file = client.data.get_dataset_file(1, "my_file.json")
-    f.filename # my_file.json
-    f.url      # the download URL for the file
+    dataset_file = client.data.get_dataset_file(1, "my_file.json")
+    dataset_file.filename # my_file.json
+    dataset_file.url      # the download URL for the file
 
 Creating And Updating Datasets
 ------------------------------

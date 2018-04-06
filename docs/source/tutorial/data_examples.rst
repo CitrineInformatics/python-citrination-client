@@ -69,8 +69,8 @@ Retrieving Files
 
 There are two mechanisms for retrieving data from datasets on Citrination:
 
-# Request download URLs for previously uploaded files
-# Request the contents of a single record in PIF JSON format
+#. Request download URLs for previously uploaded files
+#. Request the contents of a single record in PIF JSON format
 
 File Download URLs
 ^^^^^^^^^^^^^^^^^^
