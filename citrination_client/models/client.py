@@ -52,13 +52,18 @@ class ModelsClient(BaseClient):
         :type method: str ("scalar" or "from_distribution")
         :param use_prior:  Whether to apply prior values implied by the property descriptors
         :type use_prior: bool
-        :return: The result of the prediction
-        :rtype: :class:`PredictionResult`
+        :return: The results of the prediction
+        :rtype: list of :class:`PredictionResult`
         """
         body = self._get_predict_body(candidates, method, use_prior)
         failure_message = "Error while making prediction for data view {}".format(data_view_id)
         response_dict = self._get_success_json(self._post_json(routes.data_view_predict(data_view_id), data=body, failure_message=failure_message))
-        return _get_prediction_result_from_response(response_dict)
+        candidate_dicts = response_dict["candidates"]
+        return list(
+            map(
+                lambda c: _get_prediction_result_from_candidate(c), candidate_dicts
+                )
+            )
 
     def _data_analysis(self, data_view_id):
         """
@@ -86,10 +91,9 @@ class ModelsClient(BaseClient):
                 }
             }
 
-def _get_prediction_result_from_response(response):
-    candidate = response['candidates'][0]
+def _get_prediction_result_from_candidate(candidate_dict):
     result = PredictionResult()
-    for k,v in candidate.items():
+    for k,v in candidate_dict.items():
         result.add_value(k, PredictedValue(k, v[0], v[1]))
 
     return result

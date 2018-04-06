@@ -1,4 +1,5 @@
 from citrination_client.client import CitrinationClient
+from citrination_client.models import PredictionResult
 from os import environ
 
 citrination_client = CitrinationClient(environ["CITRINATION_API_KEY"])
@@ -46,7 +47,6 @@ def test_tsne():
     assert len(tsne_y.xs) == len(tsne_y.tags), "tSNE components x and uid had different lengths"
     assert len(tsne_y.xs) == len(tsne_y.uids),   "tSNE components x and label had different lengths"
 
-
 def test_predict():
     """
     Test predictions on the standard organic model
@@ -58,8 +58,22 @@ def test_predict():
     inputs = [{"SMILES": "c1(C=O)cc(OC)c(O)cc1"}]
     vid = 177
 
-    prediction_result = client.predict(vid, inputs, method="scalar")
+    prediction_result = client.predict(vid, inputs, method="scalar")[0]
     _assert_prediction_values(prediction_result)
+
+def test_multiple_predict_candidates():
+    """
+    Tests that if you pass multiple candidates for prediction into the
+    prediction method, you will receive multiple prediction results.
+    """
+
+    inputs = [{"SMILES": "c1(C=O)cc(OC)c(O)cc1"},{"SMILES": "C=C"}]
+    vid = 177
+
+    prediction_results = client.predict(vid, inputs, method="scalar")
+    assert len(prediction_results) == 2
+    assert type(prediction_results[0]) == PredictionResult
+    assert type(prediction_results[1]) == PredictionResult
 
 def test_predict_from_distribution():
     """
@@ -69,7 +83,7 @@ def test_predict_from_distribution():
     """
 
     inputs = [{"SMILES": "c1(C=O)cc(OC)c(O)cc1"}, ]
-    vid = "177" 
+    vid = "177"
 
-    prediction_result = client.predict(vid, inputs, method="from_distribution")
+    prediction_result = client.predict(vid, inputs, method="from_distribution")[0]
     _assert_prediction_values(prediction_result)
