@@ -4,11 +4,12 @@ dataset_id = 1
 
 # Gets a single file named exactly my_file.json
 
-data_client.get_dataset_file(dataset_id, "my_file.json")
+dataset_file = data_client.get_dataset_file(dataset_id, "my_file.json")
 
-# Returns a DatasetFile object
+dataset_file.url  # url that can be used to download the file
+dataset_file.path # the filepath as it appears in Citrination
 
 # Gets all the files in a dataset, organized by version,
 # represented as a list of DatasetFile objects
 
-data_client.get_dataset_files(dataset_id)
+dataset_files = data_client.get_dataset_files(dataset_id)

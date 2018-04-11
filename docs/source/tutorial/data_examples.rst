@@ -108,5 +108,6 @@ included in the file count mechanism.
 
 .. literalinclude:: /code_samples/data/version.py
 
+It is also possible to toggle a dataset between being publicly accessible and private to your own user:
 
-
+.. literalinclude:: /code_samples/data/permissions.py
