@@ -7,6 +7,7 @@ import requests
 
 from citrination_client.search import *
 from citrination_client.errors import *
+from citrination_client.design import *
 from citrination_client.util.quote_finder import quote
 
 from pypif.util.case import to_camel_case
