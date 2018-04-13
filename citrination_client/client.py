@@ -479,6 +479,81 @@ class CitrinationClient(object):
         else:
             return self._get_content_from_url(self.api_url + '/datasets/' + str(dataset_id) + '/version/' + str(version) + '/pif/' + str(uid))
 
+    def submit_experimental_design(self, data_view_id, num_candidates, target, effort, constraints=[], sampler="default"):
+
+        body = {
+            "num_candidates": num_candidates,
+            "target": target,
+            "effort": effort,
+            "constraints": constraints,
+            "sampler": sampler
+        }
+
+        url = self.api_url + '/data_views/' + str(data_view_id) + '/experimental_design'
+
+        print(url)
+
+        response = self._post_with_version_check(url, data=json.dumps(body), headers=self.headers).json()
+
+        print(response)
+
+        return DesignRun(response["data"]["design_run"]["uid"])
+
+    def get_experimental_design_run_status(self, data_view_id, run_uuid):
+
+        url = "{}/data_views/{}/experimental_design/{}/status".format(self.api_url, data_view_id, run_uuid)
+
+        response = self._get_with_version_check(url, headers=self.headers).json()
+
+        print(response)
+        status = response["data"]
+
+        return ProcessStatus(result=status.get(
+            "result"), progress=status.get(
+            "progress"), status=status.get(
+            "status"), messages=status.get(
+            "messages"))
+
+    def get_experimental_design_run_results(self, data_view_id, run_uuid):
+        """
+        Kills an in progress experimental design run
+
+        :param data_view_id: The ID of the data view to which the run belongs
+        :param run_uuid: The UUID of the design run to kill
+        :return: The UUID of the design run
+        """
+
+        url = "{}/data_views/{}/experimental_design/{}/results".format(self.api_url, data_view_id, run_uuid)
+
+        response = self._get_with_version_check(url, headers=self.headers).json()
+
+        result = response["data"]
+        print(result)
+
+        return DesignResults(best_materials=result.get(
+            "best_material_results"), next_experiments=result.get(
+            "next_experiment_results"))
+
+
+
+    def kill_experimental_design(self, data_view_id, run_uuid):
+        """
+        Kills an in progress experimental design run
+
+        :param data_view_id: The ID of the data view to which the run belongs
+        :param run_uuid: The UUID of the design run to kill
+        :return: The UUID of the design run
+        """
+
+        url = "{}/data_views/{}/experimental_design/{}".format(self.api_url, data_view_id, run_uuid)
+
+        response = self._delete_with_version_check(url, headers=self.headers)
+
+        response = self._check_response_for_errors(response).json()
+
+        return response["data"]["uid"]
+
+
     def _get_content_from_url(self, url):
         """
         Helper method to make get request to a URL.
@@ -518,12 +593,18 @@ class CitrinationClient(object):
         result = requests.put(url, data=data, headers=headers, proxies=self.proxies)
         return self._check_response_for_errors(result)
 
+    def _delete_with_version_check(self, url, headers):
+        result = requests.delete(url, headers=headers, proxies=self.proxies)
+        return self._check_response_for_errors(result)
+
     def _check_search_response_for_errors(self, response):
         if response.status_code == 204 or response.status_code == 524:
             raise RequestTimeoutException()
         return self._check_response_for_errors(response)
 
     def _check_response_for_errors(self, response):
+        if response.status_code > 399:
+            raise CitrinationClientError("received {}, {}".format(response.status_code, response.content))
         response_content = json.loads(response.content.decode('utf-8'))
         try:
             if response.status_code == 400:
