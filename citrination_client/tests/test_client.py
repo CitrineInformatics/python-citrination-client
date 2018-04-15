@@ -170,20 +170,13 @@ class TestClient():
         client = CitrinationClient(environ["CITRINATION_API_KEY"], environ["CITRINATION_SITE"])
         view_id = "138"
         run = self._trigger_run(client, view_id, constraints=[CategoricalConstraint(name="Property Color",
-                                                 accepted_categories=["Grey"]),
-                           ElementalInclusionConstraint(
-                                name="formula",
-                                elements=["Ga"],
-                                logic="must"
-                            )])
+                                                 accepted_categories=["Gray"])])
 
         try:
             status = client.get_design_run_status(view_id, run.uuid)
             while not status.finished():
                 time.sleep(1)
                 status = client.get_design_run_status(view_id, run.uuid)
-                print(status.progress)
-                print(status.status)
         except Exception:
             client.kill_design_run(view_id, run.uuid)
             raise
