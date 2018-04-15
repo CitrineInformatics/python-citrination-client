@@ -479,7 +479,19 @@ class CitrinationClient(object):
         else:
             return self._get_content_from_url(self.api_url + '/datasets/' + str(dataset_id) + '/version/' + str(version) + '/pif/' + str(uid))
 
-    def submit_experimental_design(self, data_view_id, num_candidates, target, effort, constraints=[], sampler="default"):
+    def trigger_design_run(self, data_view_id, num_candidates, target, effort, constraints=[], sampler="Default"):
+        """
+        Triggers a new experimental design run
+
+        :param data_view_id: The ID of the data view to which the run belongs
+        :param num_candidates: The number of candidates to return
+        :param target: The target for the design run - a dictionary with
+            descriptor and objective keys
+        :param constraints: An array of constraints
+        :param sampler: The name of the sampler to use during the design run
+            either "Default" or "This view"
+        :return: A :class:`DesignRun` instance containing the UID of the new run
+        """
 
         body = {
             "num_candidates": num_candidates,
@@ -499,7 +511,14 @@ class CitrinationClient(object):
 
         return DesignRun(response["data"]["design_run"]["uid"])
 
-    def get_experimental_design_run_status(self, data_view_id, run_uuid):
+    def get_design_run_status(self, data_view_id, run_uuid):
+        """
+        Retrieves the status of an in progress design run
+
+        :param data_view_id: The ID of the data view to which the run belongs
+        :param run_uuid: The UUID of the design run to retrieve status for
+        :return: A :class:`DesignResults` object
+        """
 
         url = "{}/data_views/{}/experimental_design/{}/status".format(self.api_url, data_view_id, run_uuid)
 
@@ -514,12 +533,12 @@ class CitrinationClient(object):
             "status"), messages=status.get(
             "messages"))
 
-    def get_experimental_design_run_results(self, data_view_id, run_uuid):
+    def get_design_run_results(self, data_view_id, run_uuid):
         """
-        Kills an in progress experimental design run
+        Retrieves the results of an existing designrun
 
         :param data_view_id: The ID of the data view to which the run belongs
-        :param run_uuid: The UUID of the design run to kill
+        :param run_uuid: The UUID of the design run to retrieve results from
         :return: The UUID of the design run
         """
 
@@ -536,7 +555,7 @@ class CitrinationClient(object):
 
 
 
-    def kill_experimental_design(self, data_view_id, run_uuid):
+    def kill_design_run(self, data_view_id, run_uuid):
         """
         Kills an in progress experimental design run
 
