@@ -479,35 +479,51 @@ class CitrinationClient(object):
         else:
             return self._get_content_from_url(self.api_url + '/datasets/' + str(dataset_id) + '/version/' + str(version) + '/pif/' + str(uid))
 
-    def trigger_design_run(self, data_view_id, num_candidates, target, effort, constraints=[], sampler="Default"):
+    def trigger_design_run(self, data_view_id, num_candidates, effort, target=None, constraints=[], sampler="Default"):
         """
         Triggers a new experimental design run
 
         :param data_view_id: The ID of the data view to which the run belongs
+        :type data_view_id: str
         :param num_candidates: The number of candidates to return
-        :param target: The target for the design run - a dictionary with
-            descriptor and objective keys
-        :param constraints: An array of constraints
-        :param sampler: The name of the sampler to use during the design run
+        :type num_candidates: int
+        :param target: An :class:``Target`` instance representing
+            the design run optimization target
+        :type target: :class:``Target``
+        :param constraints: An array of design constraints (instances of
+            objects which extend :class:``BaseConstraint``)
+        :type constraints: list of :class:``BaseConstraint``
+        :param sampler: The name of the sampler to use during the design run:
             either "Default" or "This view"
-        :return: A :class:`DesignRun` instance containing the UID of the new run
+        :type sampler: str
+        :return: A :class:`DesignRun` instance containing the UID of the
+            new run
         """
+
+        if effort > 30:
+            raise CitrinationClientError("Parameter effort must be less than 30 to trigger a design run")
+
+        if target is not None:
+            target = target.to_dict()
+
+        constraint_dicts = list(
+                map(
+                    (lambda c: c.to_dict()),
+                    constraints
+                )
+            )
 
         body = {
             "num_candidates": num_candidates,
             "target": target,
             "effort": effort,
-            "constraints": constraints,
+            "constraints": constraint_dicts,
             "sampler": sampler
         }
 
         url = self.api_url + '/data_views/' + str(data_view_id) + '/experimental_design'
 
-        print(url)
-
         response = self._post_with_version_check(url, data=json.dumps(body), headers=self.headers).json()
-
-        print(response)
 
         return DesignRun(response["data"]["design_run"]["uid"])
 
@@ -516,7 +532,9 @@ class CitrinationClient(object):
         Retrieves the status of an in progress design run
 
         :param data_view_id: The ID of the data view to which the run belongs
+        :type data_view_id: str
         :param run_uuid: The UUID of the design run to retrieve status for
+        :type run_uuid: str
         :return: A :class:`DesignResults` object
         """
 
@@ -524,21 +542,23 @@ class CitrinationClient(object):
 
         response = self._get_with_version_check(url, headers=self.headers).json()
 
-        print(response)
         status = response["data"]
 
-        return ProcessStatus(result=status.get(
-            "result"), progress=status.get(
-            "progress"), status=status.get(
-            "status"), messages=status.get(
-            "messages"))
+        return ProcessStatus(
+            result=status.get("result"),
+            progress=status.get("progress"),
+            status=status.get("status"),
+            messages=status.get("messages")
+        )
 
     def get_design_run_results(self, data_view_id, run_uuid):
         """
         Retrieves the results of an existing designrun
 
         :param data_view_id: The ID of the data view to which the run belongs
+        :type data_view_id: str
         :param run_uuid: The UUID of the design run to retrieve results from
+        :type run_uuid: str
         :return: The UUID of the design run
         """
 
@@ -547,31 +567,28 @@ class CitrinationClient(object):
         response = self._get_with_version_check(url, headers=self.headers).json()
 
         result = response["data"]
-        print(result)
 
-        return DesignResults(best_materials=result.get(
-            "best_material_results"), next_experiments=result.get(
-            "next_experiment_results"))
-
-
+        return DesignResults(
+            best_materials=result.get("best_material_results"),
+            next_experiments=result.get("next_experiment_results")
+        )
 
     def kill_design_run(self, data_view_id, run_uuid):
         """
         Kills an in progress experimental design run
 
         :param data_view_id: The ID of the data view to which the run belongs
+        :type data_view_id: str
         :param run_uuid: The UUID of the design run to kill
+        :type run_uuid: str
         :return: The UUID of the design run
         """
 
         url = "{}/data_views/{}/experimental_design/{}".format(self.api_url, data_view_id, run_uuid)
 
-        response = self._delete_with_version_check(url, headers=self.headers)
-
-        response = self._check_response_for_errors(response).json()
+        response = self._delete_with_version_check(url, headers=self.headers).json()
 
         return response["data"]["uid"]
-
 
     def _get_content_from_url(self, url):
         """
@@ -622,9 +639,6 @@ class CitrinationClient(object):
         return self._check_response_for_errors(response)
 
     def _check_response_for_errors(self, response):
-        if response.status_code > 399:
-            raise CitrinationClientError("received {}, {}".format(response.status_code, response.content))
-        response_content = json.loads(response.content.decode('utf-8'))
         try:
             if response.status_code == 400:
                 error_type = response_content["error_type"]
@@ -633,7 +647,11 @@ class CitrinationClient(object):
                     return False
             return response
         except KeyError:
-            return response
+            pass
+
+        if response.status_code > 399:
+            raise CitrinationClientError("received {}, {}".format(response.status_code, response.content))
+        response_content = json.loads(response.content.decode('utf-8'))
 
     @staticmethod
     def _get_s3_presigned_url(input_json):
