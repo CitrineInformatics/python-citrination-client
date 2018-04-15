@@ -1,6 +1,22 @@
 class ProcessStatus(object):
+    """
+    The status of an in progress process executing on Citrination.
+    """
 
     def __init__(self, result, progress, status, messages=None):
+        """
+        Constructor.
+
+        :param result: The result of the process
+        :type result: any
+        :param progress: The progress of the process as as percentage
+        :type progress: int
+        :param status: The status string for the process
+        :type status: str
+        :param messages: A list of messages representing the steps the process
+            has already progressed through
+        :type messages: list of str
+        """
         self._status = status
         self._result = result
         self._progress = progress

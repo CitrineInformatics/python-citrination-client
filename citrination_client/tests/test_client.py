@@ -166,6 +166,8 @@ class TestClient():
                                 logic="must"
                             )]
 
+        # Use 1 as the default so that you can specify None and not have
+        # a default applied
         if target is 1:
             target = Target(descriptor="Band gap", objective="Max")
 
@@ -176,7 +178,9 @@ class TestClient():
                                                 effort=effort)
 
     def test_experimental_design(self):
-
+        """
+        Tests that a design run can be triggered, the status can be polled, and once it is finished, the results can be retrieved.
+        """
         client = CitrinationClient(environ["CITRINATION_API_KEY"], environ["CITRINATION_SITE"])
         view_id = "524"
         run = self._trigger_run(client, view_id)
@@ -197,7 +201,10 @@ class TestClient():
         assert len(results.best_materials) > 0
 
     def test_design_run_effort_limit(self):
-
+        """
+        Tests that a design run cannot be submitted with an effort
+        value greater than 30
+        """
         client = CitrinationClient(environ["CITRINATION_API_KEY"], environ["CITRINATION_SITE"])
         view_id = "524"
 
@@ -208,7 +215,10 @@ class TestClient():
             assert True
 
     def test_kill_experimental_desing(self):
-
+        """
+        Tests that an in progress design run can be killed and the status
+        will be reported as killed afterward.
+        """
         client = CitrinationClient(environ["CITRINATION_API_KEY"], environ["CITRINATION_SITE"])
         view_id = "524"
         run = self._trigger_run(client, view_id)
@@ -216,6 +226,9 @@ class TestClient():
         kill_and_assert_killed(view_id, run, client)
 
     def test_can_submit_run_with_no_target(self):
+        """
+        Tests that a design run can be submitted successfully with no target.
+        """
         client = CitrinationClient(environ["CITRINATION_API_KEY"], environ["CITRINATION_SITE"])
         view_id = "524"
 

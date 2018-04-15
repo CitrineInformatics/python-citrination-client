@@ -535,7 +535,7 @@ class CitrinationClient(object):
         :type data_view_id: str
         :param run_uuid: The UUID of the design run to retrieve status for
         :type run_uuid: str
-        :return: A :class:`DesignResults` object
+        :return: A :class:`ProcessStatus` object
         """
 
         url = "{}/data_views/{}/experimental_design/{}/status".format(self.api_url, data_view_id, run_uuid)
@@ -559,7 +559,7 @@ class CitrinationClient(object):
         :type data_view_id: str
         :param run_uuid: The UUID of the design run to retrieve results from
         :type run_uuid: str
-        :return: The UUID of the design run
+        :return: A :class:`DesignResults` object
         """
 
         url = "{}/data_views/{}/experimental_design/{}/results".format(self.api_url, data_view_id, run_uuid)
@@ -639,6 +639,8 @@ class CitrinationClient(object):
         return self._check_response_for_errors(response)
 
     def _check_response_for_errors(self, response):
+        response_content = json.loads(response.content.decode('utf-8'))
+
         try:
             if response.status_code == 400:
                 error_type = response_content["error_type"]
@@ -651,7 +653,6 @@ class CitrinationClient(object):
 
         if response.status_code > 399:
             raise CitrinationClientError("received {}, {}".format(response.status_code, response.content))
-        response_content = json.loads(response.content.decode('utf-8'))
 
     @staticmethod
     def _get_s3_presigned_url(input_json):
