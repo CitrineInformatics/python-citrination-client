@@ -194,7 +194,7 @@ class TestClient():
                 status = client.get_design_run_status(view_id, run.uuid)
                 print(status.progress)
                 print(status.status)
-        except Exception, e:
+        except Exception:
             client.kill_design_run(view_id, run.uuid)
             raise
 
@@ -213,7 +213,7 @@ class TestClient():
         try:
             run = self._trigger_run(client, view_id, effort=1000)
             assert False
-        except CitrinationClientError, e:
+        except CitrinationClientError:
             assert True
 
     def test_kill_experimental_desing(self):
