@@ -10,7 +10,7 @@ class BaseConstraint(object):
             require
         """
         return {
-            "name": self._descriptor,
+            "name": self._name,
             "type": self._type,
             "options": self.options()
         }

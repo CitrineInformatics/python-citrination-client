@@ -8,13 +8,11 @@ def test_target_initialization():
     """
 
     try:
-        Target(descriptor="Band gap", objective="asdf")
+        Target(name="Band gap", objective="asdf")
+        assert False, "Target class should require that objective be one of Min or Max"
     except CitrinationClientError:
-        assert True
+        pass
 
-    try:
-        Target(descriptor="Band gap", objective="Min")
-        Target(descriptor="Band gap", objective="Max")
-        assert True
-    except CitrinationClientError:
-        assert False
+    # These initializations should not throw an error
+    Target(name="Band gap", objective="Min")
+    Target(name="Band gap", objective="Max")

@@ -7,12 +7,12 @@ class Target(object):
     (either "Max" or "Min")
     """
 
-    def __init__(self, descriptor, objective):
+    def __init__(self, name, objective):
         """
         Constructor.
 
-        :param descriptor: The name of the target output column
-        :type descriptor: str
+        :param name: The name of the target output column
+        :type name: str
         :param objective: The optimization objective; either "Min"
             or "Max"
         :type objective: str
@@ -22,11 +22,11 @@ class Target(object):
                     "Target objective must either be \"Min\" or \"Max\""
                 )
 
-        self._descriptor = descriptor
+        self._name = name
         self._objective = objective
 
     def to_dict(self):
         return {
-            "descriptor": self._descriptor,
+            "descriptor": self._name,
             "objective": self._objective
         }

@@ -7,13 +7,13 @@ class ElementalInclusionConstraint(BaseConstraint):
     elements is included in the candidate compositions
     """
 
-    def __init__(self, descriptor, elements, logic):
+    def __init__(self, name, elements, logic):
         """
         Constructor.
 
-        :param descriptor: The name of the column in the data
+        :param name: The name of the column in the data
             view to which this constraint should be applied
-        :type descriptor: str
+        :type name: str
         :param elements: An array of element abbreviations as
             strings, e.g. ["Mg", "C"]
         :type elements: list of str
@@ -26,7 +26,7 @@ class ElementalInclusionConstraint(BaseConstraint):
         if logic not in ["must", "should", "exclude"]:
             raise CitrinationClientError(bad_logic_msg)
 
-        self._descriptor = descriptor
+        self._name = name
         self._type = "elementalInclusionConstraint"
         self._elements = elements
         self._logic = logic

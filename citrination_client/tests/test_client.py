@@ -90,6 +90,7 @@ class TestClient():
         assert _almost_equal(prediction[voltage][0], 1.0, 0.9), "V_OC mean prediction beyond tolerance (check ML logic)"
         assert _almost_equal(prediction[voltage][1], 0.8, 0.9), "V_OC sigma prediction beyond tolerance (check ML logic)"
 
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Predict test only supported on public")
     def test_predict(self):
         """
         Test predictions on the standard organic model
@@ -106,6 +107,7 @@ class TestClient():
         prediction = resp['candidates'][0]
         self._test_prediction_values(prediction)
 
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Predict from distribution test only supported on public")
     def test_predict_from_distribution(self):
         """
         Test predictions on the standard organic model
@@ -130,6 +132,7 @@ class TestClient():
         assert 'canary_zz' in prediction.keys()
         assert 'canary_z' in prediction.keys()
 
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="TSNE test only supported on public")
     def test_tsne(self):
         """
         Test that we can grab the t-SNE from a pre-trained view
@@ -151,41 +154,28 @@ class TestClient():
         assert len(tsne_y["x"]) == len(tsne_y["label"]), "tSNE components x and uid had different lengths"
         assert len(tsne_y["x"]) == len(tsne_y["uid"]),   "tSNE components x and label had different lengths"
 
-    def _trigger_run(self, client, view_id, num_candidates=None, effort=None, constraints=None, target=1):
+    def _trigger_run(self, client, view_id, num_candidates=10, effort=1, constraints=[], target=Target(name="Property Band gap", objective="Max")):
 
-        if num_candidates is None:
-            num_candidates = 10
+        return client.submit_design_run(data_view_id=view_id,
+                                         num_candidates=num_candidates,
+                                         constraints=constraints,
+                                         target=target,
+                                         effort=effort)
 
-        if effort is None:
-            effort = 0
-
-        if constraints is None:
-            constraints = [CategoricalConstraint(descriptor="Color",
-                                                 categories=["Grey"]),
-                           ElementalInclusionConstraint(
-                                descriptor="Chemical formula",
-                                elements=["Mg"],
-                                logic="must"
-                            )]
-
-        # Use 1 as the default so that you can specify None and not have
-        # a default applied
-        if target is 1:
-            target = Target(descriptor="Band gap", objective="Max")
-
-        return client.trigger_design_run(data_view_id=view_id,
-                                                num_candidates=num_candidates,
-                                                constraints=constraints,
-                                                target=target,
-                                                effort=effort)
-
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://qa.citrination.com", reason="Design tests only supported on qa")
     def test_experimental_design(self):
         """
         Tests that a design run can be triggered, the status can be polled, and once it is finished, the results can be retrieved.
         """
         client = CitrinationClient(environ["CITRINATION_API_KEY"], environ["CITRINATION_SITE"])
-        view_id = "524"
-        run = self._trigger_run(client, view_id)
+        view_id = "138"
+        run = self._trigger_run(client, view_id, constraints=[CategoricalConstraint(name="Property Color",
+                                                 accepted_categories=["Grey"]),
+                           ElementalInclusionConstraint(
+                                name="formula",
+                                elements=["Ga"],
+                                logic="must"
+                            )])
 
         try:
             status = client.get_design_run_status(view_id, run.uuid)
@@ -202,13 +192,14 @@ class TestClient():
         assert len(results.next_experiments) > 0
         assert len(results.best_materials) > 0
 
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://qa.citrination.com", reason="Design tests only supported on qa")
     def test_design_run_effort_limit(self):
         """
         Tests that a design run cannot be submitted with an effort
         value greater than 30
         """
         client = CitrinationClient(environ["CITRINATION_API_KEY"], environ["CITRINATION_SITE"])
-        view_id = "524"
+        view_id = "138"
 
         try:
             run = self._trigger_run(client, view_id, effort=1000)
@@ -216,23 +207,25 @@ class TestClient():
         except CitrinationClientError:
             assert True
 
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://qa.citrination.com", reason="Design tests only supported on qa")
     def test_kill_experimental_desing(self):
         """
         Tests that an in progress design run can be killed and the status
         will be reported as killed afterward.
         """
         client = CitrinationClient(environ["CITRINATION_API_KEY"], environ["CITRINATION_SITE"])
-        view_id = "524"
+        view_id = "138"
         run = self._trigger_run(client, view_id)
         assert_run_accepted(view_id, run, client)
         kill_and_assert_killed(view_id, run, client)
 
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://qa.citrination.com", reason="Design tests only supported on qa")
     def test_can_submit_run_with_no_target(self):
         """
         Tests that a design run can be submitted successfully with no target.
         """
         client = CitrinationClient(environ["CITRINATION_API_KEY"], environ["CITRINATION_SITE"])
-        view_id = "524"
+        view_id = "138"
 
         run = self._trigger_run(client, view_id, target=None)
 

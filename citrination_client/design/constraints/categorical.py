@@ -6,19 +6,19 @@ class CategoricalConstraint(BaseConstraint):
     values.
     """
 
-    def __init__(self, descriptor, categories):
+    def __init__(self, name, accepted_categories):
         """
         Constructor.
 
-        :param descriptor: The name of the column in the data
+        :param name: The name of the column in the data
             view to which this constraint should be applied
-        :type descriptor: str
-        :param elements: An array of categories to constrain the descriptor to
-        :type elements: list of str
+        :type name: str
+        :param accepted_categories: An array of categories to constrain the name to
+        :type accepted_categories: list of str
         """
         self._type = "categorical"
-        self._descriptor = descriptor
-        self._categories = categories
+        self._name = name
+        self._categories = accepted_categories
 
     def options(self):
         return {

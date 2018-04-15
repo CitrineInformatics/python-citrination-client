@@ -4,4 +4,3 @@ from citrination_client.design.constraints.real_range import RealRangeConstraint
 from citrination_client.design.constraints.categorical import CategoricalConstraint
 from citrination_client.design.constraints.elemental_inclusion import ElementalInclusionConstraint
 from citrination_client.design.constraints.elemental_composition import ElementalCompositionConstraint
-from citrination_client.design.constraints.number_of_elements import NumberOfElementsConstraint
