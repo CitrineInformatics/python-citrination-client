@@ -84,7 +84,7 @@ def test_elemental_composition_constraint():
     assert mapped_c["options"]["max"] is maximum
     assert mapped_c["options"]["elements"] is elements    
 
-def test_elemental_composition_constraint():
+def test_elemental_inclusion_constraint():
     """
     Tests that the elemental inclusion constraint is correctly
     converted to a map with elements and logic preserved
