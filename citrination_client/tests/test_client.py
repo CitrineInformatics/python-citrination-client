@@ -7,6 +7,7 @@ from pypif.pif import dump
 import random
 import string
 import time
+import pytest
 
 def _almost_equal(test_value, reference_value, tolerance=1.0e-9):
     """
@@ -120,6 +121,7 @@ class TestClient():
         prediction = resp['candidates'][0]
         self._test_prediction_values(prediction)
 
+    @pytest.mark.skip(reason="this template is no longer accessible (404)")
     def test_predict_custom(self):
         client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
         input = {"canary_x": "0.5", "temperature": "100", "canary_y": "0.75"}
