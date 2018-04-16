@@ -1,4 +1,5 @@
 from os import environ
+import pytest
 
 from citrination_client import *
 
@@ -8,6 +9,7 @@ class TestPifQuery():
     def setup_class(cls):
         cls.client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
 
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
     def test_uid_query(self):
         """Testing that a query against a UID only pulls back that record"""
         target_uid = "000496A81BDD616A5BBA1FC4D3B5AC1A"
@@ -16,6 +18,7 @@ class TestPifQuery():
         assert result.total_num_hits == 1
         assert result.hits[0].system.uid == target_uid
 
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
     def test_pif_search(self):
         response = self.client.pif_search(PifSystemReturningQuery(
             size=0,
@@ -29,6 +32,7 @@ class TestPifQuery():
                             equal='C22H15NSSi'))))))
         assert 5 == response.total_num_hits
 
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
     def test_pif_simple_search(self):
         response = self.client.pif_search(PifSystemReturningQuery(
             size=0,
@@ -39,6 +43,7 @@ class TestPifQuery():
                 simple='C22H15NSSi')))
         assert 5 == response.total_num_hits
 
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
     def test_extracted(self):
         response = self.client.pif_search(PifSystemReturningQuery(
             size=1,
