@@ -1,5 +1,6 @@
 from os import environ
 import unittest
+import pytest
 
 from citrination_client import *
 
@@ -9,6 +10,7 @@ class TestDatasetQuery(unittest.TestCase):
     def setup_class(cls):
         cls.client = CitrinationClient(environ['CITRINATION_API_KEY'], environ['CITRINATION_SITE'])
 
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Dataset search test only supported on public")
     def test_full_dataset_query(self):
         """Test a public dataset query with every option on"""
         query = DatasetReturningQuery(
@@ -27,6 +29,7 @@ class TestDatasetQuery(unittest.TestCase):
             assert hit.num_pifs >= 0, "Dataset had no pifs"
             assert hit.score is not None, "Score is not returned"
 
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Dataset search test only supported on public")
     def test_dataset_search(self):
         response = self.client.dataset_search(DatasetReturningQuery(
             size=0,
