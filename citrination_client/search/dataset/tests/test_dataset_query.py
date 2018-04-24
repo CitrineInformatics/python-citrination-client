@@ -3,7 +3,7 @@ import unittest
 import pytest
 from citrination_client import *
 
-class TestDatasetQuery():
+class TestDatasetQuery(unittest.TestCase):
 
     @classmethod
     def setup_class(cls):
