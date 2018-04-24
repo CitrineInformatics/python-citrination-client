@@ -20,6 +20,8 @@ Use the articles in this section to familiarize yourself with the basic usage of
 Upgrading
 ---------
 
+If you are using a version of PyCC older than 4.0.0 and would like to upgrade your scripts to the latest versions, consult these guides to see how the functionality has changed.
+
 .. toctree::
    :maxdepth: 2
 
@@ -28,11 +30,9 @@ Upgrading
 Module Documentation
 --------------------
 
-For detailed method documentation, consult the articles in this section.b
+For detailed method documentation, consult the articles in this section.
 
 .. toctree::
    :maxdepth: 2
 
-   modules/data_management
-   modules/models
-   modules/search
+   modules/modules
