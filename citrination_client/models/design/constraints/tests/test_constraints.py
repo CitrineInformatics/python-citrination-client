@@ -1,5 +1,5 @@
-from citrination_client.design.constraints import *
-from citrination_client.errors import *
+from citrination_client.models.design.constraints import *
+from citrination_client.base.errors import *
 
 def test_real_value_constraint():
     """

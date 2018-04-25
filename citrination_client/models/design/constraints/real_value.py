@@ -1,4 +1,4 @@
-from citrination_client.design.constraints.base import BaseConstraint
+from citrination_client.models.design.constraints.base import BaseConstraint
 
 class RealValueConstraint(BaseConstraint):
     """

@@ -1,6 +1,10 @@
 from citrination_client.client import CitrinationClient
-from citrination_client.models import PredictionResult
+from citrination_client.models import *
 from os import environ
+import pytest
+
+import time
+from citrination_client.base.errors import *
 
 citrination_client = CitrinationClient(environ["CITRINATION_API_KEY"])
 client = citrination_client.models
@@ -28,6 +32,7 @@ def _assert_prediction_values(prediction):
     assert _almost_equal(prediction.get_value(voltage).value, 1.0, 0.9), "V_OC mean prediction beyond tolerance (check ML logic)"
     assert _almost_equal(prediction.get_value(voltage).loss, 0.8, 0.9), "V_OC loss prediction beyond tolerance (check ML logic)"
 
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Predict tests only supported on open citrination")
 def test_tsne():
     """
     Test that we can grab the t-SNE from a pre-trained view
@@ -47,6 +52,7 @@ def test_tsne():
     assert len(tsne_y.xs) == len(tsne_y.tags), "tSNE components x and uid had different lengths"
     assert len(tsne_y.xs) == len(tsne_y.uids),   "tSNE components x and label had different lengths"
 
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Predict tests only supported on open citrination")
 def test_predict():
     """
     Test predictions on the standard organic model
@@ -61,6 +67,7 @@ def test_predict():
     prediction_result = client.predict(vid, inputs, method="scalar")[0]
     _assert_prediction_values(prediction_result)
 
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Predict tests only supported on open citrination")
 def test_multiple_predict_candidates():
     """
     Tests that if you pass multiple candidates for prediction into the
@@ -75,6 +82,7 @@ def test_multiple_predict_candidates():
     assert type(prediction_results[0]) == PredictionResult
     assert type(prediction_results[1]) == PredictionResult
 
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Predict tests only supported on open citrination")
 def test_predict_from_distribution():
     """
     Test predictions on the standard organic model
@@ -87,3 +95,83 @@ def test_predict_from_distribution():
 
     prediction_result = client.predict(vid, inputs, method="from_distribution")[0]
     _assert_prediction_values(prediction_result)
+
+
+def assert_run_accepted(view_id, run, client):
+    status = client.get_design_run_status(view_id, run.uuid)
+    assert status.accepted()
+
+def kill_and_assert_killed(view_id, run, client):
+    killed_uid = client.kill_design_run(view_id, run.uuid)
+
+    assert killed_uid == run.uuid
+
+    status = client.get_design_run_status(view_id, run.uuid)
+    assert status.killed()
+
+def _trigger_run(client, view_id, num_candidates=10, effort=1, constraints=[], target=Target(name="Property Band gap", objective="Max")):
+
+    return client.submit_design_run(data_view_id=view_id,
+                                     num_candidates=num_candidates,
+                                     constraints=constraints,
+                                     target=target,
+                                     effort=effort)
+
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://qa.citrination.com", reason="Design tests only supported on qa")
+def test_experimental_design():
+    """
+    Tests that a design run can be triggered, the status can be polled, and once it is finished, the results can be retrieved.
+    """
+    view_id = "138"
+    run = _trigger_run(client, view_id, constraints=[CategoricalConstraint(name="Property Color",
+                                             accepted_categories=["Gray"])])
+
+    try:
+        status = client.get_design_run_status(view_id, run.uuid)
+        while not status.finished():
+            time.sleep(1)
+            status = client.get_design_run_status(view_id, run.uuid)
+    except Exception:
+        client.kill_design_run(view_id, run.uuid)
+        raise
+
+    results = client.get_design_run_results(view_id, run.uuid)
+    assert len(results.next_experiments) > 0
+    assert len(results.best_materials) > 0
+
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://qa.citrination.com", reason="Design tests only supported on qa")
+def test_design_run_effort_limit():
+    """
+    Tests that a design run cannot be submitted with an effort
+    value greater than 30
+    """
+    view_id = "138"
+
+    try:
+        run = _trigger_run(client, view_id, effort=1000)
+        assert False
+    except CitrinationClientError:
+        assert True
+
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://qa.citrination.com", reason="Design tests only supported on qa")
+def test_kill_experimental_desing():
+    """
+    Tests that an in progress design run can be killed and the status
+    will be reported as killed afterward.
+    """
+    view_id = "138"
+    run = _trigger_run(client, view_id)
+    assert_run_accepted(view_id, run, client)
+    kill_and_assert_killed(view_id, run, client)
+
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://qa.citrination.com", reason="Design tests only supported on qa")
+def test_can_submit_run_with_no_target():
+    """
+    Tests that a design run can be submitted successfully with no target.
+    """
+    view_id = "138"
+
+    run = _trigger_run(client, view_id, target=None)
+
+    assert_run_accepted(view_id, run, client)
+    kill_and_assert_killed(view_id, run, client)

@@ -1,5 +1,5 @@
-from citrination_client.errors import *
-from citrination_client.design import Target
+from citrination_client.base.errors import *
+from citrination_client.models.design import Target
 
 def test_target_initialization():
     """

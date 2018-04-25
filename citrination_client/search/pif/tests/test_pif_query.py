@@ -18,6 +18,7 @@ class TestPifQuery():
         assert result.total_num_hits == 1
         assert result.hits[0].system.uid == target_uid
 
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
     def test_pagination_overflow(self):
         """
         Tests that if pagination controls (size and from) request a set of

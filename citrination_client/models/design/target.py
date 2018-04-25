@@ -1,4 +1,4 @@
-from citrination_client.errors import CitrinationClientError
+from citrination_client.base.errors import CitrinationClientError
 
 class Target(object):
     """

@@ -1,7 +1,10 @@
 from citrination_client.base.base_client import BaseClient
 from citrination_client.models import *
-
+from citrination_client.models.design import *
 from citrination_client.models import routes as routes
+from citrination_client.base.errors import CitrinationClientError
+
+import time
 
 class ModelsClient(BaseClient):
     """
@@ -91,6 +94,116 @@ class ModelsClient(BaseClient):
                 "candidates": candidates
                 }
             }
+
+    def submit_design_run(self, data_view_id, num_candidates, effort, target=None, constraints=[], sampler="Default"):
+        """
+        Submits a new experimental design run
+
+        :param data_view_id: The ID number of the data view to which the
+            run belongs, as a string
+        :type data_view_id: str
+        :param num_candidates: The number of candidates to return
+        :type num_candidates: int
+        :param target: An :class:``Target`` instance representing
+            the design run optimization target
+        :type target: :class:``Target``
+        :param constraints: An array of design constraints (instances of
+            objects which extend :class:``BaseConstraint``)
+        :type constraints: list of :class:``BaseConstraint``
+        :param sampler: The name of the sampler to use during the design run:
+            either "Default" or "This view"
+        :type sampler: str
+        :return: A :class:`DesignRun` instance containing the UID of the
+            new run
+        """
+
+        if effort > 30:
+            raise CitrinationClientError("Parameter effort must be less than 30 to trigger a design run")
+
+        if target is not None:
+            target = target.to_dict()
+
+        constraint_dicts = [c.to_dict() for c in constraints]
+
+        body = {
+            "num_candidates": num_candidates,
+            "target": target,
+            "effort": effort,
+            "constraints": constraint_dicts,
+            "sampler": sampler
+        }
+
+        url = routes.submit_data_view_design(data_view_id)
+
+        response = self._post_json(url, body).json()
+
+        return DesignRun(response["data"]["design_run"]["uid"])
+
+    def get_design_run_status(self, data_view_id, run_uuid):
+        """
+        Retrieves the status of an in progress or completed design run
+
+        :param data_view_id: The ID number of the data view to which the
+            run belongs, as a string
+        :type data_view_id: str
+        :param run_uuid: The UUID of the design run to retrieve status for
+        :type run_uuid: str
+        :return: A :class:`ProcessStatus` object
+        """
+
+        url = routes.get_data_view_design_status(data_view_id, run_uuid)
+
+        response = self._get(url).json()
+
+        status = response["data"]
+
+        return ProcessStatus(
+            result=status.get("result"),
+            progress=status.get("progress"),
+            status=status.get("status"),
+            messages=status.get("messages")
+        )
+
+    def get_design_run_results(self, data_view_id, run_uuid):
+        """
+        Retrieves the results of an existing designrun
+
+        :param data_view_id: The ID number of the data view to which the
+            run belongs, as a string
+        :type data_view_id: str
+        :param run_uuid: The UUID of the design run to retrieve results from
+        :type run_uuid: str
+        :return: A :class:`DesignResults` object
+        """
+
+        url = routes.get_data_view_design_results(data_view_id, run_uuid)
+
+        response = self._get(url).json()
+
+        result = response["data"]
+
+        return DesignResults(
+            best_materials=result.get("best_material_results"),
+            next_experiments=result.get("next_experiment_results")
+        )
+
+    def kill_design_run(self, data_view_id, run_uuid):
+        """
+        Kills an in progress experimental design run
+
+        :param data_view_id: The ID number of the data view to which the
+            run belongs, as a string
+        :type data_view_id: str
+        :param run_uuid: The UUID of the design run to kill
+        :type run_uuid: str
+        :return: The UUID of the design run
+        """
+
+        url = routes.kill_data_view_design_run(data_view_id, run_uuid)
+
+        response = self._delete(url).json()
+
+        return response["data"]["uid"]
 
 def _get_prediction_result_from_candidate(candidate_dict):
     result = PredictionResult()

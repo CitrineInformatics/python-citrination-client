@@ -1,5 +1,5 @@
-from citrination_client.design.constraints.base import BaseConstraint
-from citrination_client.errors import CitrinationClientError
+from citrination_client.models.design.constraints.base import BaseConstraint
+from citrination_client.base.errors import CitrinationClientError
 
 class RealRangeConstraint(BaseConstraint):
     """
