@@ -4,6 +4,7 @@ Migrating from an Older Version
 .. toctree::
 
   how_to_upgrade
+  downgrading
   dataset_migration
   upload_migration
   search_migration
