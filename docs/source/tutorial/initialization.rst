@@ -13,8 +13,7 @@ or your private Citrination deployment, logging in, and using the menu
 in the top right to visit your ``Account Settings`` page.
 
 .. attention::
-  Your API key allows you (and anyone who knows it) to access your account.
-  Use caution when storing it on your filesystem.
+  Your API key allows you (and anyone who knows it) to access your account and your data. Use caution when storing it on your filesystem.
 
 Host URL
 --------
