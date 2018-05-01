@@ -1,0 +1,7 @@
+Search
+======
+
+.. toctree::
+   :glob:
+
+   search/*
