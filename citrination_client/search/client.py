@@ -39,6 +39,10 @@ class SearchClient(BaseClient):
         :return: :class:`PifSearchResult` object with the results of the query.
         :rtype: :class:`PifSearchResult`
         """
+
+        if sum(filter(None, [pif_system_returning_query.from_index, pif_system_returning_query.size])) >= 50000:
+            raise ValueError('Results returned are limited to 50,000. Please change from_index and size arguments to be within this limit')
+
         return self._execute_paginating_search(
             pif_system_returning_query,
             PifSearchResult
@@ -53,6 +57,10 @@ class SearchClient(BaseClient):
         :return: Dataset search result object with the results of the query.
         :rtype: :class:`DatasetSearchResult`
         """
+
+        if sum(filter(None, [dataset_returning_query.from_index, dataset_returning_query.size])) >= 50000:
+            raise ValueError('Results returned are limited to 50,000. Please change from_index and size arguments to be within this limit')
+
         return self._execute_paginating_search(
             dataset_returning_query,
             DatasetSearchResult

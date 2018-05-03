@@ -41,6 +41,15 @@ class TestPifQuery():
         response = self.client.pif_search(query)
         assert 20 == len(response.hits)
 
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
+    def test_search_limit_enforced_pif_search(self):
+        """
+        Tests that if a user tries to access >50k pif search results an error is thrown
+        """
+        query = PifSystemReturningQuery(from_index=50000,size=10)
+        with pytest.raises(ValueError):
+            self.client.pif_search(query)
+
     def test_pagination_from_start(self):
         """
         Tests that pagination works with no from value

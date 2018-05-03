@@ -38,6 +38,15 @@ class TestDatasetQuery(unittest.TestCase):
                     id=Filter(equal='151278')))))
         assert 1 == response.total_num_hits
 
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
+    def test_search_limit_enforced_dataset_search(self):
+        """
+        Tests that if a user tries to access >50k dataset search results an error is thrown
+        """
+        query = DatasetReturningQuery(from_index=50000, size=10)
+        with pytest.raises(ValueError):
+            self.client.dataset_search(query)
+
     def test_timeout(self):
         """Test that timeouts are sent properly. This request should fail with an exception."""
         with self.assertRaises(RequestTimeoutException):
