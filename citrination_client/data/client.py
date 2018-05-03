@@ -186,6 +186,44 @@ class DataClient(BaseClient):
         """
         return self.get_dataset_files(dataset_id, "^{}$".format(file_path), version_number=version)[0]
 
+    def download_files(self, dataset_files, destination='.'):
+        """
+        Downloads file(s) to a local destination.
+
+        :param dataset_files:
+        :type dataset_files: :class: `DatasetFile`
+        :param destination: The path to the desired local download destination
+        :type destination: str
+        :return:
+        """
+        if not isinstance(dataset_files, list):
+            dataset_files = [dataset_files]
+
+        for f in dataset_files:
+            filename = f.path
+            extension = filename.rsplit('.', 1)
+            folder = filename.split('/')
+
+            if not os.path.isdir(os.path.dirname(folder)):
+                os.makedirs(os.path.dirname(folder))
+
+            r = requests.get(f.url)
+
+            # write image files in chunks
+            if extension == ".png" or extension == ".tif" or extension == ".jpg":
+                with open(filename, 'w') as f:
+                    for chunk in r.iter_content(1024):
+                        f.write(chunk)
+
+            # write data files
+            elif extension == '.pdf' or '.ppt' in extension or '.xls' in extension or 'doc' in extension:
+                with open(filename, 'w') as f:
+                    f.write(r.content)
+
+            else:
+                with open(filename, 'w') as f:
+                    f.write(r.text.encode('utf-8', 'ignore'))
+
     def get_pif(self, dataset_id, uid, dataset_version = None):
         """
         Retrieves a PIF from a given dataset.
