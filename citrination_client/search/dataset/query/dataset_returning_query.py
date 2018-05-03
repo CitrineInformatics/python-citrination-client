@@ -3,7 +3,7 @@ from citrination_client.search.core.query.base_returning_query import BaseReturn
 
 class DatasetReturningQuery(BaseReturningQuery):
     """
-    Query used to return information about datasets.
+    Query used to return information about datasets. Results limited to 50,000. Please chose values for from_index and size that do not exceed this limit.
     """
 
     def __init__(self, query=None, from_index=None, size=None, random_results=None, random_seed=None,
