@@ -13,8 +13,8 @@ from copy import deepcopy
 import json
 import requests
 
-DEFAULT_FAILURE_MESSAGE="An error occurred requesting search results from Citrination"
-MAX_QUERY_RESULTS=50000
+DEFAULT_FAILURE_MESSAGE = "An error occurred requesting search results from Citrination"
+MAX_QUERY_RESULTS = 50000
 
 class SearchClient(BaseClient):
 
