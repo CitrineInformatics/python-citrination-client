@@ -175,3 +175,21 @@ def test_can_submit_run_with_no_target():
 
     assert_run_accepted(view_id, run, client)
     kill_and_assert_killed(view_id, run, client)
+
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Data view status tests only supported on open")
+def test_data_view_status_reports_services_ready():
+    """
+    Tests that a data view on open citrination which has successfully trained reports
+    the status of it's services as ready.
+    """
+
+    view_id = "524"
+
+    status = client.get_data_view_service_status(data_view_id=view_id)
+
+    # There is no way to guarantee that this view is not retraining, but the
+    # majority of the time it should be in a stable, trained state
+    assert status.predict.is_ready()
+    assert status.design.is_ready()
+    assert status.data_analysis.is_ready()
+    assert status.model_reports.is_ready()
