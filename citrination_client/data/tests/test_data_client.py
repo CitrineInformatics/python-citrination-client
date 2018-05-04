@@ -10,6 +10,7 @@ import time
 import string
 import requests
 import json
+import pytest
 
 def random_string():
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))
@@ -137,3 +138,20 @@ def test_upload_directory():
     assert revolver_count == 3
     after_total_count = client.matched_file_count(dataset_id)
     assert after_total_count == (before_count + count_to_add)
+
+@pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
+def test_download_files():
+    """
+    Tests that files from get_dataset_file and get_dataset_files can be downloaded.
+    """
+    files_list = client.get_dataset_files(150502, glob=".", is_dir=False, version_number=None)
+    client.download_files(files_list, 'test')
+    assert os.path.isfile(files_list[0].path)
+    for f in files_list:
+        os.remove(f.path)
+    os.rmdir('test')
+
+    single_file = client.get_dataset_file(150502, "Al2O3.csv")
+    client.download_files(single_file)
+    assert os.path.isfile(single_file.path)
+    os.remove(single_file.path)
