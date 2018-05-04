@@ -1,3 +1,5 @@
+from citrination_client.models.event import Event
+from citrination_client.models.service_status import ServiceStatus
 from citrination_client.models.predicted_value import PredictedValue
 from citrination_client.models.prediction_result import PredictionResult
 from citrination_client.models.projection import Projection
