@@ -4,7 +4,7 @@ from citrination_client.search.pif.query.extraction_sort import ExtractionSort
 
 class PifSystemReturningQuery(BaseReturningQuery):
     """
-    Query used to return information about PIFs. Results limited to 50,000. Please chose values for from_index and size that do not exceed this limit
+    Query used to return information about PIFs. Citrination does not support pagination past the 50,000th result. Please chose values for from_index and size that do not exceed this limit
     """
 
     def __init__(self, query=None, extraction_sort=None, from_index=None, size=None, random_results=None,

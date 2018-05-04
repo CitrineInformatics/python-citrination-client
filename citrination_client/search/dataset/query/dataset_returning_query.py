@@ -3,14 +3,14 @@ from citrination_client.search.core.query.base_returning_query import BaseReturn
 
 class DatasetReturningQuery(BaseReturningQuery):
     """
-    Query used to return information about datasets. Results limited to 50,000. Please chose values for from_index and size that do not exceed this limit.
+    Query used to return information about datasets. Citrination does not support pagination past the 50,000th result. Please chose values for from_index and size that do not exceed this limit.
     """
 
     def __init__(self, query=None, from_index=None, size=None, random_results=None, random_seed=None,
                  score_relevance=None, return_max_score=None, timeout=None, count_pifs=None, **kwargs):
         """
         Constructor.
-        
+
         :param query: One or more :class:`DataQuery` objects with the queries to run.
         :param from_index: Index of the first hit that should be returned.
         :param size: Total number of hits the should be returned.
