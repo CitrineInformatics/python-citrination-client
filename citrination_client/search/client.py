@@ -62,8 +62,8 @@ class SearchClient(BaseClient):
         :rtype: :class:`DatasetSearchResult`
         """
 
-        start_index = pif_system_returning_query.from_index or 0
-        size = pif_system_returning_query.size or 0
+        start_index = dataset_returning_query.from_index or 0
+        size = dataset_returning_query.size or 0
         if start_index + size > MAX_QUERY_RESULTS:
             raise CitrinationClientError("Citrination does not support pagination past the {}th result. Please change from_index and size arguments to be within this limit".format(MAX_QUERY_RESULTS))
 
