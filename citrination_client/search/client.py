@@ -41,6 +41,7 @@ class SearchClient(BaseClient):
         :rtype: :class:`PifSearchResult`
         """
 
+        #filter to get the values for from_index and size that are not None and add them to check that the max index supported will not be exceeded
         if sum(filter(None, [pif_system_returning_query.from_index, pif_system_returning_query.size])) >= MAX_QUERY_RESULTS:
             raise CitrinationClientError("Citrination does not support pagination past the {}th result. Please change from_index and size arguments to be within this limit".format(MAX_QUERY_RESULTS))
 
@@ -59,6 +60,7 @@ class SearchClient(BaseClient):
         :rtype: :class:`DatasetSearchResult`
         """
 
+        #filter to get the values for from_index and size that are not None and add them to check that the max index supported will not be exceeded
         if sum(filter(None, [dataset_returning_query.from_index, dataset_returning_query.size])) >= MAX_QUERY_RESULTS:
             raise CitrinationClientError("Citrination does not support pagination past the {}th result. Please change from_index and size arguments to be within this limit".format(MAX_QUERY_RESULTS))
 
