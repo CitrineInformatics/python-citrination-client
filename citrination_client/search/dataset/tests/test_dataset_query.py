@@ -42,10 +42,10 @@ class TestDatasetQuery(unittest.TestCase):
 
     def test_search_limit_enforced_dataset_search(self):
         """
-        Tests that if a user tries to access >50k dataset search results an error is thrown
+        Tests that if a user tries to access more than the max allowed results an error is thrown
         """
         query = DatasetReturningQuery(from_index=MAX_QUERY_RESULTS, size=10)
-        with pytest.raises(ValueError):
+        with pytest.raises(CitrinationClientError):
             self.client.dataset_search(query)
 
     def test_timeout(self):

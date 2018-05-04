@@ -47,7 +47,7 @@ class TestPifQuery():
         Tests that if a user tries to access more than the max allowed results an error is thrown
         """
         query = PifSystemReturningQuery(from_index=MAX_QUERY_RESULTS,size=10)
-        with pytest.raises(ValueError):
+        with pytest.raises(CitrinationClientError):
             self.client.pif_search(query)
 
     def test_pagination_from_start(self):
