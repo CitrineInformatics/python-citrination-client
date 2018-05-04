@@ -3,6 +3,7 @@ import pytest
 
 from citrination_client import *
 from citrination_client.search.client import MAX_QUERY_RESULTS
+from citrination_client.base.errors import CitrinationClientError
 
 class TestPifQuery():
 

@@ -4,6 +4,7 @@ from citrination_client.search import routes as routes
 from citrination_client.util import config as client_config
 from citrination_client.base.base_client import BaseClient
 from citrination_client.base.errors import RequestTimeoutException
+from citrination_client.base.errors import CitrinationClientError
 
 from pypif.util.case import to_camel_case
 from pypif.util.case import keys_to_snake_case
