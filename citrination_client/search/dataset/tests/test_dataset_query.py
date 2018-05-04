@@ -1,7 +1,9 @@
 from os import environ
 import unittest
 import pytest
+
 from citrination_client import *
+from citrination_client.search.client import MAX_QUERY_RESULTS
 
 class TestDatasetQuery(unittest.TestCase):
 
@@ -42,7 +44,7 @@ class TestDatasetQuery(unittest.TestCase):
         """
         Tests that if a user tries to access >50k dataset search results an error is thrown
         """
-        query = DatasetReturningQuery(from_index=50000, size=10)
+        query = DatasetReturningQuery(from_index=MAX_QUERY_RESULTS, size=10)
         with pytest.raises(ValueError):
             self.client.dataset_search(query)
 

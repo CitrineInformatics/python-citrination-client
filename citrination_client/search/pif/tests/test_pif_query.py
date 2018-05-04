@@ -2,6 +2,7 @@ from os import environ
 import pytest
 
 from citrination_client import *
+from citrination_client.search.client import MAX_QUERY_RESULTS
 
 class TestPifQuery():
 
@@ -43,9 +44,9 @@ class TestPifQuery():
 
     def test_search_limit_enforced_pif_search(self):
         """
-        Tests that if a user tries to access >50k pif search results an error is thrown
+        Tests that if a user tries to access more than the max allowed results an error is thrown
         """
-        query = PifSystemReturningQuery(from_index=50000,size=10)
+        query = PifSystemReturningQuery(from_index=MAX_QUERY_RESULTS,size=10)
         with pytest.raises(ValueError):
             self.client.pif_search(query)
 
