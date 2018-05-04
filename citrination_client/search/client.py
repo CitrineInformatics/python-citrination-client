@@ -13,6 +13,7 @@ import json
 import requests
 
 DEFAULT_FAILURE_MESSAGE="An error occurred requesting search results from Citrination"
+MAX_QUERY_RESULTS=50000
 
 class SearchClient(BaseClient):
 
@@ -40,7 +41,7 @@ class SearchClient(BaseClient):
         :rtype: :class:`PifSearchResult`
         """
 
-        if sum(filter(None, [pif_system_returning_query.from_index, pif_system_returning_query.size])) >= 50000:
+        if sum(filter(None, [pif_system_returning_query.from_index, pif_system_returning_query.size])) >= MAX_QUERY_RESULTS:
             raise ValueError('Results returned are limited to 50,000. Please change from_index and size arguments to be within this limit')
 
         return self._execute_paginating_search(
@@ -58,7 +59,7 @@ class SearchClient(BaseClient):
         :rtype: :class:`DatasetSearchResult`
         """
 
-        if sum(filter(None, [dataset_returning_query.from_index, dataset_returning_query.size])) >= 50000:
+        if sum(filter(None, [dataset_returning_query.from_index, dataset_returning_query.size])) >= MAX_QUERY_RESULTS:
             raise ValueError('Results returned are limited to 50,000. Please change from_index and size arguments to be within this limit')
 
         return self._execute_paginating_search(
