@@ -201,11 +201,11 @@ class DataClient(BaseClient):
 
         for f in dataset_files:
             filename = f.path
+            destination = ('/').join([destination, filename])
             extension = filename.rsplit('.', 1)
-            folder = filename.split('/')
 
-            if not os.path.isdir(os.path.dirname(folder)):
-                os.makedirs(os.path.dirname(folder))
+            if not os.path.isdir(os.path.dirname(destination)):
+                os.makedirs(os.path.dirname(destination))
 
             r = requests.get(f.url)
 
