@@ -208,8 +208,8 @@ class ModelsClient(BaseClient):
         """
         Retrieves the status for all of the services associated with a data view:
             - predict
-            - design
-            - data_analysis
+            - experimental_design
+            - data_reports
             - model_reports
 
         :param data_view_id: The ID number of the data view to which the
@@ -227,8 +227,8 @@ class ModelsClient(BaseClient):
 
         return DataViewStatus(
             predict=ServiceStatus.from_response_dict(result["predict"]),
-            design=ServiceStatus.from_response_dict(result["design"]),
-            data_analysis=ServiceStatus.from_response_dict(result["data_analysis"]),
+            experimental_design=ServiceStatus.from_response_dict(result["experimental_design"]),
+            data_reports=ServiceStatus.from_response_dict(result["data_reports"]),
             model_reports=ServiceStatus.from_response_dict(result["model_reports"])
         )
 

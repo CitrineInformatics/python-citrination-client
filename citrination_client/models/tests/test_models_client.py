@@ -190,6 +190,6 @@ def test_data_view_status_reports_services_ready():
     # There is no way to guarantee that this view is not retraining, but the
     # majority of the time it should be in a stable, trained state
     assert status.predict.is_ready()
-    assert status.design.is_ready()
-    assert status.data_analysis.is_ready()
+    assert status.experimental_design.is_ready()
+    assert status.data_reports.is_ready()
     assert status.model_reports.is_ready()
