@@ -226,11 +226,40 @@ class ModelsClient(BaseClient):
         result = response["data"]["status"]
 
         return DataViewStatus(
-            predict=ServiceStatus.from_response_dict(result["predict"]),
-            experimental_design=ServiceStatus.from_response_dict(result["experimental_design"]),
-            data_reports=ServiceStatus.from_response_dict(result["data_reports"]),
-            model_reports=ServiceStatus.from_response_dict(result["model_reports"])
+            predict = ServiceStatus.from_response_dict(result["predict"]),
+            experimental_design = ServiceStatus.from_response_dict(result["experimental_design"]),
+            data_reports = ServiceStatus.from_response_dict(result["data_reports"]),
+            model_reports = ServiceStatus.from_response_dict(result["model_reports"])
         )
+
+    def get_data_view(self, data_view_id):
+        """
+        Retrieves a summary of the data view information for a given data view id.
+            - view_id
+            - name
+            - description
+            - columns names
+
+        :param data_view_id: The ID number of the data view to which the
+            run belongs, as a string
+        :type data_view_id: str
+        :return: A :class:`DataView`
+        :rtype: DataView
+        """
+
+        url = routes.get_data_view(data_view_id)
+
+        response = self._get(url).json()
+
+        result = response["data"]["status"]
+
+        return DataView(
+            view_id = data_view_id,
+            name = 
+            description =
+            model_reports =
+        )
+
 
 def _get_prediction_result_from_candidate(candidate_dict):
     result = PredictionResult()
