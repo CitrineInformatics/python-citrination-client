@@ -1,11 +1,43 @@
-from citrination_client import CitrinationClientError
+from citrination_client.base.errors import CitrinationClientError
 
 class BaseColumn(object):
     """
     Base class for column configuration in a data view. Subclasses
     each represent one type of column.
     """
-    
+
+    def get_column_class_from_type(type):
+        if type == "Real":
+            return RealColumn
+        elif type == 'Categorical':
+            return CategoricalColumn
+        elif type == 'Alloy composition':
+            return AlloyCompositionColumn
+        elif type == 'Inorganic':
+            return InorganiclChemicalFormulaColumn
+        elif type == "Vector":
+            return VectorColumn
+        else:
+            raise CitrinationClientError("Unknown column type: {}".format(type))
+
+    def flatten_column_dict(response_dict):
+        flat_dict = {}
+        for k in response_dict:
+            if k == "options":
+                continue
+            flat_dict[k] = response_dict[k]
+
+        for option in response_dict["options"]:
+            flat_dict[option] = response_dict["options"][option]
+
+        return flat_dict
+
+    @staticmethod
+    def from_dict(response_dict):
+        column_class = get_column_class_from_type(response_dict["type"])
+        processed_dict = flatten_column_dict(response_dict)
+        return column_class(**processed_dict)
+
     def __init__(self, name, role, group_by_key=False, units=None):
         """
         Constructor.
