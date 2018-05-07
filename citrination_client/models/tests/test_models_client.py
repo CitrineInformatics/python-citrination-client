@@ -177,7 +177,7 @@ def test_can_submit_run_with_no_target():
     assert_run_accepted(view_id, run, client)
     kill_and_assert_killed(view_id, run, client)
 
-#@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://stage.citrination.com", reason="Data view status tests currently only supported on stage")
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://stage.citrination.com", reason="Data view status tests currently only supported on stage")
 def test_get_data_view():
     """
     Tests that get_data_view returns the summary information for a given data view
@@ -188,3 +188,5 @@ def test_get_data_view():
     data_view = client.get_data_view(data_view_id=view_id)
 
     assert data_view.name == "Band gap with colors"
+    assert len(data_view.columns) == 5
+    assert data_view.columns[0].name == "Property Band gap"
