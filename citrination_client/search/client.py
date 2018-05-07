@@ -42,6 +42,11 @@ class SearchClient(BaseClient):
 
         start_index = pif_system_returning_query.from_index or 0
         size = pif_system_returning_query.size or 0
+
+        if start_index < 0:
+            raise CitrinationClientError("start_index cannot be negative. Please enter a value greater than or equal to zero")
+        if size < 0:
+            raise CitrinationClientError("Size cannot be negative. Please enter a value greater than or equal to zero")
         if start_index + size > MAX_QUERY_DEPTH:
             raise CitrinationClientError("Citrination does not support pagination past the {}th result. Please change from_index and size arguments to be within this limit".format(MAX_QUERY_DEPTH))
 
