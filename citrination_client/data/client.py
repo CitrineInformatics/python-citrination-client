@@ -201,27 +201,27 @@ class DataClient(BaseClient):
 
         for f in dataset_files:
             filename = f.path
-            destination = ('/').join([destination, filename])
+            local_path = ('/').join([destination, filename])
             extension = filename.rsplit('.', 1)
 
-            if not os.path.isdir(os.path.dirname(destination)):
-                os.makedirs(os.path.dirname(destination))
+            if not os.path.isdir(os.path.dirname(local_path)):
+                os.makedirs(os.path.dirname(local_path))
 
             r = requests.get(f.url)
 
             # write image files in chunks
             if extension == ".png" or extension == ".tif" or extension == ".jpg":
-                with open(filename, 'w') as f:
+                with open(local_path, 'w') as f:
                     for chunk in r.iter_content(1024):
                         f.write(chunk)
 
             # write data files
             elif extension == '.pdf' or '.ppt' in extension or '.xls' in extension or 'doc' in extension:
-                with open(filename, 'w') as f:
+                with open(local_path, 'w') as f:
                     f.write(r.content)
 
             else:
-                with open(filename, 'w') as f:
+                with open(local_path, 'w') as f:
                     f.write(r.text.encode('utf-8', 'ignore'))
 
     def get_pif(self, dataset_id, uid, dataset_version = None):
