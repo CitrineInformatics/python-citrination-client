@@ -32,7 +32,7 @@ class SearchClient(BaseClient):
 
         return super(SearchClient, self)._handle_response(response, failure_message)
 
-    def _validate_query_depth(self, pif_system_returning_query):
+    def _validate_search_query(self, pif_system_returning_query):
         """
         Checks to see that the query will not exceed the max query depth
 
@@ -55,8 +55,8 @@ class SearchClient(BaseClient):
         :rtype: :class:`PifSearchResult`
         """
 
-        self._validate_query_depth(pif_system_returning_query)
-        return self._execute_paginating_search(
+        self._validate_search_query(pif_system_returning_query)
+        return self._execute_search_query(
             pif_system_returning_query,
             PifSearchResult
         )
@@ -71,13 +71,13 @@ class SearchClient(BaseClient):
         :rtype: :class:`DatasetSearchResult`
         """
 
-        self._validate_query_depth(dataset_returning_query)
-        return self._execute_paginating_search(
+        self._validate_search_query(dataset_returning_query)
+        return self._execute_search_query(
             dataset_returning_query,
             DatasetSearchResult
         )
 
-    def _execute_paginating_search(self, returning_query, result_class):
+    def _execute_search_query(self, returning_query, result_class):
         """
         Run a PIF query against Citrination.
 
