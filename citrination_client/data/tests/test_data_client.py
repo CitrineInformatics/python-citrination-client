@@ -144,14 +144,16 @@ def test_download_files():
     """
     Tests that files from get_dataset_file and get_dataset_files can be downloaded.
     """
-    files_list = client.get_dataset_files(150502, glob=".", is_dir=False, version_number=None)
+    dataset_id = 150502
+
+    files_list = client.get_dataset_files(dataset_id, glob=".", is_dir=False, version_number=None)
     client.download_files(files_list, 'test')
     assert os.path.isfile(files_list[0].path)
     for f in files_list:
         os.remove(f.path)
     os.rmdir('test')
 
-    single_file = client.get_dataset_file(150502, "Al2O3.csv")
+    single_file = client.get_dataset_file(dataset_id, "Al2O3.csv")
     client.download_files(single_file)
     assert os.path.isfile(single_file.path)
     os.remove(single_file.path)
