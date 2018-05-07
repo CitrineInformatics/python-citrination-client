@@ -14,27 +14,27 @@ class ServiceStatus(object):
         if "event" in response_dict:
             event_dict = response_dict["event"]
             event = Event(
-                title=event_dict["title"],
-                subtitle=event_dict["subtitle"],
-                normalized_progress=event_dict["normalizedProgress"]
+                title = event_dict["title"],
+                subtitle = event_dict["subtitle"],
+                normalized_progress = event_dict["normalizedProgress"]
             )
 
             if "subevent" in response_dict["event"]:
                 subevent_dict = response_dict["event"]["subevent"]
                 subevent = Event(
-                    title=subevent_dict["title"],
-                    subtitle=subevent_dict["subtitle"],
-                    normalized_progress=subevent_dict["normalizedProgress"]
+                    title = subevent_dict["title"],
+                    subtitle = subevent_dict["subtitle"],
+                    normalized_progress = subevent_dict["normalizedProgress"]
                 )
                 event.subevent = subevent
         else:
             event = None
 
         return ServiceStatus(
-            ready=response_dict["ready"],
-            reason=response_dict["reason"],
-            context=response_dict["context"],
-            event=event
+            ready = response_dict["ready"],
+            reason = response_dict["reason"],
+            context = response_dict["context"],
+            event = event
         )
 
     def __init__(self, ready, context, reason, event):
