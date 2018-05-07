@@ -1,6 +1,6 @@
 import pytest
-from citrination_sdk_internal.data_views.columns import *
-from citrination_client.errors import *
+from citrination_client.models.columns import *
+from citrination_client.base.errors import *
 
 class TestAlloyCompositionColumn(object):
 
