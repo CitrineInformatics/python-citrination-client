@@ -191,7 +191,7 @@ class DataClient(BaseClient):
         Downloads file(s) to a local destination.
 
         :param dataset_files:
-        :type dataset_files: :class: `DatasetFile`
+        :type dataset_files: list of :class: `DatasetFile`
         :param destination: The path to the desired local download destination
         :type destination: str
         :return:
