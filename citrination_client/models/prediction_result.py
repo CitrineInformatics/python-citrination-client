@@ -33,7 +33,7 @@ class PredictionResult(object):
         except KeyError:
             return None
 
-    def all_responses(self):
+    def all_keys(self):
         """
         Retrieves a list of all the values which were predicted.
 

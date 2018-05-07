@@ -4,7 +4,7 @@ from citrination_client.models import PredictedValue
 def test_can_list_all_stored_predicted_values():
     """
     Tests that for a prediction result which stores many
-    predicted values, all_responses correctly lists the keys under
+    predicted values, all_keys correctly lists the keys under
     which each of those values is registered
     """
 
@@ -26,6 +26,6 @@ def test_can_list_all_stored_predicted_values():
     pr.add_value(k2, pv2)
     pr.add_value(k3, pv3)
 
-    assert k1 in pr.all_responses()
-    assert k2 in pr.all_responses()
-    assert k3 in pr.all_responses()
+    assert k1 in pr.all_keys()
+    assert k2 in pr.all_keys()
+    assert k3 in pr.all_keys()
