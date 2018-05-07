@@ -1,6 +1,6 @@
 class DataView(object):
 
-    def __init__(self, view_id, name, description, column_names, columns=[]):
+    def __init__(self, view_id, name, description, datasets, column_names=None, columns=[]):
         """
         Constructor.
 
@@ -10,12 +10,15 @@ class DataView(object):
         :type name: str
         :param description: The description of the data view
         :type description: str
+        :param datasets: The datasets used in the view
+        :type datasets: list of :class: Dataset
         :param column_names: The column names in the view
         :type column_names: list of str
         """
         self._id = view_id
         self._name = name
         self._description = description
+        self._datasets = datasets
         self._column_names = column_names
         self._columns = columns
 
@@ -54,6 +57,18 @@ class DataView(object):
     @description.deleter
     def description(self):
         self._description = None
+
+    @property
+    def datasets(self):
+        return self._datasets
+
+    @datasets.setter
+    def datasets(self, value):
+        self._datasets = value
+
+    @datasets.deleter
+    def datasets(self):
+        self._datasets = None
 
     @property
     def column_names(self):
