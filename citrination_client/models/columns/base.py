@@ -134,7 +134,7 @@ class BaseColumn(object):
                        "Ignore",
                        "input",
                        "output",
-                       "latentVariable", 
+                       "latentVariable",
                        "ignore"]
         if role not in valid_roles:
             raise CitrinationClientError("Column role must be one of: {}".format(valid_roles))
