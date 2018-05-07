@@ -19,7 +19,7 @@ def get_data_view_design_results(data_view_id, run_uuid):
 def kill_data_view_design_run(data_view_id, run_uuid):
     return "data_views/{}/experimental_design/{}".format(data_view_id, run_uuid)
 
-def get_models_status(data_view_id):
+def get_data_view_status(data_view_id):
     """
     URL for retrieving the statuses of all services
     associated with a data view.

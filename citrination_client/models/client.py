@@ -219,7 +219,7 @@ class ModelsClient(BaseClient):
         :rtype: DataViewStatus
         """
 
-        url = routes.get_models_status(data_view_id)
+        url = routes.get_data_view_status(data_view_id)
 
         response = self._get(url).json()
 
