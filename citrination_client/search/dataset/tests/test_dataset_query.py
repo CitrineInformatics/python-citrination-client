@@ -16,9 +16,9 @@ class TestDatasetQuery(unittest.TestCase):
     def test_full_dataset_query(self):
         """Test a public dataset query with every option on"""
         query = DatasetReturningQuery(
-            size=8,
-            score_relevance=True,
-            count_pifs=True)
+            size = 8,
+            score_relevance = True,
+            count_pifs = True)
         result = self.client.dataset_search(query)
 
         assert len(result.hits) == 8, "Number of hits didn't match query size"
@@ -35,17 +35,17 @@ class TestDatasetQuery(unittest.TestCase):
     def test_dataset_search(self):
         """Test that a basic query with a dataset ID returns 1 hit"""
         response = self.client.dataset_search(DatasetReturningQuery(
-            size=0,
-            query=DataQuery(
-                dataset=DatasetQuery(
-                    id=Filter(equal='151278')))))
+            size = 0,
+            query = DataQuery(
+                dataset = DatasetQuery(
+                    id = Filter(equal = '151278')))))
         assert 1 == response.total_num_hits
 
     def test_search_limit_enforced_dataset_search(self):
         """
         Tests that if a user tries to access more than the max allowed results an error is thrown
         """
-        query = DatasetReturningQuery(from_index=MAX_QUERY_DEPTH, size=10)
+        query = DatasetReturningQuery(from_index = MAX_QUERY_DEPTH, size=10)
         with pytest.raises(CitrinationClientError):
             self.client.dataset_search(query)
 

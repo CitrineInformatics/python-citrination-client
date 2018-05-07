@@ -27,19 +27,19 @@ class TestPifQuery():
         results that would overflow the end of the results set, all the results
         up to the end of the set are returned
         """
-        query = PifSystemReturningQuery(size=0,
-            query=DataQuery(
-                dataset=DatasetQuery(
-                    id=Filter(equal='1160'))))
+        query = PifSystemReturningQuery(size = 0,
+            query = DataQuery(
+                dataset = DatasetQuery(
+                    id = Filter(equal = '1160'))))
         response = self.client.pif_search(query)
         total = response.total_num_hits
         from_index = total - 20
 
-        query = PifSystemReturningQuery(size=45,
-            from_index=from_index,
-            query=DataQuery(
-                dataset=DatasetQuery(
-                    id=Filter(equal='1160'))))
+        query = PifSystemReturningQuery(size = 45,
+            from_index = from_index,
+            query = DataQuery(
+                dataset = DatasetQuery(
+                    id = Filter(equal = '1160'))))
         response = self.client.pif_search(query)
         assert 20 == len(response.hits)
 
@@ -47,7 +47,7 @@ class TestPifQuery():
         """
         Tests that if a user tries to access more than the max allowed results an error is thrown
         """
-        query = PifSystemReturningQuery(from_index=MAX_QUERY_DEPTH,size=10)
+        query = PifSystemReturningQuery(from_index = MAX_QUERY_DEPTH, size = 10)
         with pytest.raises(CitrinationClientError):
             self.client.pif_search(query)
 
@@ -55,7 +55,7 @@ class TestPifQuery():
         """
         Tests that pagination works with no from value
         """
-        query = PifSystemReturningQuery(size=200)
+        query = PifSystemReturningQuery(size = 200)
         response = self.client.pif_search(query)
         assert 200 == len(response.hits)
 
@@ -63,7 +63,7 @@ class TestPifQuery():
         """
         Test that basic queries with both size and from return results
         """
-        query = PifSystemReturningQuery(size=200, from_index=1000)
+        query = PifSystemReturningQuery(size = 200, from_index = 1000)
         response = self.client.pif_search(query)
         assert 200 == len(response.hits)
 
@@ -72,27 +72,27 @@ class TestPifQuery():
         Tests that, given no pagination control (size nor from), the number of hits is equal to the total_num_hits
         """
         query = PifSystemReturningQuery(
-            query=DataQuery(
-                dataset=DatasetQuery(
-                    id=Filter(equal='150670'))))
+            query = DataQuery(
+                dataset = DatasetQuery(
+                    id = Filter(equal = '150670'))))
         response = self.client.pif_search(query)
         assert response.total_num_hits == len(response.hits)
 
-    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason = "Test only supported on public")
     def test_pif_search(self):
         """
         Tests that a PIF search query can be executed
         """
         response = self.client.pif_search(PifSystemReturningQuery(
-            size=0,
-            query=DataQuery(
-                dataset=DatasetQuery(
-                    id=Filter(equal='151278')
+            size = 0,
+            query = DataQuery(
+                dataset = DatasetQuery(
+                    id = Filter(equal = '151278')
                 ),
-                system=PifSystemQuery(
-                    chemical_formula=ChemicalFieldQuery(
-                        filter=ChemicalFilter(
-                            equal='C22H15NSSi'))))))
+                system = PifSystemQuery(
+                    chemical_formula = ChemicalFieldQuery(
+                        filter = ChemicalFilter(
+                            equal = 'C22H15NSSi'))))))
         assert 5 == response.total_num_hits
 
     @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
@@ -101,31 +101,31 @@ class TestPifQuery():
         Tests that a simple pif search query can be executed
         """
         response = self.client.pif_search(PifSystemReturningQuery(
-            size=0,
-            query=DataQuery(
-                dataset=DatasetQuery(
-                    id=Filter(equal='151278')
+            size = 0,
+            query = DataQuery(
+                dataset = DatasetQuery(
+                    id = Filter(equal = '151278')
                 ),
-                simple='C22H15NSSi')))
+                simple = 'C22H15NSSi')))
         assert 5 == response.total_num_hits
 
-    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason = "Test only supported on public")
     def test_extracted(self):
         """
         Tests that values are extracted according to the extract_as properties
         of the input query
         """
         response = self.client.pif_search(PifSystemReturningQuery(
-            size=1,
-            query=DataQuery(
-                dataset=DatasetQuery(
-                    id=Filter(equal='151278')
+            size = 1,
+            query = DataQuery(
+                dataset = DatasetQuery(
+                    id = Filter(equal = '151278')
                 ),
-                system=PifSystemQuery(
-                    chemical_formula=ChemicalFieldQuery(
-                        extract_as='Chemical formula',
-                        filter=ChemicalFilter(
-                            equal='C22H15NSSi'))))))
+                system = PifSystemQuery(
+                    chemical_formula = ChemicalFieldQuery(
+                        extract_as = 'Chemical formula',
+                        filter = ChemicalFilter(
+                            equal = 'C22H15NSSi'))))))
         assert response.hits[0].extracted['Chemical formula'] == '$\\rm$C$_{22}$$\\rm$H$_{15}$$\\rm$N$\\rm$S$\\rm$Si'
         assert response.hits[0].extracted_path['Chemical formula'] == '/chemicalFormula'
 
@@ -135,46 +135,46 @@ class TestPifQuery():
         """
         all_response = self.client.pif_search(PifSystemReturningQuery(size=1))
         subset_response = self.client.pif_search(PifSystemReturningQuery(
-            size=0,
-            query=DataQuery(
-                system=PifSystemQuery(
-                    updated_at=Filter(
-                        max='2017-10-01T00:00:00.000Z')))))
+            size = 0,
+            query = DataQuery(
+                system = PifSystemQuery(
+                    updated_at = Filter(
+                        max = '2017-10-01T00:00:00.000Z')))))
         assert all_response.hits[0].updated_at is not None
         assert all_response.total_num_hits != subset_response.total_num_hits
 
     def test_search_weight(self):
         # Run a query to get a record with a name
         reference_hit = self.client.pif_search(PifSystemReturningQuery(
-            size=1,
-            return_system=False,
-            query=DataQuery(
-                system=PifSystemQuery(
-                    names=FieldQuery(
-                        filter=Filter(exists=True)))))
+            size = 1,
+            return_system = False,
+            query = DataQuery(
+                system = PifSystemQuery(
+                    names = FieldQuery(
+                        filter = Filter(exists = True)))))
         ).hits[0]
         uid = reference_hit.id.split('/')[2]
 
         # Run two queries where everything is the same except the weight on the name query
         search_result = self.client.pif_multi_search(MultiQuery(
-            queries=[
+            queries = [
                 PifSystemReturningQuery(
-                    return_system=False,
-                    score_relevance=True,
-                    query=DataQuery(
-                        system=PifSystemQuery(
-                            uid=Filter(equal=uid),
-                            names=FieldQuery(
-                                filter=Filter(exists=True))))),
+                    return_system = False,
+                    score_relevance = True,
+                    query = DataQuery(
+                        system = PifSystemQuery(
+                            uid = Filter(equal = uid),
+                            names = FieldQuery(
+                                filter = Filter(exists = True))))),
                 PifSystemReturningQuery(
-                    return_system=False,
-                    score_relevance=True,
-                    query=DataQuery(
-                        system=PifSystemQuery(
-                            uid=Filter(equal=uid),
-                            names=FieldQuery(
-                                weight=2.0,
-                                filter=Filter(exists=True)))))
+                    return_system = False,
+                    score_relevance = True,
+                    query = DataQuery(
+                        system = PifSystemQuery(
+                            uid = Filter(equal = uid),
+                            names = FieldQuery(
+                                weight = 2.0,
+                                filter = Filter(exists = True)))))
             ]))
 
         # Make sure that the two weights are off by the correct amount
@@ -186,32 +186,32 @@ class TestPifQuery():
 
         # Run a query to get a record with a name
         reference_hit = self.client.pif_search(PifSystemReturningQuery(
-            size=1,
-            return_system=True,
-            query=DataQuery(
-                system=PifSystemQuery(
-                    names=FieldQuery(
-                        filter=Filter(exists=True)))))
+            size = 1,
+            return_system = True,
+            query = DataQuery(
+                system = PifSystemQuery(
+                    names = FieldQuery(
+                        filter = Filter(exists = True)))))
         ).hits[0]
         uid = reference_hit.id.split('/')[2]
 
         # Run two queries where everything is the same except the weight on the name query
         search_result = self.client.pif_multi_search(MultiQuery(
-            queries=[
+            queries = [
                 PifSystemReturningQuery(
-                    return_system=False,
-                    score_relevance=True,
-                    query=DataQuery(
-                        system=PifSystemQuery(
-                            uid=Filter(equal=uid)),
-                        simple=reference_hit.system.names[0])),
+                    return_system = False,
+                    score_relevance = True,
+                    query = DataQuery(
+                        system = PifSystemQuery(
+                            uid = Filter(equal = uid)),
+                        simple = reference_hit.system.names[0])),
                 PifSystemReturningQuery(
-                    return_system=False,
-                    score_relevance=True,
-                    query=DataQuery(
-                        system=PifSystemQuery(
-                            uid=Filter(equal=uid)),
-                        simple=reference_hit.system.names[0],
+                    return_system = False,
+                    score_relevance = True,
+                    query = DataQuery(
+                        system = PifSystemQuery(
+                            uid = Filter(equal = uid)),
+                        simple = reference_hit.system.names[0],
                         simple_weight={'system.names': 2.0}))
             ]))
 
