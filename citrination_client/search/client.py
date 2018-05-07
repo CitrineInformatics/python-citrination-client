@@ -32,6 +32,19 @@ class SearchClient(BaseClient):
 
         return super(SearchClient, self)._handle_response(response, failure_message)
 
+    def _validate_query_depth(self, pif_system_returning_query):
+        """
+        Checks to see that the query will not exceed the max query depth
+
+        :param pif_system_returning_query: The PIF system query to execute.
+        :type pif_system_returning_query: :class:`PifSystemReturningQuery`
+        """
+
+        start_index = pif_system_returning_query.from_index or 0
+        size = pif_system_returning_query.size or 0
+        if start_index + size > MAX_QUERY_DEPTH:
+            raise CitrinationClientError("Citrination does not support pagination past the {}th result. Please change from_index and size arguments to be within this limit".format(MAX_QUERY_DEPTH))
+
     def pif_search(self, pif_system_returning_query):
         """
         Run a PIF query against Citrination.
@@ -42,11 +55,7 @@ class SearchClient(BaseClient):
         :rtype: :class:`PifSearchResult`
         """
 
-        start_index = pif_system_returning_query.from_index or 0
-        size = pif_system_returning_query.size or 0
-        if start_index + size > MAX_QUERY_RESULTS:
-            raise CitrinationClientError("Citrination does not support pagination past the {}th result. Please change from_index and size arguments to be within this limit".format(MAX_QUERY_RESULTS))
-
+        self._validate_query_depth(pif_system_returning_query)
         return self._execute_paginating_search(
             pif_system_returning_query,
             PifSearchResult
@@ -62,11 +71,7 @@ class SearchClient(BaseClient):
         :rtype: :class:`DatasetSearchResult`
         """
 
-        start_index = dataset_returning_query.from_index or 0
-        size = dataset_returning_query.size or 0
-        if start_index + size > MAX_QUERY_RESULTS:
-            raise CitrinationClientError("Citrination does not support pagination past the {}th result. Please change from_index and size arguments to be within this limit".format(MAX_QUERY_RESULTS))
-
+        self._validate_query_depth(dataset_returning_query)
         return self._execute_paginating_search(
             dataset_returning_query,
             DatasetSearchResult
