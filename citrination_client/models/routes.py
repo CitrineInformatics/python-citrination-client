@@ -21,3 +21,6 @@ def get_data_view_design_results(data_view_id):
 
 def kill_data_view_design_run(data_view_id, run_uuid):
     return "data_views/{}/experimental_design/{}".format(data_view_id, run_uuid)
+
+def get_data_view(data_view_id):
+    return "data_views/{}".format(data_view_id)
