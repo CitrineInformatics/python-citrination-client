@@ -218,8 +218,8 @@ class ModelsClient(BaseClient):
             ))
 
         columns_list = []
-        for column in results["columns"]:
-            columns_list.append(BaseColumn.from_dict(column))
+        for column in result["columns"]:
+            columns_list.append(ColumnFactory.from_dict(column))
 
         return DataView(
             view_id = data_view_id,
