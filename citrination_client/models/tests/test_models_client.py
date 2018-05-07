@@ -1,5 +1,6 @@
 from citrination_client.client import CitrinationClient
 from citrination_client.models import *
+from citrination_client.models.columns import *
 from os import environ
 import pytest
 

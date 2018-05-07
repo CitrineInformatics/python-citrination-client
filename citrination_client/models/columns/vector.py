@@ -1,4 +1,4 @@
-from citrination_client.models.columns import BaseColumn
+from citrination_client.models.columns.base import BaseColumn
 from citrination_client.base.errors import CitrinationClientError
 
 class VectorColumn(BaseColumn):

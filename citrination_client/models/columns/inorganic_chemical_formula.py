@@ -1,4 +1,4 @@
-from citrination_client.models.columns import BaseColumn
+from citrination_client.models.columns.base import BaseColumn
 
 class InorganicChemicalFormulaColumn(BaseColumn):
     """
