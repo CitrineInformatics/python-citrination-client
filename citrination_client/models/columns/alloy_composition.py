@@ -1,4 +1,4 @@
-from citrination_sdk_internal.data_views.columns import BaseColumn
+from citrination_client.models.columns import BaseColumn
 
 class AlloyCompositionColumn(BaseColumn):
     """

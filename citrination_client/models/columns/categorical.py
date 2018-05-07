@@ -1,5 +1,5 @@
-from citrination_sdk_internal.data_views.columns import BaseColumn
-from citrination_client.errors import CitrinationClientError
+from citrination_client.models.columns import BaseColumn
+from citrination_client.base.errors import CitrinationClientError
 
 class CategoricalColumn(BaseColumn):
     """
