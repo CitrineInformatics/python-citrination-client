@@ -148,12 +148,26 @@ def test_download_files():
 
     files_list = client.get_dataset_files(dataset_id, glob=".", is_dir=False, version_number=None)
     client.download_files(files_list, 'test')
-    assert os.path.isfile(files_list[0].path)
+    assert os.path.isfile('/'.join(['test',files_list[0].path]))
     for f in files_list:
-        os.remove(f.path)
+        os.remove('/'.join(['test',f.path]))
     os.rmdir('test')
 
     single_file = client.get_dataset_file(dataset_id, "Al2O3.csv")
     client.download_files(single_file)
-    assert os.path.isfile(single_file.path)
-    os.remove(single_file.path)
+    assert os.path.isfile('/'.join(['.', single_file.path]))
+    os.remove('/'.join(['.', single_file.path]))
+
+@pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://stage.citrination.com", reason="Test only supported on public")
+def test_download_files_stage():
+    """
+    Tests that files from get_dataset_file and get_dataset_files can be downloaded.
+    """
+    dataset_id = 271
+
+    files_list = client.get_dataset_files(dataset_id, glob=".", is_dir=False, version_number=None)
+    client.download_files(files_list, 'test')
+    assert os.path.isfile('/'.join(['test',files_list[0].path]))
+    for f in files_list:
+        os.remove('/'.join(['test',f.path]))
+    os.rmdir('test')
