@@ -4,6 +4,7 @@ from citrination_client.models.design import *
 from citrination_client.models import routes as routes
 from citrination_client.base.errors import CitrinationClientError
 from citrination_client.data import Dataset
+from citrination_client.models.data_view import DataView
 from citrination_client.models.columns.column_factory import ColumnFactory
 
 import time
