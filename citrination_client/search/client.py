@@ -16,8 +16,8 @@ import requests
 DEFAULT_FAILURE_MESSAGE = "An error occurred requesting search results from Citrination"
 MAX_QUERY_DEPTH = 50000
 
-class SearchClient(BaseClient):
 
+class SearchClient(BaseClient):
     def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False):
         members = [
             "pif_search",
@@ -44,7 +44,8 @@ class SearchClient(BaseClient):
         size = pif_system_returning_query.size or 0
 
         if start_index < 0:
-            raise CitrinationClientError("start_index cannot be negative. Please enter a value greater than or equal to zero")
+            raise CitrinationClientError(
+                "start_index cannot be negative. Please enter a value greater than or equal to zero")
         if size < 0:
             raise CitrinationClientError("Size cannot be negative. Please enter a value greater than or equal to zero")
         if start_index + size > MAX_QUERY_DEPTH:
@@ -103,10 +104,11 @@ class SearchClient(BaseClient):
             size = client_config.max_query_size
 
         if (size == client_config.max_query_size and
-            size != returning_query.size):
+                    size != returning_query.size):
             self._warn("Query size greater than max system size - only {} results will be returned".format(size))
 
-        time = 0.0; hits = [];
+        time = 0.0;
+        hits = [];
         while True:
             sub_query = deepcopy(returning_query)
             sub_query.from_index = from_index + len(hits)
@@ -130,8 +132,8 @@ class SearchClient(BaseClient):
             failure_message = "Error while making dataset search request"
 
         response_json = self._get_success_json(self._post(
-                    route, data = json.dumps(returning_query, cls = QueryEncoder),
-                failure_message = failure_message))
+            route, data=json.dumps(returning_query, cls=QueryEncoder),
+            failure_message=failure_message))
 
         return result_class(**keys_to_snake_case(response_json['results']))
 
@@ -143,13 +145,15 @@ class SearchClient(BaseClient):
         :return: :class:`PifMultiSearchResult` object with the results of the query.
         """
         failure_message = "Error while making PIF multi search request"
-        response_dict = self._get_success_json(self._post(routes.pif_multi_search, data = json.dumps(multi_query, cls = QueryEncoder), failure_message = failure_message))
+        response_dict = self._get_success_json(
+            self._post(routes.pif_multi_search, data=json.dumps(multi_query, cls=QueryEncoder),
+                       failure_message=failure_message))
 
         return PifMultiSearchResult(**keys_to_snake_case(response_dict['results']))
 
-    def generate_simple_chemical_query(self, name = None, chemical_formula = None, property_name = None, property_value = None,
-                               property_min = None, property_max = None, property_units = None, reference_doi = None,
-                               include_datasets = [], exclude_datasets = [], from_index = None, size = None):
+    def generate_simple_chemical_query(self, name=None, chemical_formula=None, property_name=None, property_value=None,
+                                       property_min=None, property_max=None, property_units=None, reference_doi=None,
+                                       include_datasets=[], exclude_datasets=[], from_index=None, size=None):
         """
         This method generates a :class:`PifSystemReturningQuery` object using the
         supplied arguments. All arguments that accept lists have logical OR's on the queries that they generate.
@@ -193,50 +197,50 @@ class SearchClient(BaseClient):
         """
         pif_system_query = PifSystemQuery()
         pif_system_query.names = FieldQuery(
-            extract_as = 'name',
-            filter = [Filter(equal = i) for i in self._get_list(name)])
+            extract_as='name',
+            filter=[Filter(equal=i) for i in self._get_list(name)])
         pif_system_query.chemical_formula = ChemicalFieldQuery(
-            extract_as = 'chemical_formula',
-            filter = [ChemicalFilter(equal = i) for i in self._get_list(chemical_formula)])
+            extract_as='chemical_formula',
+            filter=[ChemicalFilter(equal=i) for i in self._get_list(chemical_formula)])
         pif_system_query.references = ReferenceQuery(doi=FieldQuery(
-            extract_as = 'reference_doi',
-            filter = [Filter(equal = i) for i in self._get_list(reference_doi)]))
+            extract_as='reference_doi',
+            filter=[Filter(equal=i) for i in self._get_list(reference_doi)]))
 
         # Generate the parts of the property query
         property_name_query = FieldQuery(
-            extract_as = 'property_name',
-            filter = [Filter(equal = i) for i in self._get_list(property_name)])
+            extract_as='property_name',
+            filter=[Filter(equal=i) for i in self._get_list(property_name)])
         property_units_query = FieldQuery(
-            extract_as = 'property_units',
-            filter = [Filter(equal = i) for i in self._get_list(property_units)])
+            extract_as='property_units',
+            filter=[Filter(equal=i) for i in self._get_list(property_units)])
         property_value_query = FieldQuery(
-            extract_as = 'property_value',
-            filter = [])
+            extract_as='property_value',
+            filter=[])
         for i in self._get_list(property_value):
-            property_value_query.filter.append(Filter(equal = i))
+            property_value_query.filter.append(Filter(equal=i))
         if property_min is not None or property_max is not None:
-            property_value_query.filter.append(Filter(min = property_min, max = property_max))
+            property_value_query.filter.append(Filter(min=property_min, max=property_max))
 
         # Generate the full property query
         pif_system_query.properties = PropertyQuery(
-            name = property_name_query,
-            value = property_value_query,
-            units = property_units_query)
+            name=property_name_query,
+            value=property_value_query,
+            units=property_units_query)
 
         # Generate the dataset query
         dataset_query = list()
         if include_datasets:
-            dataset_query.append(DatasetQuery(logic = 'MUST', id = [Filter(equal = i) for i in include_datasets]))
+            dataset_query.append(DatasetQuery(logic='MUST', id=[Filter(equal=i) for i in include_datasets]))
         if exclude_datasets:
-            dataset_query.append(DatasetQuery(logic = 'MUST_NOT', id = [Filter(equal = i) for i in exclude_datasets]))
+            dataset_query.append(DatasetQuery(logic='MUST_NOT', id=[Filter(equal=i) for i in exclude_datasets]))
 
         # Run the query
         pif_system_returning_query = PifSystemReturningQuery(
-            query = DataQuery(
-                system = pif_system_query,
-                dataset = dataset_query),
-            from_index = from_index,
-            size = size,
-            score_relevance = True)
+            query=DataQuery(
+                system=pif_system_query,
+                dataset=dataset_query),
+            from_index=from_index,
+            size=size,
+            score_relevance=True)
 
         return pif_system_returning_query
