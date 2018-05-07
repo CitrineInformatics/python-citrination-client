@@ -32,16 +32,16 @@ class SearchClient(BaseClient):
 
         return super(SearchClient, self)._handle_response(response, failure_message)
 
-    def _validate_search_query(self, pif_system_returning_query):
+    def _validate_search_query(self, returning_query):
         """
         Checks to see that the query will not exceed the max query depth
 
-        :param pif_system_returning_query: The PIF system query to execute.
-        :type pif_system_returning_query: :class:`PifSystemReturningQuery`
+        :param returning_query: The PIF system or Dataset query to execute.
+        :type returning_query: :class:`PifSystemReturningQuery` or :class: `DatasetReturningQuery`
         """
 
-        start_index = pif_system_returning_query.from_index or 0
-        size = pif_system_returning_query.size or 0
+        start_index = returning_query.from_index or 0
+        size = returning_query.size or 0
 
         if start_index < 0:
             raise CitrinationClientError(
