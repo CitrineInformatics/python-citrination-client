@@ -215,7 +215,6 @@ class ModelsClient(BaseClient):
             - view id
             - name
             - description
-            - column names
             - columns
 
         :param data_view_id: The ID number of the data view to which the
