@@ -1,6 +1,6 @@
 class DataView(object):
 
-    def __init__(self, view_id, name, description, datasets, column_names=None, columns=[]):
+    def __init__(self, view_id, name, description, datasets=[], column_names=[], columns=[]):
         """
         Constructor.
 
