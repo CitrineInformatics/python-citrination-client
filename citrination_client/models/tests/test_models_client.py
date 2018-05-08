@@ -190,3 +190,5 @@ def test_get_data_view():
     assert data_view.name == "Band Gap Demo"
     assert len(data_view.columns) == 4
     assert data_view.columns[0].name == "Crystallinity"
+    assert len(data_view.datasets) == 1
+    assert data_view.datasets[0].name == "Band gaps from Strehlow and Cook"
