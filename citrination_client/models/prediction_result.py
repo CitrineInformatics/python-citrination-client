@@ -32,3 +32,14 @@ class PredictionResult(object):
             return self._values[key]
         except KeyError:
             return None
+
+    def all_keys(self):
+        """
+        Retrieves a list of all the values which were predicted.
+
+        :return: A list of keys for which predictions have been made and can
+            be retrieved using `get_value`
+        :rtype: list of str
+        """
+
+        return self._values.keys()
