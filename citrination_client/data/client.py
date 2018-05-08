@@ -201,7 +201,7 @@ class DataClient(BaseClient):
 
         for f in dataset_files:
             filename = f.path
-            local_path = ('/').join([destination, filename])
+            local_path = '/'.join([destination, filename])
             extension = filename.rsplit('.', 1)
 
             if not os.path.isdir(os.path.dirname(local_path)):
