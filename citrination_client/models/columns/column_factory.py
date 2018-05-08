@@ -15,15 +15,15 @@ def _flatten_column_dict(response_dict):
     return flat_dict
 
 def _get_column_class_from_type(type):
-    if type == "Real":
+    if type == RealColumn.TYPE:
         return RealColumn
-    elif type == 'Categorical':
+    elif type == CategoricalColumn.TYPE:
         return CategoricalColumn
-    elif type == 'Alloy composition':
+    elif type == AlloyCompositionColumn.TYPE:
         return AlloyCompositionColumn
-    elif type == 'Inorganic':
+    elif type == InorganicChemicalFormulaColumn.TYPE:
         return InorganicChemicalFormulaColumn
-    elif type == "Vector":
+    elif type == VectorColumn.TYPE:
         return VectorColumn
     else:
         raise CitrinationClientError("Unknown column type: {}".format(type))
