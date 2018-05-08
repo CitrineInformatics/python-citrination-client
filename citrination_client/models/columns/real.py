@@ -1,6 +1,5 @@
 from citrination_client.models.columns.base import BaseColumn
-from citrination_client.base.errors import *
-
+from citrination_client.base.errors import CitrinationClientError
 
 class RealColumn(BaseColumn):
     """

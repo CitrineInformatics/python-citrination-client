@@ -1,9 +1,9 @@
-from categorical import CategoricalColumn
-from real import RealColumn
-from vector import VectorColumn
-from alloy_composition import AlloyCompositionColumn
-from inorganic_chemical_formula import InorganicChemicalFormulaColumn
-from organic_chemical_formula import OrganicChemicalFormulaColumn
+from citrination_client.models.columns.categorical import CategoricalColumn
+from citrination_client.models.columns.real import RealColumn
+from citrination_client.models.columns.vector import VectorColumn
+from citrination_client.models.columns.alloy_composition import AlloyCompositionColumn
+from citrination_client.models.columns.inorganic_chemical_formula import InorganicChemicalFormulaColumn
+from citrination_client.models.columns.organic_chemical_formula import OrganicChemicalFormulaColumn
 
 class DescriptorConverter(object):
 
