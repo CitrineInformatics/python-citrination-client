@@ -211,18 +211,18 @@ class DataClient(BaseClient):
 
             # write image files in chunks
             if extension == ".png" or extension == ".tif" or extension == ".jpg":
-                with open(local_path, 'w') as f:
+                with open(local_path, 'w') as output_file:
                     for chunk in r.iter_content(1024):
-                        f.write(chunk)
+                        output_file.write(chunk)
 
             # write data files
             elif extension == '.pdf' or '.ppt' in extension or '.xls' in extension or 'doc' in extension:
-                with open(local_path, 'w') as f:
-                    f.write(r.content)
+                with open(local_path, 'w') as output_file:
+                    output_file.write(r.content)
 
             else:
-                with open(local_path, 'w') as f:
-                    f.write(r.text.encode('utf-8', 'ignore'))
+                with open(local_path, 'w') as output_file:
+                    output_file.write(r.text.encode('utf-8', 'ignore'))
 
     def get_pif(self, dataset_id, uid, dataset_version = None):
         """
