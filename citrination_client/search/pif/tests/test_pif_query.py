@@ -223,3 +223,18 @@ class TestPifQuery():
         unweighted_score = search_result.results[0].result.hits[0].score
         weighted_score = search_result.results[1].result.hits[0].score
         assert abs(weighted_score - unweighted_score) > 0.01
+
+    def test_simple_query_generation(self):
+        """
+        Tests that a query can be generated with the simple query generation helper method
+        """
+        query = self.client.generate_simple_chemical_query(
+                                                    include_datasets=["1160"],
+                                                    chemical_formula="CoSi",
+                                                    property_name="Band gap",
+                                                    property_min=0.0,
+                                                    property_max=0.5
+                                                )
+
+        response = self.client.pif_search(query)
+        assert 1 == response.total_num_hits
