@@ -161,7 +161,7 @@ def test_download_csv_files():
 @pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
 def test_download_json_files():
     """
-    Tests that files from get_dataset_file and get_dataset_files can be downloaded.
+    Tests that a json file can be downloaded
     """
     dataset_id = 153254
 
@@ -175,7 +175,7 @@ def test_download_json_files():
 @pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
 def test_download_pdf_files():
     """
-    Tests that files from get_dataset_file and get_dataset_files can be downloaded.
+    Tests that a pdf file can be downloaded
     """
     dataset_id = 158901
 
@@ -189,7 +189,7 @@ def test_download_pdf_files():
 @pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
 def test_download_json_files_no_chunks():
     """
-    Tests that files from get_dataset_file and get_dataset_files can be downloaded.
+    Tests that a json file can be downloaded without chunking
     """
     dataset_id = 158901
 
@@ -199,4 +199,3 @@ def test_download_json_files_no_chunks():
     for f in files_list:
         os.remove('/'.join(['test',f.path]))
     os.rmdir('test')
-    
