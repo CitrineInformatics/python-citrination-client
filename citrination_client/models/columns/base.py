@@ -5,7 +5,7 @@ class BaseColumn(object):
     Base class for column configuration in a data view. Subclasses
     each represent one type of column.
     """
-    
+
     def __init__(self, name, role, group_by_key=False, units=None):
         """
         Constructor.
