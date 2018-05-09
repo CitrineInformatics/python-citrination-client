@@ -13,12 +13,18 @@ For more detailed information about the structure of search queries, consult the
 Basic Usage
 -----------
 
-To execute a search against Citrination, build a search query and pass it to either ``pif_search`` or ``dataset_search`` on the ``SearchClient``.
+You may execute search queries which return individual records (equivalent to running search from the landing page on Citrination), or datasets by using the ``pif_search`` or ``dataset_search`` methods on the ``SearchClient`` respectively.
 
-.. literalinclude:: /code_samples/search/basic_usage.py
+.. literalinclude:: /code_samples/search/pif_search.py
 
+.. literalinclude:: /code_samples/search/dataset_search.py
 
-Record vs Dataset Search
----------------------
+Note that ``dataset_search`` does not return the contents of the datasets, but instead returns the metadata for datasets whose contents match the criteria applied by your search. In other words, if you pass a query to ``dataset_search`` which applies the criteria that matching records must contain a property called "Property Band gap", the resulting hits will be datasets which contain records satisfying that criteria.
 
-You may execute search queries which return individual records (equivalent to running search from the landing page on Citrination), or datasets by using the ``pif_search`` or ``dataset_search`` methods on the ``SearchClient`` respectively. Note that ``dataset_search`` does not return the contents of the datasets, but instead returns the metadata for datasets whose contents match the criteria applied by your search. In other words, if you pass a query to ``dataset_search`` which applies the criteria that matching records must contain a property called "Property Band gap", the resulting hits will be datasets which contain records satisfying that criteria. Additionally, in order to search for records, you will need to use ``PifSystemReturningQuery`` whereas to return datasets, you will need to use ``DatasetReturningQuery``.
+Simple Query Generation
+-----------------------
+
+The search client provides a method called ``generate_simple_chemical_query`` which simplifies the interface for creating a new query. If you only need to apply a simple set of constraints, this can be a quick way to generate a query.
+
+.. literalinclude:: /code_samples/search/generate_simple_query.py
+

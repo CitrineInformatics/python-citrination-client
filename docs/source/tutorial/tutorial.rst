@@ -8,4 +8,3 @@ Tutorial
   data_examples
   models_examples
   search_examples
-  exception_handling
