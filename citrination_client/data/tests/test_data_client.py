@@ -140,7 +140,7 @@ def test_upload_directory():
     assert after_total_count == (before_count + count_to_add)
 
 @pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
-def test_download_files():
+def test_download_csv_files():
     """
     Tests that files from get_dataset_file and get_dataset_files can be downloaded.
     """
@@ -158,12 +158,12 @@ def test_download_files():
     assert os.path.isfile('/'.join(['.', single_file.path]))
     os.remove('/'.join(['.', single_file.path]))
 
-@pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://stage.citrination.com", reason="Test only supported on public")
-def test_download_files_stage():
+@pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
+def test_download_json_files():
     """
     Tests that files from get_dataset_file and get_dataset_files can be downloaded.
     """
-    dataset_id = 271
+    dataset_id = 153254
 
     files_list = client.get_dataset_files(dataset_id, glob=".", is_dir=False, version_number=None)
     client.download_files(files_list, 'test')
@@ -171,3 +171,32 @@ def test_download_files_stage():
     for f in files_list:
         os.remove('/'.join(['test',f.path]))
     os.rmdir('test')
+
+@pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
+def test_download_pdf_files():
+    """
+    Tests that files from get_dataset_file and get_dataset_files can be downloaded.
+    """
+    dataset_id = 158901
+
+    files_list = client.get_dataset_files(dataset_id, glob=".", is_dir=False, version_number=None)
+    client.download_files(files_list, 'test')
+    assert os.path.isfile('/'.join(['test', files_list[0].path]))
+    for f in files_list:
+        os.remove('/'.join(['test',f.path]))
+    os.rmdir('test')
+
+@pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
+def test_download_json_files_no_chunks():
+    """
+    Tests that files from get_dataset_file and get_dataset_files can be downloaded.
+    """
+    dataset_id = 158901
+
+    files_list = client.get_dataset_files(dataset_id, glob=".", is_dir=False, version_number=None)
+    client.download_files(files_list, 'test', chunk=False)
+    assert os.path.isfile('/'.join(['test', files_list[0].path]))
+    for f in files_list:
+        os.remove('/'.join(['test',f.path]))
+    os.rmdir('test')
+    
