@@ -186,7 +186,7 @@ class DataClient(BaseClient):
         """
         return self.get_dataset_files(dataset_id, "^{}$".format(file_path), version_number=version)[0]
 
-    def download_files(self, dataset_files, destination='.'):
+    def download_files(self, dataset_files, destination='.', chunk=True):
         """
         Downloads file(s) to a local destination.
 
@@ -194,7 +194,8 @@ class DataClient(BaseClient):
         :type dataset_files: list of :class: `DatasetFile`
         :param destination: The path to the desired local download destination
         :type destination: str
-        :return:
+        :param chunk: Whether or not to chunk the file. Default True
+        :type chunk: bool
         """
         if not isinstance(dataset_files, list):
             dataset_files = [dataset_files]
@@ -202,27 +203,18 @@ class DataClient(BaseClient):
         for f in dataset_files:
             filename = f.path
             local_path = '/'.join([destination, filename])
-            extension = filename.rsplit('.', 1)
 
             if not os.path.isdir(os.path.dirname(local_path)):
                 os.makedirs(os.path.dirname(local_path))
 
             r = requests.get(f.url)
 
-            # write image files in chunks
-            if extension == ".png" or extension == ".tif" or extension == ".jpg":
-                with open(local_path, 'w') as output_file:
+            with open(local_path, 'w') as output_file:
+                if chunk:
                     for chunk in r.iter_content(1024):
                         output_file.write(chunk)
-
-            # write data files
-            elif extension == '.pdf' or '.ppt' in extension or '.xls' in extension or 'doc' in extension:
-                with open(local_path, 'w') as output_file:
+                else:
                     output_file.write(r.content)
-
-            else:
-                with open(local_path, 'w') as output_file:
-                    output_file.write(r.text.encode('utf-8', 'ignore'))
 
     def get_pif(self, dataset_id, uid, dataset_version = None):
         """
