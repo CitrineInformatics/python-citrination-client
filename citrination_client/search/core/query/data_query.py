@@ -20,8 +20,9 @@ class DataQuery(Serializable):
         :param simple: String with the simple search to run against all fields.
         :param simple_weight: Dictionary of relative paths to their weights for simple queries.
         :param dataset: One or more :class:`DatasetQuery` objects with queries against dataset metadata.
-        :param system: One or more :class:`PifSystemQuery` objects with queries against PIF systems.
+        :param system: One or more :class:`PifSystemQuery` objects with queries against PIF systems
         :param file: One or more :class:`FileQuery` objects with queries against file content or metadata.
+        :type file: :class:`FileQuery`
         :param query: Nested list of :class:`DataQuery` objects.
         """
         self._logic = None
