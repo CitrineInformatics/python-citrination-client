@@ -244,3 +244,18 @@ class SearchClient(BaseClient):
             score_relevance=True)
 
         return pif_system_returning_query
+
+    @staticmethod
+    def _get_list(values):
+        """
+        Helper method that wraps values in a list. If the input is a list then it is returned. If the input is None then an empty list is returned. For anything else, the input value is wrapped as a single-element list.
+        
+        :param values: Value to make sure exists in a list.
+        :return: List with the input values.
+        """
+        if values is None:
+            return []
+        elif isinstance(values, list):
+            return values
+        else:
+            return [values]
