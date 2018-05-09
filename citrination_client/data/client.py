@@ -209,7 +209,7 @@ class DataClient(BaseClient):
 
             r = requests.get(f.url)
 
-            with open(local_path, 'w') as output_file:
+            with open(local_path, 'wb') as output_file:
                 if chunk:
                     for chunk in r.iter_content(1024):
                         output_file.write(chunk)
