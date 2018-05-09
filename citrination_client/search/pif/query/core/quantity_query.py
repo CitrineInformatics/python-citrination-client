@@ -20,23 +20,16 @@ class QuantityQuery(BaseObjectQuery):
         :param simple_weight: Dictionary of relative paths to their weights for simple queries.
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
-        :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
-        is missing that should be extracted (and the overall query is still satisfied).
+        :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value is missing that should be extracted (and the overall query is still satisfied).
         :param tags: One or more :class:`FieldQuery` operations against the tags field.
         :param length: One or more :class:`FieldQuery` operations against the length field.
         :param offset: One or more :class:`FieldQuery` operations against the offset field.
-        :param actual_mass_percent: One or more :class:`FieldQuery` operations against the actual mass
-        percent field.
-        :param actual_volume_percent: One or more :class:`FieldQuery` operations against the actual volume
-        percent field.
-        :param actual_number_percent: One or more :class:`FieldQuery` operations against the actual number
-        percent field.
-        :param ideal_mass_percent: One or more :class:`FieldQuery` operations against the ideal mass
-        percent field.
-        :param ideal_volume_percent: One or more :class:`FieldQuery` operations against the ideal volume
-        percent field.
-        :param ideal_number_percent: One or more :class:`FieldQuery` operations against the ideal number
-        percent field.
+        :param actual_mass_percent: One or more :class:`FieldQuery` operations against the actual mass percent field.
+        :param actual_volume_percent: One or more :class:`FieldQuery` operations against the actual volume percent field.
+        :param actual_number_percent: One or more :class:`FieldQuery` operations against the actual number percent field.
+        :param ideal_mass_percent: One or more :class:`FieldQuery` operations against the ideal mass percent field.
+        :param ideal_volume_percent: One or more :class:`FieldQuery` operations against the ideal volume percent field.
+        :param ideal_number_percent: One or more :class:`FieldQuery` operations against the ideal number percent field.
         :param query: One or more :class:`QuantityQuery` objects with nested queries.
         """
         super(QuantityQuery, self).__init__(

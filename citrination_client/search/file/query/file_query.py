@@ -20,8 +20,7 @@ class FileQuery(Serializable):
         :param id: One or more :class:`Filter` objects with filters against the id field.
         :param name: One or more :class:`Filter` objects with filters against the name field.
         :param content: One or more :class:`Filter` objects with filters against the content field.
-        :param updated_at: One or more :class:`Filter` objects with filters against the time that the dataset was
-        last updated.
+        :param updated_at: One or more :class:`Filter` objects with filters against the time that the dataset was last updated.
         :param query: One or more :class:`DatasetQuery` objects with nested queries.
         """
         self._logic = None
