@@ -1,6 +1,8 @@
 from citrination_client.models.columns.base import BaseColumn
 from citrination_client.base.errors import CitrinationClientError
 
+from six import string_types
+
 class CategoricalColumn(BaseColumn):
     """
     A categorical column configuration for a data view. Parameterized
@@ -49,7 +51,7 @@ class CategoricalColumn(BaseColumn):
     @categories.setter
     def categories(self, value):
         self._validate_categories(value)
-        self._categories = value
+        self._categories = [str(v) for v in value]
 
     @categories.deleter
     def categories(self):
@@ -59,5 +61,5 @@ class CategoricalColumn(BaseColumn):
         if type(categories) is not list:
             raise CitrinationClientError("CategoricalColumn requires that the categories value is a list of strings")
 
-        if not all(isinstance(item, str) for item in categories):
+        if not all(isinstance(item, string_types) for item in categories):
             raise CitrinationClientError("CategoricalColumn requires that the categories value is a list of strings")
