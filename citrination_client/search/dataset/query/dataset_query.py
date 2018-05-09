@@ -24,7 +24,7 @@ class DatasetQuery(Serializable):
         :param description: One or more :class:`Filter` objects with filters against the description field.
         :param owner: One or more :class:`Filter` objects with filters against the owner field.
         :param email: One or more :class:`Filter` objects with filters against the email field.
-        :param updated_at: One or more :class:`Filter` objects with filters against the time that the dataset wasblast updated.
+        :param updated_at: One or more :class:`Filter` objects with filters against the time that the dataset was last updated.
         :param query: One or more :class:`DatasetQuery` objects with nested queries.
         """
         self._logic = None
