@@ -1,4 +1,5 @@
 from citrination_client.models import Event
+from citrination_client.base.errors import CitrinationClientError
 
 class ServiceStatus(object):
     """
@@ -11,6 +12,9 @@ class ServiceStatus(object):
 
     @staticmethod
     def from_response_dict(response_dict):
+
+        ServiceStatus._validate_response_dict(response_dict)
+
         if "event" in response_dict:
             event_dict = response_dict["event"]
             event = Event(
@@ -36,6 +40,12 @@ class ServiceStatus(object):
             context = response_dict["context"],
             event = event
         )
+
+    @staticmethod
+    def _validate_response_dict(response_dict):
+        if response_dict["ready"] == True and "event" in response_dict:
+            if response_dict["event"]["normalizedProgress"] < 1.00:
+                raise CitrinationClientError("Events still in progress but ready status set to True")
 
     def __init__(self, ready, context, reason, event):
         """
