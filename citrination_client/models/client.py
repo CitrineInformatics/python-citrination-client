@@ -8,8 +8,6 @@ from citrination_client.models.data_view import DataView
 from citrination_client.models.columns.column_factory import ColumnFactory
 
 import time
-import collections
-
 
 class ModelsClient(BaseClient):
     """
@@ -193,22 +191,6 @@ class ModelsClient(BaseClient):
             next_experiments=result.get("next_experiment_results")
         )
 
-    def _unicode_values_to_strings(self, data):
-        """
-        Iterates through and replaces unicode with str leaving other types unchanged
-
-        :param data: The data to convert
-        :type data: basestring or list or dict
-        """
-        if isinstance(data, basestring):
-            return str(data)
-        elif isinstance(data, collections.Mapping):
-            return dict(map(self._unicode_values_to_strings, data.iteritems()))
-        elif isinstance(data, collections.Iterable):
-            return type(data)(map(self._unicode_values_to_strings, data))
-        else:
-            return data
-
     def get_data_view(self, data_view_id):
         """
         Retrieves a summary of information for a given data view
@@ -227,8 +209,6 @@ class ModelsClient(BaseClient):
         response = self._get(url).json()
 
         result = response["data"]["data_view"]
-
-        result = self._unicode_values_to_strings(result)
 
         datasets_list = []
         for dataset in result["datasets"]:
