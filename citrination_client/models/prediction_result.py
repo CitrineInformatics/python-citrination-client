@@ -25,7 +25,7 @@ class PredictionResult(object):
 
         :param key: A descriptor key for a registered predicted value.
         :type key: str
-        :return: The value stored at the provided descriptor key
+        :return: The value stored at the provided descriptor key. None if no key is provided.
         :rtype: :class:`PredictedValue`
         """
         try:
