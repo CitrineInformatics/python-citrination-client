@@ -9,8 +9,8 @@ on Citrination. To access the data client, instantiate ``CitrinationClient`` and
 Uploading Files
 ---------------
 
-The ``DataClient`` class exposes a method, ``.upload`` which 
-allows you to upload a file or a directory to a dataset on 
+The ``DataClient`` class exposes a method, ``.upload`` which
+allows you to upload a file or a directory to a dataset on
 Citrination.
 
 This method is parameterized with the following values:
@@ -80,9 +80,8 @@ from a dataset:
 
 * ``get_dataset_files()``
 * ``get_dataset_file()``
-* ``get_matched_dataset_files()``
 
-These three methods will each return URLs which can be used to download
+These two methods will each return URLs which can be used to download
 one or more files in a dataset.
 
 .. literalinclude:: /code_samples/data/file_urls.py

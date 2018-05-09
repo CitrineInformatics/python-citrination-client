@@ -25,10 +25,21 @@ class PredictionResult(object):
 
         :param key: A descriptor key for a registered predicted value.
         :type key: str
-        :return: The value stored at the provided descriptor key
+        :return: The value stored at the provided descriptor key. None if no key is provided.
         :rtype: :class:`PredictedValue`
         """
         try:
             return self._values[key]
         except KeyError:
             return None
+
+    def all_keys(self):
+        """
+        Retrieves a list of all the values which were predicted.
+
+        :return: A list of keys for which predictions have been made and can
+            be retrieved using `get_value`
+        :rtype: list of str
+        """
+
+        return self._values.keys()
