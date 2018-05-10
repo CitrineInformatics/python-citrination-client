@@ -13,8 +13,6 @@ class ServiceStatus(object):
     @staticmethod
     def from_response_dict(response_dict):
 
-        ServiceStatus._validate_response_dict(response_dict)
-
         if "event" in response_dict:
             event_dict = response_dict["event"]
             event = Event(
@@ -41,12 +39,6 @@ class ServiceStatus(object):
             event = event
         )
 
-    @staticmethod
-    def _validate_response_dict(response_dict):
-        if response_dict["ready"] == True and "event" in response_dict:
-            if response_dict["event"]["normalizedProgress"] < 1.00:
-                raise CitrinationClientError("Events still in progress but ready status set to True")
-
     def __init__(self, ready, context, reason, event):
         """
         Constructor.
@@ -66,6 +58,7 @@ class ServiceStatus(object):
         self._context = context
         self._event   = event
         self._reason  = reason
+        self._validate_service_status()
 
     @property
     def ready(self):
@@ -123,3 +116,9 @@ class ServiceStatus(object):
         :rtype: bool
         """
         return self.ready == True
+
+    def _validate_service_status(self):
+        if self.ready and self.event:
+            if self.event.normalized_progress < 1.0:
+                raise CitrinationClientError("Events still in progress but ready status set to True")
+
