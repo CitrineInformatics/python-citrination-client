@@ -21,20 +21,15 @@ class CompositionQuery(BaseObjectQuery):
         :param simple_weight: Dictionary of relative paths to their weights for simple queries.
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
-        :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
-        is missing that should be extracted (and the overall query is still satisfied).
+        :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value is missing that should be extracted (and the overall query is still satisfied).
         :param tags: One or more :class:`FieldQuery` operations against the tags field.
         :param length: One or more :class:`FieldQuery` operations against the length field.
         :param offset: One or more :class:`FieldQuery` operations against the offset field.
         :param element: One or more :class:`ChemicalFieldQuery` operations against the element field.
-        :param actual_weight_percent: One or more :class:`FieldQuery` operations against the actual
-        weight percent field.
-        :param actual_atomic_percent: One or more :class:`FieldQuery` operations against the actual
-        atomic percent field.
-        :param ideal_weight_percent: One or more :class:`FieldQuery` operations against the ideal
-        weight percent field.
-        :param ideal_atomic_percent: One or more :class:`FieldQuery` operations against the ideal
-        atomic percent field.
+        :param actual_weight_percent: One or more :class:`FieldQuery` operations against the actual weight percent field.
+        :param actual_atomic_percent: One or more :class:`FieldQuery` operations against the actual atomic percent field.
+        :param ideal_weight_percent: One or more :class:`FieldQuery` operations against the ideal weight percent field.
+        :param ideal_atomic_percent: One or more :class:`FieldQuery` operations against the ideal atomic percent field.
         :param query: One or more :class:`CompositionQuery` objects with the nest queries.
         """
         super(CompositionQuery, self).__init__(

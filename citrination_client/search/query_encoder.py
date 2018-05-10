@@ -11,8 +11,8 @@ class QueryEncoder(json.JSONEncoder):
     def default(self, obj):
         """
         Convert an object to a form ready to dump to json.
-        :param obj: Object being serialized. The type of this object must be one of the following: None; a single
-        object derived from the Pio class; or a list of objects, each derived from the Pio class.
+
+        :param obj: Object being serialized. The type of this object must be one of the following: None; a single object derived from the Pio class; or a list of objects, each derived from the Pio class.
         :return: List of dictionaries, each representing a physical information object, ready to be serialized.
         """
         if obj is None:
@@ -26,8 +26,8 @@ class QueryEncoder(json.JSONEncoder):
 
     def _keys_to_camel_case(self, obj):
         """
-        Make a copy of a dictionary with all keys converted to camel case. This is just calls to_camel_case on
-        each of the keys in the dictionary and returns a new dictionary.
+        Make a copy of a dictionary with all keys converted to camel case. This is just calls to_camel_case on each of the keys in the dictionary and returns a new dictionary.
+
         :param obj: Dictionary to convert keys to camel case.
         :return: Dictionary with the input values and all keys in camel case
         """
