@@ -7,8 +7,9 @@ from pypif import pif
 
 import json
 import os
+import urllib2
+import shutil
 import requests
-
 
 class DataClient(BaseClient):
     """
@@ -186,7 +187,7 @@ class DataClient(BaseClient):
         """
         return self.get_dataset_files(dataset_id, "^{}$".format(file_path), version_number=version)[0]
 
-    def download_files(self, dataset_files, destination='.', chunk=True):
+    def download_files(self, dataset_files, destination='.'):
         """
         Downloads file(s) to a local destination.
 
@@ -207,14 +208,10 @@ class DataClient(BaseClient):
             if not os.path.isdir(os.path.dirname(local_path)):
                 os.makedirs(os.path.dirname(local_path))
 
-            r = requests.get(f.url)
+            r = urllib2.urlopen(f.url)
 
             with open(local_path, 'wb') as output_file:
-                if chunk:
-                    for chunk in r.iter_content(1024):
-                        output_file.write(chunk)
-                else:
-                    output_file.write(r.content)
+                shutil.copyfileobj(r, output_file)
 
     def get_pif(self, dataset_id, uid, dataset_version = None):
         """
