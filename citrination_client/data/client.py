@@ -5,9 +5,7 @@ from citrination_client.data import routes as routes
 
 from pypif import pif
 
-import json
 import os
-import urllib2
 import shutil
 import requests
 
