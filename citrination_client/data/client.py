@@ -32,6 +32,7 @@ class DataClient(BaseClient):
             "matched_file_count",
             "get_dataset_files",
             "get_dataset_file",
+            "download_files",
             "create_dataset",
             "create_dataset_version"
         ]
@@ -206,10 +207,10 @@ class DataClient(BaseClient):
             if not os.path.isdir(os.path.dirname(local_path)):
                 os.makedirs(os.path.dirname(local_path))
 
-            r = urllib2.urlopen(f.url)
+            r = requests.get(f.url, stream=True)
 
             with open(local_path, 'wb') as output_file:
-                shutil.copyfileobj(r, output_file)
+                shutil.copyfileobj(r.raw, output_file)
 
     def get_pif(self, dataset_id, uid, dataset_version = None):
         """
