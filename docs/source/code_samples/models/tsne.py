@@ -1,12 +1,12 @@
 # ... client initialization left out
 
-models_client = citrination_client.models
+models_client = client.models
 
-data_view_id = "1623"
+data_view_id = "4106"
 
 resp = models_client.tsne(data_view_id)
 
-band_gap_projection = resp.get_projection('Property Band Gap')
+band_gap_projection = resp.get_projection('Property Band gap')
 band_gap_projection.xs # returns the x component of the TSNE projection
 band_gap_projection.ys # returns the y component of the TSNE projection
 band_gap_projection.responses # returns the responses for the points in the projection
