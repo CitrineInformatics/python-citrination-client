@@ -1,0 +1,332 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>TSNE &mdash; Python Citrination Client 4.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Search" href="../search.html" />
+    <link rel="prev" title="Predictions" href="predictions.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrading/migration.html">Migrating from an Older Version</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../citrination_client.html">Citrination Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_management.html">Data Management</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../models.html">Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="models_client.html">Model Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="predictions.html">Predictions</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TSNE</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../search.html">Search</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">Module Documentation</a> &raquo;</li>
+        
+          <li><a href="../models.html">Models</a> &raquo;</li>
+        
+      <li>TSNE</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/modules/models/tsne.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-citrination_client.models.tsne">
+<span id="tsne"></span><h1>TSNE<a class="headerlink" href="#module-citrination_client.models.tsne" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="citrination_client.models.tsne.Tsne">
+<em class="property">class </em><code class="descclassname">citrination_client.models.tsne.</code><code class="descname">Tsne</code><a class="headerlink" href="#citrination_client.models.tsne.Tsne" title="Permalink to this definition">¶</a></dt>
+<dd><p>A TSNE analysis which can be extracted from the data analysis
+for a trained model on Citrination.</p>
+<dl class="method">
+<dt id="citrination_client.models.tsne.Tsne.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.tsne.Tsne.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.tsne.Tsne.add_projection">
+<code class="descname">add_projection</code><span class="sig-paren">(</span><em>key</em>, <em>projection</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.tsne.Tsne.add_projection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register a projection under a descriptor key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> (<em>str</em>) – The descriptor key for the projection</li>
+<li><strong>projection</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Projection</span></code>) – The projection for the provided descriptor key</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.tsne.Tsne.get_projection">
+<code class="descname">get_projection</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.tsne.Tsne.get_projection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the projection registered under a particular
+descriptor key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key</strong> – A descriptor key</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <code class="xref py py-class docutils literal notranslate"><span class="pre">Projection</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.tsne.Tsne.projections">
+<code class="descname">projections</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.tsne.Tsne.projections" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the descriptor keys with registered projections.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">List of descriptor keys</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-citrination_client.models.projection"></span><dl class="class">
+<dt id="citrination_client.models.projection.Projection">
+<em class="property">class </em><code class="descclassname">citrination_client.models.projection.</code><code class="descname">Projection</code><span class="sig-paren">(</span><em>xs</em>, <em>ys</em>, <em>responses</em>, <em>tags</em>, <em>uids</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.projection.Projection" title="Permalink to this definition">¶</a></dt>
+<dd><p>A projection to be included in the TSNE analysis.</p>
+<dl class="method">
+<dt id="citrination_client.models.projection.Projection.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>xs</em>, <em>ys</em>, <em>responses</em>, <em>tags</em>, <em>uids</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.projection.Projection.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>xs</strong> (<em>list of floats</em>) – A list of x values of the projection.</li>
+<li><strong>ys</strong> (<em>list of floats</em>) – A list of y values of the projection.</li>
+<li><strong>responses</strong> (<em>list of floats</em>) – A list of z values of the projection.</li>
+<li><strong>tags</strong> (<em>list of strings</em>) – A list of tags for the projected points</li>
+<li><strong>uids</strong> (<em>list of strings</em>) – A list of record UIDs for the projected points</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../search.html" class="btn btn-neutral float-right" title="Search" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="predictions.html" class="btn btn-neutral" title="Predictions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'4.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
+      });
+  </script> 
+
+</body>
+</html>

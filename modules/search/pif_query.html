@@ -1,0 +1,478 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PIF Query &mdash; Python Citrination Client 4.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="PIF Query Core" href="pif_query_core.html" />
+    <link rel="prev" title="PIF Query - Chemical" href="pif_chemical_query.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrading/migration.html">Migrating from an Older Version</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../citrination_client.html">Citrination Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_management.html">Data Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../search.html">Search</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="citrination_client.search.html">Search Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="core_query.html">Search - Core - Query package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="core_result.html">Search - Core - Result package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset_query.html">Dataset Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset_result.html">Dataset Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file_query.html">File Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file_result.html">File Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pif_chemical_query.html">PIF Query - Chemical</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">PIF Query</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-citrination_client.search.pif.query.extraction_sort">Extraction Sort</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-citrination_client.search.pif.query.pif_system_query">PIF System Query</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-citrination_client.search.pif.query.pif_system_returning_query">PIF System Returning Query</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pif_query_core.html">PIF Query Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pif_result.html">PIF Result</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">Module Documentation</a> &raquo;</li>
+        
+          <li><a href="../search.html">Search</a> &raquo;</li>
+        
+      <li>PIF Query</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/modules/search/pif_query.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pif-query">
+<h1>PIF Query<a class="headerlink" href="#pif-query" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-citrination_client.search.pif.query.extraction_sort">
+<span id="extraction-sort"></span><h2>Extraction Sort<a class="headerlink" href="#module-citrination_client.search.pif.query.extraction_sort" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="citrination_client.search.pif.query.extraction_sort.ExtractionSort">
+<em class="property">class </em><code class="descclassname">citrination_client.search.pif.query.extraction_sort.</code><code class="descname">ExtractionSort</code><span class="sig-paren">(</span><em>key=None</em>, <em>order=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.pif.query.extraction_sort.ExtractionSort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pypif.util.serializable.Serializable</span></code></p>
+<p>Class to store information about a sort on an extracted field.</p>
+<dl class="method">
+<dt id="citrination_client.search.pif.query.extraction_sort.ExtractionSort.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>key=None</em>, <em>order=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.pif.query.extraction_sort.ExtractionSort.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> – String with the key that will be sorted on.</li>
+<li><strong>order</strong> – The order to use. Either ASCENDING or DESCENDING.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.extraction_sort.ExtractionSort.key">
+<code class="descname">key</code><a class="headerlink" href="#citrination_client.search.pif.query.extraction_sort.ExtractionSort.key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.extraction_sort.ExtractionSort.order">
+<code class="descname">order</code><a class="headerlink" href="#citrination_client.search.pif.query.extraction_sort.ExtractionSort.order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-citrination_client.search.pif.query.pif_system_query">
+<span id="pif-system-query"></span><h2>PIF System Query<a class="headerlink" href="#module-citrination_client.search.pif.query.pif_system_query" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="citrination_client.search.pif.query.pif_system_query.PifSystemQuery">
+<em class="property">class </em><code class="descclassname">citrination_client.search.pif.query.pif_system_query.</code><code class="descname">PifSystemQuery</code><span class="sig-paren">(</span><em>logic=None</em>, <em>weight=None</em>, <em>simple=None</em>, <em>simple_weight=None</em>, <em>extract_as=None</em>, <em>extract_all=None</em>, <em>extract_when_missing=None</em>, <em>tags=None</em>, <em>length=None</em>, <em>offset=None</em>, <em>uid=None</em>, <em>updated_at=None</em>, <em>names=None</em>, <em>ids=None</em>, <em>classifications=None</em>, <em>source=None</em>, <em>quantity=None</em>, <em>chemical_formula=None</em>, <em>composition=None</em>, <em>properties=None</em>, <em>preparation=None</em>, <em>references=None</em>, <em>sub_systems=None</em>, <em>query=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">citrination_client.search.pif.query.core.base_object_query.BaseObjectQuery</span></code></p>
+<p>Class to store information about a PIF query.</p>
+<dl class="method">
+<dt id="citrination_client.search.pif.query.pif_system_query.PifSystemQuery.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>logic=None</em>, <em>weight=None</em>, <em>simple=None</em>, <em>simple_weight=None</em>, <em>extract_as=None</em>, <em>extract_all=None</em>, <em>extract_when_missing=None</em>, <em>tags=None</em>, <em>length=None</em>, <em>offset=None</em>, <em>uid=None</em>, <em>updated_at=None</em>, <em>names=None</em>, <em>ids=None</em>, <em>classifications=None</em>, <em>source=None</em>, <em>quantity=None</em>, <em>chemical_formula=None</em>, <em>composition=None</em>, <em>properties=None</em>, <em>preparation=None</em>, <em>references=None</em>, <em>sub_systems=None</em>, <em>query=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>logic</strong> – Logic for this filter. Must be equal to one of “MUST”, “MUST_NOT”, “SHOULD”, or “OPTIONAL”.</li>
+<li><strong>weight</strong> – Weight of the query.</li>
+<li><strong>simple</strong> – String with the simple search to run against all fields.</li>
+<li><strong>simple_weight</strong> – Dictionary of relative paths to their weights for simple queries.</li>
+<li><strong>extract_as</strong> – String with the alias to save this field under.</li>
+<li><strong>extract_all</strong> – Boolean setting whether all values in an array should be extracted.</li>
+<li><strong>extract_when_missing</strong> – Any valid JSON-supported object or PIF object. This value is returned when a value is missing that should be extracted (and the overall query is still satisfied).</li>
+<li><strong>tags</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">FieldQuery</span></code> operations against the tags field.</li>
+<li><strong>length</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">FieldQuery</span></code> operations against the length field.</li>
+<li><strong>offset</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">FieldQuery</span></code> operations against the offset field.</li>
+<li><strong>uid</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code> objects with the filters against the uid field.</li>
+<li><strong>updated_at</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code> objects with filters against the time that the PIF record was last updated.</li>
+<li><strong>names</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">FieldQuery</span></code> objects with queries against the names field.</li>
+<li><strong>ids</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">IdQuery</span></code> objects with queries against the ids field.</li>
+<li><strong>classifications</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">ClassificationQuery</span></code> objects with queries against the classifications field.</li>
+<li><strong>source</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">SourceQuery</span></code> objects with queries against the source field.</li>
+<li><strong>quantity</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">QuantityQuery</span></code> objects with queries against the quantity field.</li>
+<li><strong>chemical_formula</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">ChemicalFieldQuery</span></code> objects with queries against the chemicalFormula field.</li>
+<li><strong>composition</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">CompositionQuery</span></code> objects with queries against the composition field.</li>
+<li><strong>properties</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyQuery</span></code> objects with queries against the properties field.</li>
+<li><strong>preparation</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessStepQuery</span></code> objects with queries against the preparation field.</li>
+<li><strong>references</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">ReferenceQuery</span></code> objects with queries against the references field.</li>
+<li><strong>sub_systems</strong> – One or more <a class="reference internal" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery" title="citrination_client.search.pif.query.pif_system_query.PifSystemQuery"><code class="xref py py-class docutils literal notranslate"><span class="pre">PifSystemQuery</span></code></a> objects with queries against the subSystems field.</li>
+<li><strong>query</strong> – One or more <a class="reference internal" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery" title="citrination_client.search.pif.query.pif_system_query.PifSystemQuery"><code class="xref py py-class docutils literal notranslate"><span class="pre">PifSystemQuery</span></code></a> objects with nested queries.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_query.PifSystemQuery.chemical_formula">
+<code class="descname">chemical_formula</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery.chemical_formula" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_query.PifSystemQuery.classifications">
+<code class="descname">classifications</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery.classifications" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_query.PifSystemQuery.composition">
+<code class="descname">composition</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery.composition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_query.PifSystemQuery.ids">
+<code class="descname">ids</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery.ids" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_query.PifSystemQuery.names">
+<code class="descname">names</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery.names" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_query.PifSystemQuery.preparation">
+<code class="descname">preparation</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery.preparation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_query.PifSystemQuery.properties">
+<code class="descname">properties</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery.properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_query.PifSystemQuery.quantity">
+<code class="descname">quantity</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery.quantity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_query.PifSystemQuery.query">
+<code class="descname">query</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery.query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_query.PifSystemQuery.references">
+<code class="descname">references</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery.references" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_query.PifSystemQuery.source">
+<code class="descname">source</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery.source" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_query.PifSystemQuery.sub_systems">
+<code class="descname">sub_systems</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery.sub_systems" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_query.PifSystemQuery.uid">
+<code class="descname">uid</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery.uid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_query.PifSystemQuery.updated_at">
+<code class="descname">updated_at</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_query.PifSystemQuery.updated_at" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-citrination_client.search.pif.query.pif_system_returning_query">
+<span id="pif-system-returning-query"></span><h2>PIF System Returning Query<a class="headerlink" href="#module-citrination_client.search.pif.query.pif_system_returning_query" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="citrination_client.search.pif.query.pif_system_returning_query.PifSystemReturningQuery">
+<em class="property">class </em><code class="descclassname">citrination_client.search.pif.query.pif_system_returning_query.</code><code class="descname">PifSystemReturningQuery</code><span class="sig-paren">(</span><em>query=None</em>, <em>extraction_sort=None</em>, <em>from_index=None</em>, <em>size=None</em>, <em>random_results=None</em>, <em>random_seed=None</em>, <em>score_relevance=None</em>, <em>return_max_score=None</em>, <em>timeout=None</em>, <em>return_system=None</em>, <em>add_latex=None</em>, <em>return_extracted_path=None</em>, <em>unwrap_single_value_extractions=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_returning_query.PifSystemReturningQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">citrination_client.search.core.query.base_returning_query.BaseReturningQuery</span></code></p>
+<p>Query used to return information about PIFs. Citrination does not support pagination past the 50,000th result. Please chose values for from_index and size that do not exceed this limit</p>
+<dl class="method">
+<dt id="citrination_client.search.pif.query.pif_system_returning_query.PifSystemReturningQuery.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>query=None</em>, <em>extraction_sort=None</em>, <em>from_index=None</em>, <em>size=None</em>, <em>random_results=None</em>, <em>random_seed=None</em>, <em>score_relevance=None</em>, <em>return_max_score=None</em>, <em>timeout=None</em>, <em>return_system=None</em>, <em>add_latex=None</em>, <em>return_extracted_path=None</em>, <em>unwrap_single_value_extractions=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_returning_query.PifSystemReturningQuery.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>query</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">DataQuery</span></code> objects with the queries to run.</li>
+<li><strong>extraction_sort</strong> – A single <code class="xref py py-class docutils literal notranslate"><span class="pre">ExtractionSort</span></code> object for sorting.</li>
+<li><strong>from_index</strong> – Index of the first hit that should be returned.</li>
+<li><strong>size</strong> – Total number of hits the should be returned.</li>
+<li><strong>random_results</strong> – Whether to return a random set of records.</li>
+<li><strong>random_seed</strong> – The random seed to use.</li>
+<li><strong>score_relevance</strong> – Whether to use relevance scoring.</li>
+<li><strong>return_max_score</strong> – Whether to return the maximum score.</li>
+<li><strong>timeout</strong> – The number of milliseconds to wait for the query to execute.</li>
+<li><strong>return_system</strong> – Whether to return the matched PIF systems.</li>
+<li><strong>add_latex</strong> – Whether to add latex formatting where possible in results.</li>
+<li><strong>return_extracted_path</strong> – Whether to return the path in PIFs for extracted values.</li>
+<li><strong>unwrap_single_value_extractions</strong> – Whether to unwrap extracted values when they are lists with one value.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_returning_query.PifSystemReturningQuery.add_latex">
+<code class="descname">add_latex</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_returning_query.PifSystemReturningQuery.add_latex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_returning_query.PifSystemReturningQuery.extraction_sort">
+<code class="descname">extraction_sort</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_returning_query.PifSystemReturningQuery.extraction_sort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_returning_query.PifSystemReturningQuery.return_extracted_path">
+<code class="descname">return_extracted_path</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_returning_query.PifSystemReturningQuery.return_extracted_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_returning_query.PifSystemReturningQuery.return_system">
+<code class="descname">return_system</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_returning_query.PifSystemReturningQuery.return_system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.pif.query.pif_system_returning_query.PifSystemReturningQuery.unwrap_single_value_extractions">
+<code class="descname">unwrap_single_value_extractions</code><a class="headerlink" href="#citrination_client.search.pif.query.pif_system_returning_query.PifSystemReturningQuery.unwrap_single_value_extractions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pif_query_core.html" class="btn btn-neutral float-right" title="PIF Query Core" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pif_chemical_query.html" class="btn btn-neutral" title="PIF Query - Chemical" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'4.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,259 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Migrating To PyCC v4.0.0 &mdash; Python Citrination Client 4.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="upgrading/migration.html">Migrating from an Older Version</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Module Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Migrating To PyCC v4.0.0</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/migrating_to_four.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="migrating-to-pycc-v4-0-0">
+<h1>Migrating To PyCC v4.0.0<a class="headerlink" href="#migrating-to-pycc-v4-0-0" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="client-structure">
+<h2>Client Structure<a class="headerlink" href="#client-structure" title="Permalink to this headline">¶</a></h2>
+<p>Versions of PyCC greater than <code class="docutils literal notranslate"><span class="pre">4.0.0</span></code> are structured hierarchically
+such that <code class="docutils literal notranslate"><span class="pre">CitrinationClient</span></code> is a container for context specific
+subclients. At any point in the client hierarchy, you can see which
+methods and subclients are currently available by calling <code class="docutils literal notranslate"><span class="pre">.__repr__()</span></code>
+on the current client.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">CitrinationClient</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_API_KEY&quot;</span><span class="p">],</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_SITE&quot;</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+<span class="c1"># [&#39;models&#39;, &#39;search&#39;, &#39;data&#39;]</span>
+
+<span class="n">models_client</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">models</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">models_client</span><span class="p">)</span>
+<span class="c1"># &lt;class &#39;citrination_client.models.client.ModelsClient&#39;&gt;</span>
+</pre></div>
+</div>
+<p>The consequence of this is that all method invocations on the client should be directed to the appropriate subclient. In other words, rather than calling <code class="docutils literal notranslate"><span class="pre">upload</span></code> on the <code class="docutils literal notranslate"><span class="pre">CitrinationClient</span></code> instance, you must call it on the <code class="docutils literal notranslate"><span class="pre">DataClient</span></code> accessed by calling <code class="docutils literal notranslate"><span class="pre">.data</span></code> on the <code class="docutils literal notranslate"><span class="pre">CitrinationClient</span></code>.</p>
+</div>
+<div class="section" id="error-handling">
+<h2>Error Handling<a class="headerlink" href="#error-handling" title="Permalink to this headline">¶</a></h2>
+<p>In previous version of PyCC, errors which occurred during interactions with Citrination were bubbled directly up with no intermediate error handling. In version <code class="docutils literal notranslate"><span class="pre">4.0.0</span></code> and above, interaction errors are represented by exceptions which extend <code class="docutils literal notranslate"><span class="pre">CitrinationClientError</span></code>.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">APIVersionMismatchException</span></code> - An error indicating that the Citrination API has been upgraded. If this error is thrown, check for new versions of PyCC. If none is available, contact Citrine for assistance.</li>
+<li><code class="docutils literal notranslate"><span class="pre">FeatureUnavailableException</span></code> - Indicates that the requested feature is not enabled on the Citrination deployment you are using.</li>
+<li><code class="docutils literal notranslate"><span class="pre">UnauthorizedAccessException</span></code> - Indicates that you attempted to access a resource (usually a data view or dataset) to which you do not have authorized access. Ensure you are using the correct resource ID, or contact the owner of the resource to be given access to the resource.</li>
+<li><code class="docutils literal notranslate"><span class="pre">CitrinationServerErrorException</span></code> - Indicates that there was a problem on Citrination processing your request. The best solution here is to check the parameterization of your PyCC method invocation for correctness and try again at a later time.</li>
+</ul>
+</div>
+<div class="section" id="response-signatures">
+<h2>Response Signatures<a class="headerlink" href="#response-signatures" title="Permalink to this headline">¶</a></h2>
+<p>In version <code class="docutils literal notranslate"><span class="pre">4.0.0</span></code>, PyCC methods all return primitives or instances of classes representative of the Citrination resources it interacts with. In prior versions of PyCC, method return values depended largely on the method being invoked and were not consistent.</p>
+</div>
+<div class="section" id="method-removals">
+<h2>Method Removals<a class="headerlink" href="#method-removals" title="Permalink to this headline">¶</a></h2>
+<p>The following methods which were present on the old <code class="docutils literal notranslate"><span class="pre">CitrinationClient</span></code> class have been removed:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">upload_file</span></code> - Redundant with <code class="docutils literal notranslate"><span class="pre">upload</span></code> on the <code class="docutils literal notranslate"><span class="pre">DataClient</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">search</span></code> - Redundant with <code class="docutils literal notranslate"><span class="pre">pif_search</span></code> on the <code class="docutils literal notranslate"><span class="pre">SearchClient</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">get_matched_dataset_files</span></code> - Redundant with <code class="docutils literal notranslate"><span class="pre">get_dataset_files</span></code> on the <code class="docutils literal notranslate"><span class="pre">DataClient</span></code></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'4.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
+      });
+  </script> 
+
+</body>
+</html>

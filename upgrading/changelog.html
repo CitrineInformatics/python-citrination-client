@@ -1,0 +1,282 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Changelog &mdash; Python Citrination Client 4.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Module Documentation" href="../modules/modules.html" />
+    <link rel="prev" title="Running v3.x.x and 4.0.0 in Parallel" href="running_in_parallel.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="migration.html">Migrating from an Older Version</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="how_to_upgrade.html">How To Upgrade</a></li>
+<li class="toctree-l2"><a class="reference internal" href="downgrading.html">Downgrading to An Older Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset_migration.html">Porting Dataset Manipulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upload_migration.html">Porting A File Upload</a></li>
+<li class="toctree-l2"><a class="reference internal" href="search_migration.html">Porting A Search Query</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prediction_migration.html">Porting A Prediction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_in_parallel.html">Running v3.x.x and 4.0.0 in Parallel</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#data">Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#models">Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#search">Search</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/modules.html">Module Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="migration.html">Migrating from an Older Version</a> &raquo;</li>
+        
+      <li>Changelog</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/upgrading/changelog.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="data">
+<h2>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">upload</span></code> now returns an <code class="docutils literal notranslate"><span class="pre">UploadResult</span></code> instance rather than a dictionary</li>
+<li><code class="docutils literal notranslate"><span class="pre">upload_file</span></code> has been removed, in favor of <code class="docutils literal notranslate"><span class="pre">upload</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">list_files</span></code> now returns a list of strings rather than a dictionary with a <code class="docutils literal notranslate"><span class="pre">files</span></code> key</li>
+<li><code class="docutils literal notranslate"><span class="pre">get_matched_dataset_files</span></code> has been removed</li>
+<li><code class="docutils literal notranslate"><span class="pre">get_dataset_files</span></code> now takes the following parameters:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">glob</span></code> - a pattern to match for the returned files</li>
+<li><code class="docutils literal notranslate"><span class="pre">is_dir</span></code> - a flag to indicate that the pattern is a leading directory name</li>
+<li><code class="docutils literal notranslate"><span class="pre">version_number</span></code> - optionally, the version of the dataset to retrieve files from. If left out, the latest version will be used</li>
+</ul>
+</li>
+<li><code class="docutils literal notranslate"><span class="pre">get_dataset_files</span></code> now returns a list of <code class="docutils literal notranslate"><span class="pre">DatasetFile</span></code> objects</li>
+<li><code class="docutils literal notranslate"><span class="pre">get_dataset_file</span></code> now returns a <code class="docutils literal notranslate"><span class="pre">DatasetFile</span></code> object</li>
+<li><code class="docutils literal notranslate"><span class="pre">get_pif</span></code> now returns an instance of a <code class="docutils literal notranslate"><span class="pre">Pif</span></code> object from the PyPif library</li>
+<li><code class="docutils literal notranslate"><span class="pre">create_data_set</span></code> renamed to <code class="docutils literal notranslate"><span class="pre">create_dataset</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">update_dataset</span></code> and <code class="docutils literal notranslate"><span class="pre">create_dataset</span></code> now let you specify permissions using a boolean value for the <code class="docutils literal notranslate"><span class="pre">public</span></code> flag</li>
+<li><code class="docutils literal notranslate"><span class="pre">update_dataset</span></code> and <code class="docutils literal notranslate"><span class="pre">create_dataset</span></code> now return instances of the <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> class</li>
+<li><code class="docutils literal notranslate"><span class="pre">create_dataset_version</span></code> now returns an instance of <code class="docutils literal notranslate"><span class="pre">DatasetVersion</span></code></li>
+</ul>
+</div>
+<div class="section" id="models">
+<h2>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">predict_custom</span></code> has been removed</li>
+<li><code class="docutils literal notranslate"><span class="pre">predict</span></code> now returns an instance of <code class="docutils literal notranslate"><span class="pre">PredictionResult</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">tsne</span></code> now returns an instance of <code class="docutils literal notranslate"><span class="pre">Tsne</span></code></li>
+</ul>
+</div>
+<div class="section" id="search">
+<h2>Search<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">simple_chemical_search</span></code> has been removed and replaced with <code class="docutils literal notranslate"><span class="pre">generate_simple_chemical_query</span></code> which generates a query object which can then be passed in to <code class="docutils literal notranslate"><span class="pre">pif_search</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">dataset_search</span></code> and <code class="docutils literal notranslate"><span class="pre">pif_search</span></code> handle pagination automatically now. The result set you receive will be complete or adhere strictly to your parameterization with the <code class="docutils literal notranslate"><span class="pre">size</span></code> and <code class="docutils literal notranslate"><span class="pre">from</span></code> attributes</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../modules/modules.html" class="btn btn-neutral float-right" title="Module Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="running_in_parallel.html" class="btn btn-neutral" title="Running v3.x.x and 4.0.0 in Parallel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'4.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
+      });
+  </script> 
+
+</body>
+</html>

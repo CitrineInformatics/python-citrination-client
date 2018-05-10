@@ -1,0 +1,406 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Search Module &mdash; Python Citrination Client 4.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Search - Core - Query package" href="core_query.html" />
+    <link rel="prev" title="Search" href="../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrading/migration.html">Migrating from an Older Version</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../citrination_client.html">Citrination Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_management.html">Data Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../search.html">Search</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Search Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-citrination_client.search.client">Search Client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-citrination_client.search.query_encoder">Query Encoder</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="core_query.html">Search - Core - Query package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="core_result.html">Search - Core - Result package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset_query.html">Dataset Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset_result.html">Dataset Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file_query.html">File Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file_result.html">File Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pif_chemical_query.html">PIF Query - Chemical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pif_query.html">PIF Query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pif_query_core.html">PIF Query Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pif_result.html">PIF Result</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">Module Documentation</a> &raquo;</li>
+        
+          <li><a href="../search.html">Search</a> &raquo;</li>
+        
+      <li>Search Module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/modules/search/citrination_client.search.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="search-module">
+<h1>Search Module<a class="headerlink" href="#search-module" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-citrination_client.search.client">
+<span id="search-client"></span><h2>Search Client<a class="headerlink" href="#module-citrination_client.search.client" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="citrination_client.search.client.SearchClient">
+<em class="property">class </em><code class="descclassname">citrination_client.search.client.</code><code class="descname">SearchClient</code><span class="sig-paren">(</span><em>api_key</em>, <em>webserver_host='https://citrination.com'</em>, <em>suppress_warnings=False</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.client.SearchClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">citrination_client.base.base_client.BaseClient</span></code></p>
+<dl class="method">
+<dt id="citrination_client.search.client.SearchClient.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>api_key</em>, <em>webserver_host='https://citrination.com'</em>, <em>suppress_warnings=False</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.client.SearchClient.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>api_key</strong> (<em>str</em>) – Authentication token for the Citrination site</li>
+<li><strong>host</strong> (<em>str</em>) – The base URL of the citrination site, e.g. <a class="reference external" href="https://citrination.com">https://citrination.com</a></li>
+<li><strong>api_members</strong> (<em>str</em><em>[</em><em>]</em>) – The names of the member methods for this client</li>
+<li><strong>suppress_warnings</strong> (<em>bool</em>) – A flag indicating whether or not warning
+messages to stdout should be printed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.search.client.SearchClient.dataset_search">
+<code class="descname">dataset_search</code><span class="sig-paren">(</span><em>dataset_returning_query</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.client.SearchClient.dataset_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a dataset query against Citrination.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dataset_returning_query</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetReturningQuery</span></code>) – <code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetReturningQuery</span></code> to execute.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Dataset search result object with the results of the query.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetSearchResult</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.search.client.SearchClient.generate_simple_chemical_query">
+<code class="descname">generate_simple_chemical_query</code><span class="sig-paren">(</span><em>name=None</em>, <em>chemical_formula=None</em>, <em>property_name=None</em>, <em>property_value=None</em>, <em>property_min=None</em>, <em>property_max=None</em>, <em>property_units=None</em>, <em>reference_doi=None</em>, <em>include_datasets=[]</em>, <em>exclude_datasets=[]</em>, <em>from_index=None</em>, <em>size=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.client.SearchClient.generate_simple_chemical_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method generates a <code class="xref py py-class docutils literal notranslate"><span class="pre">PifSystemReturningQuery</span></code> object using the
+supplied arguments. All arguments that accept lists have logical OR’s on the queries that they generate.
+This means that, for example, simple_chemical_search(name=[‘A’, ‘B’]) will match records that have name
+equal to ‘A’ or ‘B’.</p>
+<p>Results will be pulled into the extracted field of the <code class="xref py py-class docutils literal notranslate"><span class="pre">PifSearchHit</span></code> objects that are returned. The
+name will appear under the key “name”, chemical formula under “chemical_formula”, property name under
+“property_name”, value of the property under “property_value”, units of the property under “property_units”,
+and reference DOI under “reference_doi”.</p>
+<p>This method is only meant for execution of very simple queries. More complex queries must use the search method
+that accepts a <code class="xref py py-class docutils literal notranslate"><span class="pre">PifSystemReturningQuery</span></code> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>str</em><em> or </em><em>list of str</em>) – One or more strings with the names of the chemical system to match.</li>
+<li><strong>chemical_formula</strong> (<em>str</em><em> or </em><em>list of str</em>) – One or more strings with the chemical formulas to match.</li>
+<li><strong>property_name</strong> (<em>str</em><em> or </em><em>list of str</em>) – One or more strings with the names of the property to match.</li>
+<li><strong>property_value</strong> (<em>str</em><em> or </em><em>int</em><em> or </em><em>float</em><em> or </em><em>list of str</em><em> or </em><em>int</em><em> or </em><em>float</em>) – One or more strings or numbers with the exact values to match.</li>
+<li><strong>property_min</strong> (<em>str</em><em> or </em><em>int</em><em> or </em><em>float</em>) – A single string or number with the minimum value to match.</li>
+<li><strong>property_max</strong> (<em>str</em><em> or </em><em>int</em><em> or </em><em>float</em>) – A single string or number with the maximum value to match.</li>
+<li><strong>property_units</strong> (<em>str</em><em> or </em><em>list of str</em>) – One or more strings with the property units to match.</li>
+<li><strong>reference_doi</strong> – One or more strings with the DOI to match.</li>
+<li><strong>include_datasets</strong> (<em>int</em><em> or </em><em>list of int</em>) – One or more integers with dataset IDs to match.</li>
+<li><strong>exclude_datasets</strong> (<em>int</em><em> or </em><em>list of int</em>) – One or more integers with dataset IDs that must not match.</li>
+<li><strong>from_index</strong> (<em>int</em>) – Index of the first record to match.</li>
+<li><strong>size</strong> (<em>int</em>) – Total number of records to return.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A query to to be submitted with the pif_search method</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal notranslate"><span class="pre">PifSystemReturningQuery</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.search.client.SearchClient.pif_multi_search">
+<code class="descname">pif_multi_search</code><span class="sig-paren">(</span><em>multi_query</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.client.SearchClient.pif_multi_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run each in a list of PIF queries against Citrination.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>multi_query</strong> – <code class="xref py py-class docutils literal notranslate"><span class="pre">MultiQuery</span></code> object to execute.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">PifMultiSearchResult</span></code> object with the results of the query.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.search.client.SearchClient.pif_search">
+<code class="descname">pif_search</code><span class="sig-paren">(</span><em>pif_system_returning_query</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.client.SearchClient.pif_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a PIF query against Citrination.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pif_system_returning_query</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">PifSystemReturningQuery</span></code>) – The PIF system query to execute.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">PifSearchResult</span></code> object with the results of the query.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">PifSearchResult</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-citrination_client.search.query_encoder">
+<span id="query-encoder"></span><h2>Query Encoder<a class="headerlink" href="#module-citrination_client.search.query_encoder" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="citrination_client.search.query_encoder.QueryEncoder">
+<em class="property">class </em><code class="descclassname">citrination_client.search.query_encoder.</code><code class="descname">QueryEncoder</code><span class="sig-paren">(</span><em>skipkeys=False</em>, <em>ensure_ascii=True</em>, <em>check_circular=True</em>, <em>allow_nan=True</em>, <em>sort_keys=False</em>, <em>indent=None</em>, <em>separators=None</em>, <em>encoding='utf-8'</em>, <em>default=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.query_encoder.QueryEncoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">json.encoder.JSONEncoder</span></code></p>
+<p>Class used to convert a query to json.</p>
+<dl class="method">
+<dt id="citrination_client.search.query_encoder.QueryEncoder.default">
+<code class="descname">default</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.query_encoder.QueryEncoder.default" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an object to a form ready to dump to json.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>obj</strong> – Object being serialized. The type of this object must be one of the following: None; a single object derived from the Pio class; or a list of objects, each derived from the Pio class.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">List of dictionaries, each representing a physical information object, ready to be serialized.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="core_query.html" class="btn btn-neutral float-right" title="Search - Core - Query package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../search.html" class="btn btn-neutral" title="Search" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'4.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
+      });
+  </script> 
+
+</body>
+</html>

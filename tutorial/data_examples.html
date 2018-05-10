@@ -1,0 +1,432 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Data Client &mdash; Python Citrination Client 4.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Models Client Examples" href="models_examples.html" />
+    <link rel="prev" title="Initialization" href="initialization.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="tutorial.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initialization.html">Initialization</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Data Client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#uploading-files">Uploading Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#uploading-a-file-to-citrination">Uploading a File To Citrination</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#uploading-a-file-to-citrination-under-a-new-name">Uploading a File To Citrination Under a New Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#uploading-a-directory-to-citrination">Uploading a Directory To Citrination</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#uploading-a-directory-to-citrination-under-a-new-name">Uploading a Directory To Citrination Under a New Name</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#retrieving-files">Retrieving Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#file-download-urls">File Download URLs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pif-retrieval">PIF Retrieval</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dataset-manipulation">Dataset Manipulation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="models_examples.html">Models Client Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="search_examples.html">Search Client Examples</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading/migration.html">Migrating from an Older Version</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/modules.html">Module Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="tutorial.html">Tutorial</a> &raquo;</li>
+        
+      <li>Data Client</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorial/data_examples.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="data-client">
+<h1>Data Client<a class="headerlink" href="#data-client" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">DataClient</span></code> is the section of PyCC that allows you to manage your data
+on Citrination. To access the data client, instantiate <code class="docutils literal notranslate"><span class="pre">CitrinationClient</span></code> and read the <code class="docutils literal notranslate"><span class="pre">data</span></code> attribute:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">citrination_client</span> <span class="k">import</span> <span class="n">CitrinationClient</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">environ</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">CitrinationClient</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_API_KEY&quot;</span><span class="p">],</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_SITE&quot;</span><span class="p">])</span>
+<span class="n">data_client</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+<div class="section" id="uploading-files">
+<h2>Uploading Files<a class="headerlink" href="#uploading-files" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">DataClient</span></code> class exposes a method, <code class="docutils literal notranslate"><span class="pre">.upload</span></code> which
+allows you to upload a file or a directory to a dataset on
+Citrination.</p>
+<p>This method is parameterized with the following values:</p>
+<ul class="simple">
+<li><strong>dataset_id</strong> - The integer value of the ID of the dataset to which
+you will be uploading</li>
+<li><strong>source_path</strong> - The path to the file or directory which you want to
+upload</li>
+<li><strong>dest_path</strong> (optional) - The name of the file or directory as it should
+appear in Citrination.</li>
+</ul>
+<div class="section" id="uploading-a-file-to-citrination">
+<h3>Uploading a File To Citrination<a class="headerlink" href="#uploading-a-file-to-citrination" title="Permalink to this headline">¶</a></h3>
+<p>The following Python snippet demonstrates the approach for uploading a file with the relative path <code class="docutils literal notranslate"><span class="pre">characterizations/CdTe1.json</span></code> to dataset <strong>1</strong> on Citrination.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ... client initialization left out</span>
+<span class="n">data_client</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;characterizations/CdTe1.json&quot;</span>
+<span class="n">dataset_id</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">data_client</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the web UI, this file will appear as <code class="docutils literal notranslate"><span class="pre">CdTe1.json</span></code> nested in a <code class="docutils literal notranslate"><span class="pre">characterizations</span></code> folder.</p>
+</div>
+<div class="section" id="uploading-a-file-to-citrination-under-a-new-name">
+<h3>Uploading a File To Citrination Under a New Name<a class="headerlink" href="#uploading-a-file-to-citrination-under-a-new-name" title="Permalink to this headline">¶</a></h3>
+<p>You can specify the name a file should have once uploaded to Citrination by passing the second parameter to the <code class="docutils literal notranslate"><span class="pre">.upload</span></code> method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ... client initialization left out</span>
+<span class="n">data_client</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;characterizations/CdTe1.json&quot;</span>
+<span class="n">dataset_id</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c1"># Pass in the third parameter to upload()</span>
+<span class="n">data_client</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;CadTel1.json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the web UI, this file will appear as <code class="docutils literal notranslate"><span class="pre">CadTel1.json</span></code> at the top level of the dataset.</p>
+</div>
+<div class="section" id="uploading-a-directory-to-citrination">
+<h3>Uploading a Directory To Citrination<a class="headerlink" href="#uploading-a-directory-to-citrination" title="Permalink to this headline">¶</a></h3>
+<p>If you pass a directory into the <code class="docutils literal notranslate"><span class="pre">upload()</span></code> method, all the files in the
+directory will be recursively uploaded to the dataset. Their paths (relative to the directory specified), will remain intact.</p>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">Files uploaded this way will be prefixed with the name of the parent
+directory that you originally specify. In other words, if <code class="docutils literal notranslate"><span class="pre">upload()</span></code> is
+called with the source path <code class="docutils literal notranslate"><span class="pre">my_folder</span></code>, the dataset on Citrination will
+contain files prefixed with <code class="docutils literal notranslate"><span class="pre">my_folder/</span></code>.</p>
+</div>
+<p>The following code sample uploads the <code class="docutils literal notranslate"><span class="pre">characterizations/</span></code> folder to dataset 1 on Citrination.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ... client initialization left out</span>
+<span class="n">data_client</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data</span>
+
+<span class="n">directory_path</span> <span class="o">=</span> <span class="s2">&quot;characterizations/&quot;</span>
+<span class="n">dataset_id</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">data_client</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">,</span> <span class="n">directory_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="uploading-a-directory-to-citrination-under-a-new-name">
+<h3>Uploading a Directory To Citrination Under a New Name<a class="headerlink" href="#uploading-a-directory-to-citrination-under-a-new-name" title="Permalink to this headline">¶</a></h3>
+<p>You can also specify that a folder be renamed when it is uploaded to Citrination. The following code sample uploads the contents of the <code class="docutils literal notranslate"><span class="pre">characterizations/</span></code> directory to a directory called <code class="docutils literal notranslate"><span class="pre">january_characterizations</span></code> on Citrination.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ... client initialization left out</span>
+<span class="n">data_client</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data</span>
+
+<span class="n">directory_path</span> <span class="o">=</span> <span class="s2">&quot;characterizations/&quot;</span>
+<span class="n">dataset_id</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">data_client</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">,</span> <span class="n">directory_path</span><span class="p">,</span> <span class="s2">&quot;january_characterizations/&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="retrieving-files">
+<h2>Retrieving Files<a class="headerlink" href="#retrieving-files" title="Permalink to this headline">¶</a></h2>
+<p>There are two mechanisms for retrieving data from datasets on Citrination:</p>
+<ol class="arabic simple">
+<li>Request download URLs for previously uploaded files</li>
+<li>Request the contents of a single record in PIF JSON format</li>
+</ol>
+<div class="section" id="file-download-urls">
+<h3>File Download URLs<a class="headerlink" href="#file-download-urls" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">DataClient</span></code> class provides several methods for retrieving files
+from a dataset:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">get_dataset_files()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">get_dataset_file()</span></code></li>
+</ul>
+<p>These two methods will each return URLs which can be used to download
+one or more files in a dataset.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ... client initialization left out</span>
+<span class="n">data_client</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data</span>
+<span class="n">dataset_id</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># Gets a single file named exactly my_file.json</span>
+
+<span class="n">dataset_file</span> <span class="o">=</span> <span class="n">data_client</span><span class="o">.</span><span class="n">get_dataset_file</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">,</span> <span class="s2">&quot;my_file.json&quot;</span><span class="p">)</span>
+
+<span class="n">dataset_file</span><span class="o">.</span><span class="n">url</span>  <span class="c1"># url that can be used to download the file</span>
+<span class="n">dataset_file</span><span class="o">.</span><span class="n">path</span> <span class="c1"># the filepath as it appears in Citrination</span>
+
+<span class="c1"># Gets all the files in a dataset, organized by version,</span>
+<span class="c1"># represented as a list of DatasetFile objects</span>
+
+<span class="n">dataset_files</span> <span class="o">=</span> <span class="n">data_client</span><span class="o">.</span><span class="n">get_dataset_files</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pif-retrieval">
+<h3>PIF Retrieval<a class="headerlink" href="#pif-retrieval" title="Permalink to this headline">¶</a></h3>
+<p>A PIF record on Citrination can be retrieved using the <cite>get_pif()</cite> method.
+The record will be returned as a PyPif Pif object.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ... client initialization left out</span>
+<span class="n">data_client</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data</span>
+<span class="n">dataset_id</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># Gets a single file named exactly my_file.json</span>
+
+<span class="n">data_client</span><span class="o">.</span><span class="n">get_pif</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">,</span> <span class="s2">&quot;1DF1C8EB706363DS2G3&quot;</span><span class="p">)</span>
+
+<span class="c1"># Returns a Pif object from the PyPif library</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="dataset-manipulation">
+<h2>Dataset Manipulation<a class="headerlink" href="#dataset-manipulation" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">DataClient</span></code> class allows you to create datasets, update their names, descriptions, and permissions, and create new versions of them.</p>
+<p>Creating a new version of a dataset bumps the version number on Citrination.
+All files uploaded after this point will be uploaded to the new version.</p>
+<p>The example below demonstrates how a files in old version of a dataset are not
+included in the file count mechanism.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ... client initialization left out</span>
+<span class="n">data_client</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data</span>
+
+<span class="c1"># Creates a new dataset (permissions default to private)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">data_client</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;My New Dataset&quot;</span><span class="p">)</span>
+<span class="n">dataset_id</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">id</span>
+
+<span class="c1"># Uploads a file to it</span>
+<span class="n">data_client</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">,</span> <span class="s2">&quot;my_file.json&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">data_client</span><span class="o">.</span><span class="n">matched_file_count</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">))</span>
+<span class="c1"># -&gt; 1</span>
+
+<span class="c1"># Create a new dataset version</span>
+<span class="n">data_client</span><span class="o">.</span><span class="n">create_dataset_version</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">)</span>
+
+<span class="c1"># No files in the new version</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_client</span><span class="o">.</span><span class="n">matched_file_count</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">))</span>
+<span class="c1"># -&gt; 0</span>
+</pre></div>
+</div>
+<p>It is also possible to toggle a dataset between being publicly accessible and private to your own user:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ... client initialization left out</span>
+<span class="n">data_client</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data</span>
+
+<span class="c1"># Creates a new dataset (permissions default to private)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">data_client</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;My New Dataset&quot;</span><span class="p">)</span>
+<span class="n">dataset_id</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">id</span>
+
+<span class="c1"># Make the dataset public</span>
+<span class="n">data_client</span><span class="o">.</span><span class="n">update_dataset</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">,</span> <span class="n">public</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Make the dataset private again</span>
+<span class="n">data_client</span><span class="o">.</span><span class="n">update_dataset</span><span class="p">(</span><span class="n">dataset_id</span><span class="p">,</span> <span class="n">public</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="models_examples.html" class="btn btn-neutral float-right" title="Models Client Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="initialization.html" class="btn btn-neutral" title="Initialization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'4.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
+      });
+  </script> 
+
+</body>
+</html>

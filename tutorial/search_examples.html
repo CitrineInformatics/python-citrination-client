@@ -1,0 +1,334 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Search Client Examples &mdash; Python Citrination Client 4.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Migrating from an Older Version" href="../upgrading/migration.html" />
+    <link rel="prev" title="Models Client Examples" href="models_examples.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="tutorial.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initialization.html">Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_examples.html">Data Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models_examples.html">Models Client Examples</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Search Client Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simple-query-generation">Simple Query Generation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading/migration.html">Migrating from an Older Version</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/modules.html">Module Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="tutorial.html">Tutorial</a> &raquo;</li>
+        
+      <li>Search Client Examples</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorial/search_examples.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">The search interface for Citrination is powerful but complex. This guide is still a work in progress.</p>
+</div>
+<div class="section" id="search-client-examples">
+<h1>Search Client Examples<a class="headerlink" href="#search-client-examples" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">SearchClient</span></code> class allows you to run search queries against
+Citrination. The search client utilizes a deeply recursive query structure
+that enables complex sets of criteria to be applied.</p>
+<p>For more detailed information about the structure of search queries, consult the documentation found here: (<a class="reference external" href="https://citrineinformatics.github.io/api-documentation/#tag/search">https://citrineinformatics.github.io/api-documentation/#tag/search</a></p>
+<div class="section" id="basic-usage">
+<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h2>
+<p>You may execute search queries which return individual records (equivalent to running search from the landing page on Citrination), or datasets by using the <code class="docutils literal notranslate"><span class="pre">pif_search</span></code> or <code class="docutils literal notranslate"><span class="pre">dataset_search</span></code> methods on the <code class="docutils literal notranslate"><span class="pre">SearchClient</span></code> respectively.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ... client initialization left out</span>
+
+<span class="n">search_client</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search</span>
+
+<span class="c1"># Construct a query which returns records in dataset 1160</span>
+<span class="c1"># and have chemical formulas matching CoSi</span>
+<span class="n">query</span> <span class="o">=</span> <span class="n">PifSystemReturningQuery</span><span class="p">(</span>
+            <span class="n">query</span><span class="o">=</span><span class="n">DataQuery</span><span class="p">(</span>
+                <span class="n">dataset</span><span class="o">=</span><span class="n">DatasetQuery</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="n">Filter</span><span class="p">(</span><span class="n">equal</span><span class="o">=</span><span class="s1">&#39;1160&#39;</span><span class="p">)</span>
+                <span class="p">),</span>
+                <span class="n">system</span><span class="o">=</span><span class="n">PifSystemQuery</span><span class="p">(</span>
+                    <span class="n">chemical_formula</span><span class="o">=</span><span class="n">ChemicalFieldQuery</span><span class="p">(</span>
+                        <span class="nb">filter</span><span class="o">=</span><span class="n">ChemicalFilter</span><span class="p">(</span>
+                            <span class="n">equal</span><span class="o">=</span><span class="s1">&#39;CoSi&#39;</span><span class="p">)))))</span>
+
+<span class="c1"># Execute the search (we use pif_search because we have a PifSystemReturningQuery)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">search_client</span><span class="o">.</span><span class="n">pif_search</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># Get the ID of the first hit</span>
+<span class="n">record_id</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">hits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ... client initialization left out</span>
+
+<span class="n">search_client</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search</span>
+
+<span class="c1"># Construct a query which returns datasets</span>
+<span class="c1"># which contain records with chemical formulas</span>
+<span class="c1"># matching MgO2</span>
+<span class="n">query</span> <span class="o">=</span> <span class="n">DatasetReturningQuery</span><span class="p">(</span>
+            <span class="n">query</span><span class="o">=</span><span class="n">DataQuery</span><span class="p">(</span>
+                <span class="n">system</span><span class="o">=</span><span class="n">PifSystemQuery</span><span class="p">(</span>
+                    <span class="n">chemical_formula</span><span class="o">=</span><span class="n">ChemicalFieldQuery</span><span class="p">(</span>
+                        <span class="nb">filter</span><span class="o">=</span><span class="n">ChemicalFilter</span><span class="p">(</span>
+                            <span class="n">equal</span><span class="o">=</span><span class="s1">&#39;MgO2&#39;</span><span class="p">)))))</span>
+
+<span class="c1"># Execute the search; we use dataset_search because</span>
+<span class="c1"># we have a DatasetReturningQuery</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">search_client</span><span class="o">.</span><span class="n">dataset_search</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># The resulting hits represent datasets which</span>
+<span class="c1"># contain records that matched our criteria</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">hits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="c1"># =&gt; Wikipedia</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">hits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="c1"># =&gt; 114201</span>
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">dataset_search</span></code> does not return the contents of the datasets, but instead returns the metadata for datasets whose contents match the criteria applied by your search. In other words, if you pass a query to <code class="docutils literal notranslate"><span class="pre">dataset_search</span></code> which applies the criteria that matching records must contain a property called “Property Band gap”, the resulting hits will be datasets which contain records satisfying that criteria.</p>
+</div>
+<div class="section" id="simple-query-generation">
+<h2>Simple Query Generation<a class="headerlink" href="#simple-query-generation" title="Permalink to this headline">¶</a></h2>
+<p>The search client provides a method called <code class="docutils literal notranslate"><span class="pre">generate_simple_chemical_query</span></code> which simplifies the interface for creating a new query. If you only need to apply a simple set of constraints, this can be a quick way to generate a query.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ... client initialization left out</span>
+
+<span class="n">search_client</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search</span>
+
+<span class="c1"># Construct a query which returns records in dataset 1160</span>
+<span class="c1"># which have GaN as a chemical formula and have band gap</span>
+<span class="c1"># property values between 1.5 and 1.6</span>
+<span class="n">query</span> <span class="o">=</span> <span class="n">search_client</span><span class="o">.</span><span class="n">generate_simple_chemical_query</span><span class="p">(</span><span class="n">chemical_formula</span><span class="o">=</span><span class="s2">&quot;GaN&quot;</span><span class="p">,</span>
+                                                     <span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;Band gap&quot;</span><span class="p">,</span>
+                                                     <span class="n">property_min</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+                                                     <span class="n">property_max</span><span class="o">=</span><span class="mf">1.6</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">search_client</span><span class="o">.</span><span class="n">pif_search</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># Get the ID of the first hit</span>
+<span class="n">record_id</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">hits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">hits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">extracted</span><span class="p">)</span>
+<span class="c1"># =&gt; {</span>
+<span class="c1">#   u&#39;property_units&#39;: u&#39;eV&#39;,</span>
+<span class="c1">#   u&#39;property_value&#39;: u&#39;1.57&#39;,</span>
+<span class="c1">#   u&#39;chemical_formula&#39;: u&#39;GaN&#39;,</span>
+<span class="c1">#   u&#39;property_name&#39;: u&#39;Band gap&#39;,</span>
+<span class="c1">#   u&#39;reference_doi&#39;: u&#39;10.1038/s41524-017-0013-3&#39;</span>
+<span class="c1"># }</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../upgrading/migration.html" class="btn btn-neutral float-right" title="Migrating from an Older Version" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="models_examples.html" class="btn btn-neutral" title="Models Client Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'4.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
+      });
+  </script> 
+
+</body>
+</html>
