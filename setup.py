@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='citrination-client',
-      version='3.4.0',
+      version='4.0.1',
       url='http://github.com/CitrineInformatics/python-citrination-client',
       description='Python client for accessing the Citrination api',
       packages=find_packages(exclude=('docs')),

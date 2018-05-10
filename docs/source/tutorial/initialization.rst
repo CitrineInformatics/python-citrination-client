@@ -56,7 +56,7 @@ API Key In Direct Initialization
 
 You may also pass your API key in directly as a constructor argument to the client class (along with the Citrination site you prefer).
 
-.. literalinclude:: code_samples/general/initialization.py
+.. literalinclude:: /code_samples/general/initialization.py
 
 .. attention::
   Remember to be careful not to share your API key accidentally by including it in a shared script!

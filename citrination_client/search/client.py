@@ -4,6 +4,7 @@ from citrination_client.search import routes as routes
 from citrination_client.util import config as client_config
 from citrination_client.base.base_client import BaseClient
 from citrination_client.base.errors import RequestTimeoutException
+from citrination_client.base.errors import CitrinationClientError
 
 from pypif.util.case import to_camel_case
 from pypif.util.case import keys_to_snake_case
@@ -12,10 +13,11 @@ from copy import deepcopy
 import json
 import requests
 
-DEFAULT_FAILURE_MESSAGE="An error occurred requesting search results from Citrination"
+DEFAULT_FAILURE_MESSAGE = "An error occurred requesting search results from Citrination"
+MAX_QUERY_DEPTH = 50000
+
 
 class SearchClient(BaseClient):
-
     def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False):
         members = [
             "pif_search",
@@ -30,6 +32,27 @@ class SearchClient(BaseClient):
 
         return super(SearchClient, self)._handle_response(response, failure_message)
 
+    def _validate_search_query(self, returning_query):
+        """
+        Checks to see that the query will not exceed the max query depth
+
+        :param returning_query: The PIF system or Dataset query to execute.
+        :type returning_query: :class:`PifSystemReturningQuery` or :class: `DatasetReturningQuery`
+        """
+
+        start_index = returning_query.from_index or 0
+        size = returning_query.size or 0
+
+        if start_index < 0:
+            raise CitrinationClientError(
+                "start_index cannot be negative. Please enter a value greater than or equal to zero")
+        if size < 0:
+            raise CitrinationClientError("Size cannot be negative. Please enter a value greater than or equal to zero")
+        if start_index + size > MAX_QUERY_DEPTH:
+            raise CitrinationClientError(
+                "Citrination does not support pagination past the {0}th result. Please reduce either the from_index and/or size such that their sum is below {0}".format(
+                    MAX_QUERY_DEPTH))
+
     def pif_search(self, pif_system_returning_query):
         """
         Run a PIF query against Citrination.
@@ -39,7 +62,9 @@ class SearchClient(BaseClient):
         :return: :class:`PifSearchResult` object with the results of the query.
         :rtype: :class:`PifSearchResult`
         """
-        return self._execute_paginating_search(
+
+        self._validate_search_query(pif_system_returning_query)
+        return self._execute_search_query(
             pif_system_returning_query,
             PifSearchResult
         )
@@ -53,12 +78,14 @@ class SearchClient(BaseClient):
         :return: Dataset search result object with the results of the query.
         :rtype: :class:`DatasetSearchResult`
         """
-        return self._execute_paginating_search(
+
+        self._validate_search_query(dataset_returning_query)
+        return self._execute_search_query(
             dataset_returning_query,
             DatasetSearchResult
         )
 
-    def _execute_paginating_search(self, returning_query, result_class):
+    def _execute_search_query(self, returning_query, result_class):
         """
         Run a PIF query against Citrination.
 
@@ -77,10 +104,11 @@ class SearchClient(BaseClient):
             size = client_config.max_query_size
 
         if (size == client_config.max_query_size and
-            size != returning_query.size):
+                    size != returning_query.size):
             self._warn("Query size greater than max system size - only {} results will be returned".format(size))
 
-        time = 0.0; hits = [];
+        time = 0.0;
+        hits = [];
         while True:
             sub_query = deepcopy(returning_query)
             sub_query.from_index = from_index + len(hits)
@@ -104,8 +132,8 @@ class SearchClient(BaseClient):
             failure_message = "Error while making dataset search request"
 
         response_json = self._get_success_json(self._post(
-                    route, data=json.dumps(returning_query, cls=QueryEncoder),
-                failure_message=failure_message))
+            route, data=json.dumps(returning_query, cls=QueryEncoder),
+            failure_message=failure_message))
 
         return result_class(**keys_to_snake_case(response_json['results']))
 
@@ -117,13 +145,15 @@ class SearchClient(BaseClient):
         :return: :class:`PifMultiSearchResult` object with the results of the query.
         """
         failure_message = "Error while making PIF multi search request"
-        response_dict = self._get_success_json(self._post(routes.pif_multi_search, data=json.dumps(multi_query, cls=QueryEncoder), failure_message=failure_message))
+        response_dict = self._get_success_json(
+            self._post(routes.pif_multi_search, data=json.dumps(multi_query, cls=QueryEncoder),
+                       failure_message=failure_message))
 
         return PifMultiSearchResult(**keys_to_snake_case(response_dict['results']))
 
     def generate_simple_chemical_query(self, name=None, chemical_formula=None, property_name=None, property_value=None,
-                               property_min=None, property_max=None, property_units=None, reference_doi=None,
-                               include_datasets=[], exclude_datasets=[], from_index=None, size=None):
+                                       property_min=None, property_max=None, property_units=None, reference_doi=None,
+                                       include_datasets=[], exclude_datasets=[], from_index=None, size=None):
         """
         This method generates a :class:`PifSystemReturningQuery` object using the
         supplied arguments. All arguments that accept lists have logical OR's on the queries that they generate.
@@ -214,3 +244,18 @@ class SearchClient(BaseClient):
             score_relevance=True)
 
         return pif_system_returning_query
+
+    @staticmethod
+    def _get_list(values):
+        """
+        Helper method that wraps values in a list. If the input is a list then it is returned. If the input is None then an empty list is returned. For anything else, the input value is wrapped as a single-element list.
+        
+        :param values: Value to make sure exists in a list.
+        :return: List with the input values.
+        """
+        if values is None:
+            return []
+        elif isinstance(values, list):
+            return values
+        else:
+            return [values]

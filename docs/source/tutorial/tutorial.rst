@@ -7,4 +7,4 @@ Tutorial
   initialization
   data_examples
   models_examples
-  exception_handling
+  search_examples

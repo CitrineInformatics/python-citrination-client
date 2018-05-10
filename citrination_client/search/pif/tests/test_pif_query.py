@@ -2,14 +2,17 @@ from os import environ
 import pytest
 
 from citrination_client import *
+from citrination_client.search.client import MAX_QUERY_DEPTH
+from citrination_client.base.errors import CitrinationClientError
+
 
 class TestPifQuery():
-
     @classmethod
     def setup_class(cls):
         cls.client = CitrinationClient().search
 
-    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com",
+                        reason="Test only supported on public")
     def test_uid_query(self):
         """Testing that a query against a UID only pulls back that record"""
         target_uid = "000496A81BDD616A5BBA1FC4D3B5AC1A"
@@ -18,7 +21,8 @@ class TestPifQuery():
         assert result.total_num_hits == 1
         assert result.hits[0].system.uid == target_uid
 
-    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com",
+                        reason="Test only supported on public")
     def test_pagination_overflow(self):
         """
         Tests that if pagination controls (size and from) request a set of
@@ -26,20 +30,28 @@ class TestPifQuery():
         up to the end of the set are returned
         """
         query = PifSystemReturningQuery(size=0,
-            query=DataQuery(
-                dataset=DatasetQuery(
-                    id=Filter(equal='1160'))))
+                                        query=DataQuery(
+                                            dataset=DatasetQuery(
+                                                id=Filter(equal='1160'))))
         response = self.client.pif_search(query)
         total = response.total_num_hits
         from_index = total - 20
 
         query = PifSystemReturningQuery(size=45,
-            from_index=from_index,
-            query=DataQuery(
-                dataset=DatasetQuery(
-                    id=Filter(equal='1160'))))
+                                        from_index=from_index,
+                                        query=DataQuery(
+                                            dataset=DatasetQuery(
+                                                id=Filter(equal='1160'))))
         response = self.client.pif_search(query)
         assert 20 == len(response.hits)
+
+    def test_search_limit_enforced_pif_search(self):
+        """
+        Tests that if a user tries to access more than the max allowed results an error is thrown
+        """
+        query = PifSystemReturningQuery(from_index=MAX_QUERY_DEPTH, size=10)
+        with pytest.raises(CitrinationClientError):
+            self.client.pif_search(query)
 
     def test_pagination_from_start(self):
         """
@@ -68,7 +80,8 @@ class TestPifQuery():
         response = self.client.pif_search(query)
         assert response.total_num_hits == len(response.hits)
 
-    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com",
+                        reason="Test only supported on public")
     def test_pif_search(self):
         """
         Tests that a PIF search query can be executed
@@ -85,7 +98,8 @@ class TestPifQuery():
                             equal='C22H15NSSi'))))))
         assert 5 == response.total_num_hits
 
-    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com",
+                        reason="Test only supported on public")
     def test_pif_simple_search(self):
         """
         Tests that a simple pif search query can be executed
@@ -99,7 +113,8 @@ class TestPifQuery():
                 simple='C22H15NSSi')))
         assert 5 == response.total_num_hits
 
-    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com",
+                        reason="Test only supported on public")
     def test_extracted(self):
         """
         Tests that values are extracted according to the extract_as properties
@@ -173,7 +188,6 @@ class TestPifQuery():
         assert abs(weighted_score - unweighted_score) > 0.01
 
     def test_simple_search_weight(self):
-
         # Run a query to get a record with a name
         reference_hit = self.client.pif_search(PifSystemReturningQuery(
             size=1,
@@ -209,3 +223,18 @@ class TestPifQuery():
         unweighted_score = search_result.results[0].result.hits[0].score
         weighted_score = search_result.results[1].result.hits[0].score
         assert abs(weighted_score - unweighted_score) > 0.01
+
+    def test_simple_query_generation(self):
+        """
+        Tests that a query can be generated with the simple query generation helper method
+        """
+        query = self.client.generate_simple_chemical_query(
+                                                    include_datasets=["1160"],
+                                                    chemical_formula="CoSi",
+                                                    property_name="Band gap",
+                                                    property_min=0.0,
+                                                    property_max=0.5
+                                                )
+
+        response = self.client.pif_search(query)
+        assert 1 == response.total_num_hits
