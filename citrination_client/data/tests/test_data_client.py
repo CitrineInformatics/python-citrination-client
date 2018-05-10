@@ -185,17 +185,3 @@ def test_download_pdf_files():
     for f in files_list:
         os.remove('/'.join(['test',f.path]))
     os.rmdir('test')
-
-@pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
-def test_download_json_files_no_chunks():
-    """
-    Tests that a json file can be downloaded without chunking
-    """
-    dataset_id = 158901
-
-    files_list = client.get_dataset_files(dataset_id, glob=".", is_dir=False, version_number=None)
-    client.download_files(files_list, 'test', chunk=False)
-    assert os.path.isfile('/'.join(['test', files_list[0].path]))
-    for f in files_list:
-        os.remove('/'.join(['test',f.path]))
-    os.rmdir('test')
