@@ -3,6 +3,9 @@ from citrination_client.models import *
 from citrination_client.models.design import *
 from citrination_client.models import routes as routes
 from citrination_client.base.errors import CitrinationClientError
+from citrination_client.data import Dataset
+from citrination_client.models.data_view import DataView
+from citrination_client.models.columns.column_factory import ColumnFactory
 
 import time
 
@@ -32,12 +35,12 @@ class ModelsClient(BaseClient):
         tsne = Tsne()
         for k, v in projections.items():
             projection = Projection(
-                    xs=v['x'],
-                    ys=v['y'],
-                    responses=v['label'],
-                    tags=v['inputs'],
-                    uids=v['uid']
-                )
+                xs=v['x'],
+                ys=v['y'],
+                responses=v['label'],
+                tags=v['inputs'],
+                uids=v['uid']
+            )
             tsne.add_projection(k, projection)
 
         return tsne
@@ -60,13 +63,14 @@ class ModelsClient(BaseClient):
         """
         body = self._get_predict_body(candidates, method, use_prior)
         failure_message = "Error while making prediction for data view {}".format(data_view_id)
-        response_dict = self._get_success_json(self._post_json(routes.data_view_predict(data_view_id), data=body, failure_message=failure_message))
+        response_dict = self._get_success_json(
+            self._post_json(routes.data_view_predict(data_view_id), data=body, failure_message=failure_message))
         candidate_dicts = response_dict["candidates"]
         return list(
             map(
                 lambda c: _get_prediction_result_from_candidate(c), candidate_dicts
-                )
             )
+        )
 
     def _data_analysis(self, data_view_id):
         """
@@ -90,10 +94,10 @@ class ModelsClient(BaseClient):
         return {
             "predictionRequest": {
                 "predictionSource": method,
-                "usePrior": use_prior,
-                "candidates": candidates
-                }
+                "usePrior":         use_prior,
+                "candidates":       candidates
             }
+        }
 
     def submit_design_run(self, data_view_id, num_candidates, effort, target=None, constraints=[], sampler="Default"):
         """
@@ -127,10 +131,10 @@ class ModelsClient(BaseClient):
 
         body = {
             "num_candidates": num_candidates,
-            "target": target,
-            "effort": effort,
-            "constraints": constraint_dicts,
-            "sampler": sampler
+            "target":         target,
+            "effort":         effort,
+            "constraints":    constraint_dicts,
+            "sampler":        sampler
         }
 
         url = routes.submit_data_view_design(data_view_id)
@@ -187,6 +191,45 @@ class ModelsClient(BaseClient):
             next_experiments=result.get("next_experiment_results")
         )
 
+    def get_data_view(self, data_view_id):
+        """
+        Retrieves a summary of information for a given data view
+            - view id
+            - name
+            - description
+            - columns
+
+        :param data_view_id: The ID number of the data view to which the
+            run belongs, as a string
+        :type data_view_id: str
+        """
+
+        url = routes.get_data_view(data_view_id)
+
+        response = self._get(url).json()
+
+        result = response["data"]["data_view"]
+
+        datasets_list = []
+        for dataset in result["datasets"]:
+            datasets_list.append(Dataset(
+                name=dataset["name"],
+                id=dataset["id"],
+                description=dataset["description"]
+            ))
+
+        columns_list = []
+        for column in result["columns"]:
+            columns_list.append(ColumnFactory.from_dict(column))
+
+        return DataView(
+            view_id=data_view_id,
+            name=result["name"],
+            description=result["description"],
+            datasets=datasets_list,
+            columns=columns_list,
+        )
+
     def kill_design_run(self, data_view_id, run_uuid):
         """
         Kills an in progress experimental design run
@@ -234,7 +277,7 @@ class ModelsClient(BaseClient):
 
 def _get_prediction_result_from_candidate(candidate_dict):
     result = PredictionResult()
-    for k,v in candidate_dict.items():
+    for k, v in candidate_dict.items():
         result.add_value(k, PredictedValue(k, v[0], v[1]))
 
     return result

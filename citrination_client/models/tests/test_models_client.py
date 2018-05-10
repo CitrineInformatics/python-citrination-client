@@ -1,5 +1,6 @@
 from citrination_client.client import CitrinationClient
 from citrination_client.models import *
+from citrination_client.models.columns import *
 from os import environ
 import pytest
 
@@ -182,7 +183,6 @@ def test_data_view_status_reports_services_ready():
     Tests that a data view on open citrination which has successfully trained reports
     the status of it's services as ready.
     """
-
     view_id = "524"
 
     status = client.get_data_view_service_status(data_view_id=view_id)
@@ -193,3 +193,18 @@ def test_data_view_status_reports_services_ready():
     assert status.experimental_design.is_ready()
     assert status.data_reports.is_ready()
     assert status.model_reports.is_ready()
+
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Data view summary tests currently only supported on public")
+def test_get_data_view():
+    """
+    Tests that get_data_view returns the summary information for a given data view
+    """
+    view_id = "524"
+
+    data_view = client.get_data_view(data_view_id=view_id)
+
+    assert data_view.name == "Band Gap Demo"
+    assert len(data_view.columns) == 4
+    assert data_view.columns[0].name == "Crystallinity"
+    assert len(data_view.datasets) == 1
+    assert data_view.datasets[0].name == "Band gaps from Strehlow and Cook"
