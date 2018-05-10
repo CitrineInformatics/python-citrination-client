@@ -31,22 +31,18 @@ class PifSystemQuery(BaseObjectQuery):
         :param simple_weight: Dictionary of relative paths to their weights for simple queries.
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
-        :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
-        is missing that should be extracted (and the overall query is still satisfied).
+        :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value is missing that should be extracted (and the overall query is still satisfied).
         :param tags: One or more :class:`FieldQuery` operations against the tags field.
         :param length: One or more :class:`FieldQuery` operations against the length field.
         :param offset: One or more :class:`FieldQuery` operations against the offset field.
         :param uid: One or more :class:`Filter` objects with the filters against the uid field.
-        :param updated_at: One or more :class:`Filter` objects with filters against the time that the PIF record was 
-        last updated.
+        :param updated_at: One or more :class:`Filter` objects with filters against the time that the PIF record was last updated.
         :param names: One or more :class:`FieldQuery` objects with queries against the names field.
         :param ids: One or more :class:`IdQuery` objects with queries against the ids field.
-        :param classifications: One or more :class:`ClassificationQuery` objects with queries against the
-        classifications field.
+        :param classifications: One or more :class:`ClassificationQuery` objects with queries against the classifications field.
         :param source: One or more :class:`SourceQuery` objects with queries against the source field.
         :param quantity: One or more :class:`QuantityQuery` objects with queries against the quantity field.
-        :param chemical_formula: One or more :class:`ChemicalFieldQuery` objects with queries against the
-        chemicalFormula field.
+        :param chemical_formula: One or more :class:`ChemicalFieldQuery` objects with queries against the chemicalFormula field.
         :param composition: One or more :class:`CompositionQuery` objects with queries against the composition field.
         :param properties: One or more :class:`PropertyQuery` objects with queries against the properties field.
         :param preparation: One or more :class:`ProcessStepQuery` objects with queries against the preparation field.
