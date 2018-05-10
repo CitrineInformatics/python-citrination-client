@@ -90,7 +90,7 @@ PIF Retrieval
 ^^^^^^^^^^^^^
 
 A PIF record on Citrination can be retrieved using the `get_pif()` method.
-The record will be returned as a Python dictionary.
+The record will be returned as a PyPif Pif object.
 
 .. literalinclude:: /code_samples/data/get_pif.py
 
