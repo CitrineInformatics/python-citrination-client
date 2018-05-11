@@ -10,6 +10,7 @@ import time
 import string
 import requests
 import json
+import pytest
 
 def random_string():
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))
@@ -80,7 +81,7 @@ def test_dataset_update():
     assert dataset.description == new_description
 
     search_count = 0
-    while search_count < 30:
+    while search_count < 120:
         response = parent_client.dataset_search(DatasetReturningQuery(
                 size=1,
                 query=DataQuery(
@@ -137,3 +138,50 @@ def test_upload_directory():
     assert revolver_count == 3
     after_total_count = client.matched_file_count(dataset_id)
     assert after_total_count == (before_count + count_to_add)
+
+@pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
+def test_download_csv_files():
+    """
+    Tests that files from get_dataset_file and get_dataset_files can be downloaded.
+    """
+    dataset_id = 150502
+
+    files_list = client.get_dataset_files(dataset_id, glob=".", is_dir=False, version_number=None)
+    client.download_files(files_list, 'test')
+    assert os.path.isfile('/'.join(['test',files_list[0].path]))
+    for f in files_list:
+        os.remove('/'.join(['test',f.path]))
+    os.rmdir('test')
+
+    single_file = client.get_dataset_file(dataset_id, "Al2O3.csv")
+    client.download_files(single_file)
+    assert os.path.isfile('/'.join(['.', single_file.path]))
+    os.remove('/'.join(['.', single_file.path]))
+
+@pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
+def test_download_json_files():
+    """
+    Tests that a json file can be downloaded
+    """
+    dataset_id = 153254
+
+    files_list = client.get_dataset_files(dataset_id, glob=".", is_dir=False, version_number=None)
+    client.download_files(files_list, 'test')
+    assert os.path.isfile('/'.join(['test',files_list[0].path]))
+    for f in files_list:
+        os.remove('/'.join(['test',f.path]))
+    os.rmdir('test')
+
+@pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
+def test_download_pdf_files():
+    """
+    Tests that a pdf file can be downloaded
+    """
+    dataset_id = 158901
+
+    files_list = client.get_dataset_files(dataset_id, glob=".", is_dir=False, version_number=None)
+    client.download_files(files_list, 'test')
+    assert os.path.isfile('/'.join(['test', files_list[0].path]))
+    for f in files_list:
+        os.remove('/'.join(['test',f.path]))
+    os.rmdir('test')

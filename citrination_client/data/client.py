@@ -5,10 +5,9 @@ from citrination_client.data import routes as routes
 
 from pypif import pif
 
-import json
 import os
+import shutil
 import requests
-
 
 class DataClient(BaseClient):
     """
@@ -33,6 +32,7 @@ class DataClient(BaseClient):
             "matched_file_count",
             "get_dataset_files",
             "get_dataset_file",
+            "download_files",
             "create_dataset",
             "create_dataset_version"
         ]
@@ -185,6 +185,32 @@ class DataClient(BaseClient):
         :rtype: :class:`DatasetFile`
         """
         return self.get_dataset_files(dataset_id, "^{}$".format(file_path), version_number=version)[0]
+
+    def download_files(self, dataset_files, destination='.'):
+        """
+        Downloads file(s) to a local destination.
+
+        :param dataset_files:
+        :type dataset_files: list of :class: `DatasetFile`
+        :param destination: The path to the desired local download destination
+        :type destination: str
+        :param chunk: Whether or not to chunk the file. Default True
+        :type chunk: bool
+        """
+        if not isinstance(dataset_files, list):
+            dataset_files = [dataset_files]
+
+        for f in dataset_files:
+            filename = f.path.lstrip('/')
+            local_path = os.path.join(destination, filename)
+
+            if not os.path.isdir(os.path.dirname(local_path)):
+                os.makedirs(os.path.dirname(local_path))
+
+            r = requests.get(f.url, stream=True)
+
+            with open(local_path, 'wb') as output_file:
+                shutil.copyfileobj(r.raw, output_file)
 
     def get_pif(self, dataset_id, uid, dataset_version = None):
         """
