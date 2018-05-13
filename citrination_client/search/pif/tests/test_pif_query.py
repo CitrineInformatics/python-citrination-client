@@ -90,13 +90,13 @@ class TestPifQuery():
             size=0,
             query=DataQuery(
                 dataset=DatasetQuery(
-                    id=Filter(equal='151278')
+                    id=Filter(equal='150675')
                 ),
                 system=PifSystemQuery(
                     chemical_formula=ChemicalFieldQuery(
                         filter=ChemicalFilter(
-                            equal='C22H15NSSi'))))))
-        assert 5 == response.total_num_hits
+                            equal='AlCu'))))))
+        assert 4 == response.total_num_hits
 
     @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com",
                         reason="Test only supported on public")
@@ -108,10 +108,10 @@ class TestPifQuery():
             size=0,
             query=DataQuery(
                 dataset=DatasetQuery(
-                    id=Filter(equal='151278')
+                    id=Filter(equal='150675')
                 ),
-                simple='C22H15NSSi')))
-        assert 5 == response.total_num_hits
+                simple='AlCu')))
+        assert 4 == response.total_num_hits
 
     @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com",
                         reason="Test only supported on public")
@@ -124,14 +124,14 @@ class TestPifQuery():
             size=1,
             query=DataQuery(
                 dataset=DatasetQuery(
-                    id=Filter(equal='151278')
+                    id=Filter(equal='150675')
                 ),
                 system=PifSystemQuery(
                     chemical_formula=ChemicalFieldQuery(
                         extract_as='Chemical formula',
                         filter=ChemicalFilter(
-                            equal='C22H15NSSi'))))))
-        assert response.hits[0].extracted['Chemical formula'] == '$\\rm$C$_{22}$$\\rm$H$_{15}$$\\rm$N$\\rm$S$\\rm$Si'
+                            equal='AlCu'))))))
+        assert response.hits[0].extracted['Chemical formula'] == 'AlCu'
         assert response.hits[0].extracted_path['Chemical formula'] == '/chemicalFormula'
 
     def test_updated_at(self):
