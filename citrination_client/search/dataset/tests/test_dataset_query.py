@@ -40,7 +40,7 @@ class TestDatasetQuery(unittest.TestCase):
             size=0,
             query=DataQuery(
                 dataset=DatasetQuery(
-                    id=Filter(equal='151278')))))
+                    id=Filter(equal='150675')))))
         assert 1 == response.total_num_hits
 
     def test_search_limit_enforced_dataset_search(self):
