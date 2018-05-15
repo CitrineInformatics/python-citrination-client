@@ -81,7 +81,9 @@ def test_dataset_update():
     assert dataset.description == new_description
 
     search_count = 0
-    while search_count < 120:
+    # set 10 minute timeout for metadata change to be reflected
+    # in search results
+    while search_count < 600:
         response = parent_client.dataset_search(DatasetReturningQuery(
                 size=1,
                 query=DataQuery(

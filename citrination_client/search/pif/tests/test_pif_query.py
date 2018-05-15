@@ -224,6 +224,8 @@ class TestPifQuery():
         weighted_score = search_result.results[1].result.hits[0].score
         assert abs(weighted_score - unweighted_score) > 0.01
 
+    @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com",
+                        reason="Test only supported on public")
     def test_simple_query_generation(self):
         """
         Tests that a query can be generated with the simple query generation helper method
