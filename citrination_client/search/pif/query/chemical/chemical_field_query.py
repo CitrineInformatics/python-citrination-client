@@ -19,8 +19,7 @@ class ChemicalFieldQuery(BaseFieldQuery):
         :param simple_weight: Dictionary of relative paths to their weights for simple queries.
         :param extract_as: String with the alias to save this field under.
         :param extract_all: Boolean setting whether all values in an array should be extracted.
-        :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value
-        is missing that should be extracted (and the overall query is still satisfied).
+        :param extract_when_missing: Any valid JSON-supported object or PIF object. This value is returned when a value is missing that should be extracted (and the overall query is still satisfied).
         :param length: One or more :class:`FieldOperation` objects against the length field.
         :param offset: One or more :class:`FieldOperation` objects against the offset field.
         :param filter: One or more :class:`ChemicalFilter` objects against this field.
