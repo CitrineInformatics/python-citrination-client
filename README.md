@@ -1,5 +1,5 @@
 # Python Citrination Client
-[![Build Status](https://travis-ci.org/CitrineInformatics/python-citrination-client.svg?branch=master)](https://travis-ci.org/CitrineInformatics/python-citrination-client)
+[![Build Status](https://travis-ci.org/CitrineInformatics/python-citrination-client.svg?branch=develop)](https://travis-ci.org/CitrineInformatics/python-citrination-client)
 
 ## About
 
