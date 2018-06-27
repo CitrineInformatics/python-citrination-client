@@ -1,5 +1,6 @@
 from citrination_client.models.design.constraints.base import BaseConstraint
 from citrination_client.base.errors import CitrinationClientError
+import citrination_client.util.maths as maths
 
 class RealRangeConstraint(BaseConstraint):
     """
@@ -34,7 +35,10 @@ class RealRangeConstraint(BaseConstraint):
         self._name = name
 
     def options(self):
+        minimum = maths.convert_infinity_to_string(self._min)
+        maximum = maths.convert_infinity_to_string(self._max)
+
         return {
-            "min": self._min,
-            "max": self._max
+            "min": minimum,
+            "max": maximum
         }
