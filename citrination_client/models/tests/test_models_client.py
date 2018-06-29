@@ -141,6 +141,18 @@ def test_experimental_design():
     assert len(results.best_materials) > 0
 
 @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://qa.citrination.com", reason="Design tests only supported on qa")
+def test_experimental_design_infinity_constraint():
+    """
+    Tests that a design run can be triggered with an Infinity Constraint
+    """
+    view_id = "138"
+    run = _trigger_run(client, view_id, target=None, constraints=[RealRangeConstraint(name="Property Band gap", minimum=0, maximum=float("inf"))])
+
+    assert_run_accepted(view_id, run, client)
+    kill_and_assert_killed(view_id, run, client)
+
+
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://qa.citrination.com", reason="Design tests only supported on qa")
 def test_design_run_effort_limit():
     """
     Tests that a design run cannot be submitted with an effort
