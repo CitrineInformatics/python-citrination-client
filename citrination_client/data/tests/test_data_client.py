@@ -48,7 +48,7 @@ def test_upload_pif():
         try:
             pif = client.get_pif(dataset_id, uid)
             break
-        except CitrinationServerErrorException:
+        except ResourceNotFoundException:
             if tries < 10:
                 tries += 1
                 time.sleep(1)
