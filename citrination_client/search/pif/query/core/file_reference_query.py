@@ -9,7 +9,7 @@ class FileReferenceQuery(BaseObjectQuery):
 
     def __init__(self, logic=None, weight=None, simple=None, simple_weight=None, extract_as=None, extract_all=None,
                  extract_when_missing=None, tags=None, length=None, offset=None, relative_path=None,
-                 mime_type=None, sha256=None, md5=None, query=None, **kwargs):
+                 mime_type=None, sha256=None, md5=None, url=None, query=None, **kwargs):
         """
         Constructor.
 
@@ -27,6 +27,7 @@ class FileReferenceQuery(BaseObjectQuery):
         :param mime_type: One or more :class:`FieldQuery` operations against the mime type field.
         :param sha256: One or more :class:`FieldQuery` operations against the sha256 field.
         :param md5: One or more :class:`FieldQuery` operations against the md5 field.
+        :param url: One or more :class:`FieldQuery` operations against the url field.
         :param query: One or more :class:`FileReferenceQuery` objects as nested queries.
         """
         super(FileReferenceQuery, self).__init__(
@@ -43,6 +44,8 @@ class FileReferenceQuery(BaseObjectQuery):
         self.md5 = md5
         self._query = None
         self.query = query
+        self._url = None
+        self.url = url
 
     @property
     def relative_path(self):
@@ -91,6 +94,18 @@ class FileReferenceQuery(BaseObjectQuery):
     @md5.deleter
     def md5(self):
         self._md5 = None
+
+    @property
+    def url(self):
+        return self._url
+
+    @url.setter
+    def url(self, url):
+        self._url = self._get_object(FieldQuery, url)
+
+    @url.deleter
+    def url(self):
+        self._url = None
 
     @property
     def query(self):
