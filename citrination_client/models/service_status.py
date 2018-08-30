@@ -17,9 +17,11 @@ class ServiceStatus(object):
             event_dict = response_dict["event"]
             event = Event(
                 title = event_dict["title"],
-                subtitle = event_dict["subtitle"],
                 normalized_progress = event_dict["normalizedProgress"]
             )
+
+            if "subtitle" in response_dict["event"]:
+                event.subtitle = event_dict["subtitle"]
 
             if "subevent" in response_dict["event"]:
                 subevent_dict = response_dict["event"]["subevent"]

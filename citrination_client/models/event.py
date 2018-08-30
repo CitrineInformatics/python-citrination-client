@@ -3,7 +3,7 @@ class Event(object):
     The representation of an in progress process. Described by a title, subtitle and subevent.
     """
 
-    def __init__(self, title, subtitle, normalized_progress, subevent=None):
+    def __init__(self, title, normalized_progress, subtitle=None, subevent=None):
         """
         Constructor.
 
