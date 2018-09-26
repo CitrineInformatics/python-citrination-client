@@ -4,6 +4,7 @@ from citrination_client.models.columns.vector import VectorColumn
 from citrination_client.models.columns.alloy_composition import AlloyCompositionColumn
 from citrination_client.models.columns.inorganic_chemical_formula import InorganicChemicalFormulaColumn
 from citrination_client.models.columns.organic_chemical_formula import OrganicChemicalFormulaColumn
+from citrination_client.models.columns.formulation import FormulationColumn
 
 class DescriptorConverter(object):
 
@@ -49,6 +50,12 @@ class DescriptorConverter(object):
                 )
         elif column_type == OrganicChemicalFormulaColumn.TYPE:
             return OrganicChemicalFormulaColumn(
+                    name=col_name,
+                    role=role,
+                    units=units
+                )
+        elif column_type == FormulationColumn.TYPE:
+            return FormulationColumn(
                     name=col_name,
                     role=role,
                     units=units
