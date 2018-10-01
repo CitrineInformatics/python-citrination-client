@@ -74,7 +74,7 @@ def test_template_latest_version():
     Tests that the latest version of the template can be returned
     """
     vid = 177
-    latest_template = template_latest_version('view_ml_{}_1'.format(vid))
+    latest_template = client.template_latest_version('view_ml_{}_1'.format(vid))
     assert latest_template == 2
 
 @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Predict tests only supported on open citrination")
