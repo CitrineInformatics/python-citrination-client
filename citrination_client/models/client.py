@@ -7,6 +7,7 @@ from citrination_client.data import Dataset
 from citrination_client.models.data_view import DataView
 from citrination_client.models.columns.column_factory import ColumnFactory
 
+import requests
 import time
 
 class ModelsClient(BaseClient):
