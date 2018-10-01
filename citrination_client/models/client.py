@@ -72,6 +72,21 @@ class ModelsClient(BaseClient):
             )
         )
 
+    def template_latest_version(self, model_path):
+        """
+        Get the latest version of a template
+        :param model_path: path of the model, e.g. view_ml_N_1 for view ID N
+        :return: template version
+        """
+        url = self._get_version_url(model_path)
+        response = self._get(url, headers=self.headers)
+        if response.status_code != requests.codes.ok:
+            raise RuntimeError('Latest template requested ' + str(response.status_code) + ' response: ' + str(response.reason))
+        return response.json()
+
+    def _get_version_url(self, model_path):
+        return "ml_templates/{}/latest_version".format(model_path)
+
     def _data_analysis(self, data_view_id):
         """
         Data analysis endpoint.

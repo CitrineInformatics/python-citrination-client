@@ -69,6 +69,15 @@ def test_predict():
     _assert_prediction_values(prediction_result)
 
 @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Predict tests only supported on open citrination")
+def test_template_latest_version():
+    """
+    Tests that the latest version of the template can be returned
+    """
+    vid = 177
+    latest_template = template_latest_version('view_ml_{}_1'.format(vid))
+    assert latest_template == 2
+
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Predict tests only supported on open citrination")
 def test_multiple_predict_candidates():
     """
     Tests that if you pass multiple candidates for prediction into the
