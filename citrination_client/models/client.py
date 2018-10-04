@@ -73,6 +73,18 @@ class ModelsClient(BaseClient):
             )
         )
 
+    def retrain(self, dataview_id):
+        """
+        Start a model retraining
+        :param dataview_id: The ID of the views
+        :return:
+        """
+        url = '/api/data_views/{}/retrain'.format(dataview_id)
+        response = self._post(url, headers=self.headers)
+        if response.status_code != requests.codes.ok:
+            raise RuntimeError('Retrain requested ' + str(response.status_code) + ' response: ' + str(response.message))
+        return True
+
     def template_latest_version(self, model_path):
         """
         Get the latest version of a template
