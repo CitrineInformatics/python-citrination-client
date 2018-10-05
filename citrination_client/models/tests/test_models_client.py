@@ -53,6 +53,14 @@ def test_tsne():
     assert len(tsne_y.xs) == len(tsne_y.tags), "tSNE components x and uid had different lengths"
     assert len(tsne_y.xs) == len(tsne_y.uids),   "tSNE components x and label had different lengths"
 
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Retrain tests only supported on open citrination")
+def test_retrain():
+    """
+    Test that we can trigger a retrain
+    """
+    resp = client.retrain("5909")
+    assert resp == True
+
 @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Predict tests only supported on open citrination")
 def test_predict():
     """
