@@ -58,7 +58,7 @@ def test_retrain():
     """
     Test that we can trigger a retrain
     """
-    resp = client.retrain("27")
+    resp = client.retrain("5909")
     assert resp == True
 
 @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Predict tests only supported on open citrination")
