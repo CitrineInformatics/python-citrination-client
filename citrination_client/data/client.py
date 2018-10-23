@@ -74,7 +74,14 @@ class DataClient(BaseClient):
             j = self._get_success_json(self._post_json(routes.upload_to_dataset(dataset_id), data=file_data))
             s3url = _get_s3_presigned_url(j)
             with open(source_path, 'rb') as f:
-                r = requests.put(s3url, data=f, headers=j["required_headers"])
+                if os.stat(source_path).st_size == 0:
+                    # Upload a null character as a placeholder for
+                    # the empty file since Citrination does not support
+                    # truly empty files
+                    data = "\0"
+                else:
+                    data = f
+                r = requests.put(s3url, data=data, headers=j["required_headers"])
                 if r.status_code == 200:
                     data = {'s3object': j['url']['path'], 's3bucket': j['bucket']}
                     self._post_json(routes.update_file(j['file_id']), data=data)
