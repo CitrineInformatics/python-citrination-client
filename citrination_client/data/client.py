@@ -67,7 +67,7 @@ class DataClient(BaseClient):
                         else:
                             upload_result.add_failure(current_source_path,"Upload failure")
                     except (CitrinationClientError, ValueError) as e:
-                        upload_result.add_failure(current_source_path, e.message)
+                        upload_result.add_failure(current_source_path, str(e))
             return upload_result
         elif os.path.isfile(source_path):
             file_data = { "dest_path": str(dest_path), "src_path": str(source_path)}
