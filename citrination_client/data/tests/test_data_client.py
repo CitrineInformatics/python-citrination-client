@@ -22,7 +22,7 @@ client = parent_client.data
 dataset_name = "Tutorial dataset " + random_string()
 dataset_id = client.create_dataset(name=dataset_name, description="Dataset for tutorial").id
 test_file_root = 'citrination_client/data/tests/test_files/'
-test_file_data_root = 'citrination_client/data/tests/test_files/data/'
+test_file_data_root = './citrination_client/data/tests/test_files/data/'
 
 def random_dataset_name():
     return "PyCCTestDataset" + random_string()
