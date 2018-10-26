@@ -64,9 +64,10 @@ def test_does_not_require_trailing_slash():
     result = client.upload(dataset_id, src_path)
     assert result.successful()
 
-    files = client.list_files(dataset_id)
-    first_path = files[0]
-    assert "data_holder/data_holder" not in first_path
+    paths = client.list_files(dataset_id)
+
+    for path in paths:
+        assert "data_holder/data_holder" not in path
 
 def test_empty_upload():
     """
