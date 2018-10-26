@@ -57,9 +57,12 @@ class DataClient(BaseClient):
             dest_path = str(dest_path)
         if os.path.isdir(source_path):
             for path, subdirs, files in os.walk(source_path):
+                relative_path = os.path.relpath(path, source_path)
+                current_dest_prefix = dest_path
+                if relative_path is not ".":
+                    current_dest_prefix = os.path.join(current_dest_prefix, relative_path)
                 for name in files:
-                    path_without_root_dir = path.split("/")[-1:] + [name]
-                    current_dest_path = os.path.join(dest_path, *path_without_root_dir)
+                    current_dest_path = os.path.join(current_dest_prefix, name)
                     current_source_path = os.path.join(path, name)
                     try:
                         if self.upload(dataset_id, current_source_path, current_dest_path).successful():
