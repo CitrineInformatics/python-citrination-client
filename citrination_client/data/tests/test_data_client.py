@@ -21,7 +21,6 @@ client = parent_client.data
 # one dataset with the same name
 dataset_name = "Tutorial dataset " + random_string()
 dataset_id = client.create_dataset(name=dataset_name, description="Dataset for tutorial").id
-print(dataset_id)
 test_file_root = 'citrination_client/data/tests/test_files/'
 test_file_data_root = './citrination_client/data/tests/test_files/data/'
 
@@ -113,6 +112,8 @@ def test_dataset_update():
     """
     dataset_name = random_dataset_name()
     dataset_id = client.create_dataset(name=dataset_name).id
+    print("====")
+    print(dataset_id)
     new_name = random_dataset_name()
     new_description = random_string()
     dataset = client.update_dataset(dataset_id, name=new_name, description=new_description)
