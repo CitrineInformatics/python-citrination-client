@@ -123,7 +123,7 @@ def test_dataset_update():
     search_count = 0
     # set 10 minute timeout for metadata change to be reflected
     # in search results
-    while search_count < 600:
+    while search_count < 120:
         response = parent_client.dataset_search(DatasetReturningQuery(
                 size=1,
                 query=DataQuery(
