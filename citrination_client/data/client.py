@@ -14,7 +14,7 @@ class DataClient(BaseClient):
     Client encapsulating data management behavior.
     """
 
-    def __init__(self, api_key, host="https://citrination.com", suppress_warnings=False):
+    def __init__(self, api_key, host="https://citrination.com", suppress_warnings=False, proxies=None):
         """
         Constructor.
 
@@ -36,7 +36,7 @@ class DataClient(BaseClient):
             "create_dataset",
             "create_dataset_version"
         ]
-        super(DataClient, self).__init__(api_key, host, members, suppress_warnings=suppress_warnings)
+        super(DataClient, self).__init__(api_key, host, members, suppress_warnings, proxies)
 
     def upload(self, dataset_id, source_path, dest_path=None):
         """
