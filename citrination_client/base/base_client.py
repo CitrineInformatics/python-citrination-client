@@ -15,7 +15,7 @@ class BaseClient(object):
     Base class that holds the universal constructor, utilities, etc
     """
 
-    def __init__(self, api_key, webserver_host, api_members=[], suppress_warnings=False):
+    def __init__(self, api_key, webserver_host, api_members=[], suppress_warnings=False, proxies = None):
         """
         Constructor.
 
@@ -28,9 +28,17 @@ class BaseClient(object):
         :param suppress_warnings: A flag indicating whether or not warning
             messages to stdout should be printed
         :type suppress_warnings: bool
+        :param proxies: proxies to use when making HTTP requests. E.g.,
+                proxies = {
+                  'http': 'http://10.10.1.10:3128',
+                  'https': 'http://10.10.1.10:1080',
+                }
+        :type proxies: dict(string, string)
         """
         if api_key == None or len(api_key) == 0:
             raise CitrinationClientError("API key must be present to instantiate the client")
+
+        self.proxies = proxies
 
         self.headers = {
             'X-API-Key': quote(api_key),
@@ -76,7 +84,9 @@ class BaseClient(object):
         :return:
         """
         headers = self._get_headers(headers)
-        response_lambda = (lambda: requests.get(self._get_qualified_route(route), headers=headers, verify=False))
+        response_lambda = (
+            lambda: requests.get(self._get_qualified_route(route), headers=headers, verify=False, proxies=self.proxies)
+        )
         response = check_for_rate_limiting(response_lambda(), response_lambda)
         return self._handle_response(response, failure_message)
 
@@ -91,7 +101,11 @@ class BaseClient(object):
         :return:
         """
         headers = self._get_headers(headers)
-        response_lambda = (lambda: requests.post(self._get_qualified_route(route), headers=headers, data=data, verify=False))
+        response_lambda = (
+            lambda: requests.post(
+                self._get_qualified_route(route), headers=headers, data=data, verify=False, proxies=self.proxies
+            )
+        )
         response = check_for_rate_limiting(response_lambda(), response_lambda)
         return self._handle_response(response, failure_message)
 
@@ -106,7 +120,11 @@ class BaseClient(object):
         :return:
         """
         headers = self._get_headers(headers)
-        response_lambda = (lambda: requests.put(self._get_qualified_route(route), headers=headers, data=data, verify=False))
+        response_lambda = (
+            lambda: requests.put(
+                self._get_qualified_route(route), headers=headers, data=data, verify=False, proxies=self.proxies
+            )
+        )
         response = check_for_rate_limiting(response_lambda(), response_lambda)
         return self._handle_response(response, failure_message)
 
@@ -117,7 +135,9 @@ class BaseClient(object):
         :return:
         """
         headers = self._get_headers(headers)
-        response_lambda = (lambda: requests.delete(self._get_qualified_route(route), headers=headers, verify=False))
+        response_lambda = (lambda: requests.delete(
+            self._get_qualified_route(route), headers=headers, verify=False, proxies=self.proxies)
+                           )
         response = check_for_rate_limiting(response_lambda(), response_lambda)
         return self._handle_response(response, failure_message)
 
