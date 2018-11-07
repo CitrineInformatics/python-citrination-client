@@ -15,12 +15,12 @@ class ModelsClient(BaseClient):
     A client that encapsulates interactions with models on Citrination.
     """
 
-    def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False, proxies=None):
+    def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False):
         members = [
             "tsne",
             "predict"
         ]
-        super(ModelsClient, self).__init__(api_key, webserver_host, members, suppress_warnings, proxies)
+        super(ModelsClient, self).__init__(api_key, webserver_host, members, suppress_warnings=suppress_warnings)
 
     def tsne(self, data_view_id):
         """

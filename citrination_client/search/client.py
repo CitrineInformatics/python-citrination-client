@@ -18,13 +18,13 @@ MAX_QUERY_DEPTH = 50000
 
 
 class SearchClient(BaseClient):
-    def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False, proxies=None):
+    def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False):
         members = [
             "pif_search",
             "pif_multi_search",
             "dataset_search"
         ]
-        super(SearchClient, self).__init__(api_key, webserver_host, members, suppress_warnings, proxies)
+        super(SearchClient, self).__init__(api_key, webserver_host, members, suppress_warnings=suppress_warnings)
 
     def _handle_response(self, response, failure_message=DEFAULT_FAILURE_MESSAGE):
         if response.status_code == 204:
