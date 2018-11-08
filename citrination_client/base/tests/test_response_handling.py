@@ -14,6 +14,9 @@ response_exceptions = [{
     },{
         "code": requests.codes.unauthorized,
         "exception_class": UnauthorizedAccessException
+    },{
+        "code": requests.codes.not_found,
+        "exception_class": ResourceNotFoundException
     }]
 
 def test_raises_exceptions_correctly():

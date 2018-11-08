@@ -41,6 +41,7 @@ def raise_on_response(response):
     _check_response_for_feature_availability(response)
     _check_response_for_authorization(response)
     _check_response_for_timeout(response)
+    _check_response_for_missing_resource(response)
     _check_response_for_server_error(response)
     return response
 
@@ -55,6 +56,10 @@ def _check_response_for_feature_availability(response):
 def _check_response_for_timeout(response):
     if response.status_code == 524:
         raise RequestTimeoutException()
+
+def _check_response_for_missing_resource(response):
+    if response.status_code == 404:
+        raise ResourceNotFoundException()
 
 def _check_response_for_server_error(response):
     if response.status_code >= 500:

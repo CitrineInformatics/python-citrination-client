@@ -7,6 +7,7 @@ from citrination_client.data import Dataset
 from citrination_client.models.data_view import DataView
 from citrination_client.models.columns.column_factory import ColumnFactory
 
+import requests
 import time
 
 class ModelsClient(BaseClient):
@@ -14,12 +15,12 @@ class ModelsClient(BaseClient):
     A client that encapsulates interactions with models on Citrination.
     """
 
-    def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False):
+    def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False, proxies=None):
         members = [
             "tsne",
             "predict"
         ]
-        super(ModelsClient, self).__init__(api_key, webserver_host, members, suppress_warnings=suppress_warnings)
+        super(ModelsClient, self).__init__(api_key, webserver_host, members, suppress_warnings, proxies)
 
     def tsne(self, data_view_id):
         """
@@ -71,6 +72,33 @@ class ModelsClient(BaseClient):
                 lambda c: _get_prediction_result_from_candidate(c), candidate_dicts
             )
         )
+
+    def retrain(self, dataview_id):
+        """
+        Start a model retraining
+        :param dataview_id: The ID of the views
+        :return:
+        """
+        url = 'data_views/{}/retrain'.format(dataview_id)
+        response = self._post_json(url, data={})
+        if response.status_code != requests.codes.ok:
+            raise RuntimeError('Retrain requested ' + str(response.status_code) + ' response: ' + str(response.message))
+        return True
+
+    def template_latest_version(self, model_path):
+        """
+        Get the latest version of a template
+        :param model_path: path of the model, e.g. view_ml_N_1 for view ID N
+        :return: template version
+        """
+        url = self._get_version_url(model_path)
+        response = self._get(url, headers=self.headers)
+        if response.status_code != requests.codes.ok:
+            raise RuntimeError('Latest template requested ' + str(response.status_code) + ' response: ' + str(response.reason))
+        return response.json()
+
+    def _get_version_url(self, model_path):
+        return "ml_templates/{}/latest_version".format(model_path)
 
     def _data_analysis(self, data_view_id):
         """

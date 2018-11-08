@@ -6,3 +6,4 @@ from citrination_client.models.columns.organic_chemical_formula import OrganicCh
 from citrination_client.models.columns.inorganic_chemical_formula import InorganicChemicalFormulaColumn
 from citrination_client.models.columns.alloy_composition import AlloyCompositionColumn
 from citrination_client.models.columns.descriptor_converter import DescriptorConverter
+from citrination_client.models.columns.formulation import FormulationColumn

@@ -53,6 +53,14 @@ def test_tsne():
     assert len(tsne_y.xs) == len(tsne_y.tags), "tSNE components x and uid had different lengths"
     assert len(tsne_y.xs) == len(tsne_y.uids),   "tSNE components x and label had different lengths"
 
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Retrain tests only supported on open citrination")
+def test_retrain():
+    """
+    Test that we can trigger a retrain
+    """
+    resp = client.retrain("5909")
+    assert resp == True
+
 @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Predict tests only supported on open citrination")
 def test_predict():
     """
@@ -67,6 +75,15 @@ def test_predict():
 
     prediction_result = client.predict(vid, inputs, method="scalar")[0]
     _assert_prediction_values(prediction_result)
+
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Predict tests only supported on open citrination")
+def test_template_latest_version():
+    """
+    Tests that the latest version of the template can be returned
+    """
+    vid = 177
+    latest_template = client.template_latest_version('view_ml_{}_1'.format(vid))
+    assert isinstance(latest_template, int)
 
 @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com", reason="Predict tests only supported on open citrination")
 def test_multiple_predict_candidates():
@@ -139,6 +156,18 @@ def test_experimental_design():
     results = client.get_design_run_results(view_id, run.uuid)
     assert len(results.next_experiments) > 0
     assert len(results.best_materials) > 0
+
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://qa.citrination.com", reason="Design tests only supported on qa")
+def test_experimental_design_infinity_constraint():
+    """
+    Tests that a design run can be triggered with an Infinity Constraint
+    """
+    view_id = "138"
+    run = _trigger_run(client, view_id, target=None, constraints=[RealRangeConstraint(name="Property Band gap", minimum=0, maximum=float("inf"))])
+
+    assert_run_accepted(view_id, run, client)
+    kill_and_assert_killed(view_id, run, client)
+
 
 @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://qa.citrination.com", reason="Design tests only supported on qa")
 def test_design_run_effort_limit():

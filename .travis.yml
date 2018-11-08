@@ -21,6 +21,7 @@ deploy:
   password:
     secure: YER1lIwYpEBLCtLssBF+CW/lCfAblkBBDtHC7ESCNr6sQwEKHTbF7ihvxyld55Y9DmnTXssFYLShFOvC5CZ7A+b7LZMmFdGc5f2n0X+6FA+paOJ5+6BXzFaP3X84XQsvy7wluz0f58roQq+o//8I+d5WPrrKczmNJUyAq7V74AhWdgpITgnBlomyNUS01HxX9qMDw1eVKOQv2Qccs+xgwkWPtlQw542oMHFb0SwRPSWm0GMY2ykyT4CehOLZqkye0EKs5K75BFtlTtXUjT+bPEfHoYk4kJmcb4wiSisXuLCt4eJcSYiBB7bOTZLC/DmNLMeakknIBQ14cRACcJ+0gcLX0sNPt/BZrcdJhUeYtRc/CLYHYv8m42KhtLicU/K6907HlDf1/KmJhhn2B/sOf7XKyP3ztxJnR/ZXEbSsgtWSY4+W6KKW3kWcyyabfCDp3lZYlKG3I+13MYDooaL4p/h8knjBx6dgOCS9Jbr99IvAA3u/aRFCayseCqEtIFjJF4WbR7rySbPHwL5WremmlDi+SZpe143ALZyqNTVP89k14sztARntkbCqrY9QTw5KYSFxPMr3RETz+3q4PI9i4fYOO6XCU0wWJnL3cYxLRh7bj0mRk76lsGD9o3ZLWyQud7zWtsz+TPHUAUvuHYYsFHUgID768UngKs/59JcELFA=
   on:
+    python: '3.6'
     distributions: sdist bdist_wheel
     repo: CitrineInformatics/python-citrination-client
     branch: master

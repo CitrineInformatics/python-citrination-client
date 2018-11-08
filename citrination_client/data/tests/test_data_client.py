@@ -21,13 +21,14 @@ client = parent_client.data
 # one dataset with the same name
 dataset_name = "Tutorial dataset " + random_string()
 dataset_id = client.create_dataset(name=dataset_name, description="Dataset for tutorial").id
-test_file_root = './citrination_client/data/tests/test_files/'
+test_file_root = 'citrination_client/data/tests/test_files/'
+test_file_data_root = './citrination_client/data/tests/test_files/data/'
 
 def random_dataset_name():
     return "PyCCTestDataset" + random_string()
 
-def get_test_file_hierarchy_count():
-    test_dir = test_file_root
+def get_test_data_file_hierarchy_count():
+    test_dir = test_file_data_root
     return sum([len(files) for r, d, files in os.walk(test_dir)])
 
 def test_upload_pif():
@@ -48,7 +49,7 @@ def test_upload_pif():
         try:
             pif = client.get_pif(dataset_id, uid)
             break
-        except CitrinationServerErrorException:
+        except ResourceNotFoundException:
             if tries < 10:
                 tries += 1
                 time.sleep(1)
@@ -57,6 +58,43 @@ def test_upload_pif():
 
     with open("tmp.json", "r") as fp:
         assert json.loads(fp.read())["uid"] == pif.uid
+
+def test_does_not_require_trailing_slash():
+    src_path = "{}data_holder".format(test_file_data_root)
+    result = client.upload(dataset_id, src_path)
+    assert result.successful()
+
+    paths = client.list_files(dataset_id)
+
+    for path in paths:
+        assert "data_holder/data_holder" not in path
+
+def test_empty_upload():
+    """
+    Tests that no files are added to Citrination if the file
+    to upload is empty.
+    """
+    src_path = test_file_root + "empty"
+    dest_path = "test_empty_file"
+
+    result = client.upload(dataset_id, src_path, dest_path)
+    assert result.successful()
+
+    # Also confirm that the contents of the dataset are
+    # in agreement with the assertion above
+    after_file_names = client.list_files(dataset_id, dest_path)
+    after_length     = len(after_file_names)
+
+    assert after_length is 1
+
+    single_file = client.get_dataset_file(dataset_id, dest_path)
+    client.download_files(single_file)
+    downloaded_filepath = os.path.join('.', single_file.path)
+    assert os.path.isfile(downloaded_filepath)
+    with open(downloaded_filepath, 'rb') as f:
+        assert f.read() == b"\0"
+
+    os.remove(downloaded_filepath)
 
 def test_dataset_version_bump():
     """
@@ -74,6 +112,7 @@ def test_dataset_update():
     """
     dataset_name = random_dataset_name()
     dataset_id = client.create_dataset(name=dataset_name).id
+    time.sleep(10)
     new_name = random_dataset_name()
     new_description = random_string()
     dataset = client.update_dataset(dataset_id, name=new_name, description=new_description)
@@ -115,7 +154,7 @@ def test_file_listing_and_url_retrieval():
     Tests that files can be uploaded and then retrieved
     with presigned urls
     """
-    src_path = test_file_root + "keys_and_values.json"
+    src_path = test_file_data_root + "keys_and_values.json"
     dest_path = "test_file_list.json"
     assert client.upload(dataset_id, src_path, dest_path).successful()
     listed_files = client.list_files(dataset_id, dest_path)
@@ -130,14 +169,14 @@ def test_upload_directory():
     Tests that if a path to a directory is given to
     `upload`, all the files get recursively uploaded
     """
-    count_to_add = get_test_file_hierarchy_count()
-    src_path = test_file_root
+    count_to_add = get_test_data_file_hierarchy_count()
+    src_path = test_file_data_root
     dest_path = "test_directory_upload/"
     before_count = client.matched_file_count(dataset_id)
     assert client.upload(dataset_id, src_path, dest_path).successful()
-    revolver_count = client.matched_file_count(dataset_id, "test_directory_upload/revolver")
     assert client.matched_file_count(dataset_id, "weird_extensions.woodle") == 1
-    assert revolver_count == 3
+    assert client.matched_file_count(dataset_id, "test_directory_upload/revolver") == 3
+    assert client.matched_file_count(dataset_id, "test_directory_upload/level2/level3") == 1
     after_total_count = client.matched_file_count(dataset_id)
     assert after_total_count == (before_count + count_to_add)
 
