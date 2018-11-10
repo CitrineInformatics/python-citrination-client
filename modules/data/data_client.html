@@ -24,8 +24,7 @@
 
   
 
-  
-    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -169,11 +168,11 @@
 <span id="data-client"></span><h1>Data Client<a class="headerlink" href="#module-citrination_client.data.client" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="citrination_client.data.client.DataClient">
-<em class="property">class </em><code class="descclassname">citrination_client.data.client.</code><code class="descname">DataClient</code><span class="sig-paren">(</span><em>api_key</em>, <em>host='https://citrination.com'</em>, <em>suppress_warnings=False</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">citrination_client.data.client.</code><code class="descname">DataClient</code><span class="sig-paren">(</span><em>api_key</em>, <em>host='https://citrination.com'</em>, <em>suppress_warnings=False</em>, <em>proxies=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient" title="Permalink to this definition">¶</a></dt>
 <dd><p>Client encapsulating data management behavior.</p>
 <dl class="method">
 <dt id="citrination_client.data.client.DataClient.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>api_key</em>, <em>host='https://citrination.com'</em>, <em>suppress_warnings=False</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>api_key</em>, <em>host='https://citrination.com'</em>, <em>suppress_warnings=False</em>, <em>proxies=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -229,6 +228,25 @@ printed to stdout</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The new dataset version.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetVersion</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.download_files">
+<code class="descname">download_files</code><span class="sig-paren">(</span><em>dataset_files</em>, <em>destination='.'</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.download_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads file(s) to a local destination.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dataset_files</strong> (list of :class: <cite>DatasetFile</cite>) – </li>
+<li><strong>destination</strong> (<em>str</em>) – The path to the desired local download destination</li>
+<li><strong>chunk</strong> (<em>bool</em>) – Whether or not to chunk the file. Default True</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -498,7 +516,7 @@ if a directory was uploaded).</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Citrine Informatics.
+        &copy; Copyright 2018, Citrine Informatics
 
     </p>
   </div>
@@ -517,33 +535,22 @@ if a directory was uploaded).</p>
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../',
-            VERSION:'4.0.0',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
 
   
 
-  
-  
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {
-          
-          SphinxRtdTheme.Navigation.enableSticky();
-          
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script> 
 

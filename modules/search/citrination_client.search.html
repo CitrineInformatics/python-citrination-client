@@ -24,8 +24,7 @@
 
   
 
-  
-    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -184,11 +183,11 @@
 <span id="search-client"></span><h2>Search Client<a class="headerlink" href="#module-citrination_client.search.client" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="citrination_client.search.client.SearchClient">
-<em class="property">class </em><code class="descclassname">citrination_client.search.client.</code><code class="descname">SearchClient</code><span class="sig-paren">(</span><em>api_key</em>, <em>webserver_host='https://citrination.com'</em>, <em>suppress_warnings=False</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.client.SearchClient" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">citrination_client.search.client.</code><code class="descname">SearchClient</code><span class="sig-paren">(</span><em>api_key</em>, <em>webserver_host='https://citrination.com'</em>, <em>suppress_warnings=False</em>, <em>proxies=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.client.SearchClient" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">citrination_client.base.base_client.BaseClient</span></code></p>
 <dl class="method">
 <dt id="citrination_client.search.client.SearchClient.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>api_key</em>, <em>webserver_host='https://citrination.com'</em>, <em>suppress_warnings=False</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.client.SearchClient.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>api_key</em>, <em>webserver_host='https://citrination.com'</em>, <em>suppress_warnings=False</em>, <em>proxies=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.client.SearchClient.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -200,6 +199,13 @@
 <li><strong>api_members</strong> (<em>str</em><em>[</em><em>]</em>) – The names of the member methods for this client</li>
 <li><strong>suppress_warnings</strong> (<em>bool</em>) – A flag indicating whether or not warning
 messages to stdout should be printed</li>
+<li><strong>proxies</strong> (<em>dict</em><em>(</em><em>string</em><em>, </em><em>string</em><em>)</em>) – <p>proxies to use when making HTTP requests. E.g.,
+proxies = {</p>
+<blockquote>
+<div>’http’: ‘<a class="reference external" href="http://10.10.1.10:3128">http://10.10.1.10:3128</a>’,
+‘https’: ‘<a class="reference external" href="http://10.10.1.10:1080">http://10.10.1.10:1080</a>’,</div></blockquote>
+<p>}</p>
+</li>
 </ul>
 </td>
 </tr>
@@ -353,7 +359,7 @@ that accepts a <code class="xref py py-class docutils literal notranslate"><span
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Citrine Informatics.
+        &copy; Copyright 2018, Citrine Informatics
 
     </p>
   </div>
@@ -372,33 +378,22 @@ that accepts a <code class="xref py py-class docutils literal notranslate"><span
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../',
-            VERSION:'4.0.0',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
 
   
 
-  
-  
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {
-          
-          SphinxRtdTheme.Navigation.enableSticky();
-          
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script> 
 
