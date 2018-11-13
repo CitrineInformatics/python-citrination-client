@@ -60,7 +60,6 @@ class ServiceStatus(object):
         self._context = context
         self._event   = event
         self._reason  = reason
-        self._validate_service_status()
 
     @property
     def ready(self):
@@ -118,9 +117,4 @@ class ServiceStatus(object):
         :rtype: bool
         """
         return self.ready == True
-
-    def _validate_service_status(self):
-        if self.ready and self.event:
-            if self.event.normalized_progress < 1.0:
-                raise CitrinationClientError("Events still in progress but ready status set to True")
 
