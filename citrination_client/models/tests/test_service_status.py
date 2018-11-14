@@ -115,8 +115,3 @@ example_status_response_dict_nonsense = {
     "normalizedProgress": 0.33
   }
 }
-
-def test_only_ready_when_progress_one():
-
-    with pytest.raises(CitrinationClientError):
-        ServiceStatus.from_response_dict(example_status_response_dict_nonsense)
