@@ -1,5 +1,6 @@
 from citrination_client.base.errors import CitrinationClientError
 
+
 class Target(object):
     """
     The optimization target for a design run. Consists of
@@ -17,13 +18,17 @@ class Target(object):
             or "Max"
         :type objective: str
         """
-        if objective not in ["Max", "Min"]:
-            raise CitrinationClientError(
-                    "Target objective must either be \"Min\" or \"Max\""
+
+        try:
+            self._objective = float(objective)
+        except ValueError:
+            if objective.lower() not in ["max", "min"]:
+                raise CitrinationClientError(
+                    "Target objective must either be \"min\" or \"max\""
                 )
+            self._objective = objective
 
         self._name = name
-        self._objective = objective
 
     def to_dict(self):
         return {

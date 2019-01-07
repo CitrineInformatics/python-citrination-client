@@ -16,3 +16,4 @@ def test_target_initialization():
     # These initializations should not throw an error
     Target(name="Band gap", objective="Min")
     Target(name="Band gap", objective="Max")
+    Target(name="Band gap", objective="5.0")
