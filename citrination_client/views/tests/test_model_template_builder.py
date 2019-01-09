@@ -4,6 +4,10 @@ import requests_mock
 
 import os
 
+from citrination_client.views.search_template.client import SearchTemplateClient
+
+from citrination_client.views.model_template.client import ModelTemplateClient
+
 from citrination_client.views.client import DataViewsClient
 
 
@@ -19,10 +23,12 @@ def load_file_as_json(path):
 
 
 def test_workflow():
-    print 'Starting'
+    print('Starting data view creation workflow')
 
     site = "https://citrination.com"
-    client = DataViewsClient(os.environ["CITRINATION_API_KEY"], site)
+    search_template_client = SearchTemplateClient(os.environ["CITRINATION_API_KEY"], site)
+    model_template_client = ModelTemplateClient(os.environ["CITRINATION_API_KEY"], site)
+    data_views_client = DataViewsClient(os.environ["CITRINATION_API_KEY"], site)
 
     search_template_url = "{}/api/search_templates{}"
     datasets_url = "{}/api/datasets{}"
@@ -79,27 +85,23 @@ def test_workflow():
         )
 
         # Get available columns
-        available_columns = client.get_available_columns([1234])
+        available_columns = search_template_client.get_available_columns([1234])
         assert len(available_columns) == 524
 
         # Create a search template from dataset ids
-        search_template = client.generate_search_template([1234])
-        assert search_template['query']
-
-        # Prune the template down to just the keys we care about
-        search_template = client.prune_search_template(available_columns,search_template)
-        assert search_template['query']
+        search_template = search_template_client.create_with_extract_as_keys([1234], available_columns)
+        assert search_template['query'][0]['system'][0]['tags'][0]['category'] == 'General'
 
         # Create an ML template
-        ml_template = client.create_machine_learning_template(search_template, ml_config)
-        assert ml_template['pipeline']
+        ml_template = model_template_client.create(search_template, ml_config)
+        assert ml_template['descriptors'][0]['category'] == 'Real'
 
         # Validate the template
-        result = client.validate_machine_learning_template(ml_template)
+        result = model_template_client.validate(ml_template)
         assert result == "OK"
 
         # Create the dataview
-        data_view_id = client.create_data_view(search_template, ml_template, available_columns, [1234], 'my view',
-                                               'a test view created by pycc')
+        data_view_id = data_views_client.create(search_template, ml_template, available_columns,
+                                                [1234], 'my view', 'a test view created by pycc')
         assert data_view_id == 555
 
