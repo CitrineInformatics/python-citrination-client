@@ -12,14 +12,12 @@ class DataViewsClient(BaseClient):
         members = ["create", "status", "predict", "design"]
         super(DataViewsClient, self).__init__(api_key, webserver_host, members, suppress_warnings, proxies)
 
-    def create(self, search_template, ml_template, selected_columns, dataset_ids, name, description):
+    def create(self, search_template, ml_template, name, description):
         """
         Creates a data view from the search template and ml template given
 
         :param search_template: Search template to build data view from
         :param ml_template: ML template to build data view from
-        :param selected_columns: List of columns (see get_available_columns) for the data view
-        :param dataset_ids: List of datasets to use in the data view
         :param name: Name of the data view
         :param description: Description for the data view
         :return: The data view id
@@ -30,10 +28,6 @@ class DataViewsClient(BaseClient):
                 search_template,
             "ml_template":
                 ml_template,
-            "selected_columns":
-                selected_columns,
-            "dataset_ids":
-                dataset_ids,
             "name":
                 name,
             "description":

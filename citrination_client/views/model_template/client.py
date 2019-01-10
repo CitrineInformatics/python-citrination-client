@@ -51,3 +51,26 @@ class ModelTemplateClient(BaseClient):
         if res['valid']:
             return 'OK'
         return res['reason']
+
+    def get_descriptor_suggestions(self, search_template, extract_as_keys):
+        """
+        Triggers a CMC job to get ML configuration suggestions
+
+        :param search_template: Search template defining the data
+        :param extract_as_keys: The columns to get suggestions for
+        :return: Polling URL
+        """
+
+        data = {
+            "search_template":
+                search_template,
+            "extract_as_keys":
+                extract_as_keys
+        }
+
+        failure_message = "Get descriptor suggestions failed"
+
+        poll_url = self._get_success_json(self._post_json(
+            'descriptors/trigger-job', data, failure_message=failure_message))['data']['poll_url']
+
+

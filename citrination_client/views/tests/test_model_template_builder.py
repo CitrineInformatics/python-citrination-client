@@ -4,6 +4,8 @@ import requests_mock
 
 import os
 
+from citrination_client.views.model_template.builders.SimpleModelTemplateBuilder import SimpleModelTemplateBuilder
+
 from citrination_client.views.search_template.client import SearchTemplateClient
 
 from citrination_client.views.model_template.client import ModelTemplateClient
@@ -34,23 +36,7 @@ def test_workflow():
     datasets_url = "{}/api/datasets{}"
     machine_learning_url = "{}/api/ml_templates{}"
     data_view_url = "{}/api/data_views{}"
-
-    ml_config = {
-        "Property Melting point": {
-            "role": "Output",
-            "descriptor": {
-                "category": "Real",
-                "upperBound": "Infinity",
-                "lowerBound": "0"
-            }
-        },
-        "Property SMILES": {
-            "role": "Input",
-            "descriptor": {
-                "category": "Organic"
-            }
-        }
-    }
+    descriptors_url = "{}/descriptors{}"
 
     with requests_mock.Mocker() as m:
         # Setup mocks
@@ -80,6 +66,16 @@ def test_workflow():
         )
 
         m.post(
+            descriptors_url.format(site, '/trigger-job'),
+            json=dict(data=dict(poll_url=descriptors_url.format(site, '/job-status/1234')))
+        )
+
+        m.post(
+            descriptors_url.format(site, '/job-status'),
+            json=dict(data=load_file_as_json('./citrination_client/views/tests/column_descriptors.json'))
+        )
+
+        m.post(
             data_view_url.format(site, ''),
             json=dict(id=555)
         )
@@ -89,8 +85,14 @@ def test_workflow():
         assert len(available_columns) == 524
 
         # Create a search template from dataset ids
-        search_template = search_template_client.create_with_extract_as_keys([1234], available_columns)
+        search_template = search_template_client.create([1234], available_columns)
         assert search_template['query'][0]['system'][0]['tags'][0]['category'] == 'General'
+
+        # Create ML configuration
+        model_template_builder = SimpleModelTemplateBuilder()
+        model_template_builder.add_real_descriptor('Property Melting point', 'Output', 'Infinity', '0')
+        model_template_builder.add_organic_descriptor('Property SMILES', 'Input')
+        ml_config = model_template_builder.build()
 
         # Create an ML template
         ml_template = model_template_client.create(search_template, ml_config)
@@ -100,8 +102,33 @@ def test_workflow():
         result = model_template_client.validate(ml_template)
         assert result == "OK"
 
-        # Create the dataview
-        data_view_id = data_views_client.create(search_template, ml_template, available_columns,
-                                                [1234], 'my view', 'a test view created by pycc')
+        # Create the data view
+        data_view_id = data_views_client.create(search_template, ml_template, 'my view', 'a test view created by pycc')
         assert data_view_id == 555
+
+
+def test_builder():
+    ml_config = {
+        "Property Melting point": {
+            "role": "Output",
+            "descriptor": {
+                "category": "Real",
+                "upperBound": "Infinity",
+                "lowerBound": "0"
+            }
+        },
+        "Property SMILES": {
+            "role": "Input",
+            "descriptor": {
+                "category": "Organic"
+            }
+        }
+    }
+
+    model_template_builder = SimpleModelTemplateBuilder()
+    model_template_builder.add_real_descriptor('Property Melting point', 'Output', 'Infinity', '0')
+    model_template_builder.add_organic_descriptor('Property SMILES', 'Input')
+
+    as_built_template = model_template_builder.build()
+    assert ml_config == as_built_template
 

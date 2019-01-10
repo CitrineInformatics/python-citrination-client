@@ -10,10 +10,7 @@ class SearchTemplateClient(BaseClient):
         members = ["create", "get_available_columns"]
         super(SearchTemplateClient, self).__init__(api_key, webserver_host, members, suppress_warnings, proxies)
 
-    def create(self, dataset_ids):
-        return self.__generate_search_template(dataset_ids)
-
-    def create_with_extract_as_keys(self, dataset_ids, extract_as_keys):
+    def create(self, dataset_ids, extract_as_keys):
         search_template = self.__generate_search_template(dataset_ids)
         return self.__prune_search_template(extract_as_keys, search_template)
 
