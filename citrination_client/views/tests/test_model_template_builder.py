@@ -1,11 +1,9 @@
 import json
-
 import requests_mock
-
 import os
+import time
 
-from citrination_client.views.model_template.builders.SimpleModelTemplateBuilder import SimpleModelTemplateBuilder
-
+from citrination_client.views.data_view_builder import DataViewBuilder
 from citrination_client.views.search_template.client import SearchTemplateClient
 
 from citrination_client.views.model_template.client import ModelTemplateClient
@@ -34,7 +32,6 @@ def test_workflow():
 
     search_template_url = "{}/api/search_templates{}"
     datasets_url = "{}/api/datasets{}"
-    machine_learning_url = "{}/api/ml_templates{}"
     data_view_url = "{}/api/data_views{}"
     descriptors_url = "{}/descriptors{}"
 
@@ -53,16 +50,6 @@ def test_workflow():
         m.post(
             datasets_url.format(site, '/get-available-columns'),
             json=dict(data=load_file_as_json('./citrination_client/views/tests/available_columns.json'))
-        )
-
-        m.post(
-            machine_learning_url.format(site, ''),
-            json=dict(data=load_file_as_json('./citrination_client/views/tests/ml_template.json'))
-        )
-
-        m.post(
-            machine_learning_url.format(site, '/validate'),
-            json=dict(data=dict(valid=True, reason="OK"))
         )
 
         m.post(
@@ -89,13 +76,13 @@ def test_workflow():
         assert search_template['query'][0]['system'][0]['tags'][0]['category'] == 'General'
 
         # Create ML configuration
-        model_template_builder = SimpleModelTemplateBuilder()
-        model_template_builder.add_real_descriptor('Property Melting point', 'Output', 'Infinity', '0')
-        model_template_builder.add_organic_descriptor('Property SMILES', 'Input')
-        ml_config = model_template_builder.build()
+        dv_builder = DataViewBuilder()
+        dv_builder.add_real_descriptor('Property Melting point', 'Output', 'Infinity', '0')
+        dv_builder.add_organic_descriptor('Property SMILES', 'Input')
+        dv_config = dv_builder.build()
 
         # Create an ML template
-        ml_template = model_template_client.create(search_template, ml_config)
+        ml_template = data_views_client.create(search_template, dv_config)
         assert ml_template['descriptors'][0]['category'] == 'Real'
 
         # Validate the template
@@ -107,28 +94,52 @@ def test_workflow():
         assert data_view_id == 555
 
 
-def test_builder():
-    ml_config = {
-        "Property Melting point": {
-            "role": "Output",
-            "descriptor": {
-                "category": "Real",
-                "upperBound": "Infinity",
-                "lowerBound": "0"
-            }
-        },
-        "Property SMILES": {
-            "role": "Input",
-            "descriptor": {
-                "category": "Organic"
-            }
-        }
-    }
+def test():
+    site = "https://stage.citrination.com"
+    search_template_client = SearchTemplateClient(os.environ["CITRINATION_API_KEY"], site)
+    data_views_client = DataViewsClient(os.environ["CITRINATION_API_KEY"], site)
 
-    model_template_builder = SimpleModelTemplateBuilder()
-    model_template_builder.add_real_descriptor('Property Melting point', 'Output', 'Infinity', '0')
-    model_template_builder.add_organic_descriptor('Property SMILES', 'Input')
+    # Get available columns
+    print 'Get available columns'
+    available_columns = search_template_client.get_available_columns([29])
+    print available_columns
 
-    as_built_template = model_template_builder.build()
-    assert ml_config == as_built_template
+    # Create a search template from dataset ids
+    print 'Create search template'
+    search_template = search_template_client.create([29], available_columns)
 
+    # Create ML configuration
+    print 'Build ML config'
+    dv_builder = DataViewBuilder()
+    dv_builder.set_datasetIds(['29'])
+    dv_builder.set_groupBy(['SMILES'])
+    dv_builder.set_role('Temperature (Property $\\sigma$T(converted from log))', 'output')
+    dv_builder.set_role('SMILES', 'input')
+    dv_builder.set_userId(39)
+    dv_builder.add_real_descriptor('Temperature (Property $\\sigma$T(converted from log))',
+                                   'Infinity', '0', '')
+    dv_builder.add_organic_descriptor('SMILES')
+    dv_config = dv_builder.build()
+
+    # Create the data view
+    print 'Create data view'
+    data_view_id = data_views_client.create(dv_config, 'pycc view5', 'a test view created by pycc')
+
+    print 'Data view id:' + data_view_id
+
+    print 'Submitting a predict request'
+    predict_id = data_views_client.predict(data_view_id, False, [])
+
+    while True:
+        predict_status = data_views_client.check_predict_status(data_view_id, predict_id)
+        print 'Prediction job status: '+predict_status
+        if predict_status == 'done':
+            break
+        time.sleep(5)
+
+    print 'Getting prediction results'
+    predict_result = data_views_client.get_predict_result(data_view_id, predict_id)
+
+    print 'Prediction results: '+predict_result
+
+test()

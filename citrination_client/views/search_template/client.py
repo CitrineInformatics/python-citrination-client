@@ -32,7 +32,7 @@ class SearchTemplateClient(BaseClient):
         failure_message = "Failed to get available columns in dataset(s) {}".format(dataset_ids)
 
         return self._get_success_json(self._post_json(
-            'datasets/get-available-columns', data, failure_message=failure_message))['data']
+            'v1/datasets/get-available-columns', data, failure_message=failure_message))['data']
 
     def __generate_search_template(self, dataset_ids):
         """
@@ -51,7 +51,7 @@ class SearchTemplateClient(BaseClient):
         failure_message = "Failed to generate a search template from columns in dataset(s) {}".format(dataset_ids)
 
         return self._get_success_json(self._post_json(
-            'search_templates/from-dataset-ids', data, failure_message=failure_message))['data']
+            'v1/search_templates/builders/from-dataset-ids', data, failure_message=failure_message))['data']
 
 
     def __prune_search_template(self, extract_as_keys, search_template):
@@ -73,4 +73,4 @@ class SearchTemplateClient(BaseClient):
         failure_message = "Failed to prune a search template"
 
         return self._get_success_json(self._post_json(
-            'search_templates/prune-to-extract-as', data, failure_message=failure_message))['data']
+            'v1/search_templates/prune-to-extract-as', data, failure_message=failure_message))['data']
