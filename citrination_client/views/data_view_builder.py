@@ -8,126 +8,126 @@ class DataViewBuilder(object):
         self.configuration = dict(
             builder='simple',
             dataset_ids=[],
-            userId=0,
-            groupBy='',
-            modelType='default',
+            user_id=0,
+            group_by='',
+            model_type='default',
             descriptors=[],
             roles=dict()
         )
 
-    def set_userId(self, userId):
+    def set_user_id(self, user_id):
         """
-        Sets the userId associated with this view.
+        Sets the user_id associated with this view.
 
-        :param userId: Citrination userid
+        :param user_id: Citrination user_id
         """
-        self.configuration['userId'] = userId
+        self.configuration['user_id'] = user_id
 
-    def set_datasetIds(self, datasetIds):
+    def set_dataset_ids(self, dataset_ids):
         """
         Sets the dataset ids to use for the view
 
-        :param datasetIds: Array of strings, one for each dataset id
+        :param dataset_ids: Array of strings, one for each dataset id
         """
-        self.configuration['dataset_ids'] = datasetIds
+        self.configuration['dataset_ids'] = dataset_ids
 
-    def set_groupBy(self, groupBy):
+    def set_group_by(self, group_by):
         """
         Sets the group by used on the front-end
 
-        :param groupBy: Array of strings for the grouping
+        :param group_by: Array of strings for the grouping
         """
-        self.configuration['groupBy'] = groupBy
+        self.configuration['group_by'] = group_by
 
-    def set_modelType(self, modelType):
+    def set_model_type(self, model_type):
         """
         Sets the model type for the view
 
-        :param modelType: A string of either linear, or default
+        :param model_type: A string of either linear, or default
         """
-        self.configuration['modelType'] = modelType
+        self.configuration['model_type'] = model_type
 
-    def set_role(self, descriptorKey, role):
+    def set_role(self, descriptor_key, role):
         """
         Sets the role of a descriptor by key
 
-        :param descriptorKey: The descriptor to set the role for
+        :param descriptor_key: The descriptor to set the role for
         :param role: input, output, latentVariable, or ignored
         """
-        self.configuration['roles'][descriptorKey] = role
+        self.configuration['roles'][descriptor_key] = role
 
-    def add_real_descriptor(self, descriptorKey, upper_bound, lower_bound, units):
+    def add_real_descriptor(self, descriptor_key, upper_bound, lower_bound, units):
         """
         Add a real valued descriptor to the configuration
 
-        :param descriptorKey: Identifier for the descriptor
+        :param descriptor_key: Identifier for the descriptor
         :param upper_bound: Numeric maximum value
         :param lower_bound: Numeric minimum value
         :param units: Units to use for values for this column
         """
         descriptor = dict(
             category='Real',
-            descriptorKey=descriptorKey,
+            descriptor_key=descriptor_key,
             upper_bound=upper_bound,
             lower_bound=lower_bound,
             units=units
         )
         self.configuration['descriptors'].append(descriptor)
 
-    def add_categorical_descriptor(self, descriptorKey, descriptorValues):
+    def add_categorical_descriptor(self, descriptor_key, descriptor_values):
         """
         Add a categorical valued descriptor to the configuration
 
-        :param descriptorKey: Identifier for the descriptor
-        :param descriptorValues: An array of strings
+        :param descriptor_key: Identifier for the descriptor
+        :param descriptor_values: An array of strings
         """
         descriptor = dict(
             category='Categorical',
-            descriptorKey=descriptorKey,
-            descriptorValues=descriptorValues
+            descriptor_key=descriptor_key,
+            descriptor_values=descriptor_values
         )
         self.configuration['descriptors'].append(descriptor)
 
-    def add_organic_descriptor(self, descriptorKey):
+    def add_organic_descriptor(self, descriptor_key):
         """
         Add an organic valued descriptor to the configuration
 
-        :param descriptorKey: Identifier for the descriptor
+        :param descriptor_key: Identifier for the descriptor
         """
         descriptor = dict(
             category='Organic',
-            descriptorKey=descriptorKey
+            descriptor_key=descriptor_key
         )
         self.configuration['descriptors'].append(descriptor)
 
-    def add_alloy_composition_descriptor(self, descriptorKey, balanceElement, basis, threshold):
+    def add_alloy_composition_descriptor(self, descriptor_key, balance_element, basis, threshold):
         """
         Add an alloy composition descriptor to the configuration
 
-        :param descriptorKey: Identifier for the descriptor
-        :param balanceElement: The element the basis is applied to
-        :param basis: Percentage of the balanceElement
+        :param descriptor_key: Identifier for the descriptor
+        :param balance_element: The element the basis is applied to
+        :param basis: Percentage of the balance_element
         :param threshold: Allowable deviation from basis
         """
         descriptor = dict(
             category='Alloy composition',
-            descriptorKey=descriptorKey,
-            balanceElement=balanceElement,
+            descriptor_key=descriptor_key,
+            balance_element=balance_element,
             basis=basis,
             threshold=threshold
         )
         self.configuration['descriptors'].append(descriptor)
 
-    def add_inorganic_descriptor(self, descriptorKey, threshold):
+    def add_inorganic_descriptor(self, descriptor_key, threshold):
         """
         Add an inorganic valued descriptor to the configuration
 
-        :param descriptorKey: Identifier for the descriptor
+        :param descriptor_key: Identifier for the descriptor
         :param threshold: The closeness to an interpretable chemical formula that is accepted as valid
         """
         descriptor = dict(
             category='Inorganic',
-            descriptorKey=descriptorKey,
+            descriptor_key=descriptor_key,
             threshold=threshold
         )
         self.configuration['descriptors'].append(descriptor)
