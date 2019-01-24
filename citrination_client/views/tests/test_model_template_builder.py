@@ -96,7 +96,7 @@ def test_workflow():
 
 
 def test():
-    site = "https://stage.citrination.com"
+    site = "https://citrination.com"
     search_template_client = SearchTemplateClient(os.environ["CITRINATION_API_KEY"], site)
     data_views_client = DataViewsClient(os.environ["CITRINATION_API_KEY"], site)
 
