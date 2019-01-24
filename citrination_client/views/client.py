@@ -33,7 +33,6 @@ class DataViewsClient(BaseClient):
 
         result = self._get_success_json(self._post_json(
             'v1/data_views', data, failure_message=failure_message))
-        print result
         return result['data']['id']
 
     def update(self, id, configuration, name, description):
