@@ -103,7 +103,7 @@ def test():
     # Get available columns
     print('Get available columns')
     available_columns = search_template_client.get_available_columns([29])
-    print available_columns
+    print('Available columns:' + available_columns)
 
     # Create a search template from dataset ids
     print('Create search template')
