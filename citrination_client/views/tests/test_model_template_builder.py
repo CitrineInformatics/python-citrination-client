@@ -148,14 +148,13 @@ def test():
 
     while True:
         predict_status = data_views_client.check_predict_status(data_view_id, predict_id)
-        print 'Prediction job status: '+predict_status
-        if predict_status == 'finished':
+        print 'Prediction job status: ' + predict_status['status']
+        if predict_status['status'] == 'Finished':
             break
         time.sleep(5)
 
-    print 'Getting prediction results'
-    predict_result = data_views_client.get_predict_result(data_view_id, predict_id)
+    predict_result = predict_status['results']
 
-    print 'Prediction results: '+ json.dumps(predict_result)
+    print 'Prediction results: ' + json.dumps(predict_result)
 
 test()

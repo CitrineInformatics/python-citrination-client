@@ -186,24 +186,10 @@ class DataViewsClient(BaseClient):
 
         :param view_id: The data view id returned from data view create
         :param predict_request_id: The id returned from predict
-        :return: String indicating state of the job (e.g. "running")
+        :return: Status data, also includes results if state is finished
         """
 
         failure_message = "Get status on predict failed"
         return self._get_success_json(self._get(
             'v1/data_views/' + view_id + '/predict/' + predict_request_id + '/status',
-            None, failure_message=failure_message))['data']['status']
-
-    def get_predict_result(self, view_id, predict_request_id):
-        """
-        Returns a string indicating the status of the prediction job
-
-        :param view_id: The id returned from data view create
-        :param predict_request_id: The id returned from predict
-        :return: Array of candidates
-        """
-
-        failure_message = "Get results on predict failed"
-        return self._get_success_json(self._get(
-            'v1/data_views/' + view_id + '/predict/' + predict_request_id + '/results',
-            None, failure_message=failure_message))['data']['results']['candidates']
+            None, failure_message=failure_message))['data']
