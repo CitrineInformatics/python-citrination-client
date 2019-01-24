@@ -101,16 +101,16 @@ def test():
     data_views_client = DataViewsClient(os.environ["CITRINATION_API_KEY"], site)
 
     # Get available columns
-    print 'Get available columns'
+    print('Get available columns')
     available_columns = search_template_client.get_available_columns([29])
     print available_columns
 
     # Create a search template from dataset ids
-    print 'Create search template'
+    print('Create search template')
     search_template = search_template_client.create([29], available_columns)
 
     # Create ML configuration
-    print 'Build ML config'
+    print('Build ML config')
     dv_builder = DataViewBuilder()
     dv_builder.set_dataset_ids(['29'])
     dv_builder.set_group_by(['SMILES'])
@@ -124,16 +124,16 @@ def test():
 
     # Create the data view
     view_name = 'pycc view '+str(uuid.uuid4())
-    print 'Create data view: '+view_name
+    print('Create data view: '+view_name)
     data_view_id = data_views_client.create(dv_config, view_name , 'a test view created by pycc')
 
-    print 'Data view id:' + str(data_view_id)
-    print 'Running retrain'
+    print('Data view id:' + str(data_view_id))
+    print('Running retrain')
     data_views_client.retrain(data_view_id)
 
     while True:
         status = data_views_client.get_data_view_service_status(data_view_id)
-        print 'Data view status: '+status.predict.reason
+        print('Data view status: '+status.predict.reason)
         if status.predict.is_ready():
             break
         time.sleep(5)
@@ -141,20 +141,20 @@ def test():
     #print 'Test update'
     #data_views_client.update(data_view_id, dv_config, view_name+'-upd', 'updated description from pycc')
 
-    print 'Submitting a predict request'
+    print('Submitting a predict request')
     predict_id = data_views_client.predict(data_view_id, 'scalar', False, [{u'Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)': 'float'},
                                                                            {"SMILES": 'CCC'}])
-    print 'Predict ID: '+predict_id
+    print('Predict ID: '+predict_id)
 
     while True:
         predict_status = data_views_client.check_predict_status(data_view_id, predict_id)
-        print 'Prediction job status: ' + predict_status['status']
+        print('Prediction job status: ' + predict_status['status'])
         if predict_status['status'] == 'Finished':
             break
         time.sleep(5)
 
     predict_result = predict_status['results']
 
-    print 'Prediction results: ' + json.dumps(predict_result)
+    print('Prediction results: ' + json.dumps(predict_result))
 
 test()
