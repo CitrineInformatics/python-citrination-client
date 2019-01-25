@@ -1,3 +1,5 @@
+from citrination_client.views.client import DataViewsClient
+
 from citrination_client.models import ModelsClient
 from citrination_client.search import SearchClient
 from citrination_client.data import DataClient
@@ -44,14 +46,14 @@ class CitrinationClient(object):
         self.models = ModelsClient(api_key, site, suppress_warnings=suppress_warnings, proxies=proxies)
         self.search = SearchClient(api_key, site, suppress_warnings=suppress_warnings, proxies=proxies)
         self.data = DataClient(api_key, site, suppress_warnings=suppress_warnings, proxies=proxies)
+        self.data_views = DataViewsClient(api_key, site, suppress_warnings=suppress_warnings, proxies=proxies)
 
-        clients = [self.models, self.search, self.data]
+        clients = [self.models, self.search, self.data, self.data_views]
 
         for client in clients:
             client_methods = [a for a in dir(client) if not a.startswith('_')]
             for method in client_methods:
                 setattr(self, method, _generate_lambda_proxy_method(client, method))
 
-
     def __repr__(self):
-        return "['models', 'search', 'data']"
+        return "['models', 'search', 'data', 'data_views']"
