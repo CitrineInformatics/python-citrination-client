@@ -50,4 +50,8 @@ correct version:
 python -c "import ssl; print ssl.OPENSSL_VERSION"
 ```
 
-Some useful guides can be found [here](http://stackoverflow.com/questions/24323858/python-referencing-old-ssl-version) and [here](https://comeroutewithme.com/2016/03/13/python-osx-openssl-issue/). 
+Some useful guides can be found [here](http://stackoverflow.com/questions/24323858/python-referencing-old-ssl-version) and [here](https://comeroutewithme.com/2016/03/13/python-osx-openssl-issue/).
+
+### Getting Started
+
+You can learn about the functionalities of the python-citrination-client through the following [tutorials] (http://citrineinformatics.github.io/python-citrination-client/)
