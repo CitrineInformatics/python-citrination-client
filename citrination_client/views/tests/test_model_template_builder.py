@@ -96,54 +96,36 @@ def test_workflow():
 
 
 def test():
-    site = "https://citrination.com"
-    search_template_client = SearchTemplateClient(os.environ["CITRINATION_API_KEY"], site)
+    site = "https://stage.citrination.com"
     data_views_client = DataViewsClient(os.environ["CITRINATION_API_KEY"], site)
-
-    # Get available columns
-    print('Get available columns')
-    available_columns = search_template_client.get_available_columns([29])
-    print('Available columns:' + available_columns)
-
-    # Create a search template from dataset ids
-    print('Create search template')
-    search_template = search_template_client.create([29], available_columns)
 
     # Create ML configuration
     print('Build ML config')
     dv_builder = DataViewBuilder()
     dv_builder.set_dataset_ids(['29'])
     dv_builder.set_group_by(['SMILES'])
-    dv_builder.set_role(u'Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)', 'output')
-    dv_builder.set_role('SMILES', 'input')
     dv_builder.set_user_id(39)
     dv_builder.add_real_descriptor(u'Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)',
-                                   'Infinity', '0', '')
-    dv_builder.add_organic_descriptor('SMILES')
+                                   'Infinity', '0', '', 'output')
+    dv_builder.add_organic_descriptor('SMILES', 'input')
     dv_config = dv_builder.build()
 
     # Create the data view
     view_name = 'pycc view '+str(uuid.uuid4())
     print('Create data view: '+view_name)
-    data_view_id = data_views_client.create(dv_config, view_name , 'a test view created by pycc')
+    data_view_id = data_views_client.create(dv_config, view_name, 'a test view created by pycc')
 
+    view_metadata = data_views_client.get(data_view_id)
+    print('View metadata: ' + str(view_metadata))
     print('Data view id:' + str(data_view_id))
-    print('Running retrain')
-    data_views_client.retrain(data_view_id)
-
-    while True:
-        status = data_views_client.get_data_view_service_status(data_view_id)
-        print('Data view status: '+status.predict.reason)
-        if status.predict.is_ready():
-            break
-        time.sleep(5)
 
     #print 'Test update'
     #data_views_client.update(data_view_id, dv_config, view_name+'-upd', 'updated description from pycc')
 
     print('Submitting a predict request')
-    predict_id = data_views_client.predict(data_view_id, 'scalar', False, [{u'Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)': 'float'},
-                                                                           {"SMILES": 'CCC'}])
+    predict_id = data_views_client.submit_predict_request(data_view_id,
+                                           [{u'Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)': 'float'},
+                                            {"SMILES": 'CCC'}], 'scalar', False)
     print('Predict ID: '+predict_id)
 
     while True:
@@ -156,5 +138,6 @@ def test():
     predict_result = predict_status['results']
 
     print('Prediction results: ' + json.dumps(predict_result))
+    data_views_client.delete(data_view_id)
 
 test()

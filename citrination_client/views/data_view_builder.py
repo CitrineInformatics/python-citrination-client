@@ -56,7 +56,7 @@ class DataViewBuilder(object):
         """
         self.configuration['roles'][descriptor_key] = role
 
-    def add_real_descriptor(self, descriptor_key, upper_bound, lower_bound, units):
+    def add_real_descriptor(self, descriptor_key, upper_bound, lower_bound, units, role=None):
         """
         Add a real valued descriptor to the configuration
 
@@ -64,6 +64,7 @@ class DataViewBuilder(object):
         :param upper_bound: Numeric maximum value
         :param lower_bound: Numeric minimum value
         :param units: Units to use for values for this column
+        :param role: Optionally specify a role (input, output, latentVariable, or ignored)
         """
         descriptor = dict(
             category='Real',
@@ -73,13 +74,16 @@ class DataViewBuilder(object):
             units=units
         )
         self.configuration['descriptors'].append(descriptor)
+        if role is not None:
+            self.set_role(descriptor_key,role)
 
-    def add_categorical_descriptor(self, descriptor_key, descriptor_values):
+    def add_categorical_descriptor(self, descriptor_key, descriptor_values, role=None):
         """
         Add a categorical valued descriptor to the configuration
 
         :param descriptor_key: Identifier for the descriptor
         :param descriptor_values: An array of strings
+        :param role: Optionally specify a role (input, output, latentVariable, or ignored)
         """
         descriptor = dict(
             category='Categorical',
@@ -87,20 +91,25 @@ class DataViewBuilder(object):
             descriptor_values=descriptor_values
         )
         self.configuration['descriptors'].append(descriptor)
+        if role is not None:
+            self.set_role(descriptor_key, role)
 
-    def add_organic_descriptor(self, descriptor_key):
+    def add_organic_descriptor(self, descriptor_key, role=None):
         """
         Add an organic valued descriptor to the configuration
 
         :param descriptor_key: Identifier for the descriptor
+        :param role: Optionally specify a role (input, output, latentVariable, or ignored)
         """
         descriptor = dict(
             category='Organic',
             descriptor_key=descriptor_key
         )
         self.configuration['descriptors'].append(descriptor)
+        if role is not None:
+            self.set_role(descriptor_key, role)
 
-    def add_alloy_composition_descriptor(self, descriptor_key, balance_element, basis, threshold):
+    def add_alloy_composition_descriptor(self, descriptor_key, balance_element, basis, threshold, role=None):
         """
         Add an alloy composition descriptor to the configuration
 
@@ -108,6 +117,7 @@ class DataViewBuilder(object):
         :param balance_element: The element the basis is applied to
         :param basis: Percentage of the balance_element
         :param threshold: Allowable deviation from basis
+        :param role: Optionally specify a role (input, output, latentVariable, or ignored)
         """
         descriptor = dict(
             category='Alloy composition',
@@ -117,13 +127,16 @@ class DataViewBuilder(object):
             threshold=threshold
         )
         self.configuration['descriptors'].append(descriptor)
+        if role is not None:
+            self.set_role(descriptor_key, role)
 
-    def add_inorganic_descriptor(self, descriptor_key, threshold):
+    def add_inorganic_descriptor(self, descriptor_key, threshold, role=None):
         """
         Add an inorganic valued descriptor to the configuration
 
         :param descriptor_key: Identifier for the descriptor
         :param threshold: The closeness to an interpretable chemical formula that is accepted as valid
+        :param role: Optionally specify a role (input, output, latentVariable, or ignored)
         """
         descriptor = dict(
             category='Inorganic',
@@ -131,6 +144,19 @@ class DataViewBuilder(object):
             threshold=threshold
         )
         self.configuration['descriptors'].append(descriptor)
+        if role is not None:
+            self.set_role(descriptor_key, role)
+
+    def add_descriptor(self, descriptor, role=None):
+        """
+        Add a generic descriptor entry.
+
+        :param descriptor: Descriptor dict, see add_*_descriptor methods in this class for examples
+        :param role: Optionally specify a role (input, output, latentVariable, or ignored)
+        """
+        self.configuration['descriptors'].append(descriptor)
+        if role is not None:
+            self.set_role(descriptor['descriptor_key'], role)
 
     def build(self):
         return self.configuration
