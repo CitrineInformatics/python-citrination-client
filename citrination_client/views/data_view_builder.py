@@ -56,26 +56,24 @@ class DataViewBuilder(object):
         """
         self.configuration['roles'][descriptor_key] = role
 
-    def add_real_descriptor(self, descriptor_key, upper_bound, lower_bound, units, role=None):
+    def add_real_descriptor(self, descriptor_key, upper_bound, lower_bound, role=None):
         """
         Add a real valued descriptor to the configuration
 
         :param descriptor_key: Identifier for the descriptor
         :param upper_bound: Numeric maximum value
         :param lower_bound: Numeric minimum value
-        :param units: Units to use for values for this column
         :param role: Optionally specify a role (input, output, latentVariable, or ignored)
         """
         descriptor = dict(
             category='Real',
             descriptor_key=descriptor_key,
             upper_bound=upper_bound,
-            lower_bound=lower_bound,
-            units=units
+            lower_bound=lower_bound
         )
         self.configuration['descriptors'].append(descriptor)
         if role is not None:
-            self.set_role(descriptor_key,role)
+            self.set_role(descriptor_key, role)
 
     def add_categorical_descriptor(self, descriptor_key, descriptor_values, role=None):
         """

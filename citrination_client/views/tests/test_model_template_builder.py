@@ -4,6 +4,8 @@ import os
 import time
 import uuid
 
+from citrination_client import CitrinationClient
+
 from citrination_client.views.data_view_builder import DataViewBuilder
 from citrination_client.views.search_template.client import SearchTemplateClient
 
@@ -97,7 +99,8 @@ def test_workflow():
 
 def test():
     site = "https://stage.citrination.com"
-    data_views_client = DataViewsClient(os.environ["CITRINATION_API_KEY"], site)
+    client = CitrinationClient(os.environ["CITRINATION_API_KEY"], site)
+    data_views_client = client.data_views
 
     # Create ML configuration
     print('Build ML config')
