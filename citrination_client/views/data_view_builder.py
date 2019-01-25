@@ -15,14 +15,6 @@ class DataViewBuilder(object):
             roles=dict()
         )
 
-    def set_user_id(self, user_id):
-        """
-        Sets the user_id associated with this view.
-
-        :param user_id: Citrination user_id
-        """
-        self.configuration['user_id'] = user_id
-
     def set_dataset_ids(self, dataset_ids):
         """
         Sets the dataset ids to use for the view

@@ -41,19 +41,6 @@ class DataViewsClient(BaseClient):
             'v1/data_views', data, failure_message=failure_message))
         data_view_id = result['data']['id']
 
-
-        needs_retrain = True
-
-        if needs_retrain:
-            self.retrain(data_view_id)
-
-            while True:
-                status = self.get_data_view_service_status(data_view_id)
-                print('Data view status: ' + status.predict.reason)
-                if status.predict.is_ready():
-                    break
-                time.sleep(5)
-
         return data_view_id
 
     def update(self, id, configuration, name, description):

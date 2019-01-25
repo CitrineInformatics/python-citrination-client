@@ -29,7 +29,7 @@ def check_for_rate_limiting(response, response_lambda, timeout=1, attempts=0):
 def check_general_success(response, failure_message):
     if response.status_code >= 400:
         raise CitrinationClientError(
-            "{} - Citrination returned {}".format(failure_message, response.status_code)
+            "{} - Citrination returned {}: {}".format(failure_message, response.status_code, response.json()["message"])
         )
     return response
 

@@ -107,9 +107,8 @@ def test():
     dv_builder = DataViewBuilder()
     dv_builder.set_dataset_ids(['29'])
     dv_builder.set_group_by(['SMILES'])
-    dv_builder.set_user_id(39)
     dv_builder.add_real_descriptor(u'Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)',
-                                   'Infinity', '0', '', 'output')
+                                   'Infinity', '0', 'output')
     dv_builder.add_organic_descriptor('SMILES', 'input')
     dv_config = dv_builder.build()
 
@@ -121,6 +120,15 @@ def test():
     view_metadata = data_views_client.get(data_view_id)
     print('View metadata: ' + str(view_metadata))
     print('Data view id:' + str(data_view_id))
+
+    data_views_client.retrain(data_view_id)
+
+    while True:
+        status = data_views_client.get_data_view_service_status(data_view_id)
+        print('Data view status: ' + status.predict.reason)
+        if status.predict.is_ready():
+            break
+        time.sleep(5)
 
     #print 'Test update'
     #data_views_client.update(data_view_id, dv_config, view_name+'-upd', 'updated description from pycc')
