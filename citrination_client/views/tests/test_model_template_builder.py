@@ -84,10 +84,10 @@ def test_workflow():
 
         # Create ML configuration
         dv_builder = DataViewBuilder()
-        desc = RealDescriptor('Property Melting point','-Infinity', '0')
-        dv_builder.add_real_descriptor(desc, 'Output')
+        desc = RealDescriptor('Property Melting point', '-Infinity', '0')
+        dv_builder.add_descriptor(desc, 'Output')
         desc = OrganicDescriptor('Property SMILES')
-        dv_builder.add_organic_descriptor(desc, 'Input')
+        dv_builder.add_descriptor(desc, 'Input')
         dv_config = dv_builder.build()
 
         # Create an ML template
@@ -173,4 +173,5 @@ def test_descriptor():
 
     config = dv_builder.build()
     json.dumps(config)
+
 

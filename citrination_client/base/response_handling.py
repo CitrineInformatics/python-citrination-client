@@ -28,9 +28,11 @@ def check_for_rate_limiting(response, response_lambda, timeout=1, attempts=0):
 
 def check_general_success(response, failure_message):
     if response.status_code >= 400:
+        msg = "Message not found"
+        if response.content is not None and len(response.content) > 3:
+            msg = response.json().get("message", "Message not found")
         raise CitrinationClientError(
-            "{} - Citrination returned {}: {}".format(failure_message, response.status_code,
-                                                      response.json().get("message", "Message not found"))
+            "{} - Citrination returned {}: {}".format(failure_message, response.status_code, msg)
         )
     return response
 
