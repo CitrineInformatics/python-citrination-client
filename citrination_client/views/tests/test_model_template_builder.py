@@ -1,5 +1,4 @@
 import json
-import pprint
 
 import requests_mock
 import os
@@ -173,5 +172,3 @@ def test_descriptor():
 
     config = dv_builder.build()
     json.dumps(config)
-
-
