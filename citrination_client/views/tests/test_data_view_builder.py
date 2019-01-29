@@ -13,7 +13,7 @@ def test_add_descriptor():
     config = builder.build()
 
     assert config["group_by"] == ["band gap"]
-    assert config["descriptors"] == [bandgap]
+    assert config["descriptors"] == [bandgap.as_dict()]
     assert config["roles"] == {"band gap": "output"}
 
     # Make sure duplicates raise an error

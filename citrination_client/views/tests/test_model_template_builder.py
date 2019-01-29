@@ -94,14 +94,14 @@ def test_workflow():
 
 
 def test_live_api():
-    site = "https://stage.citrination.com"
+    site = "https://citrination.com"
     client = CitrinationClient(os.environ["CITRINATION_API_KEY"], site)
     data_views_client = client.data_views
 
     # Create ML configuration
     print('Build ML config')
     dv_builder = DataViewBuilder()
-    dv_builder.dataset_ids(['29'])
+    dv_builder.dataset_ids(['151278'])
     desc = RealDescriptor(u'Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)',
                           '-Infinity', '0')
     dv_builder.add_descriptor(desc, 'output')
@@ -169,6 +169,8 @@ def test_descriptor():
     desc = CategoricalDescriptor('Property 5', ['Category A', 'Category B'])
     dv_builder.add_descriptor(desc, 'input')
 
-    dv_builder.build()
+    config = dv_builder.build()
+    json.dumps(config)
 
 
+test_live_api()
