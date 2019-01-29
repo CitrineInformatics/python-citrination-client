@@ -71,6 +71,8 @@ def test_specified_profile_preferred():
     Tests that credentials pointed to by the profile environment variable are prioritized over the default credential file credentials.
     """
     save_env()
+    os.environ[citr_env_vars.CITRINATION_API_KEY] = ""
+    os.environ[citr_env_vars.CITRINATION_SITE] = ""
     os.environ[citr_env_vars.CITRINATION_PROFILE] = "test"
     preferred_key, preferred_site = get_preferred_credentials(None, None, mock_credentials_path)
     assert preferred_key == "my_test_profile_key"
@@ -83,6 +85,9 @@ def test_default_profile_last_resort():
     from the default stanza in the credentials file
     """
     save_env()
+    os.environ[citr_env_vars.CITRINATION_API_KEY] = ""
+    os.environ[citr_env_vars.CITRINATION_SITE] = ""
+    os.environ[citr_env_vars.CITRINATION_PROFILE] = ""
     preferred_key, preferred_site = get_preferred_credentials(None, None, mock_credentials_path)
     assert preferred_key == "my_default_profile_key"
     assert preferred_site == "my_default_profile_site"
