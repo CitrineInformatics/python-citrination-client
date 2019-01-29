@@ -174,5 +174,3 @@ def test_descriptor():
     config = dv_builder.build()
     json.dumps(config)
 
-
-test_workflow()
