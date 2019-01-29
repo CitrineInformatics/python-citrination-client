@@ -33,7 +33,7 @@ def load_file_as_json(path):
 def test_workflow():
     print('Starting data view creation workflow')
 
-    site = "https://citrination.com"
+    site = os.environ["CITRINATION_SITE"]
     search_template_client = SearchTemplateClient(os.environ["CITRINATION_API_KEY"], site)
     data_views_client = DataViewsClient(os.environ["CITRINATION_API_KEY"], site)
 
@@ -94,7 +94,7 @@ def test_workflow():
 
 
 def test_live_api():
-    site = "https://citrination.com"
+    site = os.environ["CITRINATION_SITE"]
     client = CitrinationClient(os.environ["CITRINATION_API_KEY"], site)
     data_views_client = client.data_views
 
