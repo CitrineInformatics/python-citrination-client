@@ -1,4 +1,6 @@
 import json
+import pprint
+
 import requests_mock
 import os
 import time
@@ -7,6 +9,11 @@ import uuid
 from citrination_client import CitrinationClient
 
 from citrination_client.views.data_view_builder import DataViewBuilder
+from citrination_client.views.descriptors.alloy_composition_descriptor import AlloyCompositionDescriptor
+from citrination_client.views.descriptors.categorical_descriptor import CategoricalDescriptor
+from citrination_client.views.descriptors.inorganic_descriptor import InorganicDescriptor
+from citrination_client.views.descriptors.organic_descriptor import OrganicDescriptor
+from citrination_client.views.descriptors.real_descriptor import RealDescriptor
 from citrination_client.views.search_template.client import SearchTemplateClient
 
 from citrination_client.views.client import DataViewsClient
@@ -86,7 +93,7 @@ def test_workflow():
         assert data_view_id == 555
 
 
-def test():
+def test_live_api():
     site = "https://stage.citrination.com"
     client = CitrinationClient(os.environ["CITRINATION_API_KEY"], site)
     data_views_client = client.data_views
@@ -94,11 +101,12 @@ def test():
     # Create ML configuration
     print('Build ML config')
     dv_builder = DataViewBuilder()
-    dv_builder.set_dataset_ids(['29'])
-    dv_builder.set_group_by(['SMILES'])
-    dv_builder.add_real_descriptor(u'Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)',
-                                   'Infinity', '0', 'output')
-    dv_builder.add_organic_descriptor('SMILES', 'input')
+    dv_builder.dataset_ids(['29'])
+    desc = RealDescriptor(u'Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)',
+                          '-Infinity', '0')
+    dv_builder.add_descriptor(desc, 'output')
+    desc = OrganicDescriptor('SMILES')
+    dv_builder.add_descriptor(desc, 'input')
     dv_config = dv_builder.build()
 
     # Create the data view
@@ -140,3 +148,27 @@ def test():
 
     print('Prediction results: ' + json.dumps(predict_result))
     data_views_client.delete(data_view_id)
+
+
+def test_descriptor():
+    print('Testing descriptor')
+    dv_builder = DataViewBuilder()
+
+    desc = RealDescriptor('Property 1')
+    dv_builder.add_descriptor(desc, 'input')
+
+    desc = AlloyCompositionDescriptor('Property 2', 'Al')
+    dv_builder.add_descriptor(desc, 'input')
+
+    desc = OrganicDescriptor('Property 3')
+    dv_builder.add_descriptor(desc, 'input')
+
+    desc = InorganicDescriptor('Property 4', 5)
+    dv_builder.add_descriptor(desc, 'input')
+
+    desc = CategoricalDescriptor('Property 5', ['Category A', 'Category B'])
+    dv_builder.add_descriptor(desc, 'input')
+
+    dv_builder.build()
+
+
