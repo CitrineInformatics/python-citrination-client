@@ -4,6 +4,21 @@ from citrination_client.base.errors import CitrinationClientError
 import os
 
 mock_credentials_path = './citrination_client/util/tests/mock_credentials'
+# Save these, to be restored later
+original_env_api_key = None
+original_env_site = None
+original_env_profile = None
+
+
+def save_env():
+    global original_env_api_key
+    global original_env_site
+    global original_env_profile
+
+    original_env_api_key = os.environ.get(citr_env_vars.CITRINATION_API_KEY, "")
+    original_env_site = os.environ.get(citr_env_vars.CITRINATION_SITE, "")
+    original_env_profile = os.environ.get(citr_env_vars.CITRINATION_PROFILE, "")
+
 
 def test_initialization_parameters_preferred():
     """
@@ -16,6 +31,7 @@ def test_initialization_parameters_preferred():
     """
     api_key = "mykey"
     site = "mysite.citrination.com"
+    save_env()
     os.environ[citr_env_vars.CITRINATION_API_KEY] = "definitelysomekey"
     os.environ[citr_env_vars.CITRINATION_SITE] = "wrong.citrination.com"
     os.environ[citr_env_vars.CITRINATION_PROFILE] = "test"
@@ -41,6 +57,7 @@ def test_env_vars_preferred():
     """
     api_key = "mykey"
     site = "mysite.citrination.com"
+    save_env()
     os.environ[citr_env_vars.CITRINATION_API_KEY] = api_key
     os.environ[citr_env_vars.CITRINATION_SITE] = site
     os.environ[citr_env_vars.CITRINATION_PROFILE] = "test"
@@ -53,6 +70,7 @@ def test_specified_profile_preferred():
     """
     Tests that credentials pointed to by the profile environment variable are prioritized over the default credential file credentials.
     """
+    save_env()
     os.environ[citr_env_vars.CITRINATION_PROFILE] = "test"
     preferred_key, preferred_site = get_preferred_credentials(None, None, mock_credentials_path)
     assert preferred_key == "my_test_profile_key"
@@ -64,6 +82,7 @@ def test_default_profile_last_resort():
     Tests that in the absence of all other information, credentials are pulled
     from the default stanza in the credentials file
     """
+    save_env()
     preferred_key, preferred_site = get_preferred_credentials(None, None, mock_credentials_path)
     assert preferred_key == "my_default_profile_key"
     assert preferred_site == "my_default_profile_site"
@@ -79,6 +98,7 @@ def test_creds_none_if_no_file():
     assert site is None
 
 def _reset_env():
-    os.environ.pop(citr_env_vars.CITRINATION_API_KEY, None)
-    os.environ.pop(citr_env_vars.CITRINATION_SITE, None)
-    os.environ.pop(citr_env_vars.CITRINATION_PROFILE, None)
+    os.environ[citr_env_vars.CITRINATION_API_KEY] = original_env_api_key
+    os.environ[citr_env_vars.CITRINATION_SITE] = original_env_site
+    os.environ[citr_env_vars.CITRINATION_PROFILE] = original_env_profile
+
