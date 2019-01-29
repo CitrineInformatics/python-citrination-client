@@ -9,8 +9,6 @@ from citrination_client import CitrinationClient
 from citrination_client.views.data_view_builder import DataViewBuilder
 from citrination_client.views.search_template.client import SearchTemplateClient
 
-from citrination_client.views.model_template.client import ModelTemplateClient
-
 from citrination_client.views.client import DataViewsClient
 
 
