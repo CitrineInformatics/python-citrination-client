@@ -2,3 +2,5 @@ pyyaml
 pypif==1.1.6
 requests==2.10.0
 six==1.10.0
+requests_mock
+pytest

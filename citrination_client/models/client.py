@@ -10,6 +10,7 @@ from citrination_client.models.columns.column_factory import ColumnFactory
 import requests
 import time
 
+
 class ModelsClient(BaseClient):
     """
     A client that encapsulates interactions with models on Citrination.
@@ -94,7 +95,8 @@ class ModelsClient(BaseClient):
         url = self._get_version_url(model_path)
         response = self._get(url, headers=self.headers)
         if response.status_code != requests.codes.ok:
-            raise RuntimeError('Latest template requested ' + str(response.status_code) + ' response: ' + str(response.reason))
+            raise RuntimeError(
+                'Latest template requested ' + str(response.status_code) + ' response: ' + str(response.reason))
         return response.json()
 
     def _get_version_url(self, model_path):
@@ -122,8 +124,8 @@ class ModelsClient(BaseClient):
         return {
             "predictionRequest": {
                 "predictionSource": method,
-                "usePrior":         use_prior,
-                "candidates":       candidates
+                "usePrior": use_prior,
+                "candidates": candidates
             }
         }
 
@@ -159,10 +161,10 @@ class ModelsClient(BaseClient):
 
         body = {
             "num_candidates": num_candidates,
-            "target":         target,
-            "effort":         effort,
-            "constraints":    constraint_dicts,
-            "sampler":        sampler
+            "target": target,
+            "effort": effort,
+            "constraints": constraint_dicts,
+            "sampler": sampler
         }
 
         url = routes.submit_data_view_design(data_view_id)
@@ -297,11 +299,12 @@ class ModelsClient(BaseClient):
         result = response["data"]["status"]
 
         return DataViewStatus(
-            predict = ServiceStatus.from_response_dict(result["predict"]),
-            experimental_design = ServiceStatus.from_response_dict(result["experimental_design"]),
-            data_reports = ServiceStatus.from_response_dict(result["data_reports"]),
-            model_reports = ServiceStatus.from_response_dict(result["model_reports"])
+            predict=ServiceStatus.from_response_dict(result["predict"]),
+            experimental_design=ServiceStatus.from_response_dict(result["experimental_design"]),
+            data_reports=ServiceStatus.from_response_dict(result["data_reports"]),
+            model_reports=ServiceStatus.from_response_dict(result["model_reports"])
         )
+
 
 def _get_prediction_result_from_candidate(candidate_dict):
     result = PredictionResult()
