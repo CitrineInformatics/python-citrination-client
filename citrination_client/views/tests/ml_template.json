@@ -1,0 +1,522 @@
+{
+  "query": {
+    "query": [
+      {
+        "logic": "MUST",
+        "system": [
+          {
+            "logic": "SHOULD",
+            "tags": [
+              {}
+            ],
+            "names": [
+              {}
+            ],
+            "ids": [
+              {
+                "logic": "OPTIONAL",
+                "name": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "ID",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ],
+                "value": [
+                  {
+                    "extractAll": false,
+                    "filter": [
+                      {
+                        "logic": "MUST"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "logic": "OPTIONAL",
+                "name": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "SMILES",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ],
+                "value": [
+                  {
+                    "extractAs": "SMILES",
+                    "extractAll": false,
+                    "filter": [
+                      {
+                        "logic": "MUST"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "chemicalFormula": [
+              {
+                "extractAll": true,
+                "filter": [
+                  {}
+                ]
+              }
+            ],
+            "composition": [
+              {}
+            ],
+            "properties": [
+              {
+                "logic": "OPTIONAL",
+                "name": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "InChI",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ],
+                "value": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "logic": "MUST"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "logic": "OPTIONAL",
+                "name": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "Open-circuit voltage (VOC)",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ],
+                "value": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "logic": "MUST"
+                      }
+                    ]
+                  }
+                ],
+                "units": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "V",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "logic": "OPTIONAL",
+                "name": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "Mass",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ],
+                "value": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "logic": "MUST"
+                      }
+                    ]
+                  }
+                ],
+                "units": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "amu",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "logic": "OPTIONAL",
+                "name": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "SMILES",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ],
+                "value": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "logic": "MUST"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "logic": "OPTIONAL",
+                "name": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "Energy of lowest unoccupied molecular orbital (ÎµLUMO)",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ],
+                "value": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "logic": "MUST"
+                      }
+                    ]
+                  }
+                ],
+                "units": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "eV",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "logic": "OPTIONAL",
+                "name": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "Îµgap (ÎµLUMO-ÎµHOMO)",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ],
+                "value": [
+                  {
+                    "extractAs": "Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)",
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "logic": "MUST"
+                      }
+                    ]
+                  }
+                ],
+                "units": [
+                  {
+                    "extractAs": "Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$) units",
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "eV",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "logic": "OPTIONAL",
+                "name": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "Short-circuit current density (JSC)",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ],
+                "value": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "logic": "MUST"
+                      }
+                    ]
+                  }
+                ],
+                "units": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "V",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "logic": "OPTIONAL",
+                "name": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "Power conversion efficiency (PCE)",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ],
+                "value": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "logic": "MUST"
+                      }
+                    ]
+                  }
+                ],
+                "units": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "%",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "logic": "OPTIONAL",
+                "name": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "Energy of highest occupied molecular orbital (ÎµHOMO)",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ],
+                "value": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "logic": "MUST"
+                      }
+                    ]
+                  }
+                ],
+                "units": [
+                  {
+                    "extractAll": true,
+                    "filter": [
+                      {
+                        "equal": "eV",
+                        "exact": true
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "logic": "MUST",
+        "query": [
+          {
+            "query": [
+              {
+                "dataset": [
+                  {
+                    "id": [
+                      {
+                        "filter": [
+                          {
+                            "equal": "29"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {}
+        ]
+      }
+    ]
+  },
+  "descriptors": [
+    {
+      "category": "Real",
+      "descriptorKey": "Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)",
+      "units": "eV",
+      "lowerBound": 0.0,
+      "upperBound": "Infinity"
+    },
+    {
+      "category": "Organic",
+      "descriptorKey": "SMILES",
+      "threshold": 1.0
+    }
+  ],
+  "features": [
+    {
+      "name": "MoleculeFormulaExpander_174989040 for SMILES",
+      "relation": {
+        "@class": "io.citrine.nucleus.ml.relations.library.MoleculeFormulaExpander",
+        "properties": [
+          "standard"
+        ],
+        "exclude": [],
+        "responses": [
+          "AcidGroupCount for SMILES",
+          "AtomicPolarizability for SMILES",
+          "ATSm1 MassAutocorr for SMILES",
+          "ATSm2 MassAutocorr for SMILES",
+          "ATSm3 MassAutocorr for SMILES",
+          "ATSm4 MassAutocorr for SMILES",
+          "ATSm5 MassAutocorr for SMILES",
+          "ATSp1 PolarizabilityAutocorr for SMILES",
+          "ATSp2 PolarizabilityAutocorr for SMILES",
+          "ATSp3 PolarizabilityAutocorr for SMILES",
+          "ATSp4 PolarizabilityAutocorr for SMILES",
+          "ATSp5 PolarizabilityAutocorr for SMILES",
+          "HBondAcceptorCount for SMILES",
+          "BondCount for SMILES",
+          "AtomCount for SMILES"
+        ],
+        "inputs": [
+          "SMILES"
+        ],
+        "name": "MoleculeFormulaExpander_174989040",
+        "displayName": "MoleculeFormulaExpander_174989040"
+      }
+    }
+  ],
+  "responses": [
+    {
+      "descriptor": {
+        "category": "Real",
+        "descriptorKey": "Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)",
+        "units": "eV",
+        "lowerBound": 0.0,
+        "upperBound": "Infinity"
+      },
+      "features": [
+        "SMILES"
+      ],
+      "estimatorSettings": {
+        "@class": "io.citrine.nucleus.ml.relations.settings.LoloEstimatorSettings",
+        "estimatorPackage": "Lolo",
+        "featureStrategy": {
+          "@class": "io.citrine.nucleus.ml.relations.settings.TotalWeight",
+          "weight": 0.95,
+          "minFeatures": 5,
+          "keep": []
+        },
+        "numTrees": {
+          "@class": "io.citrine.nucleus.ml.relations.settings.FixedRatio",
+          "ratio": 1.0,
+          "maxValue": 10000
+        },
+        "biasModelDepth": {
+          "@class": "io.citrine.nucleus.ml.relations.settings.FixedRatioLog",
+          "ratio": 0.5,
+          "maxValue": 2147483647
+        },
+        "leafLearnerChoice": {
+          "@class": "io.citrine.nucleus.ml.relations.settings.GuessTheMeanChoice"
+        },
+        "useJackknife": true,
+        "regParam": 1.0,
+        "maxDepth": 30,
+        "linearFallbackMaxDataSize": 0,
+        "minLeafInstances": {
+          "@class": "io.citrine.nucleus.ml.relations.settings.LogFixedRatio",
+          "ratio": 0.00048828125,
+          "minValue": 1,
+          "maxValue": 2147483647
+        }
+      }
+    }
+  ],
+  "relations": [],
+  "candidateOptimizers": {},
+  "include": [],
+  "groupByValidationKeys": [],
+  "formulationContext": null,
+  "carpenter": null,
+  "pipeline": {
+    "@class": "io.citrine.transform.pipeline.Pipeline",
+    "stages": [
+      {
+        "@class": "io.citrine.transform.stage.transformers.PathTransformer"
+      },
+      {
+        "@class": "io.citrine.transform.stage.transformers.FullSumTransformer",
+        "maxUnrolled": 30
+      },
+      {
+        "@class": "io.citrine.transform.stage.transformers.FormulationComposer"
+      }
+    ]
+  },
+  "formatter": null,
+  "version": 16
+}

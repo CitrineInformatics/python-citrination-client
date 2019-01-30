@@ -112,3 +112,5 @@ def test_success_does_not_trigger_rate_limiting_retry():
     response_lambda = (lambda t, a: 1/0) # will throw exception
     checked_resp = check_for_rate_limiting(response, response_lambda)
     assert response == checked_resp
+
+

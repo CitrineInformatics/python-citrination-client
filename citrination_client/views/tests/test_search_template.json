@@ -1,0 +1,553 @@
+{
+  "query": [
+    {
+      "logic": "MUST",
+      "system": [
+        {
+          "logic": "SHOULD",
+          "tags": [
+            {
+              "category": "General",
+              "tableName": "General"
+            }
+          ],
+          "names": [
+            {
+              "category": "General",
+              "tableName": "General"
+            }
+          ],
+          "ids": [
+            {
+              "logic": "OPTIONAL",
+              "name": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "ID",
+                      "exact": true
+                    }
+                  ],
+                  "displayAs": "ID",
+                  "category": "General",
+                  "tableName": "General"
+                }
+              ],
+              "value": [
+                {
+                  "extractAll": false,
+                  "filterGroup": [
+                    {
+                      "type": "text",
+                      "logic": "MUST",
+                      "label": "ID"
+                    }
+                  ],
+                  "category": "General",
+                  "tableName": "General"
+                }
+              ]
+            },
+            {
+              "logic": "OPTIONAL",
+              "name": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "SMILES",
+                      "exact": true
+                    }
+                  ],
+                  "displayAs": "SMILES",
+                  "category": "General",
+                  "tableName": "General"
+                }
+              ],
+              "value": [
+                {
+                  "extractAs": "SMILES",
+                  "extractAll": false,
+                  "filterGroup": [
+                    {
+                      "type": "text",
+                      "logic": "MUST",
+                      "label": "SMILES"
+                    }
+                  ],
+                  "category": "General",
+                  "tableName": "General"
+                }
+              ]
+            }
+          ],
+          "chemicalFormula": [
+            {
+              "extractAll": true,
+              "filterGroup": [
+                {
+                  "type": "text",
+                  "label": "formula"
+                }
+              ],
+              "displayAs": "Chemical formula",
+              "category": "General",
+              "tableName": "General"
+            }
+          ],
+          "composition": [
+            {
+              "category": "General",
+              "tableName": "General"
+            }
+          ],
+          "properties": [
+            {
+              "logic": "OPTIONAL",
+              "name": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "InChI",
+                      "exact": true
+                    }
+                  ],
+                  "displayAs": "InChI",
+                  "category": "General",
+                  "tableName": "General"
+                }
+              ],
+              "value": [
+                {
+                  "extractAll": true,
+                  "filterGroup": [
+                    {
+                      "type": "text",
+                      "logic": "MUST",
+                      "label": "InChI"
+                    }
+                  ],
+                  "displayAs": "InChI",
+                  "category": "Property InChI",
+                  "tableName": "General"
+                }
+              ]
+            },
+            {
+              "logic": "OPTIONAL",
+              "name": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "Open-circuit voltage (VOC)",
+                      "exact": true
+                    }
+                  ],
+                  "displayAs": "Open-circuit voltage (VOC)",
+                  "category": "General",
+                  "tableName": "General"
+                }
+              ],
+              "value": [
+                {
+                  "extractAll": true,
+                  "filterGroup": [
+                    {
+                      "type": "numeric",
+                      "logic": "MUST",
+                      "label": "Open-circuit voltage (V$_{OC}$)",
+                      "precision": 3,
+                      "steps": 0.0019100000000000002,
+                      "range_min": 0.0,
+                      "range_max": 1.9100000000000001
+                    }
+                  ],
+                  "displayAs": "Open-circuit voltage (V$_{OC}$)",
+                  "category": "Property Open-circuit voltage (V$_{OC}$)",
+                  "tableName": "General"
+                }
+              ],
+              "units": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "V",
+                      "exact": true
+                    }
+                  ],
+                  "category": "General",
+                  "tableName": "General",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "logic": "OPTIONAL",
+              "name": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "Mass",
+                      "exact": true
+                    }
+                  ],
+                  "displayAs": "Mass",
+                  "category": "General",
+                  "tableName": "General"
+                }
+              ],
+              "value": [
+                {
+                  "extractAll": true,
+                  "filterGroup": [
+                    {
+                      "type": "numeric",
+                      "logic": "MUST",
+                      "label": "Mass",
+                      "precision": 1,
+                      "steps": 0.409,
+                      "range_min": 213.0,
+                      "range_max": 622.0
+                    }
+                  ],
+                  "displayAs": "Mass",
+                  "category": "Property Mass",
+                  "tableName": "General"
+                }
+              ],
+              "units": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "amu",
+                      "exact": true
+                    }
+                  ],
+                  "category": "General",
+                  "tableName": "General",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "logic": "OPTIONAL",
+              "name": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "SMILES",
+                      "exact": true
+                    }
+                  ],
+                  "displayAs": "SMILES",
+                  "category": "General",
+                  "tableName": "General"
+                }
+              ],
+              "value": [
+                {
+                  "extractAll": true,
+                  "filterGroup": [
+                    {
+                      "type": "text",
+                      "logic": "MUST",
+                      "label": "SMILES"
+                    }
+                  ],
+                  "displayAs": "SMILES",
+                  "category": "Property SMILES",
+                  "tableName": "General"
+                }
+              ]
+            },
+            {
+              "logic": "OPTIONAL",
+              "name": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "Energy of lowest unoccupied molecular orbital (ÎµLUMO)",
+                      "exact": true
+                    }
+                  ],
+                  "displayAs": "Energy of lowest unoccupied molecular orbital (ÎµLUMO)",
+                  "category": "General",
+                  "tableName": "General"
+                }
+              ],
+              "value": [
+                {
+                  "extractAll": true,
+                  "filterGroup": [
+                    {
+                      "type": "numeric",
+                      "logic": "MUST",
+                      "label": "Energy of lowest unoccupied molecular orbital ($\\varepsilon$$_{LUMO}$)",
+                      "precision": 3,
+                      "steps": 0.0023200000000000004,
+                      "range_min": -4.24,
+                      "range_max": -1.92
+                    }
+                  ],
+                  "displayAs": "Energy of lowest unoccupied molecular orbital ($\\varepsilon$$_{LUMO}$)",
+                  "category": "Property Energy of lowest unoccupied molecular orbital ($\\varepsilon$$_{LUMO}$)",
+                  "tableName": "General"
+                }
+              ],
+              "units": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "eV",
+                      "exact": true
+                    }
+                  ],
+                  "category": "General",
+                  "tableName": "General",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "logic": "OPTIONAL",
+              "name": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "Îµgap (ÎµLUMO-ÎµHOMO)",
+                      "exact": true
+                    }
+                  ],
+                  "displayAs": "Îµgap (ÎµLUMO-ÎµHOMO)",
+                  "category": "General",
+                  "tableName": "General"
+                }
+              ],
+              "value": [
+                {
+                  "extractAs": "Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)",
+                  "extractAll": true,
+                  "filterGroup": [
+                    {
+                      "type": "numeric",
+                      "logic": "MUST",
+                      "label": "$\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)",
+                      "precision": 3,
+                      "steps": 0.002447,
+                      "range_min": 0.933,
+                      "range_max": 3.38
+                    }
+                  ],
+                  "displayAs": "$\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)",
+                  "category": "Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)",
+                  "tableName": "General"
+                }
+              ],
+              "units": [
+                {
+                  "extractAs": "Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$) units",
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "eV",
+                      "exact": true
+                    }
+                  ],
+                  "category": "General",
+                  "tableName": "General",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "logic": "OPTIONAL",
+              "name": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "Short-circuit current density (JSC)",
+                      "exact": true
+                    }
+                  ],
+                  "displayAs": "Short-circuit current density (JSC)",
+                  "category": "General",
+                  "tableName": "General"
+                }
+              ],
+              "value": [
+                {
+                  "extractAll": true,
+                  "filterGroup": [
+                    {
+                      "type": "numeric",
+                      "logic": "MUST",
+                      "label": "Short-circuit current density (J$_{SC}$)",
+                      "precision": 1,
+                      "steps": 0.337,
+                      "range_min": 0.0,
+                      "range_max": 337.0
+                    }
+                  ],
+                  "displayAs": "Short-circuit current density (J$_{SC}$)",
+                  "category": "Property Short-circuit current density (J$_{SC}$)",
+                  "tableName": "General"
+                }
+              ],
+              "units": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "V",
+                      "exact": true
+                    }
+                  ],
+                  "category": "General",
+                  "tableName": "General",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "logic": "OPTIONAL",
+              "name": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "Power conversion efficiency (PCE)",
+                      "exact": true
+                    }
+                  ],
+                  "displayAs": "Power conversion efficiency (PCE)",
+                  "category": "General",
+                  "tableName": "General"
+                }
+              ],
+              "value": [
+                {
+                  "extractAll": true,
+                  "filterGroup": [
+                    {
+                      "type": "numeric",
+                      "logic": "MUST",
+                      "label": "Power conversion efficiency (PCE)",
+                      "precision": 2,
+                      "steps": 0.011100000000000002,
+                      "range_min": 0.0,
+                      "range_max": 11.100000000000001
+                    }
+                  ],
+                  "displayAs": "Power conversion efficiency (PCE)",
+                  "category": "Property Power conversion efficiency (PCE)",
+                  "tableName": "General"
+                }
+              ],
+              "units": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "%",
+                      "exact": true
+                    }
+                  ],
+                  "category": "General",
+                  "tableName": "General",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "logic": "OPTIONAL",
+              "name": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "Energy of highest occupied molecular orbital (ÎµHOMO)",
+                      "exact": true
+                    }
+                  ],
+                  "displayAs": "Energy of highest occupied molecular orbital (ÎµHOMO)",
+                  "category": "General",
+                  "tableName": "General"
+                }
+              ],
+              "value": [
+                {
+                  "extractAll": true,
+                  "filterGroup": [
+                    {
+                      "type": "numeric",
+                      "logic": "MUST",
+                      "label": "Energy of highest occupied molecular orbital ($\\varepsilon$$_{HOMO}$)",
+                      "precision": 3,
+                      "steps": 0.0023499999999999997,
+                      "range_min": -6.51,
+                      "range_max": -4.16
+                    }
+                  ],
+                  "displayAs": "Energy of highest occupied molecular orbital ($\\varepsilon$$_{HOMO}$)",
+                  "category": "Property Energy of highest occupied molecular orbital ($\\varepsilon$$_{HOMO}$)",
+                  "tableName": "General"
+                }
+              ],
+              "units": [
+                {
+                  "extractAll": true,
+                  "filter": [
+                    {
+                      "equal": "eV",
+                      "exact": true
+                    }
+                  ],
+                  "category": "General",
+                  "tableName": "General",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "logic": "MUST",
+      "query": [
+        {
+          "query": [
+            {
+              "dataset": [
+                {
+                  "id": [
+                    {
+                      "filter": [
+                        {
+                          "equal": "29"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {}
+      ]
+    }
+  ],
+  "version": 1
+}
