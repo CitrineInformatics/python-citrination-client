@@ -64,7 +64,7 @@ class DataViewsClient(BaseClient):
 
         failure_message = "Dataview creation failed"
 
-        self._put_json(
+        self._patch_json(
             'v1/data_views/' + id, data, failure_message=failure_message)
 
     def delete(self, id):
