@@ -1,5 +1,6 @@
 import json
 
+import pytest
 import requests_mock
 import os
 import time
@@ -94,6 +95,7 @@ def test_workflow():
         assert data_view_id == 555
 
 
+@pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
 def test_live_api():
     site = os.environ["CITRINATION_SITE"]
     client = CitrinationClient(os.environ["CITRINATION_API_KEY"], site)
