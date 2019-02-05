@@ -127,8 +127,8 @@ class DataViewsClient(BaseClient):
         available_columns = self.search_template_client.get_available_columns(dataset_ids)
 
         # Create a search template from dataset ids
-        search_template = self.search_template_client.create([29], available_columns)
-        return self.create_ml_configuration(search_template,available_columns)
+        search_template = self.search_template_client.create(dataset_ids, available_columns)
+        return self.create_ml_configuration(search_template, available_columns)
 
     def create_ml_configuration(self, search_template, extract_as_keys):
         """
