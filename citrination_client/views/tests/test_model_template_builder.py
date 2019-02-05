@@ -130,7 +130,7 @@ def test_live_api():
             break
         time.sleep(5)
 
-    print 'Test update'
+    print('Test update')
     data_views_client.update(data_view_id, dv_config, view_name+'-upd', 'updated description from pycc')
 
     # update triggers retrain, so we need to wait until ML is available
