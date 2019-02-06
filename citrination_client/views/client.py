@@ -64,7 +64,7 @@ class DataViewsClient(BaseClient):
 
         failure_message = "Dataview creation failed"
 
-        self._put_json(
+        self._patch_json(
             'v1/data_views/' + id, data, failure_message=failure_message)
 
     def delete(self, id):
@@ -127,8 +127,8 @@ class DataViewsClient(BaseClient):
         available_columns = self.search_template_client.get_available_columns(dataset_ids)
 
         # Create a search template from dataset ids
-        search_template = self.search_template_client.create([29], available_columns)
-        return self.create_ml_configuration(search_template,available_columns)
+        search_template = self.search_template_client.create(dataset_ids, available_columns)
+        return self.create_ml_configuration(search_template, available_columns)
 
     def create_ml_configuration(self, search_template, extract_as_keys):
         """

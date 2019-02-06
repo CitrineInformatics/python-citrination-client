@@ -30,12 +30,12 @@ class DataViewBuilder(object):
         """
         self.configuration['model_type'] = model_type
 
-    def add_descriptor(self, descriptor, role, group_by_key=False):
+    def add_descriptor(self, descriptor, role='ignore', group_by_key=False):
         """
         Add a descriptor column.
 
         :param descriptor: A Descriptor instance (e.g., RealDescriptor, InorganicDescriptor, etc.)
-        :param role: Specify a role (input, output, latentVariable, or ignored)
+        :param role: Specify a role (input, output, latentVariable, or ignore)
         :param group_by_key: Whether or not to group by this key during cross validation
         """
 
