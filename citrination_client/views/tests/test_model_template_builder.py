@@ -1,5 +1,6 @@
 import json
 
+import pytest
 import requests_mock
 import os
 import time
@@ -94,6 +95,7 @@ def test_workflow():
         assert data_view_id == 555
 
 
+@pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
 def test_live_api():
     site = os.environ["CITRINATION_SITE"]
     client = CitrinationClient(os.environ["CITRINATION_API_KEY"], site)
@@ -128,8 +130,16 @@ def test_live_api():
             break
         time.sleep(5)
 
-    # print 'Test update'
-    # data_views_client.update(data_view_id, dv_config, view_name+'-upd', 'updated description from pycc')
+    print('Test update')
+    data_views_client.update(data_view_id, dv_config, view_name+'-upd', 'updated description from pycc')
+
+    # update triggers retrain, so we need to wait until ML is available
+    while True:
+        status = data_views_client.get_data_view_service_status(data_view_id)
+        print('Data view status: ' + status.predict.reason)
+        if status.predict.is_ready():
+            break
+        time.sleep(5)
 
     print('Submitting a predict request')
     predict_id = data_views_client.submit_predict_request(data_view_id,
@@ -172,3 +182,4 @@ def test_descriptor():
 
     config = dv_builder.build()
     json.dumps(config)
+

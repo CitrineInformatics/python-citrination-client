@@ -6,9 +6,9 @@ class SearchTemplateClient(BaseClient):
     Data Views client.
     """
 
-    def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False, proxies=None):
+    def __init__(self, api_key, site="https://citrination.com", suppress_warnings=False, proxies=None):
         members = ["create", "get_available_columns"]
-        super(SearchTemplateClient, self).__init__(api_key, webserver_host, members, suppress_warnings, proxies)
+        super(SearchTemplateClient, self).__init__(api_key, site, members, suppress_warnings, proxies)
 
     def create(self, dataset_ids, extract_as_keys):
         search_template = self.__generate_search_template(dataset_ids)
@@ -23,6 +23,8 @@ class SearchTemplateClient(BaseClient):
         :return: A list of column names from the dataset ids given.
         :rtype: list of str
         """
+        if not isinstance(dataset_ids, list):
+            dataset_ids = [dataset_ids]
 
         data = {
             "dataset_ids":
