@@ -34,7 +34,8 @@ class DataClient(BaseClient):
             "get_dataset_file",
             "download_files",
             "create_dataset",
-            "create_dataset_version"
+            "create_dataset_version",
+            "get_ingest_status"
         ]
         super(DataClient, self).__init__(api_key, host, members, suppress_warnings, proxies)
 
@@ -131,6 +132,20 @@ class DataClient(BaseClient):
         """
         list_result = self.list_files(dataset_id, glob, is_dir)
         return len(list_result)
+
+    def get_ingest_status(self, dataset_id):
+        """
+        Returns the current status of dataset ingestion.  If any file uploaded to a dataset is in an error/failure state
+        this endpoint will return error/failure.  If any files are still processing, will return processing.
+
+        :param dataset_id: Dataset identifier
+        :return: Status of dataset ingestion as a string
+        """
+        failure_message = "Failed to create dataset ingest status for dataset {}".format(dataset_id)
+        status = self._get_success_json(
+            self._post_json('v1/datasets/'+str(dataset_id)+'/ingest-status', data={},
+                            failure_message=failure_message))['data']['status']
+        return status
 
     def get_dataset_files(self, dataset_id, glob=".", is_dir=False, version_number=None):
         """

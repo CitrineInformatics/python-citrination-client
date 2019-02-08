@@ -1,5 +1,7 @@
+import json
 import time
 
+from citrination_client.views.data_view_builder import DataViewBuilder
 from citrination_client.views.search_template.client import SearchTemplateClient
 
 from citrination_client import BaseClient, DataViewStatus, ServiceStatus
@@ -64,7 +66,7 @@ class DataViewsClient(BaseClient):
 
         failure_message = "Dataview creation failed"
 
-        self._put_json(
+        self._patch_json(
             'v1/data_views/' + id, data, failure_message=failure_message)
 
     def delete(self, id):
@@ -127,48 +129,100 @@ class DataViewsClient(BaseClient):
         available_columns = self.search_template_client.get_available_columns(dataset_ids)
 
         # Create a search template from dataset ids
-        search_template = self.search_template_client.create([29], available_columns)
-        return self.create_ml_configuration(search_template,available_columns)
+        search_template = self.search_template_client.create(dataset_ids, available_columns)
+        return self.create_ml_configuration(search_template, available_columns, dataset_ids)
 
-    def create_ml_configuration(self, search_template, extract_as_keys):
+    def create_ml_configuration(self, search_template, extract_as_keys, dataset_ids):
         """
         This method will spawn a server job to create a default ML configuration based on a search template and
         the extract as keys.
+        This function will submit the request to build, and wait for the configuration to finish before returning.
 
         :param search_template: A search template defining the query (properties, datasets etc)
         :param extract_as_keys: Array of extract-as keys defining the descriptors
+        :param dataset_ids: Array of dataset identifiers to make search template from
         :return: An identifier used to request the status of the builder job (get_ml_configuration_status)
         """
-
         data = {
             "search_template":
                 search_template,
-            "extract-as-keys":
+            "extract_as_keys":
                 extract_as_keys
         }
 
-        failure_message = "Configuration creation failed"
-        return self._get_success_json(self._post_json(
-            'v1/data_views/builders/simple/default', data, failure_message=failure_message))['id']
+        failure_message = "ML Configuration creation failed"
+        config_job_id = self._get_success_json(self._post_json(
+            'v1/descriptors/builders/simple/default/trigger', data, failure_message=failure_message))['data'][
+            'result']['uid']
+
+        while True:
+            config_status = self.__get_ml_configuration_status(config_job_id)
+            print('Configuration status: ', config_status)
+            if config_status['status'] == 'Finished':
+                ml_config = self.__convert_response_to_configuration(config_status['result'], dataset_ids)
+                return ml_config
+            time.sleep(5)
+
+    def __convert_response_to_configuration(self, result_blob, dataset_ids):
+        """
+        Utility function to turn the result object from the configuration builder endpoint into something that
+        can be used directly as a configuration.
+
+        :param result_blob: Nested dicts representing the possible descriptors
+        :param dataset_ids: Array of dataset identifiers to make search template from
+        :return: An object suitable to be used as a parameter to data view create
+        """
+
+        builder = DataViewBuilder()
+        builder.dataset_ids(dataset_ids)
+        for i, (k, v) in enumerate(result_blob['descriptors'].items()):
+            descriptor = self.__snake_case(v[0])
+            print(json.dumps(descriptor))
+            descriptor['descriptor_key'] = k
+            builder.add_raw_descriptor(descriptor)
+
+        for i, (k, v) in enumerate(result_blob['types'].items()):
+            builder.set_role(k, v.lower())
+
+        return builder.build()
+
+    def __snake_case(self, descriptor):
+        """
+        Utility method to convert camelcase to snake
+        :param descriptor: The dictionary to convert
+        """
+        newdict={}
+        for i, (k, v) in enumerate(descriptor.items()):
+            newkey = ""
+            for j, c in enumerate(k):
+                if c.isupper():
+                    if len(newkey) != 0:
+                        newkey += '_'
+                    newkey += c.lower()
+                else:
+                    newkey += c
+            newdict[newkey] = v
+
+        return newdict
 
     def __get_ml_configuration_status(self, job_id):
         """
         After invoking the create_ml_configuration async method, you can use this method to
         check on the status of the builder job.
 
-        :param job_od: The identifier returned from create_ml_configuration
+        :param job_id: The identifier returned from create_ml_configuration
         :return: Job status
         """
 
         failure_message = "Get status on ml configuration failed"
-        return self._get_success_json(self._get(
-            'v1/data_views/builders/simple/default/' + job_id, None, failure_message=failure_message))
+        response = self._get_success_json(self._get(
+            'v1/descriptors/builders/simple/default/' + job_id + '/status', None, failure_message=failure_message))['data']
+        return response
 
     def retrain(self, dataview_id):
         """
         Start a model retraining
         :param dataview_id: The ID of the views
-        :return:
         """
         url = 'data_views/{}/retrain'.format(dataview_id)
         response = self._post_json(url, data={})
@@ -176,7 +230,7 @@ class DataViewsClient(BaseClient):
             raise RuntimeError('Retrain requested ' + str(response.status_code) + ' response: ' + str(response.message))
         return True
 
-    def submit_predict_request(self, data_view_id, candidates, prediction_source='scalar', use_prior=True ):
+    def submit_predict_request(self, data_view_id, candidates, prediction_source='scalar', use_prior=True):
         """
         Submits an async prediction request.
 
@@ -198,7 +252,8 @@ class DataViewsClient(BaseClient):
 
         failure_message = "Configuration creation failed"
         return self._get_success_json(self._post_json(
-            'v1/data_views/' + str(data_view_id) + '/predict/submit', data, failure_message=failure_message))['data']['uid']
+            'v1/data_views/' + str(data_view_id) + '/predict/submit', data, failure_message=failure_message))['data'][
+            'uid']
 
     def check_predict_status(self, view_id, predict_request_id):
         """
