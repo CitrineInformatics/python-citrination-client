@@ -50,5 +50,15 @@ class DataViewBuilder(object):
         if group_by_key:
             self.configuration["group_by"].append(descriptor.key)
 
+    def add_raw_descriptor(self, descriptor):
+        """
+        Add a raw descriptor dictionary object.
+        :param descriptor: A descriptor as a dictionary
+        """
+        self.configuration['descriptors'].append(descriptor)
+
+    def set_role(self, key, role):
+        self.configuration['roles'][key] = role
+
     def build(self):
         return self.configuration
