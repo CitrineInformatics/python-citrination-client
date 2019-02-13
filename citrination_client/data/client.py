@@ -142,10 +142,13 @@ class DataClient(BaseClient):
         :return: Status of dataset ingestion as a string
         """
         failure_message = "Failed to create dataset ingest status for dataset {}".format(dataset_id)
-        status = self._get_success_json(
-            self._post_json('v1/datasets/'+str(dataset_id)+'/ingest-status', data={},
-                            failure_message=failure_message))['data']['status']
-        return status
+        response = self._get_success_json(
+            self._get('v1/datasets/' + str(dataset_id) + '/ingest-status',
+                            failure_message=failure_message))['data']
+
+        if 'status' in response:
+            return response['status']
+        return ''
 
     def get_dataset_files(self, dataset_id, glob=".", is_dir=False, version_number=None):
         """
