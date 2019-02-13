@@ -5,6 +5,8 @@
 
 This package is an implementation of the Citrination API.
 
+You can learn about the functionalities of the python-citrination-client through the following [tutorials](http://citrineinformatics.github.io/python-citrination-client/).
+
 ## Installation
 
 ### Requirements
