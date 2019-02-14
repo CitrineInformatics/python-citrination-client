@@ -56,6 +56,8 @@ def test_upload_pif():
             else:
                 raise
 
+    status = client.get_ingest_status(dataset_id)
+    assert status == "Finished"
     with open("tmp.json", "r") as fp:
         assert json.loads(fp.read())["uid"] == pif.uid
 
@@ -226,3 +228,4 @@ def test_download_pdf_files():
     for f in files_list:
         os.remove('/'.join(['test',f.path]))
     os.rmdir('test')
+
