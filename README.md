@@ -5,7 +5,9 @@
 
 This package is an implementation of the Citrination API.
 
-You can learn about the functionalities of the python-citrination-client through the following [tutorials](http://citrineinformatics.github.io/python-citrination-client/).
+You can learn about the functionalities of the python-citrination-client through the following [documentation](http://citrineinformatics.github.io/python-citrination-client/).
+
+Tutorials and examples presented using Jupyter notebooks can be found in [community-tools](https://github.com/CitrineInformatics/community-tools) and [learn-citrination](https://github.com/CitrineInformatics/learn-citrination).
 
 ## Installation
 
