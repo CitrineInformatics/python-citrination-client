@@ -14,8 +14,7 @@ class Target(object):
 
         :param name: The name of the target output column
         :type name: str
-        :param objective: The optimization objective; either "Min"
-            or "Max"
+        :param objective: The optimization objective; "Min", "Max", or a scalar value (such as "5.0")
         :type objective: str
         """
 
