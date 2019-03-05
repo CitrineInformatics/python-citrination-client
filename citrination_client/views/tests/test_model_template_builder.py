@@ -123,7 +123,7 @@ def test_live_api():
     print('View metadata: ' + str(view_metadata))
     print('Data view id:' + str(data_view_id))
 
-    data_views_client.retrain(data_view_id)
+    data_views_client.models.retrain(data_view_id)
 
     while True:
         status = data_views_client.get_data_view_service_status(data_view_id)
