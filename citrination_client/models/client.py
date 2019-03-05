@@ -1,3 +1,5 @@
+import json
+
 from citrination_client.base.base_client import BaseClient
 from citrination_client.models import *
 from citrination_client.models.design import *
@@ -19,7 +21,6 @@ class ModelsClient(BaseClient):
     """
 
     def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False, proxies=None):
-        warnings.warn("The ModelsClient is being deprecated in favor of the DataViewsClient")
         members = [
             "tsne",
             "predict"
@@ -73,13 +74,17 @@ class ModelsClient(BaseClient):
             time.sleep(1)
 
         result = self.check_predict_status(data_view_id, uid)
-        if result["status"] == "finished":
+        if result["status"] == "Finished":
+
+            paired = zip(result["results"]["candidates"], result["results"]["loss"])
+            prediction_result_format = [{k: (p[0][k], p[1][k]) for k in p[0].keys()} for p in paired]
+
             return list(map(
-                lambda c: _get_prediction_result_from_candidate(c), result["results"]["candidates"]
+                lambda c: _get_prediction_result_from_candidate(c), prediction_result_format
             ))
         else:
             raise RuntimeError(
-                "Prediction failed: UID={}, result={}, reason={}".format(uid, result["status"], result["message"])
+                "Prediction failed: UID={}, result={}".format(uid, result["status"])
             )
 
     def retrain(self, dataview_id):
@@ -158,9 +163,10 @@ class ModelsClient(BaseClient):
         }
 
         failure_message = "Configuration creation failed"
-        return self._get_success_json(self._post_json(
-            'v1/data_views/' + str(data_view_id) + '/predict/submit', data, failure_message=failure_message))['data'][
-            'uid']
+        post_url = 'v1/data_views/' + str(data_view_id) + '/predict/submit'
+        return self._get_success_json(
+            self._post_json(post_url, data, failure_message=failure_message)
+        )['data']['uid']
 
     def check_predict_status(self, view_id, predict_request_id):
         """
@@ -174,11 +180,11 @@ class ModelsClient(BaseClient):
         failure_message = "Get status on predict failed"
 
         bare_response = self._get_success_json(self._get(
-            'v1/data_views/' + view_id + '/predict/' + predict_request_id + '/status',
+            'v1/data_views/' + str(view_id) + '/predict/' + str(predict_request_id) + '/status',
             None, failure_message=failure_message))
 
         result = bare_response["data"]
-        result.update({"message": bare_response["message"]})
+        # result.update({"message": bare_response["message"]})
 
         return result
 
