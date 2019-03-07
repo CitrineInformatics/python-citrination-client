@@ -59,9 +59,10 @@ class ModelsClient(BaseClient):
         :type data_view_id: str
         :param candidates: A list of candidates to make predictions on
         :type candidates: list of dicts
-        :param method: Method for propagating predictions through model
-            graphs
-        :type method: str ("scalar" or "from_distribution")
+        :param method: Method for propagating predictions through model graphs. "scalar" uses linearized uncertainty
+        propagation, whereas "scalar_from_distribution" still returns scalar predictions but uses sampling to
+        propagate uncertainty without a linear approximation.
+        :type method: str ("scalar" or "scalar_from_distribution")
         :param use_prior:  Whether to apply prior values implied by the property descriptors
         :type use_prior: bool
         :return: The results of the prediction

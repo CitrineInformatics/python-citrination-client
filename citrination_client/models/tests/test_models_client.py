@@ -118,19 +118,19 @@ def test_multiple_predict_candidates():
     assert type(prediction_results[1]) == PredictionResult
 
 
-@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com" or True,
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com",
                     reason="Predict tests only supported on open citrination")
 def test_predict_from_distribution():
     """
     Test predictions on the standard organic model
 
-    Same as `test_predict` but using the `from_distribution` method
+    Same as `test_predict` but using the `scalar_from_distribution` method
     """
 
     inputs = [{"SMILES": "c1(C=O)cc(OC)c(O)cc1"}]
     vid = "177"
 
-    prediction_result = client.predict(vid, inputs, method="from_distribution")[0]
+    prediction_result = client.predict(vid, inputs, method="scalar_from_distribution")[0]
     _assert_prediction_values(prediction_result)
 
 
