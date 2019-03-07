@@ -71,7 +71,7 @@ class ModelsClient(BaseClient):
 
         uid = self.submit_predict_request(data_view_id, candidates, method, use_prior)
 
-        while self.check_predict_status(data_view_id, uid)['status'] == "running":
+        while self.check_predict_status(data_view_id, uid)['status'] not in ["Finished", "Failed", "Killed"]:
             time.sleep(1)
 
         result = self.check_predict_status(data_view_id, uid)
