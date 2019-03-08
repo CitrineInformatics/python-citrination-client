@@ -128,7 +128,7 @@ class ModelsClient(BaseClient):
         return self._get_success_json(self._get(routes.data_analysis(data_view_id), failure_message=failure_message))
 
     def _get_predict_body(self, candidates, method="scalar", use_prior=True):
-        if not (method == "scalar" or method == "from_distribution"):
+        if not (method == "scalar" or method == "scalar_from_distribution"):
             raise ValueError("{} method not supported".format(method))
 
         # If a single candidate is passed, wrap in a list for the user
@@ -149,7 +149,7 @@ class ModelsClient(BaseClient):
 
         :param data_view_id: The id returned from create
         :param candidates: Array of candidates
-        :param prediction_source: 'scalar' or 'from_distribution'
+        :param prediction_source: 'scalar' or 'scalar_from_distribution'
         :param use_prior: True to use prior prediction, otherwise False
         :return: Predict request Id (used to check status)
         """
