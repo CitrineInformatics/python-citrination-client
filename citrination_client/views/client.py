@@ -1,6 +1,8 @@
 import json
 import time
 
+from citrination_client.models.client import ModelsClient
+
 from citrination_client.views.data_view_builder import DataViewBuilder
 from citrination_client.views.search_template.client import SearchTemplateClient
 
@@ -12,11 +14,12 @@ class DataViewsClient(BaseClient):
     Data Views client.
     """
 
-    def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False, proxies=None):
-        members = ["create", "update", "delete", "get", "check_predict_status", "submit_predict_request",
-                   "get_predict_result"]
-        super(DataViewsClient, self).__init__(api_key, webserver_host, members, suppress_warnings, proxies)
-        self.search_template_client = SearchTemplateClient(api_key, webserver_host)
+    def __init__(self, api_key, site="https://citrination.com", suppress_warnings=False, proxies=None):
+        members = ["create", "update", "delete", "get", "models", "search_template_client"]
+        super(DataViewsClient, self).__init__(api_key, site, members, suppress_warnings, proxies)
+
+        self.models = ModelsClient(api_key, site, suppress_warnings, proxies)
+        self.search_template_client = SearchTemplateClient(api_key, site)
 
     def create(self, configuration, name, description):
         """
@@ -191,7 +194,7 @@ class DataViewsClient(BaseClient):
         Utility method to convert camelcase to snake
         :param descriptor: The dictionary to convert
         """
-        newdict={}
+        newdict = {}
         for i, (k, v) in enumerate(descriptor.items()):
             newkey = ""
             for j, c in enumerate(k):
@@ -216,55 +219,6 @@ class DataViewsClient(BaseClient):
 
         failure_message = "Get status on ml configuration failed"
         response = self._get_success_json(self._get(
-            'v1/descriptors/builders/simple/default/' + job_id + '/status', None, failure_message=failure_message))['data']
+            'v1/descriptors/builders/simple/default/' + job_id + '/status', None, failure_message=failure_message))[
+            'data']
         return response
-
-    def retrain(self, dataview_id):
-        """
-        Start a model retraining
-        :param dataview_id: The ID of the views
-        """
-        url = 'data_views/{}/retrain'.format(dataview_id)
-        response = self._post_json(url, data={})
-        if response.status_code != 200:
-            raise RuntimeError('Retrain requested ' + str(response.status_code) + ' response: ' + str(response.message))
-        return True
-
-    def submit_predict_request(self, data_view_id, candidates, prediction_source='scalar', use_prior=True):
-        """
-        Submits an async prediction request.
-
-        :param data_view_id: The id returned from create
-        :param candidates: Array of candidates
-        :param prediction_source: 'scalar' or 'from_distribution'
-        :param use_prior: True to use prior prediction, otherwise False
-        :return: Predict request Id (used to check status)
-        """
-
-        data = {
-            "prediction_source":
-                prediction_source,
-            "use_prior":
-                use_prior,
-            "candidates":
-                candidates
-        }
-
-        failure_message = "Configuration creation failed"
-        return self._get_success_json(self._post_json(
-            'v1/data_views/' + str(data_view_id) + '/predict/submit', data, failure_message=failure_message))['data'][
-            'uid']
-
-    def check_predict_status(self, view_id, predict_request_id):
-        """
-        Returns a string indicating the status of the prediction job
-
-        :param view_id: The data view id returned from data view create
-        :param predict_request_id: The id returned from predict
-        :return: Status data, also includes results if state is finished
-        """
-
-        failure_message = "Get status on predict failed"
-        return self._get_success_json(self._get(
-            'v1/data_views/' + view_id + '/predict/' + predict_request_id + '/status',
-            None, failure_message=failure_message))['data']
