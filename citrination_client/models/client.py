@@ -1,3 +1,5 @@
+import json
+
 from citrination_client.base.base_client import BaseClient
 from citrination_client.models import *
 from citrination_client.models.design import *
@@ -8,12 +10,14 @@ from citrination_client.models.data_view import DataView
 from citrination_client.models.columns.column_factory import ColumnFactory
 
 import requests
+import warnings
 import time
 
 
 class ModelsClient(BaseClient):
     """
-    A client that encapsulates interactions with models on Citrination.
+    A client that encapsulates interactions with models on Citrination. Note: As of version 4.9.0, this is deprecated
+    in favor of the DataViewsClient.
     """
 
     def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False, proxies=None):
@@ -49,30 +53,40 @@ class ModelsClient(BaseClient):
 
     def predict(self, data_view_id, candidates, method="scalar", use_prior=True):
         """
-        Predict endpoint
+        Predict endpoint. This simply wraps the async methods (submit and poll for status/results).
 
         :param data_view_id: The ID of the data view to use for prediction
         :type data_view_id: str
         :param candidates: A list of candidates to make predictions on
         :type candidates: list of dicts
-        :param method: Method for propagating predictions through model
-            graphs
-        :type method: str ("scalar" or "from_distribution")
+        :param method: Method for propagating predictions through model graphs. "scalar" uses linearized uncertainty
+        propagation, whereas "scalar_from_distribution" still returns scalar predictions but uses sampling to
+        propagate uncertainty without a linear approximation.
+        :type method: str ("scalar" or "scalar_from_distribution")
         :param use_prior:  Whether to apply prior values implied by the property descriptors
         :type use_prior: bool
         :return: The results of the prediction
         :rtype: list of :class:`PredictionResult`
         """
-        body = self._get_predict_body(candidates, method, use_prior)
-        failure_message = "Error while making prediction for data view {}".format(data_view_id)
-        response_dict = self._get_success_json(
-            self._post_json(routes.data_view_predict(data_view_id), data=body, failure_message=failure_message))
-        candidate_dicts = response_dict["candidates"]
-        return list(
-            map(
-                lambda c: _get_prediction_result_from_candidate(c), candidate_dicts
+
+        uid = self.submit_predict_request(data_view_id, candidates, method, use_prior)
+
+        while self.check_predict_status(data_view_id, uid)['status'] not in ["Finished", "Failed", "Killed"]:
+            time.sleep(1)
+
+        result = self.check_predict_status(data_view_id, uid)
+        if result["status"] == "Finished":
+
+            paired = zip(result["results"]["candidates"], result["results"]["loss"])
+            prediction_result_format = [{k: (p[0][k], p[1][k]) for k in p[0].keys()} for p in paired]
+
+            return list(map(
+                lambda c: _get_prediction_result_from_candidate(c), prediction_result_format
+            ))
+        else:
+            raise RuntimeError(
+                "Prediction failed: UID={}, result={}".format(uid, result["status"])
             )
-        )
 
     def retrain(self, dataview_id):
         """
@@ -114,7 +128,7 @@ class ModelsClient(BaseClient):
         return self._get_success_json(self._get(routes.data_analysis(data_view_id), failure_message=failure_message))
 
     def _get_predict_body(self, candidates, method="scalar", use_prior=True):
-        if not (method == "scalar" or method == "from_distribution"):
+        if not (method == "scalar" or method == "scalar_from_distribution"):
             raise ValueError("{} method not supported".format(method))
 
         # If a single candidate is passed, wrap in a list for the user
@@ -129,9 +143,55 @@ class ModelsClient(BaseClient):
             }
         }
 
+    def submit_predict_request(self, data_view_id, candidates, prediction_source='scalar', use_prior=True):
+        """
+        Submits an async prediction request.
+
+        :param data_view_id: The id returned from create
+        :param candidates: Array of candidates
+        :param prediction_source: 'scalar' or 'scalar_from_distribution'
+        :param use_prior: True to use prior prediction, otherwise False
+        :return: Predict request Id (used to check status)
+        """
+
+        data = {
+            "prediction_source":
+                prediction_source,
+            "use_prior":
+                use_prior,
+            "candidates":
+                candidates
+        }
+
+        failure_message = "Configuration creation failed"
+        post_url = 'v1/data_views/' + str(data_view_id) + '/predict/submit'
+        return self._get_success_json(
+            self._post_json(post_url, data, failure_message=failure_message)
+        )['data']['uid']
+
+    def check_predict_status(self, view_id, predict_request_id):
+        """
+        Returns a string indicating the status of the prediction job
+
+        :param view_id: The data view id returned from data view create
+        :param predict_request_id: The id returned from predict
+        :return: Status data, also includes results if state is finished
+        """
+
+        failure_message = "Get status on predict failed"
+
+        bare_response = self._get_success_json(self._get(
+            'v1/data_views/' + str(view_id) + '/predict/' + str(predict_request_id) + '/status',
+            None, failure_message=failure_message))
+
+        result = bare_response["data"]
+        # result.update({"message": bare_response["message"]})
+
+        return result
+
     def submit_design_run(self, data_view_id, num_candidates, effort, target=None, constraints=[], sampler="Default"):
         """
-        Submits a new experimental design run
+        Submits a new experimental design run. Note: As of version 4.9.0, this is deprecated.
 
         :param data_view_id: The ID number of the data view to which the
             run belongs, as a string
@@ -150,6 +210,8 @@ class ModelsClient(BaseClient):
         :return: A :class:`DesignRun` instance containing the UID of the
             new run
         """
+        warnings.warn("The ModelsClient.submit_design_run method (and associated status check) is being deprecated "
+                      "in favor of those defined in DataViewsClient")
 
         if effort > 30:
             raise CitrinationClientError("Parameter effort must be less than 30 to trigger a design run")

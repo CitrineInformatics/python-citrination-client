@@ -96,7 +96,6 @@ def test_workflow():
         assert data_view_id == 555
 
 
-
 @pytest.mark.skipif(os.environ['CITRINATION_SITE'] != "https://citrination.com", reason="Test only supported on public")
 def test_live_api():
     site = os.environ["CITRINATION_SITE"]
@@ -123,7 +122,7 @@ def test_live_api():
     print('View metadata: ' + str(view_metadata))
     print('Data view id:' + str(data_view_id))
 
-    data_views_client.retrain(data_view_id)
+    data_views_client.models.retrain(data_view_id)
 
     while True:
         status = data_views_client.get_data_view_service_status(data_view_id)
@@ -133,7 +132,7 @@ def test_live_api():
         time.sleep(5)
 
     print('Test update')
-    data_views_client.update(data_view_id, dv_config, view_name+'-upd', 'updated description from pycc')
+    data_views_client.update(data_view_id, dv_config, view_name + '-upd', 'updated description from pycc')
 
     # update triggers retrain, so we need to wait until ML is available
     while True:
@@ -144,14 +143,14 @@ def test_live_api():
         time.sleep(5)
 
     print('Submitting a predict request')
-    predict_id = data_views_client.submit_predict_request(data_view_id,
-                                                          [{
-                                                              u'Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)': 'float'},
-                                                              {"SMILES": 'CCC'}], 'scalar', False)
+    predict_id = data_views_client.models.submit_predict_request(data_view_id,
+                                                                 [{
+                                                                     u'Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)': 'float'},
+                                                                     {"SMILES": 'CCC'}], 'scalar', False)
     print('Predict ID: ' + predict_id)
 
     while True:
-        predict_status = data_views_client.check_predict_status(data_view_id, predict_id)
+        predict_status = data_views_client.models.check_predict_status(data_view_id, predict_id)
         print('Prediction job status: ' + predict_status['status'])
         if predict_status['status'] == 'Finished':
             break
@@ -184,5 +183,3 @@ def test_descriptor():
 
     config = dv_builder.build()
     json.dumps(config)
-
-
