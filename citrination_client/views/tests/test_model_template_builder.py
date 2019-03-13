@@ -85,7 +85,7 @@ def test_workflow():
 
         # Create ML configuration
         dv_builder = DataViewBuilder()
-        desc = RealDescriptor('Property Melting point', '-Infinity', '0')
+        desc = RealDescriptor('Property Melting point', '-10000000000', '0')
         dv_builder.add_descriptor(desc, 'Output')
         desc = OrganicDescriptor('Property SMILES')
         dv_builder.add_descriptor(desc, 'Input')
@@ -107,7 +107,7 @@ def test_live_api():
     dv_builder = DataViewBuilder()
     dv_builder.dataset_ids(['151278'])
     desc = RealDescriptor(u'Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)',
-                          '-Infinity', '0')
+                          '-10000000', '0')
     dv_builder.add_descriptor(desc, 'output')
     desc = OrganicDescriptor('SMILES')
     dv_builder.add_descriptor(desc, 'input')
@@ -166,7 +166,7 @@ def test_descriptor():
     print('Testing descriptor')
     dv_builder = DataViewBuilder()
 
-    desc = RealDescriptor('Property 1')
+    desc = RealDescriptor('Property 1', lower_bound=-100000, upper_bound=1000000)
     dv_builder.add_descriptor(desc, 'input')
 
     desc = AlloyCompositionDescriptor('Property 2', 'Al')
