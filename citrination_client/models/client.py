@@ -10,14 +10,12 @@ from citrination_client.models.data_view import DataView
 from citrination_client.models.columns.column_factory import ColumnFactory
 
 import requests
-import warnings
 import time
 
 
 class ModelsClient(BaseClient):
     """
-    A client that encapsulates interactions with models on Citrination. Note: As of version 4.9.0, this is deprecated
-    in favor of the DataViewsClient.
+    A client that encapsulates interactions with models on Citrination.
     """
 
     def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False, proxies=None):
@@ -191,7 +189,7 @@ class ModelsClient(BaseClient):
 
     def submit_design_run(self, data_view_id, num_candidates, effort, target=None, constraints=[], sampler="Default"):
         """
-        Submits a new experimental design run. Note: As of version 4.9.0, this is deprecated.
+        Submits a new experimental design run.
 
         :param data_view_id: The ID number of the data view to which the
             run belongs, as a string
@@ -210,9 +208,6 @@ class ModelsClient(BaseClient):
         :return: A :class:`DesignRun` instance containing the UID of the
             new run
         """
-        warnings.warn("The ModelsClient.submit_design_run method (and associated status check) is being deprecated "
-                      "in favor of those defined in DataViewsClient")
-
         if effort > 30:
             raise CitrinationClientError("Parameter effort must be less than 30 to trigger a design run")
 
