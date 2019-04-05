@@ -179,10 +179,13 @@ class DataViewsClient(BaseClient):
         builder = DataViewBuilder()
         builder.dataset_ids(dataset_ids)
         for i, (k, v) in enumerate(result_blob['descriptors'].items()):
-            descriptor = self.__snake_case(v[0])
-            print(json.dumps(descriptor))
-            descriptor['descriptor_key'] = k
-            builder.add_raw_descriptor(descriptor)
+            try:
+                descriptor = self.__snake_case(v[0])
+                print(json.dumps(descriptor))
+                descriptor['descriptor_key'] = k
+                builder.add_raw_descriptor(descriptor)
+            except IndexError:
+                pass
 
         for i, (k, v) in enumerate(result_blob['types'].items()):
             builder.set_role(k, v.lower())
