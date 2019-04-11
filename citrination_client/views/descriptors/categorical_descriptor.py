@@ -6,11 +6,11 @@ from six import string_types
 
 class CategoricalDescriptor(MaterialDescriptor):
     def __init__(self, key, categories=[]):
-        self.options = dict(categories=categories)
+        self.options = dict(descriptorValues=categories)
         super(CategoricalDescriptor, self).__init__(key, "Categorical")
 
     def validate(self):
-        categories = self.options['categories']
+        categories = self.options['descriptorValues']
         if type(categories) is not list:
             raise CitrinationClientError("CategoricalColumn requires that the categories value is a list of strings")
 

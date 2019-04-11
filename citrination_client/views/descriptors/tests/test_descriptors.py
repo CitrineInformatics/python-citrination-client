@@ -2,7 +2,13 @@ import json
 
 import pytest
 
+from citrination_client import CategoricalDescriptor
 from citrination_client.views.descriptors.real_descriptor import RealDescriptor
+
+
+def test_categorical_descriptor():
+    d = CategoricalDescriptor("categorical", ["0", "1"])
+    assert d.as_dict() == dict(category="Categorical", descriptor_key="categorical", descriptorValues=["0", "1"])
 
 
 def test_real_descriptor():
