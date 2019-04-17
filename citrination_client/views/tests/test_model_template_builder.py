@@ -107,7 +107,7 @@ def test_live_api():
     dv_builder = DataViewBuilder()
     dv_builder.dataset_ids(['151278'])
     desc = RealDescriptor(u'Property $\\varepsilon$$_{gap}$ ($\\varepsilon$$_{LUMO}$-$\\varepsilon$$_{HOMO}$)',
-                          '-10000000', '0')
+                          '0', '10000000')
     dv_builder.add_descriptor(desc, 'output')
     desc = OrganicDescriptor('SMILES')
     dv_builder.add_descriptor(desc, 'input')
