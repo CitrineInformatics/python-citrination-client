@@ -9,8 +9,8 @@ on Citrination. To access the data views client, instantiate ``CitrinationClient
 Descriptor Keys
 ---------------
 
-If you know the dataset identifier, but do not know the descriptor names, you can use the data views
-API to get the descriptor keys.
+If you know the dataset identifier, but do not know the descriptor names, you can use the
+SearchTemplateClient to get the descriptor keys.
 
 .. literalinclude:: /code_samples/views/descriptor_keys.py
 
