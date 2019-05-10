@@ -8,3 +8,4 @@ Tutorial
   data_examples
   models_examples
   search_examples
+  view_examples

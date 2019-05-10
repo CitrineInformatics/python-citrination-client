@@ -7,3 +7,4 @@ Module Documentation
    data_management
    models
    search
+   views
