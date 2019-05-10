@@ -24,3 +24,11 @@ The result of this call will be a ``Tsne`` instance which contains
 projections for each of the the outputs for the models trained on the data view.
 
 .. literalinclude:: /code_samples/models/tsne.py
+
+
+Design
+------
+
+The ``.submit_design_run()`` method allows you to start a design run.
+
+.. literalinclude:: /code_samples/models/design.py
