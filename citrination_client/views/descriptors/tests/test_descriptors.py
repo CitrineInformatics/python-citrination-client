@@ -1,9 +1,7 @@
-import json
-
 import pytest
 
 from citrination_client import CategoricalDescriptor
-from citrination_client.views.descriptors.real_descriptor import RealDescriptor
+from citrination_client.views.descriptors import RealDescriptor, IntDescriptor
 
 
 def test_categorical_descriptor():
@@ -17,3 +15,23 @@ def test_real_descriptor():
 
     with pytest.raises(ValueError) as err:
         RealDescriptor("bg", 5, -5).as_dict()
+
+
+def test_int_descriptor():
+    descriptor_key = "Ingredient count"
+    lower_bound = 0
+    upper_bound = 10
+    units = ""
+    d = IntDescriptor(descriptor_key, lower_bound=lower_bound, upper_bound=upper_bound, units=units)
+
+    expected = dict(
+        category="Integer",
+        descriptor_key=descriptor_key,
+        lower_bound=lower_bound,
+        upper_bound=upper_bound,
+        units=units
+    )
+    assert d.as_dict() == expected
+
+    with pytest.raises(ValueError) as err:
+        IntDescriptor("", 5, -5).as_dict()
