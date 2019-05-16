@@ -1,6 +1,4 @@
-import pytest
 from citrination_client.models.columns import *
-from citrination_client.base.errors import *
 
 class TestCategoricalColumn(object):
 
@@ -18,11 +16,11 @@ class TestCategoricalColumn(object):
         }
 
         col = DescriptorConverter.convert(
-                col_name=col_name,
-                descriptor=descriptor,
-                role=role,
-                units=units
-            )
+            col_name=col_name,
+            descriptor=descriptor,
+            role=role,
+            units=units
+        )
 
         assert col.name == col_name
         assert col.role == role
@@ -30,6 +28,33 @@ class TestCategoricalColumn(object):
         assert col.upper_bound == float(upper_bound)
         assert col.lower_bound == float(lower_bound)
         assert col.__class__ == RealColumn
+
+    def test_int_descriptor_correctly_converted(self):
+        col_name = "Property Ingredient count"
+        lower_bound = 0
+        upper_bound = 10
+        units = "ingredients"
+        role = "Output"
+
+        descriptor = {
+            "category": "Integer",
+            "lowerBound": lower_bound,
+            "upperBound": upper_bound
+        }
+
+        col = DescriptorConverter.convert(
+            col_name=col_name,
+            descriptor=descriptor,
+            role=role,
+            units=units
+        )
+
+        assert col.name == col_name
+        assert col.role == role
+        assert col.units == units
+        assert col.upper_bound == int(upper_bound)
+        assert col.lower_bound == int(lower_bound)
+        assert col.__class__ == IntColumn
 
     def test_categorical_descriptor_correctly_converted(self):
         col_name = "Property Color"
@@ -42,10 +67,10 @@ class TestCategoricalColumn(object):
         }
 
         col = DescriptorConverter.convert(
-                col_name=col_name,
-                descriptor=descriptor,
-                role=role
-            )
+            col_name=col_name,
+            descriptor=descriptor,
+            role=role
+        )
 
         assert col.name == col_name
         assert col.role == role
@@ -63,10 +88,10 @@ class TestCategoricalColumn(object):
         }
 
         col = DescriptorConverter.convert(
-                col_name=col_name,
-                descriptor=descriptor,
-                role=role
-            )
+            col_name=col_name,
+            descriptor=descriptor,
+            role=role
+        )
 
         assert col.name == col_name
         assert col.role == role
@@ -86,10 +111,10 @@ class TestCategoricalColumn(object):
         }
 
         col = DescriptorConverter.convert(
-                col_name=col_name,
-                descriptor=descriptor,
-                role=role
-            )
+            col_name=col_name,
+            descriptor=descriptor,
+            role=role
+        )
 
         assert col.name == col_name
         assert col.role == role
@@ -106,10 +131,10 @@ class TestCategoricalColumn(object):
         }
 
         col = DescriptorConverter.convert(
-                col_name=col_name,
-                descriptor=descriptor,
-                role=role
-            )
+            col_name=col_name,
+            descriptor=descriptor,
+            role=role
+        )
 
         assert col.name == col_name
         assert col.role == role
@@ -124,10 +149,10 @@ class TestCategoricalColumn(object):
         }
 
         col = DescriptorConverter.convert(
-                col_name=col_name,
-                descriptor=descriptor,
-                role=role
-            )
+            col_name=col_name,
+            descriptor=descriptor,
+            role=role
+        )
 
         assert col.name == col_name
         assert col.role == role

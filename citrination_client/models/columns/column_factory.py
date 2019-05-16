@@ -17,6 +17,8 @@ def _flatten_column_dict(response_dict):
 def _get_column_class_from_type(type):
     if type == RealColumn.TYPE:
         return RealColumn
+    if type == IntColumn.TYPE:
+        return IntColumn
     elif type == CategoricalColumn.TYPE:
         return CategoricalColumn
     elif type == AlloyCompositionColumn.TYPE:
