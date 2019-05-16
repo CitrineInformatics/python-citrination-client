@@ -1,10 +1,12 @@
-from citrination_client.models.columns.categorical import CategoricalColumn
-from citrination_client.models.columns.real import RealColumn
-from citrination_client.models.columns.vector import VectorColumn
-from citrination_client.models.columns.alloy_composition import AlloyCompositionColumn
-from citrination_client.models.columns.inorganic_chemical_formula import InorganicChemicalFormulaColumn
-from citrination_client.models.columns.organic_chemical_formula import OrganicChemicalFormulaColumn
-from citrination_client.models.columns.formulation import FormulationColumn
+from .alloy_composition import AlloyCompositionColumn
+from .categorical import CategoricalColumn
+from .formulation import FormulationColumn
+from .inorganic_chemical_formula import InorganicChemicalFormulaColumn
+from .integer import IntColumn
+from .organic_chemical_formula import OrganicChemicalFormulaColumn
+from .real import RealColumn
+from .vector import VectorColumn
+
 
 class DescriptorConverter(object):
 
@@ -15,57 +17,68 @@ class DescriptorConverter(object):
             categories = [str(v) for v in descriptor["descriptorValues"]]
 
             return CategoricalColumn(
-                    name=col_name,
-                    role=role,
-                    units=units,
-                    categories=categories
-                )
+                name=col_name,
+                role=role,
+                units=units,
+                categories=categories
+            )
         elif column_type == RealColumn.TYPE:
             lower_bound = descriptor["lowerBound"]
             upper_bound = descriptor["upperBound"]
 
             return RealColumn(
-                    name=col_name,
-                    role=role,
-                    units=units,
-                    lower_bound=lower_bound,
-                    upper_bound=upper_bound
-                )
+                name=col_name,
+                role=role,
+                units=units,
+                lower_bound=lower_bound,
+                upper_bound=upper_bound
+            )
+        elif column_type == IntColumn.TYPE:
+            lower_bound = descriptor["lowerBound"]
+            upper_bound = descriptor["upperBound"]
+
+            return IntColumn(
+                name=col_name,
+                role=role,
+                units=units,
+                lower_bound=lower_bound,
+                upper_bound=upper_bound
+            )
         elif column_type == AlloyCompositionColumn.TYPE:
             balance_element = descriptor['balanceElement']
-            basis           = descriptor['basis']
+            basis = descriptor['basis']
 
             return AlloyCompositionColumn(
-                    name=col_name,
-                    role=role,
-                    units=units,
-                    balance_element=balance_element,
-                    basis=basis
-                )
+                name=col_name,
+                role=role,
+                units=units,
+                balance_element=balance_element,
+                basis=basis
+            )
         elif column_type == InorganicChemicalFormulaColumn.TYPE:
             return InorganicChemicalFormulaColumn(
-                    name=col_name,
-                    role=role,
-                    units=units
-                )
+                name=col_name,
+                role=role,
+                units=units
+            )
         elif column_type == OrganicChemicalFormulaColumn.TYPE:
             return OrganicChemicalFormulaColumn(
-                    name=col_name,
-                    role=role,
-                    units=units
-                )
+                name=col_name,
+                role=role,
+                units=units
+            )
         elif column_type == FormulationColumn.TYPE:
             return FormulationColumn(
-                    name=col_name,
-                    role=role,
-                    units=units
-                )
+                name=col_name,
+                role=role,
+                units=units
+            )
         elif column_type == VectorColumn.TYPE:
             length = descriptor["length"]
 
             return VectorColumn(
-                    name=col_name,
-                    role=role,
-                    units=units,
-                    length=length
-                )
+                name=col_name,
+                role=role,
+                units=units,
+                length=length
+            )
