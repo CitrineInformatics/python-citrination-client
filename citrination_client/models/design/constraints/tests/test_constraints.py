@@ -14,6 +14,19 @@ def test_real_value_constraint():
     assert mapped_c_value["type"] == "real"
     assert mapped_c_value["options"]["value"] == 3
 
+def test_int_value_constraint():
+    """
+    Tests that an integer constraint will only serialize
+    with min and max OR value but not both
+    """
+    prop = "Ingredient count"
+    c_value = IntValueConstraint(name=prop, value=3)
+    mapped_c_value = c_value.to_dict()
+
+    assert mapped_c_value["name"] == prop
+    assert mapped_c_value["type"] == "integer"
+    assert mapped_c_value["options"]["value"] == 3
+
 def test_real_range_constraint():
 
     prop = "Property Band gap"
@@ -41,7 +54,7 @@ def test_real_range_constraint_validation():
     maximum = 2
     try:
         c = RealRangeConstraint(name="Property Band gap",minimum=minimum,maximum=maximum)
-        assert False, "RealRangeConstraint should require that minimum be less than maxmimum"
+        assert False, "RealRangeConstraint should require that minimum be less than maximum"
     except CitrinationClientError:
         pass
 
@@ -51,6 +64,47 @@ def test_real_range_constraint_validation():
     try:
         c = RealRangeConstraint(name="Property Band gap",minimum=minimum,maximum=maximum)
         assert False, "RealRangeConstraint should require that minimum and maximum be castable to floats"
+    except CitrinationClientError:
+        pass
+
+
+def test_int_range_constraint():
+
+    prop = "Ingredient count"
+    c = IntRangeConstraint(name=prop, minimum=1, maximum=2)
+    mapped_c_range = c.to_dict()
+
+    assert mapped_c_range["name"] == prop
+    assert mapped_c_range["type"] == "integer"
+    assert mapped_c_range["options"].get("min") == 1
+    assert mapped_c_range["options"].get("max") == 2
+
+def test_int_range_constraint_validation():
+    """
+    Tests that minimum and maximum values are validated correctly
+    on initialization of IntRangeConstraint
+    """
+
+    # Test valid values OK
+    minimum = 1
+    maximum = 2
+    IntRangeConstraint(name="Ingredient count", minimum=minimum, maximum=maximum)
+
+    # Test minimum must be less than maximum
+    minimum = 3
+    maximum = 2
+    try:
+        RealRangeConstraint(name="Ingredient count", minimum=minimum, maximum=maximum)
+        assert False, "IntRangeConstraint should require that minimum be less than maximum"
+    except CitrinationClientError:
+        pass
+
+    # Test values must be castable to float
+    minimum = {}
+    maximum = 2
+    try:
+        c = IntRangeConstraint(name="Ingredient count", minimum=minimum, maximum=maximum)
+        assert False, "IntRangeConstraint should require that minimum and maximum be castable to integers"
     except CitrinationClientError:
         pass
 
