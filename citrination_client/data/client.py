@@ -235,7 +235,7 @@ class DataClient(BaseClient):
             if not os.path.isdir(os.path.dirname(local_path)):
                 os.makedirs(os.path.dirname(local_path))
 
-            r = requests.get(f.url, stream=True)
+            r = requests.get(f.url, stream=True, proxies = self.proxies)
 
             with open(local_path, 'wb') as output_file:
                 shutil.copyfileobj(r.raw, output_file)
