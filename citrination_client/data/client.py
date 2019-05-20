@@ -85,7 +85,7 @@ class DataClient(BaseClient):
                     data = "\0"
                 else:
                     data = f
-                r = requests.put(s3url, data=data, headers=j["required_headers"])
+                r = requests.put(s3url, data=data, headers=j["required_headers"], proxies=self.proxies)
                 if r.status_code == 200:
                     data = {'s3object': j['url']['path'], 's3bucket': j['bucket']}
                     self._post_json(routes.update_file(j['file_id']), data=data)
