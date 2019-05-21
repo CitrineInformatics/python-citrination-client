@@ -1,23 +1,12 @@
-import datetime
 import json
-
-import pytest
-import requests_mock
 import os
-import time
-import uuid
 
-from citrination_client import CitrinationClient
-
-from citrination_client.views.data_view_builder import DataViewBuilder
-from citrination_client.views.descriptors.alloy_composition_descriptor import AlloyCompositionDescriptor
-from citrination_client.views.descriptors.categorical_descriptor import CategoricalDescriptor
-from citrination_client.views.descriptors.inorganic_descriptor import InorganicDescriptor
-from citrination_client.views.descriptors.organic_descriptor import OrganicDescriptor
-from citrination_client.views.descriptors.real_descriptor import RealDescriptor
-from citrination_client.views.search_template.client import SearchTemplateClient
+import requests_mock
 
 from citrination_client.views.client import DataViewsClient
+from citrination_client.views.data_view_builder import DataViewBuilder
+from citrination_client.views.descriptors import *
+from citrination_client.views.search_template.client import SearchTemplateClient
 
 
 def load_file_as_json(path):
@@ -113,6 +102,9 @@ def test_descriptor():
     dv_builder.add_descriptor(desc, 'input')
 
     desc = CategoricalDescriptor('Property 5', ['Category A', 'Category B'])
+    dv_builder.add_descriptor(desc, 'input')
+
+    desc = IntDescriptor('Property 6', lower_bound=0, upper_bound=100)
     dv_builder.add_descriptor(desc, 'input')
 
     config = dv_builder.build()
