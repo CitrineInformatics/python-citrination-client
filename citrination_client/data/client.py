@@ -85,7 +85,10 @@ class DataClient(BaseClient):
                     data = "\0"
                 else:
                     data = f
-                r = requests.put(s3url, data=data, headers=j["required_headers"], proxies=self.proxies)
+                r = requests.put(
+                    s3url, data=data, headers=j["required_headers"], 
+                    proxies=self.proxies, config={'trust_env': False}
+                )
                 if r.status_code == 200:
                     data = {'s3object': j['url']['path'], 's3bucket': j['bucket']}
                     self._post_json(routes.update_file(j['file_id']), data=data)
@@ -235,7 +238,9 @@ class DataClient(BaseClient):
             if not os.path.isdir(os.path.dirname(local_path)):
                 os.makedirs(os.path.dirname(local_path))
 
-            r = requests.get(f.url, stream=True, proxies = self.proxies)
+            r = requests.get(
+                f.url, stream=True, proxies = self.proxies, config={'trust_env': False}
+            )
 
             with open(local_path, 'wb') as output_file:
                 shutil.copyfileobj(r.raw, output_file)

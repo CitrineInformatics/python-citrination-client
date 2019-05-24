@@ -85,7 +85,10 @@ class BaseClient(object):
         """
         headers = self._get_headers(headers)
         response_lambda = (
-            lambda: requests.get(self._get_qualified_route(route), headers=headers, verify=False, proxies=self.proxies)
+            lambda: requests.get(
+                self._get_qualified_route(route), headers=headers, 
+                verify=False, proxies=self.proxies, config={'trust_env': False}
+            )
         )
         response = check_for_rate_limiting(response_lambda(), response_lambda)
         return self._handle_response(response, failure_message)
@@ -103,7 +106,8 @@ class BaseClient(object):
         headers = self._get_headers(headers)
         response_lambda = (
             lambda: requests.post(
-                self._get_qualified_route(route), headers=headers, data=data, verify=False, proxies=self.proxies
+                self._get_qualified_route(route), headers=headers, data=data, 
+                verify=False, proxies=self.proxies, config={'trust_env': False}
             )
         )
         response = check_for_rate_limiting(response_lambda(), response_lambda)
@@ -122,7 +126,8 @@ class BaseClient(object):
         headers = self._get_headers(headers)
         response_lambda = (
             lambda: requests.put(
-                self._get_qualified_route(route), headers=headers, data=data, verify=False, proxies=self.proxies
+                self._get_qualified_route(route), headers=headers, data=data, 
+                verify=False, proxies=self.proxies, config={'trust_env': False}
             )
         )
         response = check_for_rate_limiting(response_lambda(), response_lambda)
@@ -138,7 +143,8 @@ class BaseClient(object):
         headers = self._get_headers(headers)
         response_lambda = (
             lambda: requests.patch(
-                self._get_qualified_route(route), headers=headers, data=data, verify=False, proxies=self.proxies
+                self._get_qualified_route(route), headers=headers, data=data, 
+                verify=False, proxies=self.proxies, config={'trust_env': False}
             )
         )
         response = check_for_rate_limiting(response_lambda(), response_lambda)
@@ -152,8 +158,10 @@ class BaseClient(object):
         """
         headers = self._get_headers(headers)
         response_lambda = (lambda: requests.delete(
-            self._get_qualified_route(route), headers=headers, verify=False, proxies=self.proxies)
-                           )
+                self._get_qualified_route(route), headers=headers, verify=False, 
+                proxies=self.proxies, config={'trust_env': False}
+            )
+        )
         response = check_for_rate_limiting(response_lambda(), response_lambda)
         return self._handle_response(response, failure_message)
 
