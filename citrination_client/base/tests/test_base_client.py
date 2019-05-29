@@ -28,6 +28,6 @@ def test_version():
   Tests that the version is extracted
   """
   client = BaseClient("asdf", "mycitrinationsite")
-  ver = client.__VERSION__()
+  ver = client.version()
   assert ver[0].isdigit()
 

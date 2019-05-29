@@ -163,7 +163,10 @@ class BaseClient(object):
     def __repr__(self):
         return "{}".format(self.api_members)
 
-    def __VERSION__(self):
+    def version(self):
+        """
+        :return: The version of this package
+        """
         here = os.path.abspath(os.path.dirname(__file__))
         with open(os.path.join(here, "../../setup.py")) as fp:
             version_file = fp.read()
