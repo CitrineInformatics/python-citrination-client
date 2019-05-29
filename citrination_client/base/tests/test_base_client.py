@@ -31,4 +31,3 @@ def test_version():
   ver = client.__VERSION__()
   assert ver[0].isdigit()
 
-test_version()
