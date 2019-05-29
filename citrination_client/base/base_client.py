@@ -6,6 +6,7 @@ import re
 from citrination_client.util.quote_finder import quote
 from citrination_client.base.response_handling import raise_on_response, check_general_success, check_for_rate_limiting, get_response_json
 from citrination_client.base.errors import *
+from pkg_resources import get_distribution, DistributionNotFound
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -165,13 +166,31 @@ class BaseClient(object):
 
     def version(self):
         """
+        Returns the version of this package, whether running from source or install
         :return: The version of this package
         """
-        here = os.path.abspath(os.path.dirname(__file__))
-        with open(os.path.join(here, "../../setup.py")) as fp:
-            version_file = fp.read()
-            version_match = re.search(r"version=['\"]([^'\"]*)['\"]",
-                                      version_file, re.M)
-            if version_match:
-                return version_match.group(1)
+        try:
+            # Try local first, if missing setup.py, then use pkg info
+            here = os.path.abspath(os.path.dirname(__file__))
+            with open(os.path.join(here, "../../setup.py")) as fp:
+                version_file = fp.read()
+                version_match = re.search(r"version=['\"]([^'\"]*)['\"]",
+                                          version_file, re.M)
+                if version_match:
+                    return version_match.group(1)
+        except IOError:
+            pass
+
+        try:
+            _dist = get_distribution('citrination_client')
+            # Normalize case for Windows systems
+            dist_loc = os.path.normcase(_dist.location)
+            here = os.path.normcase(__file__)
+            if not here.startswith(os.path.join(dist_loc, 'citrination_client')):
+                # not installed, but there is another version that *is*
+                raise DistributionNotFound
+        except DistributionNotFound:
             raise RuntimeError("Unable to find version string.")
+        else:
+            return _dist.version
+

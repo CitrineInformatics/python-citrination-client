@@ -29,5 +29,6 @@ def test_version():
   """
   client = BaseClient("asdf", "mycitrinationsite")
   ver = client.version()
+  print("Version:"+ver)
   assert ver[0].isdigit()
 
