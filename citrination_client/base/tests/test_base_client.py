@@ -22,3 +22,13 @@ def test_zero_length_api_key():
     assert False
   except CitrinationClientError:
     assert True
+
+def test_version():
+  """
+  Tests that the version is extracted
+  """
+  client = BaseClient("asdf", "mycitrinationsite")
+  ver = client.__VERSION__()
+  assert ver[0].isdigit()
+
+test_version()

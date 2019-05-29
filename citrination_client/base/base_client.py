@@ -1,5 +1,8 @@
 import requests
 import json
+import os
+import re
+
 from citrination_client.util.quote_finder import quote
 from citrination_client.base.response_handling import raise_on_response, check_general_success, check_for_rate_limiting, get_response_json
 from citrination_client.base.errors import *
@@ -159,3 +162,13 @@ class BaseClient(object):
 
     def __repr__(self):
         return "{}".format(self.api_members)
+
+    def __VERSION__(self):
+        here = os.path.abspath(os.path.dirname(__file__))
+        with open(os.path.join(here, "../../setup.py")) as fp:
+            version_file = fp.read()
+            version_match = re.search(r"version=['\"]([^'\"]*)['\"]",
+                                      version_file, re.M)
+            if version_match:
+                return version_match.group(1)
+            raise RuntimeError("Unable to find version string.")
