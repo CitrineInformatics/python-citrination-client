@@ -140,6 +140,24 @@ def test_dataset_update():
     assert response.hits[0].name == new_name
     assert response.hits[0].description == new_description
 
+    client.delete_dataset(dataset_id)
+
+    # Search again until dataset is not found
+    while search_count < 600:
+        response = parent_client.search.dataset_search(DatasetReturningQuery(
+            size=1,
+            query=DataQuery(
+                dataset=DatasetQuery(
+                    id=Filter(equal=dataset.id),
+                    name=Filter(equal=dataset.name)))))
+        if len(response.hits) == 0:
+            break
+        else:
+            search_count += 1
+        time.sleep(1)
+    
+    assert len(response.hits)==0
+
 def test_public_update():
     """
     Tests that requests to make a dataset public are
