@@ -325,7 +325,7 @@ class DataClient(BaseClient):
         :param dataset_id: The ID of the dataset to data.
         """
         failure_message = "Dataset delete failed"
-        self._delete('datasets/' + str(dataset_id), None, failure_message=failure_message)
+        self._delete('v1/datasets/' + str(dataset_id), None, failure_message=failure_message)
 
     def create_dataset_version(self, dataset_id):
         """
