@@ -144,7 +144,7 @@ def test_dataset_update():
     client.delete_dataset(dataset_id)
 
     # Search again until dataset is not found
-    while search_count < 600:
+    while search_count < 60:
         response = parent_client.search.dataset_search(DatasetReturningQuery(
             size=1,
             query=DataQuery(
