@@ -148,15 +148,14 @@ def test_dataset_update():
             size=1,
             query=DataQuery(
                 dataset=DatasetQuery(
-                    id=Filter(equal=dataset.id),
-                    name=Filter(equal=dataset.name)))))
-        if len(response.hits) == 0:
+                    id=Filter(equal=dataset.id)))))
+        if response.total_num_hits == 0:
             break
         else:
             search_count += 1
         time.sleep(1)
-    
-    assert len(response.hits)==0
+
+    assert response.total_num_hits == 0
 
 def test_public_update():
     """
