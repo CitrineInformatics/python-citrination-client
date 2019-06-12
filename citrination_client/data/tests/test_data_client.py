@@ -140,6 +140,7 @@ def test_dataset_update():
     assert response.hits[0].name == new_name
     assert response.hits[0].description == new_description
 
+    print('Deleting: ' + dataset_id)
     client.delete_dataset(dataset_id)
 
     # Search again until dataset is not found
@@ -149,6 +150,7 @@ def test_dataset_update():
             query=DataQuery(
                 dataset=DatasetQuery(
                     id=Filter(equal=dataset.id)))))
+        print('Search response: ' + response.hits)
         if response.total_num_hits == 0:
             break
         else:
