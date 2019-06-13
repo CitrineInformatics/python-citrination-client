@@ -1,5 +1,6 @@
 from citrination_client.base import BaseClient
 from citrination_client.base.errors import CitrinationClientError
+from citrination_client import __version__
 
 def test_none_api_key():
   """
@@ -22,3 +23,12 @@ def test_zero_length_api_key():
     assert False
   except CitrinationClientError:
     assert True
+
+def test_version():
+  """
+  Tests that the version is extracted
+  """
+  ver = __version__
+  print("Version:" + ver)
+  assert ver[0].isdigit()
+
