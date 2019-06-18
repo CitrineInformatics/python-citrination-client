@@ -318,6 +318,15 @@ class DataClient(BaseClient):
 
         return _dataset_from_response_dict(response)
 
+    def delete_dataset(self, dataset_id):
+        """
+        Delete a dataset by id.  This will only work if you are the owner of the dataset.
+
+        :param dataset_id: The ID of the dataset to data.
+        """
+        failure_message = "Dataset delete failed"
+        self._delete('v1/datasets/' + str(dataset_id), None, failure_message=failure_message)
+
     def create_dataset_version(self, dataset_id):
         """
         Create a new data set version.
