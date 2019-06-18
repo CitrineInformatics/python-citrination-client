@@ -1,5 +1,6 @@
 import requests
 import json
+
 from citrination_client.util.quote_finder import quote
 from citrination_client.base.response_handling import raise_on_response, check_general_success, check_for_rate_limiting, get_response_json
 from citrination_client.base.errors import *
@@ -159,3 +160,4 @@ class BaseClient(object):
 
     def __repr__(self):
         return "{}".format(self.api_members)
+
