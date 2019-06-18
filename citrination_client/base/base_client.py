@@ -1,5 +1,6 @@
 import requests
 import json
+import time
 
 from citrination_client.util.quote_finder import quote
 from citrination_client.base.response_handling import raise_on_response, check_general_success, check_for_rate_limiting, get_response_json
@@ -56,6 +57,18 @@ class BaseClient(object):
         raise_on_response(response)
         check_general_success(response, failure_message)
         return response
+
+    def _wait_for(self, activity_description, criterion, timeout, check_delay=5):
+        start = time.time()
+        while time.time() - start < timeout:
+            time.sleep(check_delay)
+            try:
+                if criterion():
+                    return
+            except Exception as e:
+                print("Error checking wait criterion: {}".format(e))
+
+        raise RuntimeError("Failed to `{}` in {} seconds".format(activity_description, timeout))
 
     def _get_success_json(self, response):
         return get_response_json(response)
