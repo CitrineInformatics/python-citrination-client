@@ -61,7 +61,7 @@ def test_workflow():
 
         m.patch(
             data_view_url.format(site, '555'),
-            json=dict())
+            json=dict()
         )
 
         m.post(
@@ -137,7 +137,7 @@ def test_workflow_non_async():
 
         m.patch(
             data_view_url.format(site, '555'),
-            json=dict())
+            json=dict()
         )
 
         m.post(
