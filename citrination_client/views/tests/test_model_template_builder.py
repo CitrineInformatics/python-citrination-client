@@ -130,7 +130,7 @@ def test_workflow_non_async():
             json=dict(data=load_file_as_json('./citrination_client/views/tests/column_descriptors.json'))
         )
 
-        m.post(
+        m.get(
             data_view_url.format(site, '/555/status'),
             json=dict(data={"data":{"status":{"predict":{"ready":True}}}})
         )
