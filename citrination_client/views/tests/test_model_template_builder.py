@@ -131,7 +131,7 @@ def test_workflow_non_async():
         )
 
         m.get(
-            data_view_url.format(site, '/555/status'),
+            site + '/api/data_views/555/status',
             json=dict(data={"data":{"status":{"predict":{"ready":True}}}})
         )
 
