@@ -84,6 +84,75 @@ def test_workflow():
         data_view_id = data_views_client.create(dv_config, "my view", "my description")
         assert data_view_id == 555
 
+        # Update an ML template
+        data_views_client.update(555, dv_config, "my view", "my description")
+
+
+def test_workflow_non_async():
+    site = os.environ["CITRINATION_SITE"]
+    search_template_client = SearchTemplateClient(os.environ["CITRINATION_API_KEY"], site)
+    data_views_client = DataViewsClient(os.environ["CITRINATION_API_KEY"], site)
+
+    search_template_url = "{}/api/v1/search_templates{}"
+    datasets_url = "{}/api/v1/datasets{}"
+    data_view_url = "{}/api/v1/data_views{}"
+    descriptors_url = "{}/v1/descriptors{}"
+
+    with requests_mock.Mocker() as m:
+        # Setup mocks
+        m.post(
+            search_template_url.format(site, '/builders/from-dataset-ids'),
+            json=dict(data=load_file_as_json('./citrination_client/views/tests/test_search_template.json'))
+        )
+
+        m.post(
+            search_template_url.format(site, '/prune-to-extract-as'),
+            json=dict(data=load_file_as_json('./citrination_client/views/tests/test_search_template.json'))
+        )
+
+        m.post(
+            datasets_url.format(site, '/get-available-columns'),
+            json=dict(data=load_file_as_json('./citrination_client/views/tests/available_columns.json'))
+        )
+
+        m.post(
+            descriptors_url.format(site, '/trigger-job'),
+            json=dict(data=dict(poll_url=descriptors_url.format(site, '/job-status/1234')))
+        )
+
+        m.post(
+            descriptors_url.format(site, '/job-status'),
+            json=dict(data=load_file_as_json('./citrination_client/views/tests/column_descriptors.json'))
+        )
+
+        m.post(
+            data_view_url.format(site, ''),
+            json=dict(data=dict(id=555))
+        )
+
+        # Get available columns
+        available_columns = search_template_client.get_available_columns([1234])
+        assert len(available_columns) == 524
+
+        # Create a search template from dataset ids
+        search_template = search_template_client.create([1234], available_columns)
+        assert search_template['query'][0]['system'][0]['tags'][0]['category'] == 'General'
+
+        # Create ML configuration
+        dv_builder = DataViewBuilder()
+        desc = RealDescriptor('Property Melting point', '-10000000000', '0')
+        dv_builder.add_descriptor(desc, 'Output')
+        desc = OrganicDescriptor('Property SMILES')
+        dv_builder.add_descriptor(desc, 'Input')
+        dv_config = dv_builder.build()
+
+        # Create an ML template
+        data_view_id = data_views_client.create(dv_config, "my view", "my description", is_async=False)
+        assert data_view_id == 555
+
+        # Update an ML template
+        data_views_client.update(555, dv_config, "my view", "my description", is_async=False)
+
 
 def test_descriptor():
     print('Testing descriptor')

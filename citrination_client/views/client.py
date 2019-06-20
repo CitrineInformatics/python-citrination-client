@@ -78,7 +78,7 @@ class DataViewsClient(BaseClient):
                 description
         }
 
-        failure_message = "Dataview creation failed"
+        failure_message = "Dataview update failed"
 
         self._patch_json(
             'v1/data_views/' + data_view_id, data, failure_message=failure_message)
