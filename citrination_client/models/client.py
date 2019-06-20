@@ -105,7 +105,7 @@ class ModelsClient(BaseClient):
         if not is_async:
             self._wait_for(
                 "Predict services ready",
-                lambda _: self.get_data_view_service_status(data_view_id).predict.ready,
+                lambda: self.get_data_view_service_status(data_view_id).predict.ready,
                 timeout)
 
         return True

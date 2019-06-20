@@ -81,7 +81,7 @@ class DataClient(BaseClient):
             if not is_async:
                 self._wait_for(
                     "Dataset ingestion finished",
-                    lambda _: self.get_ingest_status(dataset_id) == "Finished",
+                    lambda: self.get_ingest_status(dataset_id) == "Finished",
                     timeout)
             return upload_result
         elif os.path.isfile(source_path):
@@ -105,7 +105,7 @@ class DataClient(BaseClient):
                     if not is_async:
                         self._wait_for(
                             "Dataset ingestion finished",
-                            lambda _: self.get_ingest_status(dataset_id) == "Finished",
+                            lambda: self.get_ingest_status(dataset_id) == "Finished",
                             timeout)
                     return upload_result
                 else:
