@@ -59,10 +59,15 @@ def test_workflow():
             json=dict(data=load_file_as_json('./citrination_client/views/tests/column_descriptors.json'))
         )
 
+        m.patch(
+            data_view_url.format(site, '555'),
+            json=dict())
+        )
+
         m.post(
             data_view_url.format(site, ''),
             json=dict(data=dict(id=555))
-        )
+        )      
 
         # Get available columns
         available_columns = search_template_client.get_available_columns([1234])
@@ -85,7 +90,7 @@ def test_workflow():
         assert data_view_id == 555
 
         # Update an ML template
-        data_views_client.update(555, dv_config, "my view", "my description")
+        data_views_client.update("555", dv_config, "my view", "my description")
 
 
 def test_workflow_non_async():
@@ -126,9 +131,19 @@ def test_workflow_non_async():
         )
 
         m.post(
+            data_view_url.format(site, '555/status'),
+            json=dict(data={"data":{"status":{"predict":{"ready":True}}}})
+        )
+
+        m.patch(
+            data_view_url.format(site, '555'),
+            json=dict())
+        )
+
+        m.post(
             data_view_url.format(site, ''),
             json=dict(data=dict(id=555))
-        )
+        )       
 
         # Get available columns
         available_columns = search_template_client.get_available_columns([1234])
@@ -151,7 +166,7 @@ def test_workflow_non_async():
         assert data_view_id == 555
 
         # Update an ML template
-        data_views_client.update(555, dv_config, "my view", "my description", is_async=False)
+        data_views_client.update("555", dv_config, "my view", "my description", is_async=False)
 
 
 def test_descriptor():
