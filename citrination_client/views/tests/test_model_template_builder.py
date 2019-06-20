@@ -139,6 +139,21 @@ def test_workflow_non_async():
                                 "ready":True,
                                 "reason": None,
                                 "context": None
+                            },
+                            "experimental_design":{
+                                "ready":True,
+                                "reason": None,
+                                "context": None
+                            },
+                            "data_reports":{
+                                "ready":True,
+                                "reason": None,
+                                "context": None
+                            },
+                            "model_reports":{
+                                "ready":True,
+                                "reason": None,
+                                "context": None
                             }
                         }
                     }
