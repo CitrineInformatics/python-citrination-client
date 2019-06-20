@@ -132,7 +132,7 @@ def test_workflow_non_async():
 
         m.get(
             site + '/api/data_views/555/status',
-            json=dict(data={"data":{"status":{"predict":{"ready":True}}}})
+            json={"data":{"status":{"predict":{"ready":True}}}}
         )
 
         m.patch(
