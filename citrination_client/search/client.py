@@ -14,7 +14,7 @@ import json
 import requests
 
 DEFAULT_FAILURE_MESSAGE = "An error occurred requesting search results from Citrination"
-MAX_QUERY_DEPTH = 50000
+MAX_QUERY_DEPTH = 200000
 
 
 class SearchClient(BaseClient):
