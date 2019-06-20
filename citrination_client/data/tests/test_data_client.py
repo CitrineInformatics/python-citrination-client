@@ -61,6 +61,30 @@ def test_upload_pif():
     with open("tmp.json", "r") as fp:
         assert json.loads(fp.read())["uid"] == pif.uid
 
+def test_upload_pif_non_async():
+    """
+    Tests that a PIF can be created, serialized, uploaded in *non async* mode
+    """
+    pif = System()
+    pif.id = 0
+    uid = random_string()
+    pif.uid = uid
+
+    with open("tmp.json", "w") as fp:
+        dump(pif, fp)
+    assert client.upload(dataset_id, "tmp.json", is_async=False).successful()
+    tries = 0
+    while True:
+        try:
+            pif = client.get_pif(dataset_id, uid)
+            break
+        except ResourceNotFoundException:
+            if tries < 10:
+                tries += 1
+                time.sleep(1)
+            else:
+                raise
+
 def test_does_not_require_trailing_slash():
     src_path = "{}data_holder".format(test_file_data_root)
     result = client.upload(dataset_id, src_path)
