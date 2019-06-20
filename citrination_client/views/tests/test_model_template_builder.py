@@ -60,7 +60,7 @@ def test_workflow():
         )
 
         m.patch(
-            data_view_url.format(site, '555'),
+            data_view_url.format(site, '/555'),
             json=dict()
         )
 
@@ -131,12 +131,12 @@ def test_workflow_non_async():
         )
 
         m.post(
-            data_view_url.format(site, '555/status'),
+            data_view_url.format(site, '/555/status'),
             json=dict(data={"data":{"status":{"predict":{"ready":True}}}})
         )
 
         m.patch(
-            data_view_url.format(site, '555'),
+            data_view_url.format(site, '/555'),
             json=dict()
         )
 
