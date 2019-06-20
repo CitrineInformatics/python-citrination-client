@@ -8,6 +8,7 @@ from citrination_client.views.search_template.client import SearchTemplateClient
 
 from citrination_client import BaseClient, DataViewStatus, ServiceStatus
 
+TRAIN_TIMEOUT=300
 
 class DataViewsClient(BaseClient):
     """
@@ -21,13 +22,17 @@ class DataViewsClient(BaseClient):
         self.models = ModelsClient(api_key, site, suppress_warnings, proxies)
         self.search_template_client = SearchTemplateClient(api_key, site)
 
-    def create(self, configuration, name, description):
+    def create(self, configuration, name, description, is_async=True, timeout=TRAIN_TIMEOUT):
         """
         Creates a data view from the search template and ml template given
 
         :param configuration: Information to construct the data view from (eg descriptors, datasets etc)
         :param name: Name of the data view
         :param description: Description for the data view
+        :param is_async: Whether or not to make this call asynchronously
+        :type is_async: bool
+        :param timeout: Number of seconds to wait, if not async
+        :type timeout: int
         :return: The data view id
         """
 
@@ -46,13 +51,19 @@ class DataViewsClient(BaseClient):
             'v1/data_views', data, failure_message=failure_message))
         data_view_id = result['data']['id']
 
+        if not is_async:
+            self._wait_for(
+                "Predict services ready",
+                lambda _: self.get_data_view_service_status(data_view_id).predict.ready,
+                timeout)
+
         return data_view_id
 
-    def update(self, id, configuration, name, description):
+    def update(self, data_view_id, configuration, name, description, is_async=True, timeout=TRAIN_TIMEOUT):
         """
         Updates an existing data view from the search template and ml template given
 
-        :param id: Identifier for the data view.  This returned from the create method.
+        :param data_view_id: Identifier for the data view.  This returned from the create method.
         :param configuration: Information to construct the data view from (eg descriptors, datasets etc)
         :param name: Name of the data view
         :param description: Description for the data view
@@ -70,18 +81,24 @@ class DataViewsClient(BaseClient):
         failure_message = "Dataview creation failed"
 
         self._patch_json(
-            'v1/data_views/' + id, data, failure_message=failure_message)
+            'v1/data_views/' + data_view_id, data, failure_message=failure_message)
 
-    def delete(self, id):
+        if not is_async:
+            self._wait_for(
+                "Predict services ready",
+                lambda _: self.get_data_view_service_status(data_view_id).predict.ready,
+                timeout)
+
+    def delete(self, data_view_id):
         """
         Deletes a data view.
 
-        :param id: Identifier of the data view
+        :param data_view_id: Identifier of the data view
         """
 
         failure_message = "Dataview delete failed"
 
-        self._delete('v1/data_views/' + id, None, failure_message=failure_message)
+        self._delete('v1/data_views/' + data_view_id, None, failure_message=failure_message)
 
     def get(self, data_view_id):
         """

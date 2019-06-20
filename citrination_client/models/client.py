@@ -12,6 +12,7 @@ from citrination_client.models.columns.column_factory import ColumnFactory
 import requests
 import time
 
+TRAIN_TIMEOUT=300
 
 class ModelsClient(BaseClient):
     """
@@ -86,16 +87,27 @@ class ModelsClient(BaseClient):
                 "Prediction failed: UID={}, result={}".format(uid, result["status"])
             )
 
-    def retrain(self, dataview_id):
+    def retrain(self, data_view_id, is_async=True, timeout=TRAIN_TIMEOUT):
         """
         Start a model retraining
-        :param dataview_id: The ID of the views
+        :param data_view_id: The ID of the views
+        :param is_async: Whether or not to make this call asynchronously
+        :type is_async: bool
+        :param timeout: Number of seconds to wait, if not async
+        :type timeout: int
         :return:
         """
-        url = 'data_views/{}/retrain'.format(dataview_id)
+        url = 'data_views/{}/retrain'.format(data_view_id)
         response = self._post_json(url, data={})
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Retrain requested ' + str(response.status_code) + ' response: ' + str(response.message))
+        
+        if not is_async:
+            self._wait_for(
+                "Predict services ready",
+                lambda _: self.get_data_view_service_status(data_view_id).predict.ready,
+                timeout)
+
         return True
 
     def template_latest_version(self, model_path):

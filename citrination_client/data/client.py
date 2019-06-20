@@ -54,12 +54,14 @@ class DataClient(BaseClient):
         :return: The result of the upload process
         :rtype: :class:`UploadResult`
         """
+
         upload_result = UploadResult()
         source_path = str(source_path)
         if not dest_path:
             dest_path = source_path
         else:
             dest_path = str(dest_path)
+
         if os.path.isdir(source_path):
             for path, subdirs, files in os.walk(source_path):
                 relative_path = os.path.relpath(path, source_path)
@@ -79,7 +81,7 @@ class DataClient(BaseClient):
             if not is_async:
                 self._wait_for(
                     "Dataset ingestion finished",
-                    lambda x: self.get_ingest_status(dataset_id) == "Finished",
+                    lambda _: self.get_ingest_status(dataset_id) == "Finished",
                     timeout)
             return upload_result
         elif os.path.isfile(source_path):
@@ -103,7 +105,7 @@ class DataClient(BaseClient):
                     if not is_async:
                         self._wait_for(
                             "Dataset ingestion finished",
-                            lambda x: self.get_ingest_status(dataset_id) == "Finished",
+                            lambda _: self.get_ingest_status(dataset_id) == "Finished",
                             timeout)
                     return upload_result
                 else:

@@ -68,7 +68,7 @@ class BaseClient(object):
             except Exception as e:
                 print("Error checking wait criterion: {}".format(e))
 
-        raise RuntimeError("Failed to `{}` in {} seconds".format(activity_description, timeout))
+        raise RuntimeWarning("`{}` not yet complete after {} seconds, please check status manually".format(activity_description, timeout))
 
     def _get_success_json(self, response):
         return get_response_json(response)
