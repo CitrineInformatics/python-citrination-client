@@ -1,5 +1,4 @@
 import json
-import time
 import os
 
 import requests_mock
@@ -103,6 +102,8 @@ def test_workflow_blocking():
     datasets_url = "{}/api/v1/datasets{}"
     data_view_url = "{}/api/v1/data_views{}"
     descriptors_url = "{}/v1/descriptors{}"
+    ready_iter = iter([0,1]*10)
+    prog_iter = iter([0,1]*10)
 
     with requests_mock.Mocker() as m:
         # Setup mocks
@@ -138,12 +139,12 @@ def test_workflow_blocking():
                         "status":{
                             "predict":{
                                 "reason": "Please wait for machine learning features to become available",
-                                "ready": bool(round(time.time() % 2)),
+                                "ready": next(ready_iter),
                                 "context": "notice",
                                 "event": {
                                     "title": "Initializing machine learning services",
                                     "subtitle": "Doin some other stuff",
-                                    "normalizedProgress": round(time.time() % 2)
+                                    "normalizedProgress": next(prog_iter)
                                 }
                             },
                             "experimental_design":{
