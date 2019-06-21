@@ -17,7 +17,6 @@ def __get_version():
     try:
         # Try local first, if missing setup.py, then use pkg info
         here = os.path.abspath(os.path.dirname(__file__))
-        print("here:"+here)
         with open(os.path.join(here, "../setup.py")) as fp:
             version_file = fp.read()
             version_match = re.search(r"version=['\"]([^'\"]*)['\"]",
