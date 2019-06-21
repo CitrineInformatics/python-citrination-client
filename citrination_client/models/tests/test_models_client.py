@@ -79,7 +79,7 @@ def test_retrain_non_async():
     """
     Test that we can trigger a retrain
     """
-    resp = client.retrain("5909", is_async=False)
+    resp = client.retrain("5909", block_until_complete=True)
     assert resp == True
 
 
