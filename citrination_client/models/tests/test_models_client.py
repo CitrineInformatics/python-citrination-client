@@ -82,12 +82,11 @@ def test_retrain_blocking():
     """
     with requests_mock.Mocker() as m:
         site = os.environ["CITRINATION_SITE"]
+
         ready_iter = iter([0,1]*10)
         prog_iter = iter([0,1]*10)
-
-        m.get(
-            site + '/api/data_views/555/status',
-            json={
+        def status_check_callback(request, context):
+            return {
                     "data":{
                         "status":{
                             "predict":{
@@ -118,6 +117,10 @@ def test_retrain_blocking():
                         }
                     }
                 }
+
+        m.get(
+            site + '/api/data_views/555/status',
+            json=status_check_callback
         )
 
         resp = client.retrain("5909", block_until_complete=True)

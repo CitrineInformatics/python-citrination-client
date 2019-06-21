@@ -105,36 +105,8 @@ def test_workflow_blocking():
     ready_iter = iter([0,1]*10)
     prog_iter = iter([0,1]*10)
 
-    with requests_mock.Mocker() as m:
-        # Setup mocks
-        m.post(
-            search_template_url.format(site, '/builders/from-dataset-ids'),
-            json=dict(data=load_file_as_json('./citrination_client/views/tests/test_search_template.json'))
-        )
-
-        m.post(
-            search_template_url.format(site, '/prune-to-extract-as'),
-            json=dict(data=load_file_as_json('./citrination_client/views/tests/test_search_template.json'))
-        )
-
-        m.post(
-            datasets_url.format(site, '/get-available-columns'),
-            json=dict(data=load_file_as_json('./citrination_client/views/tests/available_columns.json'))
-        )
-
-        m.post(
-            descriptors_url.format(site, '/trigger-job'),
-            json=dict(data=dict(poll_url=descriptors_url.format(site, '/job-status/1234')))
-        )
-
-        m.post(
-            descriptors_url.format(site, '/job-status'),
-            json=dict(data=load_file_as_json('./citrination_client/views/tests/column_descriptors.json'))
-        )
-
-        m.get(
-            site + '/api/data_views/555/status',
-            json={
+    def status_check_callback(request, context):
+            return {
                     "data":{
                         "status":{
                             "predict":{
@@ -165,6 +137,37 @@ def test_workflow_blocking():
                         }
                     }
                 }
+
+    with requests_mock.Mocker() as m:
+        # Setup mocks
+        m.post(
+            search_template_url.format(site, '/builders/from-dataset-ids'),
+            json=dict(data=load_file_as_json('./citrination_client/views/tests/test_search_template.json'))
+        )
+
+        m.post(
+            search_template_url.format(site, '/prune-to-extract-as'),
+            json=dict(data=load_file_as_json('./citrination_client/views/tests/test_search_template.json'))
+        )
+
+        m.post(
+            datasets_url.format(site, '/get-available-columns'),
+            json=dict(data=load_file_as_json('./citrination_client/views/tests/available_columns.json'))
+        )
+
+        m.post(
+            descriptors_url.format(site, '/trigger-job'),
+            json=dict(data=dict(poll_url=descriptors_url.format(site, '/job-status/1234')))
+        )
+
+        m.post(
+            descriptors_url.format(site, '/job-status'),
+            json=dict(data=load_file_as_json('./citrination_client/views/tests/column_descriptors.json'))
+        )
+
+        m.get(
+            site + '/api/data_views/555/status',
+            json=status_check_callback
         )
 
         m.patch(
