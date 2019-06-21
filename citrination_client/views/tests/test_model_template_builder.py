@@ -1,4 +1,5 @@
 import json
+import time
 import os
 
 import requests_mock
@@ -136,9 +137,14 @@ def test_workflow_non_async():
                     "data":{
                         "status":{
                             "predict":{
-                                "ready":True,
-                                "reason": None,
-                                "context": None
+                                "reason": "Please wait for machine learning features to become available",
+                                "ready": bool(round(time.time() % 2)),
+                                "context": "notice",
+                                "event": {
+                                    "title": "Initializing machine learning services",
+                                    "subtitle": "Doin some other stuff",
+                                    "normalizedProgress": round(time.time() % 2)
+                                }
                             },
                             "experimental_design":{
                                 "ready":True,
