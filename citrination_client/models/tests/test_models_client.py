@@ -3,6 +3,7 @@ from citrination_client.models import *
 from citrination_client.models.columns import *
 from os import environ
 import pytest
+import requests_mock
 
 import time
 from citrination_client.base.errors import *
@@ -79,8 +80,48 @@ def test_retrain_blocking():
     """
     Test that we can trigger a retrain
     """
-    resp = client.retrain("5909", block_until_complete=True)
-    assert resp == True
+    with requests_mock.Mocker() as m:
+        site = os.environ["CITRINATION_SITE"]
+        ready_iter = iter([0,1]*10)
+        prog_iter = iter([0,1]*10)
+
+        m.get(
+            site + '/api/data_views/555/status',
+            json={
+                    "data":{
+                        "status":{
+                            "predict":{
+                                "reason": "Please wait for machine learning features to become available",
+                                "ready": next(ready_iter),
+                                "context": "notice",
+                                "event": {
+                                    "title": "Initializing machine learning services",
+                                    "subtitle": "Doin some other stuff",
+                                    "normalizedProgress": next(prog_iter)
+                                }
+                            },
+                            "experimental_design":{
+                                "ready":True,
+                                "reason": None,
+                                "context": None
+                            },
+                            "data_reports":{
+                                "ready":True,
+                                "reason": None,
+                                "context": None
+                            },
+                            "model_reports":{
+                                "ready":True,
+                                "reason": None,
+                                "context": None
+                            }
+                        }
+                    }
+                }
+        )
+
+        resp = client.retrain("5909", block_until_complete=True)
+        assert resp == True
 
 
 @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com",
