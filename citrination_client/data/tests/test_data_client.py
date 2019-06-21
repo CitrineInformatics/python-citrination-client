@@ -72,7 +72,7 @@ def test_upload_pif_non_async():
 
     with open("tmp.json", "w") as fp:
         dump(pif, fp)
-    assert client.upload(dataset_id, "tmp.json", is_async=False).successful()
+    assert client.upload(dataset_id, "tmp.json", block_until_complete=True).successful()
     tries = 0
     while True:
         try:

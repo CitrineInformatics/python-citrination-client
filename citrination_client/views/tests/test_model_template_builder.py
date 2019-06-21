@@ -187,11 +187,11 @@ def test_workflow_non_async():
         dv_config = dv_builder.build()
 
         # Create an ML template
-        data_view_id = data_views_client.create(dv_config, "my view", "my description", is_async=False)
+        data_view_id = data_views_client.create(dv_config, "my view", "my description", block_until_complete=True)
         assert data_view_id == 555
 
         # Update an ML template
-        data_views_client.update("555", dv_config, "my view", "my description", is_async=False)
+        data_views_client.update("555", dv_config, "my view", "my description", block_until_complete=True)
 
 
 def test_descriptor():

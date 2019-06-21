@@ -39,7 +39,7 @@ class DataClient(BaseClient):
         ]
         super(DataClient, self).__init__(api_key, host, members, suppress_warnings, proxies)
 
-    def upload(self, dataset_id, source_path, dest_path=None, is_async=True, timeout=30):
+    def upload(self, dataset_id, source_path, dest_path=None, block_until_complete=False, timeout=30):
         """
         Upload a file, specifying source and dest paths a file (acts as the scp command).asdfasdf
 
@@ -47,9 +47,9 @@ class DataClient(BaseClient):
         :type source_path: str
         :param dest_path: The path to the file where the contents of the upload will be written (on the dest host)
         :type dest_path: str
-        :param is_async: Whether or not to make this call asynchronously
-        :type is_async: bool
-        :param timeout: Number of seconds to wait, if not async
+        :param block_until_complete: Whether or not to block on wait
+        :type block_until_complete: bool
+        :param timeout: Number of seconds to wait, if blocking
         :type timeout: int
         :return: The result of the upload process
         :rtype: :class:`UploadResult`
@@ -78,7 +78,7 @@ class DataClient(BaseClient):
                             upload_result.add_failure(current_source_path,"Upload failure")
                     except (CitrinationClientError, ValueError) as e:
                         upload_result.add_failure(current_source_path, str(e))
-            if not is_async:
+            if block_until_complete:
                 self._wait_for(
                     "Dataset ingestion finished",
                     lambda: self.get_ingest_status(dataset_id) == "Finished",
@@ -102,7 +102,7 @@ class DataClient(BaseClient):
                     self._post_json(routes.update_file(j['file_id']), data=data)
                     upload_result.add_success(source_path)
 
-                    if not is_async:
+                    if block_until_complete:
                         self._wait_for(
                             "Dataset ingestion finished",
                             lambda: self.get_ingest_status(dataset_id) == "Finished",

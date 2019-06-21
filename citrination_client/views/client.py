@@ -22,16 +22,16 @@ class DataViewsClient(BaseClient):
         self.models = ModelsClient(api_key, site, suppress_warnings, proxies)
         self.search_template_client = SearchTemplateClient(api_key, site)
 
-    def create(self, configuration, name, description, is_async=True, timeout=TRAIN_TIMEOUT):
+    def create(self, configuration, name, description, block_until_complete=False, timeout=TRAIN_TIMEOUT):
         """
         Creates a data view from the search template and ml template given
 
         :param configuration: Information to construct the data view from (eg descriptors, datasets etc)
         :param name: Name of the data view
         :param description: Description for the data view
-        :param is_async: Whether or not to make this call asynchronously
-        :type is_async: bool
-        :param timeout: Number of seconds to wait, if not async
+        :param block_until_complete: Whether or not to make this call block on wait
+        :type block_until_complete: bool
+        :param timeout: Number of seconds to wait, if blocking
         :type timeout: int
         :return: The data view id
         """
@@ -51,7 +51,7 @@ class DataViewsClient(BaseClient):
             'v1/data_views', data, failure_message=failure_message))
         data_view_id = result['data']['id']
 
-        if not is_async:
+        if block_until_complete:
             self._wait_for(
                 "Predict services ready",
                 lambda: self.get_data_view_service_status(data_view_id).predict.ready,
@@ -59,7 +59,7 @@ class DataViewsClient(BaseClient):
 
         return data_view_id
 
-    def update(self, data_view_id, configuration, name, description, is_async=True, timeout=TRAIN_TIMEOUT):
+    def update(self, data_view_id, configuration, name, description, block_until_complete=False, timeout=TRAIN_TIMEOUT):
         """
         Updates an existing data view from the search template and ml template given
 
@@ -83,7 +83,7 @@ class DataViewsClient(BaseClient):
         self._patch_json(
             'v1/data_views/' + data_view_id, data, failure_message=failure_message)
 
-        if not is_async:
+        if block_until_complete:
             self._wait_for(
                 "Predict services ready",
                 lambda: self.get_data_view_service_status(data_view_id).predict.ready,

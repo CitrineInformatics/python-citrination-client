@@ -87,13 +87,13 @@ class ModelsClient(BaseClient):
                 "Prediction failed: UID={}, result={}".format(uid, result["status"])
             )
 
-    def retrain(self, data_view_id, is_async=True, timeout=TRAIN_TIMEOUT):
+    def retrain(self, data_view_id, block_until_complete=False, timeout=TRAIN_TIMEOUT):
         """
         Start a model retraining
         :param data_view_id: The ID of the views
-        :param is_async: Whether or not to make this call asynchronously
-        :type is_async: bool
-        :param timeout: Number of seconds to wait, if not async
+        :param block_until_complete: Whether or not to block on wait
+        :type block_until_complete: bool
+        :param timeout: Number of seconds to wait, if blocking
         :type timeout: int
         :return:
         """
@@ -102,7 +102,7 @@ class ModelsClient(BaseClient):
         if response.status_code != requests.codes.ok:
             raise RuntimeError('Retrain requested ' + str(response.status_code) + ' response: ' + str(response.message))
         
-        if not is_async:
+        if block_until_complete:
             self._wait_for(
                 "Predict services ready",
                 lambda: self.get_data_view_service_status(data_view_id).predict.ready,
