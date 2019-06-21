@@ -75,7 +75,7 @@ def test_retrain():
 
 @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com",
                     reason="Retrain tests only supported on open citrination")
-def test_retrain_non_async():
+def test_retrain_blocking():
     """
     Test that we can trigger a retrain
     """

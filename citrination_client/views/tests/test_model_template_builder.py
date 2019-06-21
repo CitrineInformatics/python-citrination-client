@@ -94,7 +94,7 @@ def test_workflow():
         data_views_client.update("555", dv_config, "my view", "my description")
 
 
-def test_workflow_non_async():
+def test_workflow_blocking():
     site = os.environ["CITRINATION_SITE"]
     search_template_client = SearchTemplateClient(os.environ["CITRINATION_API_KEY"], site)
     data_views_client = DataViewsClient(os.environ["CITRINATION_API_KEY"], site)
