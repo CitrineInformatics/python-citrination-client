@@ -89,8 +89,12 @@ class DataViewsClient(BaseClient):
 
         if block_until_complete:
             self._wait_for(
+                "Predict services training",
+                lambda: self.get_data_view_service_status(data_view_id).predict.event.normalized_progress < 1.0,
+                timeout)
+            self._wait_for(
                 "Predict services ready",
-                lambda: self.get_data_view_service_status(data_view_id).predict.ready,
+                lambda: self.get_data_view_service_status(data_view_id).predict.event.normalized_progress == 1.0,
                 timeout)
 
     def delete(self, data_view_id):
