@@ -27,6 +27,16 @@ note the following:
 2. When making certain prediction/design calls, things previously under `client.data_views` are now under `client.models`
 3. You have to specify the subclient, e.g. `client.data.upload()` not just `client.upload()`
 
+
+If you already have ``citrination-client`` installed (either in your virtual environment or your global set of ``pip`` packages), you can upgrade to v5.x like this:
+
+.. code-block:: python
+
+    pip install --upgrade citrination-client
+
+If you do this in an existing project, be sure to update your ``requirements.txt`` file to point to version 5.1.1 or newer.
+
+
 Module Documentation
 --------------------
 
