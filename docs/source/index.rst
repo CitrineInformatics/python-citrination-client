@@ -20,12 +20,12 @@ Use the articles in this section to familiarize yourself with the basic usage of
 Upgrading
 ---------
 
-If you are using a version of PyCC older than 4.0.0 and would like to upgrade your scripts to the latest versions, consult these guides to see how the functionality has changed.
+If you are using a version of PyCC older than 5.0.0 and would like to upgrade your scripts to the latest versions, please
+note the following:
 
-.. toctree::
-   :maxdepth: 2
-
-   upgrading/migration.rst
+1. When building data views, you now have to specify upper and lower bounds.
+2. When making certain prediction/design calls, things previously under `client.data_views` are now under `client.models`
+3. You have to specify the subclient, e.g. `client.data.upload()` not just `client.upload()`
 
 Module Documentation
 --------------------
