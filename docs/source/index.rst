@@ -20,12 +20,22 @@ Use the articles in this section to familiarize yourself with the basic usage of
 Upgrading
 ---------
 
-If you are using a version of PyCC older than 4.0.0 and would like to upgrade your scripts to the latest versions, consult these guides to see how the functionality has changed.
+If you are using a version of PyCC older than 5.0.0 and would like to upgrade your scripts to the latest versions, please
+note the following:
 
-.. toctree::
-   :maxdepth: 2
+1. When building data views, you now have to specify upper and lower bounds.
+2. When making certain prediction/design calls, things previously under `client.data_views` are now under `client.models`
+3. You have to specify the subclient, e.g. `client.data.upload()` not just `client.upload()`
 
-   upgrading/migration.rst
+
+If you already have ``citrination-client`` installed (either in your virtual environment or your global set of ``pip`` packages), you can upgrade to v5.x like this:
+
+.. code-block:: python
+
+    pip install --upgrade citrination-client
+
+If you do this in an existing project, be sure to update your ``requirements.txt`` file to point to version 5.1.1 or newer.
+
 
 Module Documentation
 --------------------
