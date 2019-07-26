@@ -257,7 +257,7 @@ class DataClient(BaseClient):
         if dataset_version == None:
             response = self._get(routes.pif_dataset_uid(dataset_id, uid), failure_message=failure_message)
         else:
-            response = self._get(routes.pif_dataset_version_uid(dataset_id, uid, dataset_version), failure_message=failure_message)
+            response = self._get(routes.pif_dataset_version_uid(dataset_id, dataset_version, uid), failure_message=failure_message)
 
         return pif.loads(response.content.decode("utf-8"))
 
