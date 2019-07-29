@@ -22,7 +22,8 @@ class SearchClient(BaseClient):
         members = [
             "pif_search",
             "pif_multi_search",
-            "dataset_search"
+            "dataset_search",
+            "generate_simple_chemical_query"
         ]
         super(SearchClient, self).__init__(api_key, webserver_host, members, suppress_warnings, proxies)
 
@@ -249,7 +250,7 @@ class SearchClient(BaseClient):
     def _get_list(values):
         """
         Helper method that wraps values in a list. If the input is a list then it is returned. If the input is None then an empty list is returned. For anything else, the input value is wrapped as a single-element list.
-        
+
         :param values: Value to make sure exists in a list.
         :return: List with the input values.
         """

@@ -35,7 +35,11 @@ class DataClient(BaseClient):
             "download_files",
             "create_dataset",
             "create_dataset_version",
-            "get_ingest_status"
+            "get_ingest_status",
+            "get_pif",
+            "update_dataset",
+            "delete_dataset",
+            "get_data_view_ids"
         ]
         super(DataClient, self).__init__(api_key, host, members, suppress_warnings, proxies)
 

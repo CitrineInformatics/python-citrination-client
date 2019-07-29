@@ -15,7 +15,17 @@ class DataViewsClient(BaseClient):
     """
 
     def __init__(self, api_key, site="https://citrination.com", suppress_warnings=False, proxies=None):
-        members = ["create", "update", "delete", "get", "models", "search_template_client"]
+        members = [
+            "create",
+            "update",
+            "delete",
+            "get",
+            "get_data_view_service_status",
+            "create_ml_configuration_from_datasets",
+            "create_ml_configuration",
+            "models",
+            "search_template_client"
+        ]
         super(DataViewsClient, self).__init__(api_key, site, members, suppress_warnings, proxies)
 
         self.models = ModelsClient(api_key, site, suppress_warnings, proxies)
