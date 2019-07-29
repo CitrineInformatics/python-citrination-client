@@ -341,6 +341,22 @@ class DataClient(BaseClient):
 
         return DatasetVersion(number=number)
 
+    def get_data_view_ids(self, dataset_id):
+        """
+        Returns a list of ids for data views that are built upon the provided dataset.
+
+        :param dataset_id: The ID of the dataset for which the version must be bumped.
+        :type dataset_id: int
+        :return: The list of data view ids that use the given dataset.
+        :rtype: list of int
+        """
+        failure_message = "Failed to get data view ids for dataset {}".format(dataset_id)
+        return self._get_success_json(
+            self._get(
+                routes.get_data_view_ids_path(dataset_id), failure_message=failure_message
+            )
+        )['data']
+
 def _dataset_from_response_dict(dataset):
     return Dataset(dataset['id'], name=dataset['name'],
         description=dataset['description'], created_at=dataset['created_at'])

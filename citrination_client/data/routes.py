@@ -32,3 +32,6 @@ def file_dataset_path(dataset_id, file_path):
 
 def file_dataset_version_path(dataset_id, version, file_path):
     return 'datasets/{}/version/{}/files/{}'.format(dataset_id, version, quote(file_path))
+
+def get_data_view_ids_path(dataset_id):
+    return 'v1/datasets/{}/data-views'.format(dataset_id)
