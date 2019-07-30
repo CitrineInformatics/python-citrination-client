@@ -21,7 +21,17 @@ class ModelsClient(BaseClient):
     def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False, proxies=None):
         members = [
             "tsne",
-            "predict"
+            "predict",
+            "retrain",
+            "template_latest_version"
+            "submit_predict_request",
+            "check_predict_status",
+            "submit_design_run",
+            "get_design_run_status",
+            "get_design_run_results",
+            "get_data_view",
+            "kill_design_run",
+            "get_data_view_service_status"
         ]
         super(ModelsClient, self).__init__(api_key, webserver_host, members, suppress_warnings, proxies)
 
