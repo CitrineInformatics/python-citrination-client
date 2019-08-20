@@ -39,3 +39,8 @@ class RateLimitingException(CitrinationClientError):
 
     def __init__(self, message="Rate limit hit, throttle requests", server_response=None):
         super(RateLimitingException, self).__init__(message)
+
+class RequestPayloadTooLarge(CitrinationClientError):
+
+    def __init__(self, message="Request payload too large", server_response=None):
+        super(RequestPayloadTooLarge, self).__init__(message)

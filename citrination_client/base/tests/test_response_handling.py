@@ -17,6 +17,9 @@ response_exceptions = [{
     },{
         "code": requests.codes.not_found,
         "exception_class": ResourceNotFoundException
+    },{
+        "code": requests.codes.request_entity_too_large,
+        "exception_class": RequestPayloadTooLarge
     }]
 
 def test_raises_exceptions_correctly():
@@ -112,5 +115,3 @@ def test_success_does_not_trigger_rate_limiting_retry():
     response_lambda = (lambda t, a: 1/0) # will throw exception
     checked_resp = check_for_rate_limiting(response, response_lambda)
     assert response == checked_resp
-
-
