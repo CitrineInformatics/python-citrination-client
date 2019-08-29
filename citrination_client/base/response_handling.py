@@ -46,6 +46,7 @@ def raise_on_response(response):
     _check_response_for_timeout(response)
     _check_response_for_missing_resource(response)
     _check_response_for_server_error(response)
+    _check_response_for_payload_too_large(response)
     return response
 
 def _check_response_for_authorization(response):
@@ -63,6 +64,10 @@ def _check_response_for_timeout(response):
 def _check_response_for_missing_resource(response):
     if response.status_code == 404:
         raise ResourceNotFoundException()
+
+def _check_response_for_payload_too_large(response):
+    if response.status_code == 413:
+        raise RequestPayloadTooLarge()
 
 def _check_response_for_server_error(response):
     if response.status_code >= 500:

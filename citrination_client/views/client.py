@@ -15,11 +15,41 @@ class DataViewsClient(BaseClient):
     """
 
     def __init__(self, api_key, site="https://citrination.com", suppress_warnings=False, proxies=None):
-        members = ["create", "update", "delete", "get", "models", "search_template_client"]
+        members = [
+            "create",
+            "update",
+            "delete",
+            "get",
+            "get_data_view_service_status",
+            "create_ml_configuration_from_datasets",
+            "create_ml_configuration",
+            "models",
+            "search_template_client"
+        ]
         super(DataViewsClient, self).__init__(api_key, site, members, suppress_warnings, proxies)
 
         self.models = ModelsClient(api_key, site, suppress_warnings, proxies)
         self.search_template_client = SearchTemplateClient(api_key, site)
+
+    def validate(self, configuration):
+        """
+        Sends a request to Citrination to run some basic tests on the configuration.
+
+        :param configuration: Information to construct the data view from (eg descriptors, datasets etc)
+        :return: A set of notes describing the results of the validation request
+        """
+
+        data = {
+            "configuration":
+                configuration
+        }
+
+        failure_message = "Dataview validation failed"
+
+        result = self._get_success_json(self._post_json(
+            'v1/data_views/builder-configuration/validate', data, failure_message=failure_message))
+
+        return result['data']
 
     def create(self, configuration, name, description):
         """
