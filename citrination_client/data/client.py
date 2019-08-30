@@ -81,7 +81,10 @@ class DataClient(BaseClient):
                             dataset_id, current_source_path, current_dest_path
                         )
                         if file_upload_result.successful():
-                            upload_result.add_success(current_source_path)
+                            file_id = file_upload_result.successes[0]['id']
+                            upload_result.add_success(
+                                current_source_path, file_id, current_dest_path
+                            )
                         else:
                             upload_result.add_failure(
                                 current_source_path, "Upload failure"
@@ -126,7 +129,9 @@ class DataClient(BaseClient):
                     self._post_json(
                         routes.update_file(file_data['file_id']), data = data
                     )
-                    upload_result.add_success(source_path)
+                    upload_result.add_success(
+                        source_path, file_data['file_id'], path_data["dest_path"]
+                    )
                     return upload_result
                 else:
                     raise CitrinationClientError(
