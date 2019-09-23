@@ -26,7 +26,7 @@ class DataViewBuilder(object):
         """
         Sets the model type for the view
 
-        :param model_type: A string of either linear, or default
+        :param model_type: A string of either linear (for a linear model), or default (for Citrine's default nonlinear model)
         """
         self.configuration['model_type'] = model_type
 
