@@ -41,7 +41,9 @@ class DataClient(BaseClient):
             "delete_dataset",
             "get_data_view_ids"
         ]
-        super(DataClient, self).__init__(api_key, host, members, suppress_warnings, proxies)
+        super(DataClient, self).__init__(
+            api_key, host, members, suppress_warnings, proxies
+        )
 
     def upload(self, dataset_id, source_path, dest_path=None):
         """

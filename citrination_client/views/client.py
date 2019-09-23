@@ -29,7 +29,9 @@ class DataViewsClient(BaseClient):
         super(DataViewsClient, self).__init__(api_key, site, members, suppress_warnings, proxies)
 
         self.models = ModelsClient(api_key, site, suppress_warnings, proxies)
-        self.search_template_client = SearchTemplateClient(api_key, site)
+        self.search_template_client = SearchTemplateClient(
+            api_key, site, suppress_warnings, proxies
+        )
 
     def validate(self, configuration):
         """
@@ -123,7 +125,8 @@ class DataViewsClient(BaseClient):
 
         failure_message = "Dataview get failed"
         return self._get_success_json(self._get(
-            'v1/data_views/' + data_view_id, None, failure_message=failure_message))['data']['data_view']
+            'data_views/' + data_view_id, None, failure_message=failure_message
+        ))['data']['data_view']
 
     def get_data_view_service_status(self, data_view_id):
         """
