@@ -15,18 +15,30 @@ class ModelReport(object):
 
     @property
     def model_name(self):
+        """
+        :rtype: str
+        """
         return self._raw_report['model_name']
 
     @property
     def performance(self):
+        """
+        :rtype: dict
+        """
         return self._raw_report['error_metrics']
 
     @property
     def feature_importances(self):
+        """
+        :rtype: list of dict
+        """
         return self._raw_report['feature_importances']
 
     @property
     def model_settings(self):
+        """
+        :rtype: dict
+        """
         return self._raw_report['model_settings']
 
     """
