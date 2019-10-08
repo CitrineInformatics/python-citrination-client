@@ -202,6 +202,14 @@ class DataViewsClient(BaseClient):
             time.sleep(5)
 
     def get_model_reports(self, data_view_id):
+        """
+        Retrieves the model reports of a data view
+
+        :param data_view_id: the id of the view to retrieve model reports from
+        :type data_view_id: str
+        :return: A list of model reports
+        :rtype: list of class:`ModelReport`
+        """
         response = self._get('v1/data_views/{}/model_reports'.format(data_view_id)).json()
         return list(map(lambda report: ModelReport(report), response['data']))
 
