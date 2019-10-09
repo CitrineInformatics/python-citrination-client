@@ -101,4 +101,3 @@ class Ingester:
             "arguments": self.arguments
         }
 
-    # def validate_inputs(self, inputs):
