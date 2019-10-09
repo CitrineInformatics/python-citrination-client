@@ -1,6 +1,5 @@
 from citrination_client.data.ingest import Ingester
 from citrination_client.base import CitrinationClientError
-import pdb
 
 class IngesterNotFoundError(CitrinationClientError):
     def __init__(self, message):
