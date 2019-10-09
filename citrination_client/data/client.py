@@ -2,6 +2,7 @@ from citrination_client.base.base_client import BaseClient
 from citrination_client.base.errors import *
 from citrination_client.data import *
 from citrination_client.data import routes as routes
+from citrination_client.data.ingest import IngestClient
 
 from pypif import pif
 
@@ -44,6 +45,9 @@ class DataClient(BaseClient):
         super(DataClient, self).__init__(
             api_key, host, members, suppress_warnings, proxies
         )
+        self._ingest = IngestClient(
+            api_key, host, suppress_warnings, proxies
+        )
 
     def upload(self, dataset_id, source_path, dest_path=None):
         """
@@ -81,7 +85,10 @@ class DataClient(BaseClient):
                             dataset_id, current_source_path, current_dest_path
                         )
                         if file_upload_result.successful():
-                            upload_result.add_success(current_source_path)
+                            file_id = file_upload_result.successes[0]['id']
+                            upload_result.add_success(
+                                current_source_path, file_id, current_dest_path
+                            )
                         else:
                             upload_result.add_failure(
                                 current_source_path, "Upload failure"
@@ -126,7 +133,9 @@ class DataClient(BaseClient):
                     self._post_json(
                         routes.update_file(file_data['file_id']), data = data
                     )
-                    upload_result.add_success(source_path)
+                    upload_result.add_success(
+                        source_path, file_data['file_id'], path_data["dest_path"]
+                    )
                     return upload_result
                 else:
                     raise CitrinationClientError(
@@ -135,6 +144,45 @@ class DataClient(BaseClient):
 
         else:
             raise ValueError("No file at specified path {}".format(source_path))
+
+    def upload_with_ingester(self, dataset_id, source_path, ingester, ingester_arguments=[], dest_path=None):
+        """
+        Upload a file, specifying source and dest paths a file (acts as the scp command).asdfasdf
+
+        :param dataset_id: The ID of the dataset to search for files.
+        :type dataset_id: Union[int, str]
+        :param source_path: The path to the file on the source host asdf
+        :type source_path: str
+        :param ingester: The ingester being used
+        :type ingester: class:`citrination_client.data.ingest.Ingester`
+        :param ingester_arguments: ingester arguments (optional), arguments should
+                                   contain keys "name" and "value"
+        :type ingester_arguments: list of dict
+        :param dest_path: The path to the file where the contents of the upload will be written (on the dest host)
+        :type dest_path: str
+        :return: The result of the upload process
+        :rtype: :class:`UploadResult`
+        """
+        if not os.path.isfile(source_path):
+            raise ValueError("source_path parameter must point to a file".format(source_path))
+
+        self._ingest.validate_ingester(ingester, ingester_arguments)
+        file_upload_result = self.upload(dataset_id, source_path, dest_path)
+
+        if len(file_upload_result.successes) == 1:
+            file_path = file_upload_result.successes[0]["dest_path"]
+            self._ingest.submit(dataset_id, file_path, ingester, ingester_arguments)
+
+        return file_upload_result
+
+    def list_ingesters(self):
+        """
+        Retrieves the list of available ingesters
+
+        :return: The list of ingesters available for ingestion
+        :rtype: :class:`IngesterList`
+        """
+        return self._ingest.list_ingesters()
 
     def list_files(self, dataset_id, glob=".", is_dir=False):
         """

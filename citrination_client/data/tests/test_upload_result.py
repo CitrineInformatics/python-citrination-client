@@ -22,7 +22,7 @@ def test_add_success():
     result
     """
     ur = UploadResult()
-    ur.add_success("my/path.jpg")
+    ur.add_success("my/path.jpg", 2, "path.jpg")
     assert len(ur.successes) == 1
 
 def test_cant_write_lists():
