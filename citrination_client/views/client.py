@@ -127,7 +127,7 @@ class DataViewsClient(BaseClient):
 
         failure_message = "Dataview get failed"
         return self._get_success_json(self._get(
-            'data_views/' + data_view_id, None, failure_message=failure_message
+            'v1/data_views/' + data_view_id, None, failure_message=failure_message
         ))['data']['data_view']
 
     def get_data_view_service_status(self, data_view_id):

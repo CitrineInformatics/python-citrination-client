@@ -22,6 +22,3 @@ def get_data_view_status(data_view_id):
     :type data_view_id: str
     """
     return "data_views/{}/status".format(data_view_id)
-
-def get_data_view(data_view_id):
-    return "data_views/{}".format(data_view_id)
