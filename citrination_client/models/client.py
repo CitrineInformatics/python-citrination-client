@@ -6,7 +6,6 @@ from citrination_client.models.design import *
 from citrination_client.models import routes as routes
 from citrination_client.base.errors import CitrinationClientError
 from citrination_client.data import Dataset
-from citrination_client.models.data_view import DataView
 from citrination_client.models.columns.column_factory import ColumnFactory
 
 import requests
@@ -29,7 +28,6 @@ class ModelsClient(BaseClient):
             "submit_design_run",
             "get_design_run_status",
             "get_design_run_results",
-            "get_data_view",
             "kill_design_run",
             "get_data_view_service_status"
         ]
