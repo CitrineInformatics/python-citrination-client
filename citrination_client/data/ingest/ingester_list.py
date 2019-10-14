@@ -63,7 +63,7 @@ class IngesterList:
 
         :param options: contains string:string key value pairs, allowed keys
                         are those found in the Ingester.SEARCH_FIELDS constant
-        :type dict
+        :type options: dict
 
         :return: A list of matching ingesters
         :rtype: :class:`IngesterList`

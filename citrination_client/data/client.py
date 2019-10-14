@@ -29,6 +29,8 @@ class DataClient(BaseClient):
         """
         members = [
             "upload",
+            "upload_with_ingester",
+            "list_ingesters",
             "list_files",
             "matched_file_count",
             "get_dataset_files",
