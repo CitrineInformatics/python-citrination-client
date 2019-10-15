@@ -13,6 +13,10 @@ class Ingester:
     SEARCH_FIELDS = set([
         'description', 'display_name', 'name', 'namespace', 'version', 'id'
     ])
+    """
+    Attributes of an Ingester that can be searched when filtering through Ingesters
+    via the IngestList#where method.
+    """
 
     def __init__(self, ingester):
         """
@@ -38,7 +42,7 @@ class Ingester:
         :param key: The key to check
         :type key: str
         :param suppress_error: When false, will raise an error for invalid keys
-        :type key: bool
+        :type suppress_error: bool
         :return: True if the key is valid, otherwise false
         :rtype: bool
         """
@@ -100,4 +104,3 @@ class Ingester:
             "description": self.description,
             "arguments": self.arguments
         }
-

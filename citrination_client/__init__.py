@@ -12,6 +12,7 @@ from pkg_resources import get_distribution, DistributionNotFound
 def __get_version():
     """
     Returns the version of this package, whether running from source or install
+
     :return: The version of this package
     """
     try:

@@ -29,6 +29,8 @@ class DataClient(BaseClient):
         """
         members = [
             "upload",
+            "upload_with_ingester",
+            "list_ingesters",
             "list_files",
             "matched_file_count",
             "get_dataset_files",
@@ -51,7 +53,8 @@ class DataClient(BaseClient):
 
     def upload(self, dataset_id, source_path, dest_path=None):
         """
-        Upload a file, specifying source and dest paths a file (acts as the scp command).asdfasdf
+        Upload a file, specifying source and optionally destination paths of a
+        file (acts as the scp command)
 
         :param dataset_id: The ID of the dataset to search for files.
         :type dataset_id: Union[int, str]
@@ -147,7 +150,8 @@ class DataClient(BaseClient):
 
     def upload_with_ingester(self, dataset_id, source_path, ingester, ingester_arguments=[], dest_path=None):
         """
-        Upload a file, specifying source and dest paths a file (acts as the scp command).asdfasdf
+        Upload a file using a particular ingester, specifying source and
+        optionally destination paths of a file (acts as the scp command)
 
         :param dataset_id: The ID of the dataset to search for files.
         :type dataset_id: Union[int, str]
@@ -174,6 +178,28 @@ class DataClient(BaseClient):
             self._ingest.submit(dataset_id, file_path, ingester, ingester_arguments)
 
         return file_upload_result
+
+    def upload_with_template_csv_ingester(self, dataset_id, source_path, dest_path=None):
+        """
+        Upload a file using the template CSV ingester, specifying source and
+        optionally destination paths of a file (acts as the scp command)
+
+        :param dataset_id: The ID of the dataset to search for files.
+        :type dataset_id: Union[int, str]
+        :param source_path: The path to the file on the source host asdf
+        :type source_path: str
+        :param dest_path: The path to the file where the contents of the upload will be written (on the dest host)
+        :type dest_path: str
+        :return: The result of the upload process
+        :rtype: :class:`UploadResult`
+        """
+        template_csv_ingester = self.list_ingesters().find_by_id(
+            "citrine/ingest template_csv_converter"
+        )
+
+        return self.upload_with_ingester(
+            dataset_id, source_path, template_csv_ingester, dest_path=dest_path
+        )
 
     def list_ingesters(self):
         """

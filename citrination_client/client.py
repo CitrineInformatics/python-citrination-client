@@ -5,25 +5,15 @@ from citrination_client.search import SearchClient
 from citrination_client.data import DataClient
 from citrination_client.util.credentials import get_preferred_credentials
 
-"""
-Generates a lambda method in a closure such that the
-client and method_name are constant (avoides reassignment
-in the assignment loop in the client class)
-"""
-
-
-def _generate_lambda_proxy_method(client, method_name):
-    subclient_m = getattr(client, method_name)
-    return lambda *args, **kw: subclient_m(*args, **kw)
-
-
 class CitrinationClient(object):
     """
     The top level of the client hierarchy. Instantiating this class handles
-    authentication information (api_key and site) and provides access to instances of each of the sub-clients, for more specific actions.
+    authentication information (api_key and site) and provides access to instances
+    of each of the sub-clients, for more specific actions.
 
     Instantiation requires authentication information, but that can be provided
-    via direct parameterization, environment variables, or a .citrination credentials file. See the tutorial on client Initialization for more information.
+    via direct parameterization, environment variables, or a .citrination credentials
+    file. See the tutorial on client Initialization for more information.
     """
 
     def __init__(self, api_key=None, site=None, suppress_warnings=False, proxies=None):
@@ -39,10 +29,7 @@ class CitrinationClient(object):
             statements guarding against misuse printed to stdout.
         :type suppress_warnings: bool
         :param proxies: proxies to use when making HTTP requests. E.g.,
-                proxies = {
-                  'http': 'http://10.10.1.10:3128',
-                  'https': 'http://10.10.1.10:1080',
-                }
+            proxies = { 'http': 'http://10.10.1.10:3128', 'https': 'http://10.10.1.10:1080' }
         :type proxies: dict(string, string)
         """
         api_key, site = get_preferred_credentials(api_key, site)
@@ -51,14 +38,5 @@ class CitrinationClient(object):
         self.data = DataClient(api_key, site, suppress_warnings=suppress_warnings, proxies=proxies)
         self.data_views = DataViewsClient(api_key, site, suppress_warnings=suppress_warnings, proxies=proxies)
 
-        # clients = [self.models, self.search, self.data, self.data_views]
-
-        # for client in clients:
-        #     client_methods = [a for a in dir(client) if not a.startswith('_')]
-        #     for method in client_methods:
-        #         setattr(self, method, _generate_lambda_proxy_method(client, method))
-
     def __repr__(self):
         return "['models', 'search', 'data', 'data_views']"
-
-

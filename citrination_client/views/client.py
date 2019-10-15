@@ -16,6 +16,9 @@ class DataViewsClient(BaseClient):
     """
 
     def __init__(self, api_key, site="https://citrination.com", suppress_warnings=False, proxies=None):
+        """
+        Contructor
+        """
         members = [
             "create",
             "update",

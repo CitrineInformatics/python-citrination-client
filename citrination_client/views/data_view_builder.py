@@ -53,12 +53,27 @@ class DataViewBuilder(object):
     def add_raw_descriptor(self, descriptor):
         """
         Add a raw descriptor dictionary object.
+
         :param descriptor: A descriptor as a dictionary
         """
         self.configuration['descriptors'].append(descriptor)
 
     def set_role(self, key, role):
+        """
+        Sets the role of a descriptor
+
+        :param key: A descriptor key
+        :type key: str
+        :param role: (input, output, latentVariable, or ignore)
+        :type role: str
+        """
         self.configuration['roles'][key] = role
 
     def build(self):
+        """
+        Returns a configuration object suitable for creating a data view.
+
+        :return: See __init__ method for returned dict shape
+        :rtype: :dict
+        """
         return self.configuration

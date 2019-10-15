@@ -19,6 +19,9 @@ MAX_QUERY_DEPTH = 50000
 
 class SearchClient(BaseClient):
     def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False, proxies=None):
+        """
+        Constructor.
+        """
         members = [
             "pif_search",
             "pif_multi_search",

@@ -63,7 +63,7 @@ class IngesterList:
 
         :param options: contains string:string key value pairs, allowed keys
                         are those found in the Ingester.SEARCH_FIELDS constant
-        :type dict
+        :type options: dict
 
         :return: A list of matching ingesters
         :rtype: :class:`IngesterList`
@@ -82,13 +82,20 @@ class IngesterList:
         #      is in ingester.description - both conditions would need to be met
         #      in order for the lambda to return True
         match_lambda = lambda ingester: all(
-            [value in getattr(ingester, key) for key, value in options.items()]
+            [self._ingester_contains(ingester, key, value) for key, value in options.items()]
         )
 
         # Get a list of ingesters that match the search options
         ingester_matches = list(filter(match_lambda, self.ingesters))
 
         return IngesterList(ingester_matches)
+
+    def _ingester_contains(self, ingester, attribute, value):
+        # Wrap in try except just in case one of the fields is None
+        try:
+            return value.lower() in getattr(ingester, attribute).lower()
+        except Exception:
+            return False
 
     def _coerce_ingester(self, ingester):
         """
