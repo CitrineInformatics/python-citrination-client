@@ -8,6 +8,15 @@ class ArgumentNotFoundError(CitrinationClientError):
 class Ingester:
     """
     Class representation of an ingester
+
+    :ivar str ~.display_name:
+    :ivar str ~.description:
+    :ivar str ~.namespace:
+    :ivar str ~.name:
+    :ivar str ~.version:
+    :ivar str ~.id:
+    :ivar ~.arguments: any optional and/or required arguments for the ingester
+    :vartype ~.arguments: list of dict
     """
 
     SEARCH_FIELDS = set([
