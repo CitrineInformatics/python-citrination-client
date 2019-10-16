@@ -8,6 +8,15 @@ class ArgumentNotFoundError(CitrinationClientError):
 class Ingester:
     """
     Class representation of an ingester
+
+    :ivar str ~.display_name:
+    :ivar str ~.description:
+    :ivar str ~.namespace:
+    :ivar str ~.name:
+    :ivar str ~.version:
+    :ivar str ~.id:
+    :ivar ~.arguments: any optional and/or required arguments for the ingester
+    :vartype ~.arguments: list of dict
     """
 
     SEARCH_FIELDS = set([
@@ -88,7 +97,7 @@ class Ingester:
                 'Unable to find argument with name {}'.format(name)
             )
 
-    def to_json(self):
+    def as_json(self):
         """
         Returns a dict that can used for ingest submission
 
@@ -104,3 +113,8 @@ class Ingester:
             "description": self.description,
             "arguments": self.arguments
         }
+
+    def __str__(self):
+        return "<Ingester id='{}' display_name='{}' description='{}' num_arguments={}>".format(
+            self.id, self.display_name, self.description, len(self.arguments)
+        )

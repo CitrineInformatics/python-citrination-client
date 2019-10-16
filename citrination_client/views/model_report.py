@@ -47,5 +47,10 @@ class ModelReport(object):
     :return: a copy of the raw report that backs the instance.
     :rtype: dict
     """
-    def to_json(self):
+    def as_json(self):
         return deepcopy(self._raw_report)
+
+    def __str__(self):
+        return "<ModelReport model_name='{}'>".format(
+            self.model_name
+        )

@@ -9,6 +9,9 @@ class IngesterList:
     """
     Class representation of a list of ingesters available for data upload on
     Citrination.
+
+    :ivar ~.ingesters:
+    :vartype ~.ingesters: list of :class:`Ingester`
     """
 
     def __init__(self, ingesters):
@@ -32,7 +35,7 @@ class IngesterList:
         """
         Returns the count of how many Ingesters are in the list
 
-        :return: number of Ingesters in self.ingesters
+        :return: number of Ingesters in the list
         :rtype: int
         """
         return len(self.ingesters)
@@ -121,3 +124,9 @@ class IngesterList:
 
         # Check that the search keys are all valid
         [Ingester.validate_search_key(key, False) for key in options]
+
+    def __str__(self):
+        return "<IngesterList ingester_count={} ingesters={}>".format(
+            self.ingester_count,
+            list(map(lambda ingester: str(ingester), self.ingesters))
+        )
