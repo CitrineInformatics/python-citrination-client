@@ -184,6 +184,20 @@ In the web UI, this file will appear as either ``data.csv`` nested in a
 ``experiments`` folder, or ``data.csv`` in the top level of the dataset
 depending on whether or not the destination path was provided.
 
+Checking the Ingest Status of a Dataset
+---------------------------------------
+
+The ``get_ingest_status`` method can be used to check the ingestion status of
+a dataset. It returns the string ``Processing`` when data is being ingested
+or indexed, and returns the string ``Finished`` when no data is being processed.
+
+.. literalinclude:: /code_samples/data/get_ingest_status.py
+
+.. attention::
+  Note that this method does not distinguish between successful and failed data
+  ingestions - it is simply whether or not data is currently being processed
+  for the dataset.
+
 Retrieving Files
 -----------------
 
