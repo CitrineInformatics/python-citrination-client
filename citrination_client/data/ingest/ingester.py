@@ -113,3 +113,8 @@ class Ingester:
             "description": self.description,
             "arguments": self.arguments
         }
+
+    def __str__(self):
+        return "<Ingester id='{}' display_name='{}' description='{}' num_arguments={}>".format(
+            self.id, self.display_name, self.description, len(self.arguments)
+        )

@@ -124,3 +124,9 @@ class IngesterList:
 
         # Check that the search keys are all valid
         [Ingester.validate_search_key(key, False) for key in options]
+
+    def __str__(self):
+        return "<IngesterList ingester_count={} ingesters={}>".format(
+            self.ingester_count,
+            list(map(lambda ingester: str(ingester), self.ingesters))
+        )

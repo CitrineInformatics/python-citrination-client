@@ -49,3 +49,8 @@ class ModelReport(object):
     """
     def as_json(self):
         return deepcopy(self._raw_report)
+
+    def __str__(self):
+        return "<ModelReport model_name='{}'>".format(
+            self.model_name
+        )
