@@ -23,3 +23,12 @@ to make a data view via the API.  A builder is provided to simplify creating ML 
 .. literalinclude:: /code_samples/views/create_view.py
 
 Once you have a data view id, you can use that id in the models client to run predictions or design.
+
+Retrieving Model Reports
+------------------------
+The ``get_model_reports`` method allows you to fetch a subset of the model reports
+data as JSON that one would normally see through the UI.
+
+The following code snippet is using model reports from https://citrination.com/data_views/524/data_summary
+
+.. literalinclude:: /code_samples/views/model_reports.py

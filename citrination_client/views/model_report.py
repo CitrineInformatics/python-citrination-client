@@ -16,6 +16,7 @@ class ModelReport(object):
     @property
     def model_name(self):
         """
+        :return: the model output which this report corresponds to
         :rtype: str
         """
         return self._raw_report['model_name']
@@ -23,6 +24,7 @@ class ModelReport(object):
     @property
     def performance(self):
         """
+        :return: dictionary of model performance metrics
         :rtype: dict
         """
         return self._raw_report['error_metrics']
@@ -30,6 +32,7 @@ class ModelReport(object):
     @property
     def feature_importances(self):
         """
+        :return: list of key value pairs regarding feature importances
         :rtype: list of dict
         """
         return self._raw_report['feature_importances']
@@ -37,6 +40,7 @@ class ModelReport(object):
     @property
     def model_settings(self):
         """
+        :return: dictionary of model settings
         :rtype: dict
         """
         return self._raw_report['model_settings']
