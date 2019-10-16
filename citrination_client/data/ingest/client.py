@@ -47,7 +47,7 @@ class IngestClient(BaseClient):
             ingester, arguments
         )
         data = {
-            "ingester": ingester_with_values.to_json(),
+            "ingester": ingester_with_values.as_json(),
             "dataset_id": dataset_id,
             "target_path": file_path
         }
@@ -74,7 +74,7 @@ class IngestClient(BaseClient):
         self._get_success_json(
             self._post_json(
                 'v1/ingest/validate_ingester',
-                { "ingester": ingester_with_values.to_json() },
+                { "ingester": ingester_with_values.as_json() },
                 failure_message='Failed to submit ingestion request'
             )
         )

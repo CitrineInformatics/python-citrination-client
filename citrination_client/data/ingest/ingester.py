@@ -97,7 +97,7 @@ class Ingester:
                 'Unable to find argument with name {}'.format(name)
             )
 
-    def to_json(self):
+    def as_json(self):
         """
         Returns a dict that can used for ingest submission
 

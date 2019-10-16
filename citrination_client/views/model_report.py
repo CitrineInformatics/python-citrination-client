@@ -47,5 +47,5 @@ class ModelReport(object):
     :return: a copy of the raw report that backs the instance.
     :rtype: dict
     """
-    def to_json(self):
+    def as_json(self):
         return deepcopy(self._raw_report)
