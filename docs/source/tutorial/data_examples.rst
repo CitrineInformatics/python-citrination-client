@@ -101,8 +101,12 @@ variety of attributes that can be found in the ``Ingester.SEARCH_FIELDS`` consta
 Viewing an Ingester's Arguments
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Once you have an `Ingester`, you can check its optional and required arguments
-via the `Ingester#arguments` attribute.
+Once you have an ``Ingester``, you can check its optional and required arguments
+via the ``Ingester#arguments`` attribute. As seen below, each argument has a ``name``,
+``desc`` (description), ``type``, and ``required`` key.  If you need/want to provide
+``ingester_arguments`` for an ingester when using the ``upload_with_ingester`` method,
+you will want to ensure that the ``name`` and ``value`` of your dictionaries match
+up to the ``name`` and ``type`` of those arguments found in ``Ingester#arguments``.
 
 .. literalinclude:: /code_samples/data/ingester_arguments.py
 
@@ -118,7 +122,7 @@ This method is parameterized with the following values:
   you will be uploading
 * **source_path** - The path to the file that you want to upload and for the
   ingester to then process
-* **ingester** - The custom ingester you want to use
+* **ingester** - The custom ``Ingester`` you want to use
 * **ingester_arguments** (optional) - Any ingester arguments you want to apply
   to the ingester - this should be a list of dicts that contain ``name`` and
   ``value`` keys
