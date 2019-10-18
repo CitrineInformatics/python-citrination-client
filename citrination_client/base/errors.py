@@ -44,3 +44,7 @@ class RequestPayloadTooLarge(CitrinationClientError):
 
     def __init__(self, message="Request payload too large", server_response=None):
         super(RequestPayloadTooLarge, self).__init__(message)
+
+class InvalidOptionError(CitrinationClientError):
+    def __init__(self, message):
+        super(InvalidOptionError, self).__init__(message)
