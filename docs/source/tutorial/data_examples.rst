@@ -9,9 +9,15 @@ on Citrination. To access the data client, instantiate ``CitrinationClient`` and
 Uploading Files
 ---------------
 
-The ``DataClient`` class exposes a method, ``.upload`` which
-allows you to upload a file or a directory to a dataset on
-Citrination.
+The ``DataClient`` class exposes a method, ``.upload`` which allows you to
+upload a file or a directory to a dataset on Citrination using the "default"
+ingester. This method is useful for uploading JSON files that follow the PIF
+schema, as well as files that do not require additional processing with a custom
+ingester.
+
+.. attention::
+  For files that require additional processing, see the documentation for the
+  ``upload_with_ingester`` and ``upload_with_template_csv_ingester`` sections.
 
 This method is parameterized with the following values:
 
@@ -63,6 +69,138 @@ You can also specify that a folder be renamed when it is uploaded to Citrination
 
 .. literalinclude:: /code_samples/data/upload_dir_with_dest.py
 
+Selecting a Custom Ingester
+---------------------------
+
+Finding an Ingester by ID
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The ``list_ingesters`` method returns all of the custom ingesters available on
+your Citrination deployment. It accepts no parameters, and returns an instance
+of :class:`IngesterList`, which itself contains instances of :class:`Ingester`.
+
+The unique field of an ``Ingester`` is its ``id``, so a particular ``Ingester``
+can be located via the ``IngesterList#find_by_id`` method.
+
+.. literalinclude:: /code_samples/data/find_ingester_by_id.py
+
+Finding an Ingester by Searching its Attributes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you don't know the ``id`` of an ingester, you can also search through an
+``IngesterList`` via the ``where`` method, which supports searching through a
+variety of attributes that can be found in the ``Ingester.SEARCH_FIELDS`` constant.
+
+.. literalinclude:: /code_samples/data/find_ingester_using_where.py
+
+.. attention::
+  Note that the `IngesterList#where` method returns a new instance of `IngesterList`,
+  and requires indexing into the `IngesterList#ingesters` attribute to ultimately
+  select an ingester.
+
+Viewing an Ingester's Arguments
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Once you have an ``Ingester``, you can check its optional and required arguments
+via the ``Ingester#arguments`` attribute. As seen below, each argument has a ``name``,
+``desc`` (description), ``type``, and ``required`` key.  If you need/want to provide
+``ingester_arguments`` for an ingester when using the ``upload_with_ingester`` method,
+you will want to ensure that the ``name`` and ``value`` of your dictionaries match
+up to the ``name`` and ``type`` of those arguments found in ``Ingester#arguments``.
+
+.. literalinclude:: /code_samples/data/ingester_arguments.py
+
+Uploading Data Using a Custom Ingester
+--------------------------------------
+
+The ``upload_with_ingester`` method allows for custom ingesters to be used when
+uploading a file.
+
+This method is parameterized with the following values:
+
+* **dataset_id** - The integer value of the ID of the dataset to which
+  you will be uploading
+* **source_path** - The path to the file that you want to upload and for the
+  ingester to then process
+* **ingester** - The custom ``Ingester`` you want to use
+* **ingester_arguments** (optional) - Any ingester arguments you want to apply
+  to the ingester - this should be a list of dicts that contain ``name`` and
+  ``value`` keys
+* **dest_path** (optional) - The name of the file or directory as it should
+  appear in Citrination.
+
+Ingesting Without Ingester Arguments
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The following Python snippet demonstrates 2 approaches for uploading a file with
+the relative path ``data/formulation.csv`` to dataset **1** on Citrination, one
+with a specified destination path and one without (similar to how the ``upload``
+method works). Both approaches utilize the ``Formulation CSV`` ingester with
+``no ingester arguments``.
+
+.. literalinclude:: /code_samples/data/custom_ingest_without_arguments.py
+
+In the web UI, this file will appear as either ``formulation.csv`` nested in a
+``data`` folder, or ``formulation.csv`` in the top level of the dataset
+depending on whether or not the destination path was provided.
+
+Ingesting With Ingester Arguments
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The following Python snippet demonstrates 2 approaches for uploading a file with
+the relative path ``experiments/data.xrdml`` to dataset **1** on Citrination, one
+with a specified destination path and one without (similar to how the ``upload``
+method works). Both approaches utilize the ``Citrine: XRD .xrdml`` ingester with
+``a set of arguments provided``.
+
+.. literalinclude:: /code_samples/data/custom_ingest_with_arguments.py
+
+In the web UI, this file will appear as either ``data.xrdml`` nested in a
+``experiments`` folder, or ``data.xrdml`` in the top level of the dataset
+depending on whether or not the destination path was provided.
+
+Uploading Using the Template CSV Ingester
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The ``upload_with_template_csv_ingester`` method abstracts away the logic of
+finding the Template CSV ingester, since it is one of the more commonly used
+ingesters. The same work can be accomplished by by finding the Template CSV
+ingester and using the ``upload_with_ingester`` method.
+
+This method is parameterized with the following values:
+
+* **dataset_id** - The integer value of the ID of the dataset to which
+  you will be uploading
+* **source_path** - The path to the file that you want to upload and for the
+  Template CSV to then process
+* **dest_path** (optional) - The name of the file or directory as it should
+  appear in Citrination.
+
+The following Python snippet demonstrates 2 approaches for uploading a file with
+the relative path ``experiments/data.csv`` to dataset **1** on Citrination, one
+with a specified destination path and one without (similar to how the ``upload``
+method works). Both approaches utilize the ``Citrine: XRD .xrdml`` ingester with
+``a set of arguments provided``.
+
+.. literalinclude:: /code_samples/data/upload_with_template_csv_ingester.py
+
+In the web UI, this file will appear as either ``data.csv`` nested in a
+``experiments`` folder, or ``data.csv`` in the top level of the dataset
+depending on whether or not the destination path was provided.
+
+Checking the Ingest Status of a Dataset
+---------------------------------------
+
+The ``get_ingest_status`` method can be used to check the ingestion status of
+a dataset. It returns the string ``Processing`` when data is being ingested
+or indexed, and returns the string ``Finished`` when no data is being processed.
+
+.. literalinclude:: /code_samples/data/get_ingest_status.py
+
+.. attention::
+  Note that this method does not distinguish between successful and failed data
+  ingestions - it is simply whether or not data is currently being processed
+  for the dataset.
 
 Retrieving Files
 -----------------

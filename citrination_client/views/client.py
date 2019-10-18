@@ -4,6 +4,7 @@ import time
 from citrination_client.models.client import ModelsClient
 
 from citrination_client.views.data_view_builder import DataViewBuilder
+from citrination_client.views.model_report import ModelReport
 from citrination_client.views.search_template.client import SearchTemplateClient
 
 from citrination_client import BaseClient, DataViewStatus, ServiceStatus
@@ -15,6 +16,9 @@ class DataViewsClient(BaseClient):
     """
 
     def __init__(self, api_key, site="https://citrination.com", suppress_warnings=False, proxies=None):
+        """
+        Contructor
+        """
         members = [
             "create",
             "update",
@@ -23,13 +27,16 @@ class DataViewsClient(BaseClient):
             "get_data_view_service_status",
             "create_ml_configuration_from_datasets",
             "create_ml_configuration",
+            "get_model_reports",
             "models",
             "search_template_client"
         ]
         super(DataViewsClient, self).__init__(api_key, site, members, suppress_warnings, proxies)
 
         self.models = ModelsClient(api_key, site, suppress_warnings, proxies)
-        self.search_template_client = SearchTemplateClient(api_key, site)
+        self.search_template_client = SearchTemplateClient(
+            api_key, site, suppress_warnings, proxies
+        )
 
     def validate(self, configuration):
         """
@@ -123,7 +130,8 @@ class DataViewsClient(BaseClient):
 
         failure_message = "Dataview get failed"
         return self._get_success_json(self._get(
-            'v1/data_views/' + data_view_id, None, failure_message=failure_message))['data']['data_view']
+            'v1/data_views/' + data_view_id, None, failure_message=failure_message
+        ))['data']['data_view']
 
     def get_data_view_service_status(self, data_view_id):
         """
@@ -195,6 +203,18 @@ class DataViewsClient(BaseClient):
                 ml_config = self.__convert_response_to_configuration(config_status['result'], dataset_ids)
                 return ml_config
             time.sleep(5)
+
+    def get_model_reports(self, data_view_id):
+        """
+        Retrieves the model reports of a data view
+
+        :param data_view_id: the id of the view to retrieve model reports from
+        :type data_view_id: str
+        :return: A list of model reports
+        :rtype: list of class:`ModelReport`
+        """
+        response = self._get('v1/data_views/{}/model_reports'.format(data_view_id)).json()
+        return list(map(lambda report: ModelReport(report), response['data']))
 
     def __convert_response_to_configuration(self, result_blob, dataset_ids):
         """

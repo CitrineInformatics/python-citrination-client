@@ -6,7 +6,6 @@ from citrination_client.models.design import *
 from citrination_client.models import routes as routes
 from citrination_client.base.errors import CitrinationClientError
 from citrination_client.data import Dataset
-from citrination_client.models.data_view import DataView
 from citrination_client.models.columns.column_factory import ColumnFactory
 
 import requests
@@ -19,6 +18,9 @@ class ModelsClient(BaseClient):
     """
 
     def __init__(self, api_key, webserver_host="https://citrination.com", suppress_warnings=False, proxies=None):
+        """
+        Constructor.
+        """
         members = [
             "tsne",
             "predict",
@@ -29,7 +31,6 @@ class ModelsClient(BaseClient):
             "submit_design_run",
             "get_design_run_status",
             "get_design_run_results",
-            "get_data_view",
             "kill_design_run",
             "get_data_view_service_status"
         ]
@@ -67,9 +68,10 @@ class ModelsClient(BaseClient):
         :type data_view_id: str
         :param candidates: A list of candidates to make predictions on
         :type candidates: list of dicts
-        :param method: Method for propagating predictions through model graphs. "scalar" uses linearized uncertainty
-        propagation, whereas "scalar_from_distribution" still returns scalar predictions but uses sampling to
-        propagate uncertainty without a linear approximation.
+        :param method: Method for propagating predictions through model graphs. "scalar" uses
+            linearized uncertainty propagation, whereas "scalar_from_distribution" still returns
+            scalar predictions but uses sampling to propagate uncertainty without a linear
+            approximation.
         :type method: str ("scalar" or "scalar_from_distribution")
         :param use_prior:  Whether to apply prior values implied by the property descriptors
         :type use_prior: bool
@@ -286,45 +288,6 @@ class ModelsClient(BaseClient):
         return DesignResults(
             best_materials=result.get("best_material_results"),
             next_experiments=result.get("next_experiment_results")
-        )
-
-    def get_data_view(self, data_view_id):
-        """
-        Retrieves a summary of information for a given data view
-            - view id
-            - name
-            - description
-            - columns
-
-        :param data_view_id: The ID number of the data view to which the
-            run belongs, as a string
-        :type data_view_id: str
-        """
-
-        url = routes.get_data_view(data_view_id)
-
-        response = self._get(url).json()
-
-        result = response["data"]["data_view"]
-
-        datasets_list = []
-        for dataset in result["datasets"]:
-            datasets_list.append(Dataset(
-                name=dataset["name"],
-                id=dataset["id"],
-                description=dataset["description"]
-            ))
-
-        columns_list = []
-        for column in result["columns"]:
-            columns_list.append(ColumnFactory.from_dict(column))
-
-        return DataView(
-            view_id=data_view_id,
-            name=result["name"],
-            description=result["description"],
-            datasets=datasets_list,
-            columns=columns_list,
         )
 
     def kill_design_run(self, data_view_id, run_uuid):

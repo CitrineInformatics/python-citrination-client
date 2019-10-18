@@ -63,7 +63,8 @@ def _check_response_for_timeout(response):
 
 def _check_response_for_missing_resource(response):
     if response.status_code == 404:
-        raise ResourceNotFoundException()
+        msg = _get_message(response) or "Resource not found"
+        raise ResourceNotFoundException(msg)
 
 def _check_response_for_payload_too_large(response):
     if response.status_code == 413:
@@ -84,3 +85,9 @@ def _check_response_for_version_mismatch(response):
         return response
     except (ValueError, KeyError):
         return response
+
+def _get_message(response):
+    try:
+        return response.json().get("message", None)
+    except Exception:
+        return None

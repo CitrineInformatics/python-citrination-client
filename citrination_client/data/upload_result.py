@@ -43,13 +43,17 @@ class UploadResult(object):
                 "reason": reason
             })
 
-    def add_success(self, filepath):
+    def add_success(self, filepath, id, dest_path):
         """
         Registers a file as successfully uploaded.
 
         :param filepath: The path to the successfully uploaded file.
         :type filepath: str
+        :param id: The id of the successfully uploaded file.
+        :type id: Union[str, int]
+        :param dest_path: The destination path to the successfully uploaded file.
+        :type dest_path: str
         """
         self._successes.append({
-                "path": filepath
+                "path": filepath, "id": str(id), "dest_path": dest_path
             })
