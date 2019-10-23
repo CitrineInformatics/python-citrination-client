@@ -41,6 +41,7 @@ class DataClient(BaseClient):
             "create_dataset_version",
             "get_ingest_status",
             "get_pif",
+            "get_pif_with_metadata",
             "update_dataset",
             "delete_dataset",
             "get_data_view_ids"
@@ -382,6 +383,42 @@ class DataClient(BaseClient):
         response = self._get(path, failure_message=failure_message)
 
         return pif.loads(response.content.decode("utf-8"))
+
+    def get_pif_with_metadata(self, dataset_id, uid, dataset_version = None, pif_version = None):
+        """
+        Retrieves a PIF from a given dataset, along with information regarding
+        the dataset it belongs to, its version number, and when it was last
+        updated.
+
+        :param dataset_id: The id of the dataset to retrieve PIF from
+        :type dataset_id: int
+        :param uid: The uid of the PIF to retrieve
+        :type uid: str
+        :param dataset_version: The dataset version to look for the PIF in.
+            If nothing is supplied, the latest dataset version will be searched.
+        :type dataset_version: int
+        :param pif_version: The version of the PIF to look for. If nothing is
+            supplied, the current PIF version will be returned.
+        :type pif_version: int
+        :return: A dict with two keys - ``pif`` (:class:`Pif`) and ``metadata`` (dict)
+        :rtype: dict
+        """
+        failure_message = "An error occurred retrieving PIF {}".format(uid)
+        path = _get_pif_path(
+            dataset_id,
+            uid,
+            dataset_version = dataset_version,
+            pif_version = pif_version,
+            with_metadata = True
+        )
+        response = self._get_success_json(
+            self._get(path, failure_message=failure_message)
+        )['data']
+
+        return {
+            'metadata': response['metadata'],
+            'pif': pif.loads(json.dumps(response['pif']))
+        }
 
     def create_dataset(self, name=None, description=None, public=False):
         """
