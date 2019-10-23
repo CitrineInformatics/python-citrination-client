@@ -6,6 +6,7 @@ from citrination_client.data.ingest import IngestClient
 
 from pypif import pif
 
+import json
 import os
 import shutil
 import requests
@@ -354,7 +355,7 @@ class DataClient(BaseClient):
             with open(local_path, 'wb') as output_file:
                 shutil.copyfileobj(r.raw, output_file)
 
-    def get_pif(self, dataset_id, uid, dataset_version = None):
+    def get_pif(self, dataset_id, uid, dataset_version = None, pif_version = None):
         """
         Retrieves a PIF from a given dataset.
 
@@ -362,16 +363,23 @@ class DataClient(BaseClient):
         :type dataset_id: int
         :param uid: The uid of the PIF to retrieve
         :type uid: str
-        :param dataset_version: The dataset version to look for the PIF in. If nothing is supplied, the latest dataset version will be searched
+        :param dataset_version: The dataset version to look for the PIF in.
+            If nothing is supplied, the latest dataset version will be searched.
         :type dataset_version: int
+        :param pif_version: The version of the PIF to look for. If nothing is
+            supplied, the current PIF version will be returned.
+        :type pif_version: int
         :return: A :class:`Pif` object
         :rtype: :class:`Pif`
         """
         failure_message = "An error occurred retrieving PIF {}".format(uid)
-        if dataset_version == None:
-            response = self._get(routes.pif_dataset_uid(dataset_id, uid), failure_message=failure_message)
-        else:
-            response = self._get(routes.pif_dataset_version_uid(dataset_id, dataset_version, uid), failure_message=failure_message)
+        path = _get_pif_path(
+            dataset_id,
+            uid,
+            dataset_version = dataset_version,
+            pif_version = pif_version
+        )
+        response = self._get(path, failure_message=failure_message)
 
         return pif.loads(response.content.decode("utf-8"))
 
@@ -492,3 +500,20 @@ def _get_s3_presigned_url(response_dict):
     """
     url = response_dict['url']
     return url['scheme']+'://'+url['host']+url['path']+'?'+url['query']
+
+def _get_pif_path(dataset_id, uid, dataset_version = None, pif_version = None, with_metadata = False):
+    if dataset_version == None:
+        return routes.pif_dataset_uid(
+            dataset_id,
+            uid,
+            pif_version = pif_version,
+            with_metadata = with_metadata
+        )
+    else:
+        return routes.pif_dataset_version_uid(
+            dataset_id,
+            dataset_version,
+            uid,
+            pif_version = pif_version,
+            with_metadata = with_metadata
+        )
