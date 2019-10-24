@@ -47,7 +47,7 @@ def test_upload_pif():
     tries = 0
     while True:
         try:
-            pif = client.get_pif(dataset_id, uid)
+            retrieved_pif = client.get_pif(dataset_id, uid)
             break
         except ResourceNotFoundException:
             if tries < 10:
@@ -59,7 +59,19 @@ def test_upload_pif():
     status = client.get_ingest_status(dataset_id)
     assert status == "Finished"
     with open("tmp.json", "r") as fp:
-        assert json.loads(fp.read())["uid"] == pif.uid
+        assert json.loads(fp.read())["uid"] == retrieved_pif.uid
+
+    # Basic test of `get_pif_with_metadata` method
+    with_metadata_resp = client.get_pif_with_metadata(
+        dataset_id, uid
+    )
+    with open("tmp.json", "r") as fp:
+        assert json.loads(fp.read())["uid"] == with_metadata_resp['pif'].uid
+    assert with_metadata_resp['metadata']['updated_at']
+    assert with_metadata_resp['metadata']['uid'] == uid
+    assert with_metadata_resp['metadata']['dataset_id'] == str(dataset_id)
+    assert with_metadata_resp['metadata']['dataset_version'] == 1
+    assert with_metadata_resp['metadata']['version'] == 1
 
 def test_does_not_require_trailing_slash():
     src_path = "{}data_holder".format(test_file_data_root)
@@ -114,7 +126,8 @@ def test_dataset_update():
     """
     dataset_name = random_dataset_name()
     dataset_id = client.create_dataset(name=dataset_name).id
-    time.sleep(10)
+    # Sleep added to accommodate race condition bug
+    time.sleep(20)
     new_name = random_dataset_name()
     new_description = random_string()
     dataset = client.update_dataset(dataset_id, name=new_name, description=new_description)
@@ -247,4 +260,3 @@ def test_download_pdf_files():
     for f in files_list:
         os.remove('/'.join(['test',f.path]))
     os.rmdir('test')
-
