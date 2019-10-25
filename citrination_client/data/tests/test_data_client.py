@@ -127,7 +127,7 @@ def test_dataset_update():
     dataset_name = random_dataset_name()
     dataset_id = client.create_dataset(name=dataset_name).id
     # Sleep added to accommodate race condition bug
-    time.sleep(20)
+    time.sleep(30)
     new_name = random_dataset_name()
     new_description = random_string()
     dataset = client.update_dataset(dataset_id, name=new_name, description=new_description)
