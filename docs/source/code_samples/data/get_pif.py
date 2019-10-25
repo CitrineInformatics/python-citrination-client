@@ -1,9 +1,20 @@
 # ... client initialization left out
 data_client = client.data
 dataset_id = 1
+pif_uid = "abc123"
 
-# Gets a single file named exactly my_file.json
+# Retrieves the latest version of the PIF with uid is "abc123" from the latest
+# version of dataset 1
+data_client.get_pif(dataset_id, pif_uid)
 
-data_client.get_pif(dataset_id, "1DF1C8EB706363DS2G3")
+# Retrieves the latest version of the PIF with uid is "abc123" from version 3
+# of dataset 1
+data_client.get_pif(dataset_id, pif_uid, dataset_version = 3)
 
-# Returns a Pif object from the PyPif library
+# Retrieves the version 2 of the PIF with uid is "abc123" from the latest version
+# of dataset 1
+data_client.get_pif(dataset_id, pif_uid, pif_version = 2)
+
+# Retrieves the version 2 of the PIF with uid is "abc123" from version 3 of
+# dataset 1
+data_client.get_pif(dataset_id, pif_uid, dataset_version = 3, pif_version = 2)
