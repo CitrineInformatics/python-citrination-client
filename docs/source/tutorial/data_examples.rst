@@ -227,10 +227,24 @@ one or more files in a dataset.
 PIF Retrieval
 ^^^^^^^^^^^^^
 
-A PIF record on Citrination can be retrieved using the `get_pif()` method.
-The record will be returned as a PyPif Pif object.
+A PIF record on Citrination can be retrieved using the ``DataClient#get_pif`` method.
+The record will be returned as a PyPif Pif object. The ``dataset_version`` and
+``pif_version`` arguments are optional - by default the PIF returned will be
+the current version of the PIF from the current version of the dataset.
 
 .. literalinclude:: /code_samples/data/get_pif.py
+
+To get the metadata of a PIF, use the ``DataClient#get_pif_with_metadata`` method.
+This method acts similar to ``DataClient#get_pif``, but returns a dictionary
+instead of a PyPif Pif object. The resulting dictionary will have two keys:
+`"pif"`, which will point to a PyPif Pif object, and `"metadata"`, which will be
+a dictionary with `"dataset_id"`, `"dataset_version"`, `"uid"`, `"version"`, and
+`"updated_at"` keys.
+
+``DataClient#get_pif_with_metadata`` has the same method signature as ``DataClient#get_pif``,
+with optional ``dataset_version`` and ``pif_version`` arguments.
+
+.. literalinclude:: /code_samples/data/get_pif_with_metadata.py
 
 Dataset Manipulation
 --------------------
