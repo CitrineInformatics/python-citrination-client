@@ -41,6 +41,8 @@ Changes from 5.x to 6.x
   * **Model Reports** - first pass access to ``model settings``, ``feature importances``,
     and ``model performance metrics`` for data views with ML configured. See
     ``ViewsClient.get_model_reports`` and ``ModelReport`` class.
+  * Version `6.1.0` adds `pif_version` support on ``DataClient#get_pif``, and a
+    new method ``DataClient#get_pif_with_metadata``.
 
 2. Deprecations
 

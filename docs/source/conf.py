@@ -27,7 +27,7 @@ author = u'Citrine Informatics'
 # The short X.Y version
 version = u''
 # The full version, including alpha/beta/rc tags
-release = u'6.0.1'
+release = u'6.1.0'
 
 # -- General configuration ---------------------------------------------------
 
