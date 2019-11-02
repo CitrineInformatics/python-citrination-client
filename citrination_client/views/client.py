@@ -222,6 +222,9 @@ class DataViewsClient(BaseClient):
         Retrieves the relation graph of data view with ML configured, that can
         be passed into the ``plot`` function of ``dagre_py.core`` for visualization.
 
+        A relation graph shows you how your inputs, outputs, and latent variable
+        are linked by Citrination's machine learning models.
+
         :param data_view_id: the id of the view to retrieve model reports from
         :type data_view_id: str
         :return: A dict containing a list of nodes and edges
