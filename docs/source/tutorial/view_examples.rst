@@ -35,7 +35,7 @@ The following code snippet is using model reports from https://citrination.com/d
 
 Retrieving Relation Graphs
 --------------------------
-A relation graph shows you how your inputs, outputs, and latent variable are linked
+A relation graph shows you how your inputs, outputs, and latent variables are linked
 by Citrination's machine learning models.
 
 The ``get_relation_graph`` method returns a dict containing `nodes` and `edges`
