@@ -9,7 +9,7 @@ setup(name='citrination-client',
           'requests>=2.20.0,<3',
           'pypif',
           'six<2',
-          'pyyaml'
+          'pyyaml>=5.1.2'
       ],
       extras_require={
         "dev": [
