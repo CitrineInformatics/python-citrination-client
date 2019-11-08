@@ -25,7 +25,7 @@ def load_file_as_yaml(path):
     """
     with open(path, "r") as f:
       raw_yaml = f.read()
-      parsed_dict = yaml.load(raw_yaml)
+      parsed_dict = yaml.load(raw_yaml, Loader=yaml.FullLoader)
     return parsed_dict
 
 def get_credentials_from_file(filepath):
