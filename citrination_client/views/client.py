@@ -28,6 +28,7 @@ class DataViewsClient(BaseClient):
             "create_ml_configuration_from_datasets",
             "create_ml_configuration",
             "get_model_reports",
+            "get_relation_graph",
             "models",
             "search_template_client"
         ]
@@ -215,6 +216,22 @@ class DataViewsClient(BaseClient):
         """
         response = self._get('v1/data_views/{}/model_reports'.format(data_view_id)).json()
         return list(map(lambda report: ModelReport(report), response['data']))
+
+    def get_relation_graph(self, data_view_id):
+        """
+        Retrieves the relation graph of data views with ML configured, that can
+        be passed into the ``plot`` function of ``dagre_py.core`` for visualization.
+
+        A relation graph shows you how your inputs, outputs, and latent variables
+        are linked by Citrination's machine learning models.
+
+        :param data_view_id: the id of the view to retrieve relation graphs from
+        :type data_view_id: str
+        :return: A dict containing a list of nodes and edges
+        :rtype: dict
+        """
+        response = self._get('v1/data_views/{}/relation-graph'.format(data_view_id)).json()
+        return response['data']
 
     def __convert_response_to_configuration(self, result_blob, dataset_ids):
         """

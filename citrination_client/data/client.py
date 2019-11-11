@@ -60,7 +60,7 @@ class DataClient(BaseClient):
 
         :param dataset_id: The ID of the dataset to search for files.
         :type dataset_id: Union[int, str]
-        :param source_path: The path to the file on the source host asdf
+        :param source_path: The path to the file on the source host
         :type source_path: str
         :param dest_path: The path to the file where the contents of the upload will be written (on the dest host)
         :type dest_path: str
@@ -157,7 +157,7 @@ class DataClient(BaseClient):
 
         :param dataset_id: The ID of the dataset to search for files.
         :type dataset_id: Union[int, str]
-        :param source_path: The path to the file on the source host asdf
+        :param source_path: The path to the file on the source host
         :type source_path: str
         :param ingester: The ingester being used
         :type ingester: class:`citrination_client.data.ingest.Ingester`
@@ -188,7 +188,7 @@ class DataClient(BaseClient):
 
         :param dataset_id: The ID of the dataset to search for files.
         :type dataset_id: Union[int, str]
-        :param source_path: The path to the file on the source host asdf
+        :param source_path: The path to the file on the source host
         :type source_path: str
         :param dest_path: The path to the file where the contents of the upload will be written (on the dest host)
         :type dest_path: str

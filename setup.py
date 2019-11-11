@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='citrination-client',
-      version='6.1.0',
+      version='6.2.0',
       url='http://github.com/CitrineInformatics/python-citrination-client',
       description='Python client for accessing the Citrination api',
       packages=find_packages(exclude=('docs')),
@@ -9,7 +9,7 @@ setup(name='citrination-client',
           'requests>=2.20.0,<3',
           'pypif',
           'six<2',
-          'pyyaml'
+          'pyyaml>=5.1.2'
       ],
       extras_require={
         "dev": [
