@@ -63,13 +63,13 @@ class DataViewBuilder(object):
         """
         self.configuration['descriptors'].append(descriptor)
 
-    def add_relation(self, inputs, outputs, relation_type='lolo', options=None):
+    def add_relation(self, inputs, output, relation_type='lolo', options=None):
         """
         Add a manual relation.  If no relations are manually added, Citrination will automatically generate
         relations when the view is created.
 
-        :param inputs: Array of strings or a single string of descriptor key(s) of the relation inputs
-        :param outputs: Array of strings or a single string of descriptor key(s) of the relation outputs
+        :param inputs: Array of strings or a single string of descriptor key(s) for the relation inputs
+        :param output: Single string descriptor key for the relation output
         :param relation_type: Kind of relation, currently only 'lolo' is supported
         :param options: A RelationOptions object with optional per relation settings
         """
@@ -84,14 +84,10 @@ class DataViewBuilder(object):
         else:
             raise ValueError("Unexpected type for inputs, expecting either a string or list of strings")
 
-        if isinstance(outputs, str):
-            relation_obj['outputs'] = [outputs]
-        elif isinstance(outputs, list):
-            if len(outputs) == 0:
-                raise ValueError("Outputs list must not be empty")
-            relation_obj['outputs'] = outputs
+        if isinstance(output, str):
+            relation_obj['output'] = output
         else:
-            raise ValueError("Unexpected type for output, expecting either a string or list of strings")
+            raise ValueError("Unexpected type for output, expecting a string")
 
         if relation_type != 'lolo':
             raise ValueError("Currently, \'lolo\' is the only allowed relation type")
@@ -108,7 +104,7 @@ class DataViewBuilder(object):
         existing_relations = self.configuration['relations']
         for pos, ele in enumerate(existing_relations):
             if existing_relations[pos]['inputs'] == relation_obj['inputs'] and \
-                    existing_relations[pos]['outputs'] == relation_obj['outputs']:
+                    existing_relations[pos]['output'] == relation_obj['output']:
                 raise ValueError("This relation duplicates an existing relation")
 
         # check limits

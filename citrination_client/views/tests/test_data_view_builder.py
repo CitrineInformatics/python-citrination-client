@@ -35,8 +35,8 @@ def test_add_relations():
 
     assert not check_exception(lambda: builder.add_relation(123, 123))
     assert check_exception(lambda: builder.add_relation('a', 'b'))
-    assert check_exception(lambda: builder.add_relation(['c'], ['d']))
-    assert not check_exception(lambda: builder.add_relation([], ['b']))
+    assert not check_exception(lambda: builder.add_relation('c', ['d']))
+    assert not check_exception(lambda: builder.add_relation([], 'b'))
     assert not check_exception(lambda: builder.add_relation(['a'], []))
     assert not check_exception(lambda: builder.add_relation('a', 'b', relation_type='asdf'))
 
