@@ -19,6 +19,6 @@ print(relation_graph)
 #  'edges': [{'source': 'formula', 'target': 'lolo:1'},
 #   {'source': 'lolo:1', 'target': 'Property Bulk modulus'}]}
 
-# Uses dagre_py to create a visualization of the relation graph in jupyter.
+# Uses ``dagre_py`` to create a visualization of the relation graph in jupyter.
 # See screenshot below.
 plot(relation_graph)
