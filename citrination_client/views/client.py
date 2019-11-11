@@ -219,13 +219,13 @@ class DataViewsClient(BaseClient):
 
     def get_relation_graph(self, data_view_id):
         """
-        Retrieves the relation graph of data view with ML configured, that can
+        Retrieves the relation graph of data views with ML configured, that can
         be passed into the ``plot`` function of ``dagre_py.core`` for visualization.
 
         A relation graph shows you how your inputs, outputs, and latent variables
         are linked by Citrination's machine learning models.
 
-        :param data_view_id: the id of the view to retrieve model reports from
+        :param data_view_id: the id of the view to retrieve relation graphs from
         :type data_view_id: str
         :return: A dict containing a list of nodes and edges
         :rtype: dict
