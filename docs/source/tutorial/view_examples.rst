@@ -32,3 +32,17 @@ data as JSON that one would normally see through the UI.
 The following code snippet is using model reports from https://citrination.com/data_views/524/data_summary
 
 .. literalinclude:: /code_samples/views/model_reports.py
+
+Retrieving Relation Graphs
+--------------------------
+A relation graph shows you how your inputs, outputs, and latent variables are linked
+by Citrination's machine learning models.
+
+The ``get_relation_graph`` method returns a dict containing `nodes` and `edges`
+intended to be passed to the ``plot`` function from the ``dagre_py.core`` module.
+
+.. literalinclude:: /code_samples/views/relation_graphs.py
+
+.. image:: /code_samples/views/relation_graph.png
+  :width: 400
+  :alt: Relation graph visualization using dagre_py
