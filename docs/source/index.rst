@@ -43,6 +43,8 @@ Changes from 5.x to 6.x
     ``ViewsClient.get_model_reports`` and ``ModelReport`` class.
   * Version `6.1.0` adds `pif_version` support on ``DataClient#get_pif``, and a
     new method ``DataClient#get_pif_with_metadata``.
+  * Version `6.2.0` adds ``ViewsClient#get_relation_graph`` for retrieving
+    relation graphs from data views with ML configured
 
 2. Deprecations
 
