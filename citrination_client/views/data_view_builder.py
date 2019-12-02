@@ -1,5 +1,3 @@
-from citrination_client.views.relations import RelationOptions
-
 MAX_USER_RELATIONS = 30
 
 class DataViewBuilder(object):
@@ -63,7 +61,7 @@ class DataViewBuilder(object):
         """
         self.configuration['descriptors'].append(descriptor)
 
-    def add_relation(self, inputs, output, relation_type='lolo', options=None):
+    def add_relation(self, inputs, output, relation_type='lolo'):
         """
         Add a manual relation.  If no relations are manually added, Citrination will automatically generate
         relations when the view is created.
@@ -71,7 +69,6 @@ class DataViewBuilder(object):
         :param inputs: Array of strings or a single string of descriptor key(s) for the relation inputs
         :param output: Single string descriptor key for the relation output
         :param relation_type: Kind of relation, currently only 'lolo' is supported
-        :param options: A RelationOptions object with optional per relation settings
         """
         relation_obj = {}
 
@@ -94,12 +91,6 @@ class DataViewBuilder(object):
 
         relation_obj['type'] = relation_type
 
-        if options:
-            if isinstance(options, RelationOptions):
-                relation_obj['options'] = options
-            else:
-                raise ValueError("Expecting \'RelationOptions\' type for options")
-
         # check for duplicate
         existing_relations = self.configuration['relations']
         for pos, ele in enumerate(existing_relations):
@@ -111,6 +102,25 @@ class DataViewBuilder(object):
         if len(existing_relations) > MAX_USER_RELATIONS:
             raise ValueError("Maximum Relations Reached: Citrination only supports " + str(MAX_USER_RELATIONS) +
                              " user-defined relations. Please review the existing relations")
+
+        # check inputs exist
+        for input_index, input in enumerate(relation_obj['inputs']):
+            found = False
+            for desc_index, desc in enumerate(self.configuration['descriptors']):
+                if desc['descriptor_key'] == input:
+                    found = True
+                    break
+            if not found:
+                raise ValueError("Input " + input + " is not defined as a descriptor")
+
+        found = False
+        for desc_index, desc in enumerate(self.configuration['descriptors']):
+            if desc['descriptor_key'] == output:
+                found = True
+                break
+        if not found:
+            raise ValueError("Output " + output + " is not defined as a descriptor")
+
 
         self.configuration['relations'].append(relation_obj)
 
