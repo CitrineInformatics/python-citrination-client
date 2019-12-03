@@ -25,7 +25,8 @@ def check_exception(func):
     try:
         func()
         return True
-    except ValueError:
+    except ValueError as e:
+        print("check_exception: " + str(e))
         return False
 
 
@@ -45,6 +46,10 @@ def test_add_relations():
 
     # duplicate
     assert not check_exception(lambda: builder.add_relation('a', 'b'))
+    assert check_exception(lambda: builder.add_relation(['a', 'c'], 'b'))
+    assert not check_exception(lambda: builder.add_relation(['c', 'a'], 'b'))
+    assert not check_exception(lambda: builder.add_relation(['c', 'c'], 'b'))
+    assert not check_exception(lambda: builder.add_relation('c', 'c'))
 
     # key not found
     assert not check_exception(lambda: builder.add_relation('z', 'b'))
@@ -61,5 +66,4 @@ def test_add_relations():
             if x > 0:
                 limit_hit = True
     assert limit_hit
-
 

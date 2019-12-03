@@ -87,15 +87,17 @@ class DataViewBuilder(object):
             raise ValueError("Unexpected type for output, expecting a string")
 
         if relation_type != 'lolo':
-            raise ValueError("Currently, \'lolo\' is the only allowed relation type")
+            raise ValueError("Currently, 'lolo' is the only allowed relation type")
 
         relation_obj['type'] = relation_type
 
         # check for duplicate
+        relation_obj['inputs'].sort()
         existing_relations = self.configuration['relations']
-        for pos, ele in enumerate(existing_relations):
-            if existing_relations[pos]['inputs'] == relation_obj['inputs'] and \
-                    existing_relations[pos]['output'] == relation_obj['output']:
+        for ele in existing_relations:
+            ele['inputs'].sort() # make sure they are sorted first
+            if ele['inputs'] == relation_obj['inputs'] and \
+                    ele['output'] == relation_obj['output']:
                 raise ValueError("This relation duplicates an existing relation")
 
         # check limits
@@ -103,24 +105,24 @@ class DataViewBuilder(object):
             raise ValueError("Maximum Relations Reached: Citrination only supports " + str(MAX_USER_RELATIONS) +
                              " user-defined relations. Please review the existing relations")
 
-        # check inputs exist
-        for input_index, input in enumerate(relation_obj['inputs']):
-            found = False
-            for desc_index, desc in enumerate(self.configuration['descriptors']):
-                if desc['descriptor_key'] == input:
-                    found = True
-                    break
-            if not found:
-                raise ValueError("Input " + input + " is not defined as a descriptor")
+        # simplify descriptor testing
+        descriptor_set = set()
+        for desc in self.configuration['descriptors']:
+            descriptor_set.add(desc['descriptor_key'])
 
-        found = False
-        for desc_index, desc in enumerate(self.configuration['descriptors']):
-            if desc['descriptor_key'] == output:
-                found = True
-                break
-        if not found:
+        # check inputs exist
+        for relation_input in relation_obj['inputs']:
+            if relation_input not in descriptor_set:
+                raise ValueError("Input " + relation_input + " is not defined as a descriptor")
+            if relation_obj['inputs'].count(relation_input) > 1:
+                raise ValueError("Input " + relation_input + " is listed more than once")
+            if relation_input == output:
+                raise ValueError("Output " + output + " is also an input")
+
+        if output not in descriptor_set:
             raise ValueError("Output " + output + " is not defined as a descriptor")
 
+        # check duplicate input
 
         self.configuration['relations'].append(relation_obj)
 
