@@ -26,7 +26,6 @@ def check_exception(func):
         func()
         return True
     except ValueError as e:
-        print("check_exception: " + str(e))
         return False
 
 
