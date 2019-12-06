@@ -126,7 +126,7 @@ class DataViewBuilder(object):
 
         self.configuration['relations'].append(relation_obj)
 
-    def getDagreGraph(self):
+    def get_dagre_graph(self):
         """
         Function to generate a DAGRE graph based on the descriptors and relations added to the builder
         """
