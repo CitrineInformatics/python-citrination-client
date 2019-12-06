@@ -126,6 +126,34 @@ class DataViewBuilder(object):
 
         self.configuration['relations'].append(relation_obj)
 
+    def getDagreGraph(self):
+        """
+        Function to generate a DAGRE graph based on the descriptors and relations added to the builder
+        """
+        nodes = []
+        edges = []
+
+        for desc in self.configuration['descriptors']:
+            nodes.append({
+                'label': desc['descriptor_key'],
+                'attributes': {
+                    'style': {
+                        'fill': '#ff8200',
+                        'stroke': '#453536'
+                    }
+                }
+            })
+        for relation in self.configuration['relations']:
+            for input_key in relation['inputs']:
+                edges.append({
+                    "source": input_key,
+                    "target": relation['output']
+                })
+        return {
+            "nodes": nodes,
+            "edges": edges
+        }
+
     def set_role(self, key, role):
         """
         Sets the role of a descriptor
