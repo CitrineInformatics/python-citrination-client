@@ -15,9 +15,9 @@ def check_exception(func):
 def test_add_relations():
     builder = AdvancedDataViewBuilder()
 
-    builder.add_descriptor(RealDescriptor("a", lower_bound=-1, upper_bound=1), "Input", True)
-    builder.add_descriptor(RealDescriptor("b", lower_bound=-1, upper_bound=1), "Output", True)
-    builder.add_descriptor(RealDescriptor("c", lower_bound=-1, upper_bound=1), "Output", True)
+    builder.add_descriptor(RealDescriptor("a", lower_bound=-1, upper_bound=1), True)
+    builder.add_descriptor(RealDescriptor("b", lower_bound=-1, upper_bound=1), True)
+    builder.add_descriptor(RealDescriptor("c", lower_bound=-1, upper_bound=1), True)
 
     assert not check_exception(lambda: builder.add_relation(123, 123))
     assert check_exception(lambda: builder.add_relation('a', 'b'))
@@ -41,8 +41,8 @@ def test_add_relations():
     limit_hit = False
     for x in range(0, 50):
         try:
-            builder.add_descriptor(RealDescriptor("a" + str(x), lower_bound=-1, upper_bound=1), "Input", True)
-            builder.add_descriptor(RealDescriptor("b" + str(x), lower_bound=-1, upper_bound=1), "Output", True)
+            builder.add_descriptor(RealDescriptor("a" + str(x), lower_bound=-1, upper_bound=1), True)
+            builder.add_descriptor(RealDescriptor("b" + str(x), lower_bound=-1, upper_bound=1), True)
             builder.add_relation('a' + str(x), 'b' + str(x))
         except ValueError:
             if x > 0:
