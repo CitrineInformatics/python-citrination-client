@@ -5,7 +5,7 @@ class Target(object):
     """
     The optimization target for a design run. Consists of
     the name of the output column to optimize and the objective
-    (either "Max" or "Min")
+    (either "Max" or "Min", or a scalar value (such as "5.0"))
     """
 
     def __init__(self, name, objective):
