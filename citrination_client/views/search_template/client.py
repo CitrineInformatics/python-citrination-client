@@ -3,7 +3,7 @@ from citrination_client import BaseClient
 
 class SearchTemplateClient(BaseClient):
     """
-    Data Views client.
+    Search Template client.
     """
 
     def __init__(self, api_key, site="https://citrination.com", suppress_warnings=False, proxies=None):
@@ -11,6 +11,18 @@ class SearchTemplateClient(BaseClient):
         super(SearchTemplateClient, self).__init__(api_key, site, members, suppress_warnings, proxies)
 
     def create(self, dataset_ids, extract_as_keys):
+        """
+        Retrieves the set of columns from the combination of dataset ids given
+
+        :param dataset_ids: The id of the dataset to retrieve columns from
+        :type dataset_ids: list of int
+        :param extract_as_keys: The list of property/condition/preparation step
+                                names from the datasets that are to be included
+                                in the search template
+        :type extract_as_keys: list of str
+        :return: New search template with pruned columns
+        :rtype: dict
+        """
         search_template = self.__generate_search_template(dataset_ids)
         return self.__prune_search_template(extract_as_keys, search_template)
 
