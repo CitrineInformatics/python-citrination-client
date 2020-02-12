@@ -10,11 +10,14 @@ Descriptor Keys
 ---------------
 
 If you know the dataset identifier, but do not know the descriptor names, you can use the
-SearchTemplateClient to get the descriptor keys.
+``SearchTemplateClient#get_available_columns`` to get the descriptor keys.
+
+Alternatively, you can use the ``DataViewsClient``, as an instance of the
+``SearchTemplateClient`` is present on the ``DataViewsClient`` via ``client.search_template``.
 
 .. literalinclude:: /code_samples/views/descriptor_keys.py
 
-Creating a view
+Creating a View
 ---------------
 
 The ``DataViewClient`` allows you to create a machine learning configuration which in turn can be used
