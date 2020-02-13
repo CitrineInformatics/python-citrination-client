@@ -3,6 +3,10 @@ from citrination_client.views.data_view_builder import DataViewBuilder
 from citrination_client.views.client import DataViewsClient
 from os import environ
 
+# Note: for the purposes of this example, environ["CITRINATION_SITE"] is
+#       https://citrination.com
+client = DataViewsClient(environ["CITRINATION_API_KEY"], environ["CITRINATION_SITE"])
+
 dv_builder = DataViewBuilder()
 dv_builder.dataset_ids([1160])
 
@@ -31,8 +35,6 @@ dv_builder.add_descriptor(
 
 # Converts the DataViewBuilder instance to a dictionary "config" object
 data_view_config = dv_builder.build()
-
-client = DataViewsClient(environ["CITRINATION_API_KEY"], environ["CITRINATION_SITE"])
 
 # Create a data view
 data_view_id = client.create(

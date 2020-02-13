@@ -1,10 +1,14 @@
-# ... client initialization left out
+from citrination_client.views.client import DataViewsClient
 from dagre_py.core import plot
-views_client = client.data_views
+from os import environ
+
+# Note: for the purposes of this example, environ["CITRINATION_SITE"] is
+#       https://citrination.com
+client = DataViewsClient(environ["CITRINATION_API_KEY"], environ["CITRINATION_SITE"])
 
 # Example using https://citrination.com/data_views/12329/data_summary
 # Returns a dict containing `nodes` and `edges`
-relation_graph = client.data_views.get_relation_graph(12329)
+relation_graph = client.get_relation_graph(12329)
 
 print(relation_graph)
 # {'edges': [{'source': 'formula', 'target': 'ML Model: 1'},

@@ -2,6 +2,8 @@ from citrination_client.views.advanced_data_view_builder import AdvancedDataView
 from citrination_client.views.client import DataViewsClient
 from os import environ
 
+# Note: for the purposes of this example, environ["CITRINATION_SITE"] is
+#       https://citrination.com
 client = DataViewsClient(environ["CITRINATION_API_KEY"], environ["CITRINATION_SITE"])
 
 dataset_ids = ['1160']
