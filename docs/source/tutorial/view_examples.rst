@@ -80,6 +80,53 @@ The following relation graph was generated from the sample code above:
   :width: 600
   :alt: Relation graph visualization using dagre_py
 
+Using the AdvancedDataViewBuilder
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For the data view generated in the ``DataViewBuilder`` example above, specifying:
+
+* `formula`, `Temperature (Property Band gap)`, and `Temperature (Property Color)` as ``inputs``,
+* `Property Band gap` as a ``latentVariable``, and
+* `Property Color` as an ``output``,
+
+resulted in 3 models being generated, represented by the following relations:
+
+.. literalinclude:: /code_samples/views/data_view_builder_relations.py
+
+The ``AdvancedDataViewBuilder`` gives you the freedom to specify the ``relations``
+between all of your descriptors. Building on the ``DataViewBuilder`` example,
+say we want to have the following relations build a system of 5 models for our
+data view, instead of the 3 models that were created when we used the ``DataViewBuilder``:
+
+.. literalinclude:: /code_samples/views/advanced_data_view_builder_relations.py
+
+In this case, the ``role`` of each descriptor is essentially the same as before,
+but applied in a different model configuration.
+
+Similar to the ``DataViewBuilder``, the ``AdvancedDataViewBuilder`` requires
+``descriptors``. In this example, we'll select the descriptor dictionaries that
+we are interested in from an auto-generated config object, similar to what is
+shown in the ``Creating Model Configuration for Your Data`` section.
+
+.. literalinclude:: /code_samples/views/advanced_data_view_builder_1.py
+
+Next, we initialize the ``AdvancedDataViewBuilder``, add the descriptors via
+the ``#add_raw_descriptor`` method, and then add relations via the
+``#add_relation`` method.
+
+.. literalinclude:: /code_samples/views/advanced_data_view_builder_2.py
+
+At this point, the advanced data view builder object is ready to be used to
+create or update a data view.
+
+.. literalinclude:: /code_samples/views/advanced_data_view_builder_3.py
+
+Checking out the resulting relation graph, we can see that 5 models have been
+generated.
+
+.. image:: /code_samples/views/advanced_data_view_builder_relation_graph.png
+  :width: 600
+  :alt: Relation graph visualization using dagre_py
 
 Retrieving Model Reports
 ------------------------
