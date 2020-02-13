@@ -7,6 +7,8 @@ class AdvancedDataViewBuilder(BaseDataViewBuilder):
     A more expressive interface for building data views with machine learning. Choose
     datasets, add descriptors, and specify relations, then call build() to
     return the configuration object needed by the data views API.
+
+    Inherits from the BaseDataViewBuilder
     """
 
     def __init__(self):
