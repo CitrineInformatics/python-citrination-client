@@ -23,7 +23,6 @@ Creating a View
 The ``DataViewsClient`` allows you to create a machine learning configuration which in turn can be used
 to make a data view via the API.  A builder is provided to simplify creating ML configurations.
 
-.. literalinclude:: /code_samples/views/create_view.py
 Once you have a data view id, you can use that id in the ``ModelsClient`` to run predictions or design.
 
 Creating Model Configuration for Your Data
@@ -57,8 +56,30 @@ in. It can now be modified further, or used to create/update a view.
 
 .. literalinclude:: /code_samples/views/fetching_ml_config_defaults_3.py
 
+Using the DataViewBuilder
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Once you have a data view id, you can use that id in the models client to run predictions or design.
+Under the hood, the ``DataViewsClient#create_ml_configuration_from_datasets`` method
+leverages the ``DataViewBuilder`` to create a configuration object. This class
+can also be used to build your own configuration object from scratch, by providing
+``dataset ids`` and ``descriptors``.
+
+This path can be quicker than using the ``DataViewsClient#create_ml_configuration_from_datasets``
+method in an automated workflow if you already know the descriptors that you want to use.
+
+When building data views through the UI, or using the configuration object returned
+from the ``DataViewBuilder``, the ``roles`` of each of those descriptors are
+interpreted by Citrination, and the machine learning libraries determine how
+many models to generate, and how to apply your inputs, outputs, and latent variables.
+
+.. literalinclude:: /code_samples/views/data_view_builder.py
+
+The following relation graph was generated from the sample code above:
+
+.. image:: /code_samples/views/data_view_builder_relation_graph.png
+  :width: 600
+  :alt: Relation graph visualization using dagre_py
+
 
 Retrieving Model Reports
 ------------------------
