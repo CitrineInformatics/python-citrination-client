@@ -1,8 +1,10 @@
 Data Views Client
 =================
 
-The ``DataViewsClient`` is the section of PyCC that allows you to manage your data views
-on Citrination. To access the data views client, instantiate ``CitrinationClient`` and read the ``data_views`` attribute:
+The ``DataViewsClient`` is the section of PyCC that allows you to manage your
+data views on Citrination. To access the data views client, instantiate
+``CitrinationClient`` and read the ``data_views`` attribute, or just import
+the ``DataViewsClient`` and instantiate it directly:
 
 .. literalinclude:: /code_samples/views/instantiation.py
 
