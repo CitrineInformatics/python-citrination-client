@@ -97,7 +97,7 @@ resulted in 3 models being generated, represented by the following relations:
 
 The ``AdvancedDataViewBuilder`` gives you the freedom to specify the ``relations``
 between all of your descriptors. Building on the ``DataViewBuilder`` example,
-say we want to have the following relations build a system of 5 models for our
+say we want to have the following relations build a system of 4 models for our
 data view, instead of the 3 models that were created when we used the ``DataViewBuilder``:
 
 .. literalinclude:: /code_samples/views/advanced_data_view_builder_relations.py
@@ -123,7 +123,7 @@ create or update a data view.
 
 .. literalinclude:: /code_samples/views/advanced_data_view_builder_3.py
 
-Checking out the resulting relation graph, we can see that 5 models have been
+Checking out the resulting relation graph, we can see that 4 models have been
 generated.
 
 .. image:: /code_samples/views/advanced_data_view_builder_relation_graph.png

@@ -6,6 +6,5 @@ for descriptor in descriptors:
 
 advanced_builder.add_relation(['formula'], 'Property Band gap')
 advanced_builder.add_relation(['formula'], 'Property Color')
-advanced_builder.add_relation(['Temperature (Property Band gap)'], 'Property Band gap')
-advanced_builder.add_relation(['Property Band gap'], 'Property Color')
-advanced_builder.add_relation(['Temperature (Property Color)'], 'Property Color')
+advanced_builder.add_relation(['formula', 'Temperature (Property Band gap)'], 'Property Band gap')
+advanced_builder.add_relation(['formula', 'Property Band gap'], 'Property Color')
