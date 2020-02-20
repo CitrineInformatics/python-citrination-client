@@ -167,6 +167,9 @@ class DataViewsClient(BaseClient):
         :param dataset_ids: Array of dataset identifiers to make search template from
         :return: An identifier used to request the status of the builder job (get_ml_configuration_status)
         """
+        if not isinstance(dataset_ids, list):
+            dataset_ids = [dataset_ids]
+
         available_columns = self.search_template_client.get_available_columns(dataset_ids)
 
         # Create a search template from dataset ids

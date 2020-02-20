@@ -2,8 +2,11 @@ from citrination_client.views.base_data_view_builder import BaseDataViewBuilder
 
 class DataViewBuilder(BaseDataViewBuilder):
     """
-    A low dimensional interface for building data views.  Choose datasets, add descriptors and other configuration
-    options, then call build() to return the configuration object needed by the data views api
+    A low dimensional interface for building data views.  Choose datasets, add
+    descriptors and other configuration options, then call build() to return the
+    configuration object needed by the data views api
+
+    Inherits from the BaseDataViewBuilder
     """
 
     def __init__(self):

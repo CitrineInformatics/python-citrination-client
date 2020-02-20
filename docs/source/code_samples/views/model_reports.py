@@ -1,7 +1,11 @@
-# ... client initialization left out
-views_client = client.data_views
+from citrination_client.views.client import DataViewsClient
+from os import environ
 
-reports = client.data_views.get_model_reports(524)
+# Note: for the purposes of this example, environ["CITRINATION_SITE"] is
+#       https://citrination.com
+client = DataViewsClient(environ["CITRINATION_API_KEY"], environ["CITRINATION_SITE"])
+reports = client.get_model_reports(524)
+
 print([str(report) for report in reports])
 # ["<ModelReport model_name='Crystallinity'>",
 #  "<ModelReport model_name='Color'>",

@@ -1,7 +1,13 @@
-Data Views Config Builder
-=========================
+Data Views Config Builders
+==========================
+
+.. automodule:: citrination_client.views.base_data_view_builder
+    :members:
 
 .. automodule:: citrination_client.views.data_view_builder
+    :members:
+
+.. automodule:: citrination_client.views.advanced_data_view_builder
     :members:
 
 .. automodule:: citrination_client.views.descriptors.descriptor
@@ -37,4 +43,3 @@ Data Views Config Builder
     :members:
     :undoc-members:
     :show-inheritance:
-
