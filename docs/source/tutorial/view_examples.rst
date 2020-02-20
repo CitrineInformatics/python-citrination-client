@@ -53,7 +53,7 @@ We can modify the existing configuration object to filter it down to those
 
 .. literalinclude:: /code_samples/views/fetching_ml_config_defaults_2.py
 
-This dictionary has now been paired down to only the descriptors we are interested
+This dictionary has now been pared down to only the descriptors we are interested
 in. It can now be modified further, or used to create/update a view.
 
 .. literalinclude:: /code_samples/views/fetching_ml_config_defaults_3.py
