@@ -86,7 +86,7 @@ class DataViewsClient(BaseClient):
 
         return data_view_id
 
-    def update(self, id, configuration, name, description):
+    def update(self, id, configuration = None, name = None, description = None):
         """
         Updates an existing data view from the search template and ml template given
 
@@ -96,16 +96,15 @@ class DataViewsClient(BaseClient):
         :param description: Description for the data view
         """
 
-        data = {
-            "configuration":
-                configuration,
-            "name":
-                name,
-            "description":
-                description
-        }
+        data = {}
+        if configuration is not None:
+            data['configuration'] = configuration
+        if name is not None:
+            data['name'] = name
+        if description is not None:
+            data['description'] = description
 
-        failure_message = "Dataview creation failed"
+        failure_message = "Dataview update failed"
 
         self._patch_json(
             'v1/data_views/' + id, data, failure_message=failure_message)
@@ -168,6 +167,9 @@ class DataViewsClient(BaseClient):
         :param dataset_ids: Array of dataset identifiers to make search template from
         :return: An identifier used to request the status of the builder job (get_ml_configuration_status)
         """
+        if not isinstance(dataset_ids, list):
+            dataset_ids = [dataset_ids]
+
         available_columns = self.search_template_client.get_available_columns(dataset_ids)
 
         # Create a search template from dataset ids

@@ -1,34 +1,18 @@
-class DataViewBuilder(object):
+from citrination_client.views.base_data_view_builder import BaseDataViewBuilder
+
+class DataViewBuilder(BaseDataViewBuilder):
     """
-    A low dimensional interface for building data views.  Choose datasets, add descriptors and other configuration
-    options, then call build() to return the configuration object needed by the data views api
+    A low dimensional interface for building data views.  Choose datasets, add
+    descriptors and other configuration options, then call build() to return the
+    configuration object needed by the data views api
+
+    Inherits from the BaseDataViewBuilder
     """
 
     def __init__(self):
-        self.configuration = dict(
-            builder='simple',
-            dataset_ids=[],
-            group_by=[],
-            model_type='default',
-            descriptors=[],
-            roles=dict()
+        super(DataViewBuilder, self).__init__(
+            { 'builder': 'simple', 'roles': dict() }
         )
-
-    def dataset_ids(self, dataset_ids):
-        """
-        Sets the dataset ids to use for the view
-
-        :param dataset_ids: Array of strings, one for each dataset id
-        """
-        self.configuration['dataset_ids'] = dataset_ids
-
-    def model_type(self, model_type):
-        """
-        Sets the model type for the view
-
-        :param model_type: A string of either linear (for a linear model), or default (for Citrine's default nonlinear model)
-        """
-        self.configuration['model_type'] = model_type
 
     def add_descriptor(self, descriptor, role='ignore', group_by_key=False):
         """
@@ -50,14 +34,6 @@ class DataViewBuilder(object):
         if group_by_key:
             self.configuration["group_by"].append(descriptor.key)
 
-    def add_raw_descriptor(self, descriptor):
-        """
-        Add a raw descriptor dictionary object.
-
-        :param descriptor: A descriptor as a dictionary
-        """
-        self.configuration['descriptors'].append(descriptor)
-
     def set_role(self, key, role):
         """
         Sets the role of a descriptor
@@ -68,12 +44,3 @@ class DataViewBuilder(object):
         :type role: str
         """
         self.configuration['roles'][key] = role
-
-    def build(self):
-        """
-        Returns a configuration object suitable for creating a data view.
-
-        :return: See __init__ method for returned dict shape
-        :rtype: :dict
-        """
-        return self.configuration
