@@ -45,6 +45,8 @@ Changes from 5.x to 6.x
     new method ``DataClient#get_pif_with_metadata``.
   * Version `6.2.0` adds ``ViewsClient#get_relation_graph`` for retrieving
     relation graphs from data views with ML configured
+  * Version `6.3.0` adds the ``AdvancedDataViewBuilder``class, a more expressive
+    interface for building data views with machine learning.
 
 2. Deprecations
 
@@ -57,6 +59,9 @@ Changes from 5.x to 6.x
     messages when resources being acted upon are not found. For example instead of
     the generic ``Resource Not Found`` message, one might get a ``Dataset 1234 was not found``
     message.
+  * Version `6.3.0` modifies the ``ViewsClient#update`` method signature, making
+    all of the arguments optional (previously you had to always provide name, description,
+    and configuration).
 
 If you already have ``citrination-client`` installed (either in your virtual environment or your global set of ``pip`` packages), you can upgrade to v6.x like this:
 
