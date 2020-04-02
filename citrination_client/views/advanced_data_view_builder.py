@@ -1,4 +1,7 @@
 from citrination_client.views.base_data_view_builder import BaseDataViewBuilder
+from citrination_client.views.descriptors import CategoricalDescriptor
+from citrination_client.views.descriptors import RealDescriptor
+import re
 
 MAX_USER_RELATIONS = 30
 
@@ -29,6 +32,29 @@ class AdvancedDataViewBuilder(BaseDataViewBuilder):
 
         if group_by_key:
             self.configuration["group_by"].append(descriptor.key)
+
+    def add_formulation_descriptor(self, descriptor, dataview_client):
+        """
+        Add a formulation descriptor and automatically add ignored ingredient shares, component type and
+        name categorical descriptors.
+
+        :param descriptor: The formulation descriptor to add
+        :param dataview_client: The dataview client, this is needed to obtain the ingredient share names
+        """
+
+        self.add_descriptor(descriptor)
+        self.add_descriptor(CategoricalDescriptor("name",["*"]))
+        self.add_descriptor(CategoricalDescriptor("component type", ["*"]))
+
+        # Use template client to find the % share descriptors
+        if self.configuration['dataset_ids']:
+            client = dataview_client.search_template_client
+            cols = client.get_available_columns(self.configuration['dataset_ids'])
+            for col in cols:
+                if re.match("% .* \(\w, \w\)",col):
+                    self.add_descriptor(RealDescriptor(col))
+
+
 
     def add_relation(self, inputs, output, relation_type='lolo'):
         """
