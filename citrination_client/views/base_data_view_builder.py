@@ -69,6 +69,15 @@ class BaseDataViewBuilder(object):
             "edges": edges
         }
 
+    def _add_role_if_required(self, key, role):
+        """
+        Overridden by derived class if roles are being used
+
+        :param key: descriptor key
+        :param role: ignore, input, output, or latentVariable
+        """
+        # intentionally does nothing
+
     def add_formulation_descriptor(self, descriptor, dataview_client):
         """
         Add a formulation descriptor and automatically add ignored ingredient shares, component type and
@@ -79,8 +88,11 @@ class BaseDataViewBuilder(object):
         """
 
         self.add_descriptor(descriptor)
+        self._add_role_if_required(descriptor.key, "input")
         self.add_descriptor(CategoricalDescriptor("name", ["*"]))
+        self._add_role_if_required("name", "ignore")
         self.add_descriptor(CategoricalDescriptor("component type", ["*"]))
+        self._add_role_if_required("component type", "ignore")
 
         # Use template client to find the % share descriptors
         if self.configuration['dataset_ids']:
@@ -89,6 +101,7 @@ class BaseDataViewBuilder(object):
             for col in cols:
                 if re.match("% .* \(\w*, \w*\)", col):
                     self.add_descriptor(RealDescriptor(col, 0, 1))
+                    self._add_role_if_required(col, "ignore")
 
     def build(self):
         """

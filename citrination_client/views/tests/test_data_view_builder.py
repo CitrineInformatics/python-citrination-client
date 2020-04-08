@@ -3,7 +3,6 @@ import pytest
 from citrination_client.views.data_view_builder import DataViewBuilder
 from citrination_client.views.descriptors.real_descriptor import RealDescriptor
 
-
 def test_add_descriptor():
     builder = DataViewBuilder()
 
