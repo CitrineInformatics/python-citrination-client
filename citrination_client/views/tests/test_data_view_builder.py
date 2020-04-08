@@ -30,42 +30,30 @@ def test_formulation_descriptor():
     client = CitrinationClient(environ["CITRINATION_API_KEY"])
 
     builder = DataViewBuilder()
-    builder.dataset_ids([188718])
+    builder.dataset_ids([187195])
 
-    # The new thing..
     builder.add_formulation_descriptor(FormulationDescriptor("Formulation (idealMassPercent)"), client.data_views)
-    builder.add_descriptor(RealDescriptor("Property pigment blue", 0, 600))
-    builder.add_descriptor(RealDescriptor("Property pigment red", 0, 600))
-    builder.add_descriptor(RealDescriptor("Property pigment green", 0, 600))
-
-    builder.add_descriptor(RealDescriptor("Property formulation blue", 0, 600))
-    builder.add_descriptor(RealDescriptor("Property formulation red", 0, 600))
-    builder.add_descriptor(RealDescriptor("Property formulation green", 0, 600))
 
     config = builder.build()
 
     assert config["roles"]["Formulation (idealMassPercent)"] == "input"
     assert config["roles"]["component type"] == "ignore"
     assert config["roles"]["name"] == "ignore"
-    assert config["roles"]["% P1 (mass, ideal)"] == "ignore"
+    assert config["roles"]["% Y2O3 (volume, ideal)"] == "ignore"
 
-    p1_share_present = False
+    y203_share_present = False
     name_present = False
-    pigment_blue_present = False
-
-    print(config["descriptors"])
+    component_type_present = False
 
     for desc in config["descriptors"]:
-        if desc["descriptor_key"] == "% P1 (mass, ideal)":
-            p1_share_present = True
+        if desc["descriptor_key"] == "% Y2O3 (volume, ideal)":
+            y203_share_present = True
         if desc["descriptor_key"] == "name":
             name_present = True
-        if desc["descriptor_key"] == "Property pigment blue":
-            pigment_blue_present = True
+        if desc["descriptor_key"] == "component type":
+            component_type_present = True
 
-    assert p1_share_present
+    assert y203_share_present
     assert name_present
-    assert pigment_blue_present
+    assert component_type_present
 
-
-test_formulation_descriptor()
