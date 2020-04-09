@@ -44,3 +44,13 @@ class DataViewBuilder(BaseDataViewBuilder):
         :type role: str
         """
         self.configuration['roles'][key] = role
+
+    def _add_role_if_required(self, key, role):
+        """
+        Overridden from base class.  The normal builder will set roles
+
+        :param key: descriptor key
+        :param role: ignore, input, output, or latentVariable
+        """
+        self.set_role(key, role)
+
