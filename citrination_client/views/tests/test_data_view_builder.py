@@ -19,3 +19,4 @@ def test_add_descriptor():
     # Make sure duplicates raise an error
     with pytest.raises(ValueError) as err:
         builder.add_descriptor(RealDescriptor("band gap", lower_bound=-1, upper_bound=1), "input")
+

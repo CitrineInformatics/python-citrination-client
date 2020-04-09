@@ -3,7 +3,7 @@ class PredictedValue(object):
     The value/loss output from a prediction.
     """
 
-    def __init__(self, key, value, loss=None):
+    def __init__(self, key, value, loss=None, class_probabilities=None):
         """
         Constructor.
 
@@ -13,10 +13,13 @@ class PredictedValue(object):
         :type value: str or float
         :param loss: The loss for the prediction
         :type loss: float
+        :param class_probabilities: The probabilities for categoricals
+        :type class_probabilities: dict
         """
         self._key = key
         self._value = value
         self._loss = loss
+        self._class_probabilities = class_probabilities
 
     @property
     def key(self):
@@ -53,3 +56,7 @@ class PredictedValue(object):
     @loss.deleter
     def loss(self):
         self._loss = None
+
+    @property
+    def class_probabilities(self):
+        return self._class_probabilities
