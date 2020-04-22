@@ -165,7 +165,7 @@ and the name descriptors.  This requires that the dataset_ids have already been 
 
 Ingredient Properties in AdvancedDataViewBuilder
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-When defining ingredient level properties using the ``AdvancedDataViewBuilder``, you will need to define relationships
-with the ingredient property as inputs to the formulation descriptor itself.
+When defining ingredient level properties using the ``AdvancedDataViewBuilder``, you will need
+to define a relation with all ingredient properties as inputs to the formulation descriptor itself.
 
 .. literalinclude:: /code_samples/views/advanced_data_view_builder_4.py
