@@ -152,3 +152,20 @@ intended to be passed to the ``plot`` function from the ``dagre_py.core`` module
 .. image:: /code_samples/views/relation_graph.png
   :width: 400
   :alt: Relation graph visualization using dagre_py
+
+Formulations Views
+------------------
+A new method was added to the base class used by both the normal ``DataViewBuilder`` and the ``AdvancedDataViewBuilder``, that
+simplifies the configuration setup for formulation views.
+
+``add_formulation_descriptor`` will use the passed in data views client to automatically add the shares, component type
+and the name descriptors.  This requires that the dataset_ids have already been set.
+
+.. literalinclude:: /code_samples/views/data_view_builder_formulation_desc.py
+
+Ingredient Properties in AdvancedDataViewBuilder
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+When defining ingredient level properties using the ``AdvancedDataViewBuilder``, you will need to define relationships
+with the ingredient property as inputs to the formulation descriptor itself.
+
+.. literalinclude:: /code_samples/views/advanced_data_view_builder_4.py
