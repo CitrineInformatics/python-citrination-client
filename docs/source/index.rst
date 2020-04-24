@@ -45,8 +45,10 @@ Changes from 5.x to 6.x
     new method ``DataClient#get_pif_with_metadata``.
   * Version `6.2.0` adds ``ViewsClient#get_relation_graph`` for retrieving
     relation graphs from data views with ML configured
-  * Version `6.3.0` adds the ``AdvancedDataViewBuilder``class, a more expressive
+  * Version `6.3.0` adds the ``AdvancedDataViewBuilder`` class, a more expressive
     interface for building data views with machine learning.
+  * Version `6.4.0` adds a ``class_probabilities`` dict to prediction responses
+    and support for simplifying building formulation views
 
 2. Deprecations
 

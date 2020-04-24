@@ -87,8 +87,8 @@ class ModelsClient(BaseClient):
         result = self.check_predict_status(data_view_id, uid)
         if result["status"] == "Finished":
 
-            paired = zip(result["results"]["candidates"], result["results"]["loss"])
-            prediction_result_format = [{k: (p[0][k], p[1][k]) for k in p[0].keys()} for p in paired]
+            paired = zip(result["results"]["candidates"], result["results"]["loss"], result["results"]["classProbabilities"])
+            prediction_result_format = [{k: (p[0][k], p[1][k], p[2].get(k)) for k in p[0].keys()} for p in paired]
 
             return list(map(
                 lambda c: _get_prediction_result_from_candidate(c), prediction_result_format
@@ -339,6 +339,6 @@ class ModelsClient(BaseClient):
 def _get_prediction_result_from_candidate(candidate_dict):
     result = PredictionResult()
     for k, v in candidate_dict.items():
-        result.add_value(k, PredictedValue(k, v[0], v[1]))
+        result.add_value(k, PredictedValue(k, v[0], v[1], v[2]))
 
     return result
