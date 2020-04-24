@@ -255,3 +255,24 @@ def test_data_view_status_reports_services_ready():
     assert status.experimental_design.is_ready()
     assert status.data_reports.is_ready()
     assert status.model_reports.is_ready()
+
+
+@pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com",
+                    reason="Data view predict test only supported on open")
+def test_predict_classification_response():
+    """
+    Tests that the classifier probabilities are being returned from predict
+    """
+    # S&C BG+Color dual output
+    view_id = "13718"
+
+    inputs = [
+        {
+            "formula": "CaO",
+            "Property Crystallinity": "Single crystalline"
+        }
+    ]
+    result = client.predict(view_id, inputs)
+    # make sure we get back class probabilities
+    assert(len(result[0].get_value("Property Color").class_probabilities) != 0)
+
