@@ -23,7 +23,6 @@ def test_add_descriptor():
     with pytest.raises(ValueError) as err:
         builder.add_descriptor(RealDescriptor("band gap", lower_bound=-1, upper_bound=1), "input")
 
-
 @pytest.mark.skipif(environ['CITRINATION_SITE'] != "https://citrination.com",
                     reason="Formulation test only supported on open citrination")
 def test_formulation_descriptor():
@@ -56,4 +55,3 @@ def test_formulation_descriptor():
     assert y203_share_present
     assert name_present
     assert component_type_present
-
