@@ -47,6 +47,7 @@ Changes from 5.x to 6.x
     relation graphs from data views with ML configured
   * Version `6.3.0` adds the ``AdvancedDataViewBuilder`` class, a more expressive
     interface for building data views with machine learning.
+  * Version `6.4.0` adds a ``class_probabilities`` dict to prediction responses
 
 2. Deprecations
 
