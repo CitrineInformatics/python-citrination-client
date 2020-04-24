@@ -263,16 +263,14 @@ def test_predict_classification_response():
     """
     Tests that the classifier probabilities are being returned from predict
     """
-    # S&C BG+Color dual output
-    view_id = "13718"
+    view_id = "524"
 
     inputs = [
         {
-            "formula": "CaO",
-            "Property Crystallinity": "Single crystalline"
+            "Chemical formula": "CaO"
         }
     ]
     result = client.predict(view_id, inputs)
     # make sure we get back class probabilities
-    assert(len(result[0].get_value("Property Color").class_probabilities) != 0)
+    assert(len(result[0].get_value("Color").class_probabilities) != 0)
 
