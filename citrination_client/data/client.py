@@ -31,6 +31,7 @@ class DataClient(BaseClient):
         members = [
             "upload",
             "upload_with_ingester",
+            "upload_with_template_csv_ingester",
             "list_ingesters",
             "list_files",
             "matched_file_count",
