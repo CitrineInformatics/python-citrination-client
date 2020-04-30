@@ -82,6 +82,12 @@ The following relation graph was generated from the sample code above:
   :width: 600
   :alt: Relation graph visualization using dagre_py
 
+Note that models with multiple input nodes are consolidated into a single
+``Multi Input`` node, which in this case represents both ``formula`` and
+``Temperature``. Additionally, ``Temperature (Property Band gap)`` and
+``Temperature (Property Color)`` are treated as synonyms by Citrination, and are
+referred to as ``Temperature`` in the graph above.
+
 Using the AdvancedDataViewBuilder
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -94,6 +100,10 @@ For the data view generated in the ``DataViewBuilder`` example above, specifying
 resulted in 3 models being generated, represented by the following relations:
 
 .. literalinclude:: /code_samples/views/data_view_builder_relations.py
+
+Note that ``Temperature (Property Band gap)`` and ``Temperature (Property Color)`` are
+treated as synonyms by Citrination, and are referred to as ``Temperature`` in the
+above relations.
 
 The ``AdvancedDataViewBuilder`` gives you the freedom to specify the ``relations``
 between all of your descriptors. Building on the ``DataViewBuilder`` example,
@@ -129,6 +139,10 @@ generated.
 .. image:: /code_samples/views/advanced_data_view_builder_relation_graph.png
   :width: 600
   :alt: Relation graph visualization using dagre_py
+
+Note that ``Temperature (Property Band gap)`` and ``Temperature (Property Color)``
+are treated as synonyms by Citrination, and are referred to as ``Temperature`` in
+the graph above.
 
 Retrieving Model Reports
 ------------------------
