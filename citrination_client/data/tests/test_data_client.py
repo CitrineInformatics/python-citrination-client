@@ -9,6 +9,7 @@ import random
 import time
 import string
 import requests
+import requests_mock
 import json
 import pytest
 
@@ -23,6 +24,15 @@ dataset_name = "Tutorial dataset " + random_string()
 dataset_id = client.create_dataset(name=dataset_name, description="Dataset for tutorial").id
 test_file_root = 'citrination_client/data/tests/test_files/'
 test_file_data_root = './citrination_client/data/tests/test_files/data/'
+
+def test_retrieve_file():
+    """Confirm that a request is being made to the correct URI"""
+    with requests_mock.mock() as m:
+        m.get("{}/api/v1/ingest/logs/1234".format(os.environ["CITRINATION_SITE"]),
+              json={"data": "url"},
+              status_code=200)
+        resp = client.ingester_logs(1234)
+        assert resp == "url"
 
 def random_dataset_name():
     return "PyCCTestDataset" + random_string()
