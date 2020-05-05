@@ -34,6 +34,7 @@ class DataClient(BaseClient):
             "upload_with_template_csv_ingester",
             "list_ingesters",
             "list_files",
+            "ingester_logs",
             "matched_file_count",
             "get_dataset_files",
             "get_dataset_file",
@@ -203,6 +204,12 @@ class DataClient(BaseClient):
         return self.upload_with_ingester(
             dataset_id, source_path, template_csv_ingester, dest_path=dest_path
         )
+
+    def ingester_logs(self, file_id):
+        """
+        Returns Ingester Logs for a given file if they are available
+        """
+        return self._ingest.logs(file_id)
 
     def list_ingesters(self):
         """
