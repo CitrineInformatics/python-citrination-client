@@ -49,6 +49,8 @@ Changes from 5.x to 6.x
     interface for building data views with machine learning.
   * Version `6.4.0` adds a ``class_probabilities`` dict to prediction responses
     and support for simplifying building formulation views
+  * Version `6.5.0` adds ``DataClient#ingester_logs``, a new method for retrieving
+    a presigned url to the logs for an ingester run.
 
 2. Deprecations
 
