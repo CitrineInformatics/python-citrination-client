@@ -13,6 +13,20 @@ class IngestClient(BaseClient):
             api_key, site, members, suppress_warnings, proxies
         )
 
+    def logs(self, file_id):
+        """
+        Retrieves ingestion logs for the given file id
+
+        :return 404 or Presigned URL to retrieve ingest logs
+        """
+
+        response = self._get_success_json(
+            self._get('v1/ingest/logs/{}'.format(file_id),
+                      failure_message='No logs available for {} or file does not exist'.format(file_id))
+        )
+        return response["data"]
+
+
     def list_ingesters(self):
         """
         Retrieves the list of available ingesters
