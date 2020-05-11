@@ -1,0 +1,778 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Data Views Client &mdash; Python Citrination Client 6.4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Module Documentation" href="../modules/modules.html" />
+    <link rel="prev" title="Search Client Examples" href="search_examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="tutorial.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initialization.html">Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_examples.html">Data Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models_examples.html">Models Client Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="search_examples.html">Search Client Examples</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Data Views Client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#descriptor-keys">Descriptor Keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-view">Creating a View</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#creating-model-configuration-for-your-data">Creating Model Configuration for Your Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-the-dataviewbuilder">Using the DataViewBuilder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-the-advanceddataviewbuilder">Using the AdvancedDataViewBuilder</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#retrieving-model-reports">Retrieving Model Reports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#retrieving-relation-graphs">Retrieving Relation Graphs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#formulations-views">Formulations Views</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ingredient-properties-in-advanceddataviewbuilder">Ingredient Properties in AdvancedDataViewBuilder</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/modules.html">Module Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="tutorial.html">Tutorial</a> &raquo;</li>
+        
+      <li>Data Views Client</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorial/view_examples.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="data-views-client">
+<h1>Data Views Client<a class="headerlink" href="#data-views-client" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">DataViewsClient</span></code> is the section of PyCC that allows you to manage your
+data views on Citrination. To access the data views client, instantiate
+<code class="docutils literal notranslate"><span class="pre">CitrinationClient</span></code> and read the <code class="docutils literal notranslate"><span class="pre">data_views</span></code> attribute, or just import
+the <code class="docutils literal notranslate"><span class="pre">DataViewsClient</span></code> and instantiate it directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">citrination_client</span> <span class="k">import</span> <span class="n">CitrinationClient</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">environ</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">CitrinationClient</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_API_KEY&quot;</span><span class="p">],</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_SITE&quot;</span><span class="p">])</span>
+<span class="n">data_views_client</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_views</span>
+
+<span class="c1"># Alternatively, import and instantiate the data views client directly</span>
+<span class="kn">from</span> <span class="nn">citrination_client.views.client</span> <span class="k">import</span> <span class="n">DataViewsClient</span>
+<span class="n">data_views_client</span> <span class="o">=</span> <span class="n">DataViewsClient</span><span class="p">(</span>
+    <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_API_KEY&quot;</span><span class="p">],</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_SITE&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="descriptor-keys">
+<h2>Descriptor Keys<a class="headerlink" href="#descriptor-keys" title="Permalink to this headline">¶</a></h2>
+<p>If you know the dataset identifier, but do not know the descriptor names, you can use the
+<code class="docutils literal notranslate"><span class="pre">SearchTemplateClient#get_available_columns</span></code> to get the descriptor keys.</p>
+<p>Alternatively, you can use the <code class="docutils literal notranslate"><span class="pre">DataViewsClient</span></code>, as an instance of the
+<code class="docutils literal notranslate"><span class="pre">SearchTemplateClient</span></code> is present on the <code class="docutils literal notranslate"><span class="pre">DataViewsClient</span></code> via <code class="docutils literal notranslate"><span class="pre">client.search_template</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">citrination_client.views.client</span> <span class="k">import</span> <span class="n">DataViewsClient</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">environ</span>
+
+<span class="c1"># Note: for the purposes of this example, environ[&quot;CITRINATION_SITE&quot;] is</span>
+<span class="c1">#       https://citrination.com</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">DataViewsClient</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_API_KEY&quot;</span><span class="p">],</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_SITE&quot;</span><span class="p">])</span>
+
+<span class="c1"># Get an array of descriptor keys for dataset id 1160</span>
+<span class="n">dataset_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;1160&#39;</span><span class="p">]</span>
+<span class="n">descriptor_keys</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search_template</span><span class="o">.</span><span class="n">get_available_columns</span><span class="p">(</span><span class="n">dataset_ids</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">descriptor_keys</span><span class="p">)</span>
+
+<span class="c1"># [&#39;formula&#39;,</span>
+<span class="c1">#  &#39;Property Lasing&#39;,</span>
+<span class="c1">#  &#39;Temperature (Property Lasing)&#39;,</span>
+<span class="c1">#  &#39;Property Electroluminescence&#39;,</span>
+<span class="c1">#  &#39;Temperature (Property Electroluminescence)&#39;,</span>
+<span class="c1">#  &#39;Property Temperature derivative of band gap&#39;,</span>
+<span class="c1">#  &#39;Temperature (Property Temperature derivative of band gap)&#39;,</span>
+<span class="c1">#  &#39;Transition (Property Temperature derivative of band gap)&#39;,</span>
+<span class="c1">#  &#39;Electric field polarization (Property Temperature derivative of band gap)&#39;,</span>
+<span class="c1">#  &#39;Property Phase&#39;,</span>
+<span class="c1">#  &#39;Property Photoluminescence&#39;,</span>
+<span class="c1">#  &#39;Temperature (Property Photoluminescence)&#39;,</span>
+<span class="c1">#  &#39;Property Thermoluminescence&#39;,</span>
+<span class="c1">#  &#39;Temperature (Property Thermoluminescence)&#39;,</span>
+<span class="c1">#  &#39;Property Morphology&#39;,</span>
+<span class="c1">#  &#39;Property Mechanical luminescence&#39;,</span>
+<span class="c1">#  &#39;Temperature (Property Mechanical luminescence)&#39;,</span>
+<span class="c1">#  &#39;Property Cathodoluminescence&#39;,</span>
+<span class="c1">#  &#39;Temperature (Property Cathodoluminescence)&#39;,</span>
+<span class="c1">#  &#39;Property Band gap&#39;,</span>
+<span class="c1">#  &#39;Temperature (Property Band gap)&#39;,</span>
+<span class="c1">#  &#39;Transition (Property Band gap)&#39;,</span>
+<span class="c1">#  &#39;Electric field polarization (Property Band gap)&#39;,</span>
+<span class="c1">#  &#39;Property Crystallinity&#39;,</span>
+<span class="c1">#  &#39;Property Color&#39;,</span>
+<span class="c1">#  &#39;Temperature (Property Color)&#39;]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-a-view">
+<h2>Creating a View<a class="headerlink" href="#creating-a-view" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">DataViewsClient</span></code> allows you to create a machine learning configuration which in turn can be used
+to make a data view via the API.  A builder is provided to simplify creating ML configurations.</p>
+<p>Once you have a data view id, you can use that id in the <code class="docutils literal notranslate"><span class="pre">ModelsClient</span></code> to run predictions or design.</p>
+<div class="section" id="creating-model-configuration-for-your-data">
+<h3>Creating Model Configuration for Your Data<a class="headerlink" href="#creating-model-configuration-for-your-data" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">DataViewsClient#create_ml_configuration_from_datasets</span></code> method will create
+a configuration object for you, suitable for passing into the <code class="docutils literal notranslate"><span class="pre">create</span></code> or
+<code class="docutils literal notranslate"><span class="pre">update</span></code> methods. While the configuration object returned might contain more
+descriptors than you want, it’s a great starting point, and can easily be modified
+to suit your needs.</p>
+<p>By passing in the dataset ids that you’re interested in, Citrination will determine
+(within limitations) which <code class="docutils literal notranslate"><span class="pre">descriptor</span> <span class="pre">keys</span></code> (<code class="docutils literal notranslate"><span class="pre">properties</span></code>, <code class="docutils literal notranslate"><span class="pre">conditions</span></code>,
+<code class="docutils literal notranslate"><span class="pre">process</span> <span class="pre">steps</span></code>, and <code class="docutils literal notranslate"><span class="pre">process</span> <span class="pre">step</span> <span class="pre">details</span></code>) are present in those datasets.</p>
+<p>It will then do some analysis of that data, and suggest <code class="docutils literal notranslate"><span class="pre">descriptor</span></code> and
+<code class="docutils literal notranslate"><span class="pre">role</span></code> configurations for each of those <code class="docutils literal notranslate"><span class="pre">descriptor</span> <span class="pre">keys</span></code>, returning back to
+you a dictionary that can be used to create or update a view.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">citrination_client.views.client</span> <span class="k">import</span> <span class="n">DataViewsClient</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">environ</span>
+
+<span class="c1"># Note: for the purposes of this example, environ[&quot;CITRINATION_SITE&quot;] is</span>
+<span class="c1">#       https://citrination.com</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">DataViewsClient</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_API_KEY&quot;</span><span class="p">],</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_SITE&quot;</span><span class="p">])</span>
+
+<span class="n">dataset_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;1160&#39;</span><span class="p">]</span>
+<span class="c1"># Get the ml config defaults for all descriptor keys in the datasets</span>
+<span class="n">data_view_config</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">create_ml_configuration_from_datasets</span><span class="p">(</span><span class="n">dataset_ids</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">data_view_config</span><span class="p">)</span>
+<span class="c1"># {</span>
+<span class="c1">#   &quot;dataset_ids&quot;: [</span>
+<span class="c1">#     1160</span>
+<span class="c1">#   ],</span>
+<span class="c1">#   &quot;group_by&quot;: [],</span>
+<span class="c1">#   &quot;model_type&quot;: &quot;default&quot;,</span>
+<span class="c1">#   &quot;descriptors&quot;: [</span>
+<span class="c1">#     {</span>
+<span class="c1">#       &quot;category&quot;: &quot;Real&quot;,</span>
+<span class="c1">#       &quot;descriptor_key&quot;: &quot;Temperature (Property Thermoluminescence)&quot;,</span>
+<span class="c1">#       &quot;units&quot;: &quot;&quot;,</span>
+<span class="c1">#       &quot;lower_bound&quot;: 0,</span>
+<span class="c1">#       &quot;upper_bound&quot;: 1746</span>
+<span class="c1">#     },</span>
+<span class="c1">#     {</span>
+<span class="c1">#       &quot;category&quot;: &quot;Categorical&quot;,</span>
+<span class="c1">#       &quot;descriptor_key&quot;: &quot;Property Crystallinity&quot;,</span>
+<span class="c1">#       &quot;descriptor_values&quot;: [</span>
+<span class="c1">#         &quot;Single crystalline&quot;,</span>
+<span class="c1">#         &quot;Polycrystalline&quot;,</span>
+<span class="c1">#         &quot;Amorphous&quot;</span>
+<span class="c1">#       ],</span>
+<span class="c1">#       &quot;finite_set&quot;: True</span>
+<span class="c1">#     },</span>
+<span class="c1">#     ...</span>
+<span class="c1">#           (truncated for documentation)</span>
+<span class="c1">#     ...</span>
+<span class="c1">#   ],</span>
+<span class="c1">#   &quot;builder&quot;: &quot;simple&quot;,</span>
+<span class="c1">#   &quot;roles&quot;: {</span>
+<span class="c1">#     &quot;Temperature (Property Thermoluminescence)&quot;: &quot;input&quot;,</span>
+<span class="c1">#     &quot;Property Temperature derivative of band gap&quot;: &quot;output&quot;,</span>
+<span class="c1">#     &quot;Property Crystallinity&quot;: &quot;output&quot;,</span>
+<span class="c1">#     &quot;Electric field polarization (Property Band gap)&quot;: &quot;input&quot;,</span>
+<span class="c1">#     ...</span>
+<span class="c1">#          (truncated for documentation)</span>
+<span class="c1">#     ...</span>
+<span class="c1">#   }</span>
+<span class="c1"># }</span>
+</pre></div>
+</div>
+<p>At this point, we have a configuration object with all of the descriptors that
+could be created from the datasets we selected. Suppose we are only interested in
+<code class="docutils literal notranslate"><span class="pre">formula</span></code>, <code class="docutils literal notranslate"><span class="pre">band</span> <span class="pre">gap</span></code>, <code class="docutils literal notranslate"><span class="pre">color</span></code>, and some related <code class="docutils literal notranslate"><span class="pre">temperature</span></code> conditions.
+We can modify the existing configuration object to filter it down to those
+<code class="docutils literal notranslate"><span class="pre">descriptors</span></code> and <code class="docutils literal notranslate"><span class="pre">roles</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">descriptor_keys</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;formula&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Property Band gap&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Property Color&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Temperature (Property Band gap)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Temperature (Property Color)&#39;</span>
+<span class="p">]</span>
+<span class="n">data_view_config</span><span class="p">[</span><span class="s1">&#39;descriptors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+    <span class="nb">filter</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;descriptor_key&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">descriptor_keys</span><span class="p">,</span>
+        <span class="n">data_view_config</span><span class="p">[</span><span class="s1">&#39;descriptors&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="n">data_view_config</span><span class="p">[</span><span class="s1">&#39;roles&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">key</span><span class="p">:</span> <span class="n">data_view_config</span><span class="p">[</span><span class="s1">&#39;roles&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">descriptor_keys</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This dictionary has now been pared down to only the descriptors we are interested
+in. It can now be modified further, or used to create/update a view.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data_view_config</span><span class="p">)</span>
+<span class="c1"># {   &#39;dataset_ids&#39;: [&#39;1160&#39;],</span>
+<span class="c1">#     &#39;group_by&#39;: [],</span>
+<span class="c1">#     &#39;model_type&#39;: &#39;default&#39;,</span>
+<span class="c1">#     &#39;descriptors&#39;: [</span>
+<span class="c1">#         {</span>
+<span class="c1">#             &#39;category&#39;: &#39;Real&#39;,</span>
+<span class="c1">#             &#39;descriptor_key&#39;: &#39;Temperature (Property Band gap)&#39;,</span>
+<span class="c1">#             &#39;units&#39;: &#39;&#39;,</span>
+<span class="c1">#             &#39;lower_bound&#39;: 0.0,</span>
+<span class="c1">#             &#39;upper_bound&#39;: 1946.0</span>
+<span class="c1">#         }, {</span>
+<span class="c1">#             &#39;category&#39;: &#39;Categorical&#39;,</span>
+<span class="c1">#             &#39;descriptor_key&#39;: &#39;Property Color&#39;,</span>
+<span class="c1">#             &#39;descriptor_values&#39;: [</span>
+<span class="c1">#                 &#39;Yellow&#39;, &#39;Pale Yellow&#39;, &#39;Violet&#39;, &#39;Gray&#39;, &#39;Amber&#39;, &#39;Orange-Red&#39;,</span>
+<span class="c1">#                 &#39;Dark Brown&#39;, &#39;Red&#39;, &#39;Blue&#39;, &#39;White&#39;, &#39;Red-Yellow&#39;, &#39;Brown&#39;,</span>
+<span class="c1">#                 &#39;Black&#39;, &#39;Ocher&#39;, &#39;Bluish&#39;, &#39;Bronze&#39;, &#39;Light Gray&#39;, &#39;Dark Green&#39;,</span>
+<span class="c1">#                 &#39;Yellow-White&#39;, &#39;Copper-Red&#39;, &#39;Brown-Black&#39;, &#39;Yellow-Orange&#39;,</span>
+<span class="c1">#                 &#39;Orange&#39;, &#39;Dark Gray&#39;, &#39;Dark Red&#39;</span>
+<span class="c1">#             ],</span>
+<span class="c1">#             &#39;finite_set&#39;: True</span>
+<span class="c1">#         }, {</span>
+<span class="c1">#             &#39;category&#39;: &#39;Real&#39;,</span>
+<span class="c1">#             &#39;descriptor_key&#39;: &#39;Temperature (Property Color)&#39;,</span>
+<span class="c1">#             &#39;units&#39;: &#39;&#39;,</span>
+<span class="c1">#             &#39;lower_bound&#39;: 0.0,</span>
+<span class="c1">#             &#39;upper_bound&#39;: 1746.0</span>
+<span class="c1">#         }, {</span>
+<span class="c1">#             &#39;category&#39;: &#39;Real&#39;,</span>
+<span class="c1">#             &#39;descriptor_key&#39;: &#39;Property Band gap&#39;,</span>
+<span class="c1">#             &#39;units&#39;: &#39;&#39;,</span>
+<span class="c1">#             &#39;lower_bound&#39;: 0.0,</span>
+<span class="c1">#             &#39;upper_bound&#39;: 29.0</span>
+<span class="c1">#         }, {</span>
+<span class="c1">#             &#39;category&#39;: &#39;Inorganic&#39;,</span>
+<span class="c1">#             &#39;descriptor_key&#39;: &#39;formula&#39;,</span>
+<span class="c1">#             &#39;threshold&#39;: 1.0</span>
+<span class="c1">#         }</span>
+<span class="c1">#     ],</span>
+<span class="c1">#     &#39;builder&#39;: &#39;simple&#39;,</span>
+<span class="c1">#     &#39;roles&#39;: {</span>
+<span class="c1">#         &#39;formula&#39;: &#39;input&#39;,</span>
+<span class="c1">#         &#39;Property Band gap&#39;: &#39;output&#39;,</span>
+<span class="c1">#         &#39;Property Color&#39;: &#39;output&#39;,</span>
+<span class="c1">#         &#39;Temperature (Property Band gap)&#39;: &#39;input&#39;,</span>
+<span class="c1">#         &#39;Temperature (Property Color)&#39;: &#39;input&#39;</span>
+<span class="c1">#     }</span>
+<span class="c1"># }</span>
+
+<span class="c1"># Create a data view</span>
+<span class="n">data_view_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">data_view_config</span><span class="p">,</span> <span class="s1">&#39;My dataview name&#39;</span><span class="p">,</span> <span class="s1">&#39;The data view description&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Or update an existing data view</span>
+<span class="n">client</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data_view_id</span><span class="p">,</span> <span class="n">data_view_config</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-the-dataviewbuilder">
+<h3>Using the DataViewBuilder<a class="headerlink" href="#using-the-dataviewbuilder" title="Permalink to this headline">¶</a></h3>
+<p>Under the hood, the <code class="docutils literal notranslate"><span class="pre">DataViewsClient#create_ml_configuration_from_datasets</span></code> method
+leverages the <code class="docutils literal notranslate"><span class="pre">DataViewBuilder</span></code> to create a configuration object. This class
+can also be used to build your own configuration object from scratch, by providing
+<code class="docutils literal notranslate"><span class="pre">dataset</span> <span class="pre">ids</span></code> and <code class="docutils literal notranslate"><span class="pre">descriptors</span></code>.</p>
+<p>This path can be quicker than using the <code class="docutils literal notranslate"><span class="pre">DataViewsClient#create_ml_configuration_from_datasets</span></code>
+method in an automated workflow if you already know the descriptors that you want to use.</p>
+<p>When building data views through the UI, or using the configuration object returned
+from the <code class="docutils literal notranslate"><span class="pre">DataViewBuilder</span></code>, the <code class="docutils literal notranslate"><span class="pre">roles</span></code> of each of those descriptors are
+interpreted by Citrination, and the machine learning libraries determine how
+many models to generate, and how to apply your inputs, outputs, and latent variables.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">citrination_client</span> <span class="k">import</span> <span class="n">CategoricalDescriptor</span><span class="p">,</span> <span class="n">InorganicDescriptor</span><span class="p">,</span> <span class="n">RealDescriptor</span>
+<span class="kn">from</span> <span class="nn">citrination_client.views.data_view_builder</span> <span class="k">import</span> <span class="n">DataViewBuilder</span>
+<span class="kn">from</span> <span class="nn">citrination_client.views.client</span> <span class="k">import</span> <span class="n">DataViewsClient</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">environ</span>
+
+<span class="c1"># Note: for the purposes of this example, environ[&quot;CITRINATION_SITE&quot;] is</span>
+<span class="c1">#       https://citrination.com</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">DataViewsClient</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_API_KEY&quot;</span><span class="p">],</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_SITE&quot;</span><span class="p">])</span>
+
+<span class="n">dv_builder</span> <span class="o">=</span> <span class="n">DataViewBuilder</span><span class="p">()</span>
+<span class="n">dv_builder</span><span class="o">.</span><span class="n">dataset_ids</span><span class="p">([</span><span class="mi">1160</span><span class="p">])</span>
+
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;Yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;Pale Yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;Violet&#39;</span><span class="p">,</span> <span class="s1">&#39;Gray&#39;</span><span class="p">,</span> <span class="s1">&#39;Amber&#39;</span><span class="p">,</span> <span class="s1">&#39;Orange-Red&#39;</span><span class="p">,</span> <span class="s1">&#39;Dark Brown&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Red&#39;</span><span class="p">,</span> <span class="s1">&#39;Blue&#39;</span><span class="p">,</span> <span class="s1">&#39;White&#39;</span><span class="p">,</span> <span class="s1">&#39;Red-Yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;Brown&#39;</span><span class="p">,</span> <span class="s1">&#39;Black&#39;</span><span class="p">,</span> <span class="s1">&#39;Ocher&#39;</span><span class="p">,</span> <span class="s1">&#39;Bluish&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Bronze&#39;</span><span class="p">,</span> <span class="s1">&#39;Light Gray&#39;</span><span class="p">,</span> <span class="s1">&#39;Dark Green&#39;</span><span class="p">,</span> <span class="s1">&#39;Yellow-White&#39;</span><span class="p">,</span> <span class="s1">&#39;Copper-Red&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Brown-Black&#39;</span><span class="p">,</span> <span class="s1">&#39;Yellow-Orange&#39;</span><span class="p">,</span> <span class="s1">&#39;Orange&#39;</span><span class="p">,</span> <span class="s1">&#39;Dark Gray&#39;</span><span class="p">,</span> <span class="s1">&#39;Dark Red&#39;</span>
+<span class="p">]</span>
+
+<span class="n">dv_builder</span><span class="o">.</span><span class="n">add_descriptor</span><span class="p">(</span>
+    <span class="n">InorganicDescriptor</span><span class="p">(</span><span class="s1">&#39;formula&#39;</span><span class="p">),</span> <span class="s1">&#39;input&#39;</span>
+<span class="p">)</span>
+<span class="n">dv_builder</span><span class="o">.</span><span class="n">add_descriptor</span><span class="p">(</span>
+    <span class="n">RealDescriptor</span><span class="p">(</span><span class="s1">&#39;Temperature (Property Band gap)&#39;</span><span class="p">,</span> <span class="s1">&#39;0.0&#39;</span><span class="p">,</span> <span class="s1">&#39;1946.0&#39;</span><span class="p">),</span> <span class="s1">&#39;input&#39;</span>
+<span class="p">)</span>
+<span class="n">dv_builder</span><span class="o">.</span><span class="n">add_descriptor</span><span class="p">(</span>
+    <span class="n">RealDescriptor</span><span class="p">(</span><span class="s1">&#39;Temperature (Property Color)&#39;</span><span class="p">,</span> <span class="s1">&#39;0.0&#39;</span><span class="p">,</span> <span class="s1">&#39;1946.0&#39;</span><span class="p">),</span> <span class="s1">&#39;input&#39;</span>
+<span class="p">)</span>
+<span class="n">dv_builder</span><span class="o">.</span><span class="n">add_descriptor</span><span class="p">(</span>
+    <span class="n">RealDescriptor</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Property Band gap&#39;</span><span class="p">,</span> <span class="s1">&#39;0.0&#39;</span><span class="p">,</span> <span class="s1">&#39;29.0&#39;</span><span class="p">),</span> <span class="s1">&#39;latentVariable&#39;</span>
+<span class="p">)</span>
+<span class="n">dv_builder</span><span class="o">.</span><span class="n">add_descriptor</span><span class="p">(</span>
+    <span class="n">CategoricalDescriptor</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Property Color&#39;</span><span class="p">,</span> <span class="n">colors</span><span class="p">),</span> <span class="s1">&#39;output&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Converts the DataViewBuilder instance to a dictionary &quot;config&quot; object</span>
+<span class="n">data_view_config</span> <span class="o">=</span> <span class="n">dv_builder</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+<span class="c1"># Create a data view</span>
+<span class="n">data_view_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">data_view_config</span><span class="p">,</span> <span class="s1">&#39;My dataview name&#39;</span><span class="p">,</span> <span class="s1">&#39;The data view description&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Or update an existing data view</span>
+<span class="n">client</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data_view_id</span><span class="p">,</span> <span class="n">data_view_config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The following relation graph was generated from the sample code above:</p>
+<a class="reference internal image-reference" href="../_images/data_view_builder_relation_graph.png"><img alt="Relation graph visualization using dagre_py" src="../_images/data_view_builder_relation_graph.png" style="width: 600px;" /></a>
+</div>
+<div class="section" id="using-the-advanceddataviewbuilder">
+<h3>Using the AdvancedDataViewBuilder<a class="headerlink" href="#using-the-advanceddataviewbuilder" title="Permalink to this headline">¶</a></h3>
+<p>For the data view generated in the <code class="docutils literal notranslate"><span class="pre">DataViewBuilder</span></code> example above, specifying:</p>
+<ul class="simple">
+<li><p><cite>formula</cite>, <cite>Temperature (Property Band gap)</cite>, and <cite>Temperature (Property Color)</cite> as <code class="docutils literal notranslate"><span class="pre">inputs</span></code>,</p></li>
+<li><p><cite>Property Band gap</cite> as a <code class="docutils literal notranslate"><span class="pre">latentVariable</span></code>, and</p></li>
+<li><p><cite>Property Color</cite> as an <code class="docutils literal notranslate"><span class="pre">output</span></code>,</p></li>
+</ul>
+<p>resulted in 3 models being generated, represented by the following relations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s1">&#39;formula&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Temperature (Property Band gap)&#39;</span>
+        <span class="p">],</span>
+        <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="s1">&#39;Property Band gap&#39;</span>
+    <span class="p">},</span> <span class="p">{</span>
+        <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s1">&#39;formula&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Temperature (Property Color)&#39;</span>
+        <span class="p">],</span>
+        <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="s1">&#39;Property Color&#39;</span>
+    <span class="p">},{</span>
+        <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s1">&#39;formula&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Temperature (Property Band gap)&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Property Band gap&#39;</span>
+        <span class="p">],</span>
+        <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="s1">&#39;Property Color&#39;</span>
+    <span class="p">},</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">AdvancedDataViewBuilder</span></code> gives you the freedom to specify the <code class="docutils literal notranslate"><span class="pre">relations</span></code>
+between all of your descriptors. Building on the <code class="docutils literal notranslate"><span class="pre">DataViewBuilder</span></code> example,
+say we want to have the following relations build a system of 4 models for our
+data view, instead of the 3 models that were created when we used the <code class="docutils literal notranslate"><span class="pre">DataViewBuilder</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;formula&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="s1">&#39;Property Band gap&#39;</span>
+    <span class="p">},</span> <span class="p">{</span>
+        <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;formula&#39;</span><span class="p">,</span> <span class="s1">&#39;Temperature (Property Band gap)&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="s1">&#39;Property Band gap&#39;</span>
+    <span class="p">},</span> <span class="p">{</span>
+        <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;formula&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="s1">&#39;Property Color&#39;</span>
+    <span class="p">},{</span>
+        <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;formula&#39;</span><span class="p">,</span> <span class="s1">&#39;Property Band gap&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="s1">&#39;Property Color&#39;</span>
+    <span class="p">},</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>In this case, the <code class="docutils literal notranslate"><span class="pre">role</span></code> of each descriptor is essentially the same as before,
+but applied in a different model configuration.</p>
+<p>Similar to the <code class="docutils literal notranslate"><span class="pre">DataViewBuilder</span></code>, the <code class="docutils literal notranslate"><span class="pre">AdvancedDataViewBuilder</span></code> requires
+<code class="docutils literal notranslate"><span class="pre">descriptors</span></code>. In this example, we’ll select the descriptor dictionaries that
+we are interested in from an auto-generated config object, similar to what is
+shown in the <code class="docutils literal notranslate"><span class="pre">Creating</span> <span class="pre">Model</span> <span class="pre">Configuration</span> <span class="pre">for</span> <span class="pre">Your</span> <span class="pre">Data</span></code> section.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">citrination_client.views.advanced_data_view_builder</span> <span class="k">import</span> <span class="n">AdvancedDataViewBuilder</span>
+<span class="kn">from</span> <span class="nn">citrination_client.views.client</span> <span class="k">import</span> <span class="n">DataViewsClient</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">environ</span>
+
+<span class="c1"># Note: for the purposes of this example, environ[&quot;CITRINATION_SITE&quot;] is</span>
+<span class="c1">#       https://citrination.com</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">DataViewsClient</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_API_KEY&quot;</span><span class="p">],</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_SITE&quot;</span><span class="p">])</span>
+
+<span class="n">dataset_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;1160&#39;</span><span class="p">]</span>
+<span class="c1"># Get the ml config defaults for all descriptor keys in the datasets</span>
+<span class="n">data_view_config</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">create_ml_configuration_from_datasets</span><span class="p">(</span><span class="n">dataset_ids</span><span class="p">)</span>
+
+<span class="n">descriptor_keys</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;formula&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Property Band gap&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Property Color&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Temperature (Property Band gap)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Temperature (Property Color)&#39;</span>
+<span class="p">]</span>
+<span class="n">descriptors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+    <span class="nb">filter</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;descriptor_key&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">descriptor_keys</span><span class="p">,</span>
+        <span class="n">data_view_config</span><span class="p">[</span><span class="s1">&#39;descriptors&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, we initialize the <code class="docutils literal notranslate"><span class="pre">AdvancedDataViewBuilder</span></code>, add the descriptors via
+the <code class="docutils literal notranslate"><span class="pre">#add_raw_descriptor</span></code> method, and then add relations via the
+<code class="docutils literal notranslate"><span class="pre">#add_relation</span></code> method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">advanced_builder</span> <span class="o">=</span> <span class="n">AdvancedDataViewBuilder</span><span class="p">()</span>
+<span class="n">advanced_builder</span><span class="o">.</span><span class="n">dataset_ids</span><span class="p">(</span><span class="n">dataset_ids</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">descriptor</span> <span class="ow">in</span> <span class="n">descriptors</span><span class="p">:</span>
+    <span class="n">advanced_builder</span><span class="o">.</span><span class="n">add_raw_descriptor</span><span class="p">(</span><span class="n">descriptor</span><span class="p">)</span>
+
+<span class="n">advanced_builder</span><span class="o">.</span><span class="n">add_relation</span><span class="p">([</span><span class="s1">&#39;formula&#39;</span><span class="p">],</span> <span class="s1">&#39;Property Band gap&#39;</span><span class="p">)</span>
+<span class="n">advanced_builder</span><span class="o">.</span><span class="n">add_relation</span><span class="p">([</span><span class="s1">&#39;formula&#39;</span><span class="p">],</span> <span class="s1">&#39;Property Color&#39;</span><span class="p">)</span>
+<span class="n">advanced_builder</span><span class="o">.</span><span class="n">add_relation</span><span class="p">([</span><span class="s1">&#39;formula&#39;</span><span class="p">,</span> <span class="s1">&#39;Temperature (Property Band gap)&#39;</span><span class="p">],</span> <span class="s1">&#39;Property Band gap&#39;</span><span class="p">)</span>
+<span class="n">advanced_builder</span><span class="o">.</span><span class="n">add_relation</span><span class="p">([</span><span class="s1">&#39;formula&#39;</span><span class="p">,</span> <span class="s1">&#39;Property Band gap&#39;</span><span class="p">],</span> <span class="s1">&#39;Property Color&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>At this point, the advanced data view builder object is ready to be used to
+create or update a data view.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">advanced_config</span> <span class="o">=</span> <span class="n">advanced_builder</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+<span class="c1"># Create a data view</span>
+<span class="n">data_view_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_views</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">advanced_config</span><span class="p">,</span> <span class="s1">&#39;My dataview name&#39;</span><span class="p">,</span> <span class="s1">&#39;The data view description&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Or update an existing data view</span>
+<span class="n">client</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data_view_id</span><span class="p">,</span> <span class="n">advanced_config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Checking out the resulting relation graph, we can see that 4 models have been
+generated.</p>
+<a class="reference internal image-reference" href="../_images/advanced_data_view_builder_relation_graph.png"><img alt="Relation graph visualization using dagre_py" src="../_images/advanced_data_view_builder_relation_graph.png" style="width: 600px;" /></a>
+</div>
+</div>
+<div class="section" id="retrieving-model-reports">
+<h2>Retrieving Model Reports<a class="headerlink" href="#retrieving-model-reports" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">get_model_reports</span></code> method allows you to fetch a subset of the model reports
+data as JSON that one would normally see through the UI.</p>
+<p>The following code snippet is using model reports from <a class="reference external" href="https://citrination.com/data_views/524/data_summary">https://citrination.com/data_views/524/data_summary</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">citrination_client.views.client</span> <span class="k">import</span> <span class="n">DataViewsClient</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">environ</span>
+
+<span class="c1"># Note: for the purposes of this example, environ[&quot;CITRINATION_SITE&quot;] is</span>
+<span class="c1">#       https://citrination.com</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">DataViewsClient</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_API_KEY&quot;</span><span class="p">],</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_SITE&quot;</span><span class="p">])</span>
+<span class="n">reports</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_model_reports</span><span class="p">(</span><span class="mi">524</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">report</span><span class="p">)</span> <span class="k">for</span> <span class="n">report</span> <span class="ow">in</span> <span class="n">reports</span><span class="p">])</span>
+<span class="c1"># [&quot;&lt;ModelReport model_name=&#39;Crystallinity&#39;&gt;&quot;,</span>
+<span class="c1">#  &quot;&lt;ModelReport model_name=&#39;Color&#39;&gt;&quot;,</span>
+<span class="c1">#  &quot;&lt;ModelReport model_name=&#39;Band gap&#39;&gt;&quot;]</span>
+
+<span class="c1"># Crystallinity is a Categorical output</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reports</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">performance</span><span class="p">)</span>
+<span class="c1"># {&#39;ndme_f1&#39;: 0.7513840971831497}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">reports</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">model_settings</span><span class="p">)</span>
+<span class="c1"># {&#39;Algorithm&#39;: &#39;Ensemble of non-linear estimators&#39;,</span>
+<span class="c1">#  &#39;Maximum tree depth&#39;: 30,</span>
+<span class="c1">#  &#39;Minimum samples per leaf&#39;: 1,</span>
+<span class="c1">#  &#39;Number of cross-validation folds&#39;: 3,</span>
+<span class="c1">#  &#39;Number of estimators&#39;: 194}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">reports</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">feature_importances</span><span class="p">)</span>
+<span class="c1"># [{&#39;name&#39;: &#39;mean of Non-dimensional work function for Chemical formula&#39;,</span>
+<span class="c1">#   &#39;value&#39;: 0.016694057309452427},</span>
+<span class="c1">#  {&#39;name&#39;: &#39;mean of DFT volume ratio for Chemical formula&#39;,</span>
+<span class="c1">#   &#39;value&#39;: 0.02425121569638139},</span>
+<span class="c1">#  {&#39;name&#39;: &#39;mean of Non-dimensional liquid range for Chemical formula&#39;,</span>
+<span class="c1">#   &#39;value&#39;: 0.024088896494558795},</span>
+<span class="c1">#  {&#39;name&#39;: &#39;mean of Radius of d orbitals for Chemical formula&#39;,</span>
+<span class="c1">#   &#39;value&#39;: 0.018493567944483043},</span>
+<span class="c1">#  ...</span>
+<span class="c1"># ]</span>
+
+<span class="c1"># Band Gap is a Real output, hence why it may have different keys</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reports</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">performance</span><span class="p">)</span>
+<span class="c1"># {&#39;ndme&#39;: 0.35374524040321054,</span>
+<span class="c1">#  &#39;ndme_stderr&#39;: 0.008224021869691423,</span>
+<span class="c1">#  &#39;rmse&#39;: 0.8023624551013153,</span>
+<span class="c1">#  &#39;rmse_stderr&#39;: 0.018653668302790923,</span>
+<span class="c1">#  &#39;uc_fraction&#39;: 0.5793304221251819,</span>
+<span class="c1">#  &#39;uc_rmsse&#39;: 1.9191506842755264}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">reports</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">model_settings</span><span class="p">)</span>
+<span class="c1"># {&#39;Algorithm&#39;: &#39;Ensemble of non-linear estimators&#39;,</span>
+<span class="c1">#  &#39;Leaf model&#39;: &#39;Mean&#39;,</span>
+<span class="c1">#  &#39;Maximum tree depth&#39;: 30,</span>
+<span class="c1">#  &#39;Minimum samples per leaf&#39;: 1,</span>
+<span class="c1">#  &#39;Number of cross-validation folds&#39;: 3,</span>
+<span class="c1">#  &#39;Number of estimators&#39;: 148,</span>
+<span class="c1">#  &#39;Uses jackknife method of uncertainty estimation&#39;: True}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">reports</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">feature_importances</span><span class="p">)</span>
+<span class="c1"># [{&#39;name&#39;: &#39;mean of Non-dimensional work function for Chemical formula&#39;,</span>
+<span class="c1">#   &#39;value&#39;: 0.04867717383587202},</span>
+<span class="c1">#  {&#39;name&#39;: &#39;mean of DFT volume ratio for Chemical formula&#39;,</span>
+<span class="c1">#   &#39;value&#39;: 0.008961689534579438},</span>
+<span class="c1">#  {&#39;name&#39;: &#39;mean of Non-dimensional liquid range for Chemical formula&#39;,</span>
+<span class="c1">#   &#39;value&#39;: 0.006946688158984557},</span>
+<span class="c1">#  ...</span>
+<span class="c1"># ]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="retrieving-relation-graphs">
+<h2>Retrieving Relation Graphs<a class="headerlink" href="#retrieving-relation-graphs" title="Permalink to this headline">¶</a></h2>
+<p>A relation graph shows you how your inputs, outputs, and latent variables are linked
+by Citrination’s machine learning models.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">get_relation_graph</span></code> method returns a dict containing <cite>nodes</cite> and <cite>edges</cite>
+intended to be passed to the <code class="docutils literal notranslate"><span class="pre">plot</span></code> function from the <code class="docutils literal notranslate"><span class="pre">dagre_py.core</span></code> module.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">citrination_client.views.client</span> <span class="k">import</span> <span class="n">DataViewsClient</span>
+<span class="kn">from</span> <span class="nn">dagre_py.core</span> <span class="k">import</span> <span class="n">plot</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">environ</span>
+
+<span class="c1"># Note: for the purposes of this example, environ[&quot;CITRINATION_SITE&quot;] is</span>
+<span class="c1">#       https://citrination.com</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">DataViewsClient</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_API_KEY&quot;</span><span class="p">],</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_SITE&quot;</span><span class="p">])</span>
+
+<span class="c1"># Example using https://citrination.com/data_views/12329/data_summary</span>
+<span class="c1"># Returns a dict containing `nodes` and `edges`</span>
+<span class="n">relation_graph</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_relation_graph</span><span class="p">(</span><span class="mi">12329</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">relation_graph</span><span class="p">)</span>
+<span class="c1"># {&#39;edges&#39;: [{&#39;source&#39;: &#39;formula&#39;, &#39;target&#39;: &#39;ML Model: 1&#39;},</span>
+<span class="c1">#            {&#39;source&#39;: &#39;ML Model: 1&#39;, &#39;target&#39;: &#39;Property Bulk modulus&#39;}],</span>
+<span class="c1">#  &#39;nodes&#39;: [{&#39;attributes&#39;: {&#39;style&#39;: {&#39;fill&#39;: &#39;#ff8200&#39;, &#39;stroke&#39;: &#39;#453536&#39;}},</span>
+<span class="c1">#             &#39;description&#39;: &#39;Featurized to: \n&#39;</span>
+<span class="c1">#                            &#39;-- mean of Packing density\n&#39;</span>
+<span class="c1">#                            &#39;-- mean of Liquid range\n&#39;</span>
+<span class="c1">#                            &#39;...&#39;, (truncated for documentation purposes)</span>
+<span class="c1">#             &#39;label&#39;: &#39;formula&#39;},</span>
+<span class="c1">#            {&#39;attributes&#39;: {&#39;style&#39;: {&#39;fill&#39;: &#39;#ff8200&#39;, &#39;stroke&#39;: &#39;#453536&#39;}},</span>
+<span class="c1">#             &#39;description&#39;: &#39;Error Metrics\n&#39;</span>
+<span class="c1">#                            &#39;- Root mean squared error  (GPa) (0.0 for a &#39;</span>
+<span class="c1">#                            &#39;perfect model) = 50.427349\n&#39;</span>
+<span class="c1">#                            &#39;- Uncertainty calibration: root mean square of &#39;</span>
+<span class="c1">#                            &#39;standardized errors (1.0 is perfectly calibrated) &#39;</span>
+<span class="c1">#                            &#39;= 2.069455\n&#39;</span>
+<span class="c1">#                            &#39;...&#39;, (truncated for documentation purposes)</span>
+<span class="c1">#             &#39;label&#39;: &#39;Property Bulk modulus&#39;},</span>
+<span class="c1">#            {&#39;attributes&#39;: {&#39;style&#39;: {&#39;fill&#39;: &#39;#78be20&#39;, &#39;stroke&#39;: &#39;#453536&#39;}},</span>
+<span class="c1">#             &#39;description&#39;: &#39;Model Type: Lolo\nSample Count: 30\n&#39;,</span>
+<span class="c1">#             &#39;label&#39;: &#39;ML Model: 1&#39;}]}</span>
+
+<span class="c1"># Uses ``dagre_py`` to create a visualization of the relation graph in jupyter.</span>
+<span class="c1"># See screenshot below.</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">relation_graph</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/relation_graph.png"><img alt="Relation graph visualization using dagre_py" src="../_images/relation_graph.png" style="width: 400px;" /></a>
+</div>
+<div class="section" id="formulations-views">
+<h2>Formulations Views<a class="headerlink" href="#formulations-views" title="Permalink to this headline">¶</a></h2>
+<p>A new method was added to the base class used by both the normal <code class="docutils literal notranslate"><span class="pre">DataViewBuilder</span></code> and the <code class="docutils literal notranslate"><span class="pre">AdvancedDataViewBuilder</span></code>, that
+simplifies the configuration setup for formulation views.</p>
+<p><code class="docutils literal notranslate"><span class="pre">add_formulation_descriptor</span></code> will use the passed in data views client to automatically add the shares, component type
+and the name descriptors.  This requires that the dataset_ids have already been set.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">CitrinationClient</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CITRINATION_API_KEY&quot;</span><span class="p">])</span>
+
+<span class="n">builder</span> <span class="o">=</span> <span class="n">DataViewBuilder</span><span class="p">()</span>
+<span class="n">builder</span><span class="o">.</span><span class="n">dataset_ids</span><span class="p">([</span><span class="mi">187195</span><span class="p">])</span>
+    
+<span class="n">formulation_desc</span> <span class="o">=</span> <span class="n">FormulationDescriptor</span><span class="p">(</span><span class="s2">&quot;Formulation (idealMassPercent)&quot;</span><span class="p">)</span>
+<span class="n">builder</span><span class="o">.</span><span class="n">add_formulation_descriptor</span><span class="p">(</span><span class="n">formulation_desc</span><span class="p">,</span> <span class="n">client</span><span class="o">.</span><span class="n">data_views</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="ingredient-properties-in-advanceddataviewbuilder">
+<h3>Ingredient Properties in AdvancedDataViewBuilder<a class="headerlink" href="#ingredient-properties-in-advanceddataviewbuilder" title="Permalink to this headline">¶</a></h3>
+<p>When defining ingredient level properties using the <code class="docutils literal notranslate"><span class="pre">AdvancedDataViewBuilder</span></code>, you will need
+to define a relation with all ingredient properties as inputs to the formulation descriptor itself.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Add ingredient level property relations</span>
+<span class="n">advanced_builder</span><span class="o">.</span><span class="n">add_relation</span><span class="p">([</span><span class="s1">&#39;Property pigment red&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;Property pigment green&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;Property pigment blue&#39;</span><span class="p">],</span> 
+                              <span class="s1">&#39;Formulation (idealMassPercent)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../modules/modules.html" class="btn btn-neutral float-right" title="Module Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="search_examples.html" class="btn btn-neutral float-left" title="Search Client Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

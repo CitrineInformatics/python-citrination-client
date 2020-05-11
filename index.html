@@ -1,0 +1,302 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Welcome to Python Citrination Client’s documentation! &mdash; Python Citrination Client 6.4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorial" href="tutorial/tutorial.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Module Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Welcome to Python Citrination Client’s documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="welcome-to-python-citrination-client-s-documentation">
+<h1>Welcome to Python Citrination Client’s documentation!<a class="headerlink" href="#welcome-to-python-citrination-client-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tutorial">
+<h2>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
+<p>Use the articles in this section to familiarize yourself with the basic usage of the Python Citrination Client.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/initialization.html">Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/data_examples.html">Data Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/models_examples.html">Models Client Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/search_examples.html">Search Client Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/view_examples.html">Data Views Client</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="upgrading">
+<h2>Upgrading<a class="headerlink" href="#upgrading" title="Permalink to this headline">¶</a></h2>
+<p>If you are using a version of PyCC older than 6.0.0 and would like to upgrade your scripts to the latest versions, please
+note the following:</p>
+<div class="section" id="changes-from-4-x-to-5-x">
+<h3>Changes from 4.x to 5.x<a class="headerlink" href="#changes-from-4-x-to-5-x" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>When building data views, you now have to specify upper and lower bounds.</p></li>
+<li><p>When making certain prediction/design calls, things previously under
+<code class="docutils literal notranslate"><span class="pre">client.data_views</span></code> are now under <code class="docutils literal notranslate"><span class="pre">client.models</span></code></p></li>
+<li><p>You have to specify the subclient, e.g. <code class="docutils literal notranslate"><span class="pre">client.data.upload()</span></code> not just <code class="docutils literal notranslate"><span class="pre">client.upload()</span></code></p></li>
+</ol>
+</div>
+<div class="section" id="changes-from-5-x-to-6-x">
+<h3>Changes from 5.x to 6.x<a class="headerlink" href="#changes-from-5-x-to-6-x" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>New Features</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Custom Ingester Support</strong> - allows for the usage of custom ingesters when
+uploading files. See <code class="docutils literal notranslate"><span class="pre">DataClient.list_ingesters</span></code>, <code class="docutils literal notranslate"><span class="pre">DataClient.upload_with_ingester</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">DataClient.upload_with_template_csv_ingester</span></code>, <code class="docutils literal notranslate"><span class="pre">Ingester</span></code>, and <code class="docutils literal notranslate"><span class="pre">IngesterList</span></code>
+classes.</p></li>
+<li><p><strong>Model Reports</strong> - first pass access to <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">settings</span></code>, <code class="docutils literal notranslate"><span class="pre">feature</span> <span class="pre">importances</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">performance</span> <span class="pre">metrics</span></code> for data views with ML configured. See
+<code class="docutils literal notranslate"><span class="pre">ViewsClient.get_model_reports</span></code> and <code class="docutils literal notranslate"><span class="pre">ModelReport</span></code> class.</p></li>
+<li><p>Version <cite>6.1.0</cite> adds <cite>pif_version</cite> support on <code class="docutils literal notranslate"><span class="pre">DataClient#get_pif</span></code>, and a
+new method <code class="docutils literal notranslate"><span class="pre">DataClient#get_pif_with_metadata</span></code>.</p></li>
+<li><p>Version <cite>6.2.0</cite> adds <code class="docutils literal notranslate"><span class="pre">ViewsClient#get_relation_graph</span></code> for retrieving
+relation graphs from data views with ML configured</p></li>
+<li><p>Version <cite>6.3.0</cite> adds the <code class="docutils literal notranslate"><span class="pre">AdvancedDataViewBuilder</span></code> class, a more expressive
+interface for building data views with machine learning.</p></li>
+<li><p>Version <cite>6.4.0</cite> adds a <code class="docutils literal notranslate"><span class="pre">class_probabilities</span></code> dict to prediction responses
+and support for simplifying building formulation views</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Deprecations</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>The <strong>ModelsClient.get_data_view</strong> method has been deprecated in favor of <strong>ViewsClient.get</strong>.</p></li>
+<li><p>The <strong>DataView</strong> class has been removed - it was previously only used by <code class="docutils literal notranslate"><span class="pre">ModelsClient.get_data_view</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Minor Changes</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>Error message propagation for <strong>404</strong> errors - this should give more friendly error
+messages when resources being acted upon are not found. For example instead of
+the generic <code class="docutils literal notranslate"><span class="pre">Resource</span> <span class="pre">Not</span> <span class="pre">Found</span></code> message, one might get a <code class="docutils literal notranslate"><span class="pre">Dataset</span> <span class="pre">1234</span> <span class="pre">was</span> <span class="pre">not</span> <span class="pre">found</span></code>
+message.</p></li>
+<li><p>Version <cite>6.3.0</cite> modifies the <code class="docutils literal notranslate"><span class="pre">ViewsClient#update</span></code> method signature, making
+all of the arguments optional (previously you had to always provide name, description,
+and configuration).</p></li>
+</ul>
+</div></blockquote>
+<p>If you already have <code class="docutils literal notranslate"><span class="pre">citrination-client</span></code> installed (either in your virtual environment or your global set of <code class="docutils literal notranslate"><span class="pre">pip</span></code> packages), you can upgrade to v6.x like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">citrination</span><span class="o">-</span><span class="n">client</span>
+</pre></div>
+</div>
+<p>If you do this in an existing project, be sure to update your <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file to point to version 6.0.0 or newer.</p>
+</div>
+</div>
+<div class="section" id="module-documentation">
+<h2>Module Documentation<a class="headerlink" href="#module-documentation" title="Permalink to this headline">¶</a></h2>
+<p>For detailed method documentation, consult the articles in this section.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Module Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/citrination_client.html">Citrination Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/data_management.html">Data Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/search.html">Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/views.html">Data Views</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tutorial/tutorial.html" class="btn btn-neutral float-right" title="Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

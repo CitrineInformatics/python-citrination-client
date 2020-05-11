@@ -1,0 +1,420 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Ingest &mdash; Python Citrination Client 6.4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Models" href="../models.html" />
+    <link rel="prev" title="Datasets" href="datasets.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../citrination_client.html">Citrination Client</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../data_management.html">Data Management</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="data_client.html">Data Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datasets.html">Datasets</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Ingest</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../search.html">Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../views.html">Data Views</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">Module Documentation</a> &raquo;</li>
+        
+          <li><a href="../data_management.html">Data Management</a> &raquo;</li>
+        
+      <li>Ingest</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/modules/data/ingest.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-citrination_client.data.ingest.ingester">
+<span id="ingest"></span><h1>Ingest<a class="headerlink" href="#module-citrination_client.data.ingest.ingester" title="Permalink to this headline">¶</a></h1>
+<dl class="exception">
+<dt id="citrination_client.data.ingest.ingester.ArgumentNotFoundError">
+<em class="property">exception </em><code class="descclassname">citrination_client.data.ingest.ingester.</code><code class="descname">ArgumentNotFoundError</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.ingest.ingester.ArgumentNotFoundError" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="citrination_client.data.ingest.ingester.ArgumentNotFoundError.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.ingest.ingester.ArgumentNotFoundError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="citrination_client.data.ingest.ingester.Ingester">
+<em class="property">class </em><code class="descclassname">citrination_client.data.ingest.ingester.</code><code class="descname">Ingester</code><span class="sig-paren">(</span><em>ingester</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.ingest.ingester.Ingester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representation of an ingester</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>display_name</strong> (<em>str</em>) – </p></li>
+<li><p><strong>description</strong> (<em>str</em>) – </p></li>
+<li><p><strong>namespace</strong> (<em>str</em>) – </p></li>
+<li><p><strong>name</strong> (<em>str</em>) – </p></li>
+<li><p><strong>version</strong> (<em>str</em>) – </p></li>
+<li><p><strong>id</strong> (<em>str</em>) – </p></li>
+<li><p><strong>arguments</strong> (<em>list of dict</em>) – any optional and/or required arguments for the ingester</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="citrination_client.data.ingest.ingester.Ingester.SEARCH_FIELDS">
+<code class="descname">SEARCH_FIELDS</code><em class="property"> = {'description', 'display_name', 'id', 'name', 'namespace', 'version'}</em><a class="headerlink" href="#citrination_client.data.ingest.ingester.Ingester.SEARCH_FIELDS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attributes of an Ingester that can be searched when filtering through Ingesters
+via the IngestList#where method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.ingest.ingester.Ingester.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>ingester</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.ingest.ingester.Ingester.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ingester</strong> (<em>dict</em>) – An ingester</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.ingest.ingester.Ingester.as_json">
+<code class="descname">as_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.ingest.ingester.Ingester.as_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dict that can used for ingest submission</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dict representation of the ingester</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.ingest.ingester.Ingester.clone">
+<code class="descname">clone</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.ingest.ingester.Ingester.clone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a copy of the ingester. Used by the IngestClient to apply values
+to a copy of the selected ingester before submission.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns a copy of the ingester based on a deep clone of the
+_ingester dict that instantiated the instance.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>class:<cite>Ingester</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.ingest.ingester.Ingester.find_argument">
+<code class="descname">find_argument</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.ingest.ingester.Ingester.find_argument" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds an argument in self.arguments that matches the provided name.
+If there are no matches, raises an ArgumentNotFoundError</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The name of the argument</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The argument whose name matched</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="citrination_client.data.ingest.ingester.Ingester.validate_search_key">
+<em class="property">classmethod </em><code class="descname">validate_search_key</code><span class="sig-paren">(</span><em>key</em>, <em>suppress_error=True</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.ingest.ingester.Ingester.validate_search_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not a key correlates to a field that can be searched</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – The key to check</p></li>
+<li><p><strong>suppress_error</strong> (<em>bool</em>) – When false, will raise an error for invalid keys</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if the key is valid, otherwise false</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-citrination_client.data.ingest.ingester_list"></span><dl class="class">
+<dt id="citrination_client.data.ingest.ingester_list.IngesterList">
+<em class="property">class </em><code class="descclassname">citrination_client.data.ingest.ingester_list.</code><code class="descname">IngesterList</code><span class="sig-paren">(</span><em>ingesters</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.ingest.ingester_list.IngesterList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representation of a list of ingesters available for data upload on
+Citrination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><p><strong>ingesters</strong> (list of <code class="xref py py-class docutils literal notranslate"><span class="pre">Ingester</span></code>) – </p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="citrination_client.data.ingest.ingester_list.IngesterList.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>ingesters</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.ingest.ingester_list.IngesterList.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ingesters</strong> (Union[list, <a class="reference internal" href="#citrination_client.data.ingest.ingester_list.IngesterList" title="citrination_client.data.ingest.ingester_list.IngesterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">IngesterList</span></code></a>]) – A list of ingesters</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.ingest.ingester_list.IngesterList.find_by_id">
+<code class="descname">find_by_id</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.ingest.ingester_list.IngesterList.find_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the ingester whose id matches the provided id</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>str</em>) – The id of the desired ingester</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An ingester</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Ingester</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.data.ingest.ingester_list.IngesterList.ingester_count">
+<code class="descname">ingester_count</code><a class="headerlink" href="#citrination_client.data.ingest.ingester_list.IngesterList.ingester_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the count of how many Ingesters are in the list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>number of Ingesters in the list</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.ingest.ingester_list.IngesterList.where">
+<code class="descname">where</code><span class="sig-paren">(</span><em>options</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.ingest.ingester_list.IngesterList.where" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds ingesters that match the search criteria</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>options</strong> (<em>dict</em>) – contains string:string key value pairs, allowed keys
+are those found in the Ingester.SEARCH_FIELDS constant</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of matching ingesters</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#citrination_client.data.ingest.ingester_list.IngesterList" title="citrination_client.data.ingest.ingester_list.IngesterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">IngesterList</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="citrination_client.data.ingest.ingester_list.IngesterNotFoundError">
+<em class="property">exception </em><code class="descclassname">citrination_client.data.ingest.ingester_list.</code><code class="descname">IngesterNotFoundError</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.ingest.ingester_list.IngesterNotFoundError" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="citrination_client.data.ingest.ingester_list.IngesterNotFoundError.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.ingest.ingester_list.IngesterNotFoundError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../models.html" class="btn btn-neutral float-right" title="Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="datasets.html" class="btn btn-neutral float-left" title="Datasets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Search - Core - Result package &mdash; Python Citrination Client 6.4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Dataset Queries" href="dataset_query.html" />
+    <link rel="prev" title="Search - Core - Query package" href="core_query.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../citrination_client.html">Citrination Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_management.html">Data Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../search.html">Search</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="citrination_client.search.html">Search Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="core_query.html">Search - Core - Query package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Search - Core - Result package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-citrination_client.search.core.result.base_search_result">Base Search Result</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dataset_query.html">Dataset Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset_result.html">Dataset Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file_query.html">File Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file_result.html">File Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pif_chemical_query.html">PIF Query - Chemical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pif_query.html">PIF Query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pif_query_core.html">PIF Query Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pif_result.html">PIF Result</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../views.html">Data Views</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">Module Documentation</a> &raquo;</li>
+        
+          <li><a href="../search.html">Search</a> &raquo;</li>
+        
+      <li>Search - Core - Result package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/modules/search/core_result.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="search-core-result-package">
+<h1>Search - Core - Result package<a class="headerlink" href="#search-core-result-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-citrination_client.search.core.result.base_search_result">
+<span id="base-search-result"></span><h2>Base Search Result<a class="headerlink" href="#module-citrination_client.search.core.result.base_search_result" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="citrination_client.search.core.result.base_search_result.BaseSearchResult">
+<em class="property">class </em><code class="descclassname">citrination_client.search.core.result.base_search_result.</code><code class="descname">BaseSearchResult</code><span class="sig-paren">(</span><em>took=None</em>, <em>total_num_hits=None</em>, <em>max_score=None</em>, <em>hits=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.core.result.base_search_result.BaseSearchResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pypif.util.serializable.Serializable</span></code></p>
+<p>Base class for all search results.</p>
+<dl class="method">
+<dt id="citrination_client.search.core.result.base_search_result.BaseSearchResult.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>took=None</em>, <em>total_num_hits=None</em>, <em>max_score=None</em>, <em>hits=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.core.result.base_search_result.BaseSearchResult.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>took</strong> – Number of milliseconds that the query took to execute.</p></li>
+<li><p><strong>total_num_hits</strong> – Total number of hits.</p></li>
+<li><p><strong>max_score</strong> – The maximum score.</p></li>
+<li><p><strong>hits</strong> – List of hits.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="dataset_query.html" class="btn btn-neutral float-right" title="Dataset Queries" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="core_query.html" class="btn btn-neutral float-left" title="Search - Core - Query package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

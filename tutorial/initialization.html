@@ -1,0 +1,291 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Initialization &mdash; Python Citrination Client 6.4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data Client" href="data_examples.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="tutorial.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Initialization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api-key">API Key</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#host-url">Host URL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-key-from-environment">API Key From Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-key-from-citrination-folder">API Key From .citrination Folder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-key-in-direct-initialization">API Key In Direct Initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inititialization-mode-priority">Inititialization Mode Priority</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_examples.html">Data Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models_examples.html">Models Client Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="search_examples.html">Search Client Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view_examples.html">Data Views Client</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/modules.html">Module Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="tutorial.html">Tutorial</a> &raquo;</li>
+        
+      <li>Initialization</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorial/initialization.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="initialization">
+<h1>Initialization<a class="headerlink" href="#initialization" title="Permalink to this headline">¶</a></h1>
+<p>To instantiate <code class="docutils literal notranslate"><span class="pre">CitrinationClient</span></code>, you will need to provide an
+API key and the host URL of the Citrination site you are trying
+to interact with.</p>
+<div class="section" id="api-key">
+<h2>API Key<a class="headerlink" href="#api-key" title="Permalink to this headline">¶</a></h2>
+<p>You can find your API key by navigation to <code class="docutils literal notranslate"><span class="pre">https://citrination.com</span></code>,
+or your private Citrination deployment, logging in, and using the menu
+in the top right to visit your <code class="docutils literal notranslate"><span class="pre">Account</span> <span class="pre">Settings</span></code> page.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Your API key allows you (and anyone who knows it) to access your account and your data. Use caution when storing it on your filesystem.</p>
+</div>
+</div>
+<div class="section" id="host-url">
+<h2>Host URL<a class="headerlink" href="#host-url" title="Permalink to this headline">¶</a></h2>
+<p>The second parameter to <code class="docutils literal notranslate"><span class="pre">CitrinationClient</span></code> instantiation is the URL of the Citrination site you are trying to interact with. By default it is <code class="docutils literal notranslate"><span class="pre">https://citrination.com</span></code>, but you can pass in any Citrination site.</p>
+</div>
+<div class="section" id="api-key-from-environment">
+<h2>API Key From Environment<a class="headerlink" href="#api-key-from-environment" title="Permalink to this headline">¶</a></h2>
+<p>Set the following values and <code class="docutils literal notranslate"><span class="pre">CitrinationClient</span></code> will pull in your authentication values from the environment:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CITRINATION_API_KEY</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CITRINATION_SITE</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="api-key-from-citrination-folder">
+<h2>API Key From .citrination Folder<a class="headerlink" href="#api-key-from-citrination-folder" title="Permalink to this headline">¶</a></h2>
+<p>If you use PyCC to interact with multiple Citrination sites, or simply don’t want to use your environment to specify authentication information for <code class="docutils literal notranslate"><span class="pre">CitrinationClient</span></code>, you may use a credentials file to keep track of your Citrination API key.</p>
+<ol class="arabic simple">
+<li><p>Create a directory in your home folder called <code class="docutils literal notranslate"><span class="pre">.citrination</span></code></p></li>
+<li><p>Create a file in the <code class="docutils literal notranslate"><span class="pre">.citrination</span></code> folder called <code class="docutils literal notranslate"><span class="pre">credentials</span></code></p></li>
+</ol>
+<p>Use the following format to store credential information:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">default</span><span class="p">:</span>
+  <span class="n">api_key</span><span class="p">:</span> <span class="n">my_default_profile_key</span>
+  <span class="n">site</span><span class="p">:</span> <span class="n">my_default_profile_site</span>
+<span class="n">my_site</span><span class="p">:</span>
+  <span class="n">api_key</span><span class="p">:</span> <span class="n">my_test_profile_key</span>
+  <span class="n">site</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">mysite</span><span class="o">.</span><span class="n">citrination</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
+</div>
+<p>In the absence of any other configuration, when you initialize <code class="docutils literal notranslate"><span class="pre">CitrinationClient</span></code> with no parameters, the credentials from the <code class="docutils literal notranslate"><span class="pre">default</span></code> stanza will be used.</p>
+<p>To specify which credentials set will be used, set the environment variable <code class="docutils literal notranslate"><span class="pre">CITRINATION_PROFILE</span></code> to be equal to the name of the desired credentials stanza.</p>
+</div>
+<div class="section" id="api-key-in-direct-initialization">
+<h2>API Key In Direct Initialization<a class="headerlink" href="#api-key-in-direct-initialization" title="Permalink to this headline">¶</a></h2>
+<p>You may also pass your API key in directly as a constructor argument to the client class (along with the Citrination site you prefer).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">citrination_client</span> <span class="k">import</span> <span class="n">CitrinationClient</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">environ</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">CitrinationClient</span><span class="p">(</span><span class="s2">&quot;my_api_key&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Remember to be careful not to share your API key accidentally by including it in a shared script!</p>
+</div>
+</div>
+<div class="section" id="inititialization-mode-priority">
+<h2>Inititialization Mode Priority<a class="headerlink" href="#inititialization-mode-priority" title="Permalink to this headline">¶</a></h2>
+<p>The three methods of initialization outlined above are prioritized in the following order:</p>
+<ol class="arabic simple">
+<li><p>API Key In Direct Initialization</p></li>
+<li><p>API Key From Environment</p></li>
+<li><p>API Key From .citrination Folder</p></li>
+</ol>
+<p>In other words, if you pass in an API key directly on instantiation, but also have it defined in the <cite>.citrination/credentials</cite> file, the API key you passed in directly will be used.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="data_examples.html" class="btn btn-neutral float-right" title="Data Client" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="introduction.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Predictions &mdash; Python Citrination Client 6.4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="TSNE" href="tsne.html" />
+    <link rel="prev" title="Model Client" href="models_client.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../citrination_client.html">Citrination Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_management.html">Data Management</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../models.html">Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="design.html">Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models_client.html">Model Client</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Predictions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tsne.html">TSNE</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../search.html">Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../views.html">Data Views</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">Module Documentation</a> &raquo;</li>
+        
+          <li><a href="../models.html">Models</a> &raquo;</li>
+        
+      <li>Predictions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/modules/models/predictions.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-citrination_client.models.predicted_value">
+<span id="predictions"></span><h1>Predictions<a class="headerlink" href="#module-citrination_client.models.predicted_value" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="citrination_client.models.predicted_value.PredictedValue">
+<em class="property">class </em><code class="descclassname">citrination_client.models.predicted_value.</code><code class="descname">PredictedValue</code><span class="sig-paren">(</span><em>key</em>, <em>value</em>, <em>loss=None</em>, <em>class_probabilities=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.predicted_value.PredictedValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>The value/loss output from a prediction.</p>
+<dl class="method">
+<dt id="citrination_client.models.predicted_value.PredictedValue.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>key</em>, <em>value</em>, <em>loss=None</em>, <em>class_probabilities=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.predicted_value.PredictedValue.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – The descriptor key for the prediction</p></li>
+<li><p><strong>value</strong> (<em>str</em><em> or </em><em>float</em>) – The predicted value</p></li>
+<li><p><strong>loss</strong> (<em>float</em>) – The loss for the prediction</p></li>
+<li><p><strong>class_probabilities</strong> (<em>dict</em>) – The probabilities for categoricals</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-citrination_client.models.prediction_result"></span><dl class="class">
+<dt id="citrination_client.models.prediction_result.PredictionResult">
+<em class="property">class </em><code class="descclassname">citrination_client.models.prediction_result.</code><code class="descname">PredictionResult</code><a class="headerlink" href="#citrination_client.models.prediction_result.PredictionResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>The collection of predicted values resulting from a prediction.</p>
+<dl class="method">
+<dt id="citrination_client.models.prediction_result.PredictionResult.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.prediction_result.PredictionResult.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.prediction_result.PredictionResult.add_value">
+<code class="descname">add_value</code><span class="sig-paren">(</span><em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.prediction_result.PredictionResult.add_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers a predicted value in the result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – The descriptor key for the predicted value</p></li>
+<li><p><strong>value</strong> (<em>object</em>) – A <code class="xref py py-class docutils literal notranslate"><span class="pre">PredictedValue</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>NoneType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.prediction_result.PredictionResult.all_keys">
+<code class="descname">all_keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.prediction_result.PredictionResult.all_keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a list of all the values which were predicted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of keys for which predictions have been made and can
+be retrieved using <cite>get_value</cite></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.prediction_result.PredictionResult.get_value">
+<code class="descname">get_value</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.prediction_result.PredictionResult.get_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a predicted value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key</strong> (<em>str</em>) – A descriptor key for a registered predicted value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The value stored at the provided descriptor key. None if no key is provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">PredictedValue</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tsne.html" class="btn btn-neutral float-right" title="TSNE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="models_client.html" class="btn btn-neutral float-left" title="Model Client" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

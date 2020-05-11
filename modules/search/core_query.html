@@ -1,0 +1,480 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Search - Core - Query package &mdash; Python Citrination Client 6.4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Search - Core - Result package" href="core_result.html" />
+    <link rel="prev" title="Search Module" href="citrination_client.search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../citrination_client.html">Citrination Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_management.html">Data Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../search.html">Search</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="citrination_client.search.html">Search Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Search - Core - Query package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-citrination_client.search.core.query.boolean_filter">Boolean Filter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-citrination_client.search.core.query.data_query">Data Query module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-citrination_client.search.core.query.data_scope">Data Scope module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-citrination_client.search.core.query.filter">Filter module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-citrination_client.search.core.query.multi_query">Multi Query module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="core_result.html">Search - Core - Result package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset_query.html">Dataset Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset_result.html">Dataset Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file_query.html">File Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file_result.html">File Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pif_chemical_query.html">PIF Query - Chemical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pif_query.html">PIF Query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pif_query_core.html">PIF Query Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pif_result.html">PIF Result</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../views.html">Data Views</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">Module Documentation</a> &raquo;</li>
+        
+          <li><a href="../search.html">Search</a> &raquo;</li>
+        
+      <li>Search - Core - Query package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/modules/search/core_query.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="search-core-query-package">
+<h1>Search - Core - Query package<a class="headerlink" href="#search-core-query-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-citrination_client.search.core.query.boolean_filter">
+<span id="boolean-filter"></span><h2>Boolean Filter<a class="headerlink" href="#module-citrination_client.search.core.query.boolean_filter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="citrination_client.search.core.query.boolean_filter.BooleanFilter">
+<em class="property">class </em><code class="descclassname">citrination_client.search.core.query.boolean_filter.</code><code class="descname">BooleanFilter</code><span class="sig-paren">(</span><em>logic=None</em>, <em>weight=None</em>, <em>exists=None</em>, <em>equal=None</em>, <em>filter=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.core.query.boolean_filter.BooleanFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pypif.util.serializable.Serializable</span></code></p>
+<p>Boolean filter that can be applied to any field.</p>
+<dl class="method">
+<dt id="citrination_client.search.core.query.boolean_filter.BooleanFilter.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>logic=None</em>, <em>weight=None</em>, <em>exists=None</em>, <em>equal=None</em>, <em>filter=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.core.query.boolean_filter.BooleanFilter.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logic</strong> – Logic for this filter. Must be equal to one of “MUST”, “MUST_NOT”, “SHOULD”, or “OPTIONAL”.</p></li>
+<li><p><strong>weight</strong> – Weight for the filter.</p></li>
+<li><p><strong>exists</strong> – True/False to simply test whether the field exists and has a non-null value.</p></li>
+<li><p><strong>equal</strong> – String with the phrase to match against.</p></li>
+<li><p><strong>filter</strong> – List of <a class="reference internal" href="#citrination_client.search.core.query.boolean_filter.BooleanFilter" title="citrination_client.search.core.query.boolean_filter.BooleanFilter"><code class="xref py py-class docutils literal notranslate"><span class="pre">BooleanFilter</span></code></a> objects with sub-filters.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.boolean_filter.BooleanFilter.equal">
+<code class="descname">equal</code><a class="headerlink" href="#citrination_client.search.core.query.boolean_filter.BooleanFilter.equal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.boolean_filter.BooleanFilter.exists">
+<code class="descname">exists</code><a class="headerlink" href="#citrination_client.search.core.query.boolean_filter.BooleanFilter.exists" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.boolean_filter.BooleanFilter.filter">
+<code class="descname">filter</code><a class="headerlink" href="#citrination_client.search.core.query.boolean_filter.BooleanFilter.filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.boolean_filter.BooleanFilter.logic">
+<code class="descname">logic</code><a class="headerlink" href="#citrination_client.search.core.query.boolean_filter.BooleanFilter.logic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.boolean_filter.BooleanFilter.weight">
+<code class="descname">weight</code><a class="headerlink" href="#citrination_client.search.core.query.boolean_filter.BooleanFilter.weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-citrination_client.search.core.query.data_query">
+<span id="data-query-module"></span><h2>Data Query module<a class="headerlink" href="#module-citrination_client.search.core.query.data_query" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="citrination_client.search.core.query.data_query.DataQuery">
+<em class="property">class </em><code class="descclassname">citrination_client.search.core.query.data_query.</code><code class="descname">DataQuery</code><span class="sig-paren">(</span><em>logic=None</em>, <em>weight=None</em>, <em>simple=None</em>, <em>simple_weight=None</em>, <em>dataset=None</em>, <em>system=None</em>, <em>file=None</em>, <em>query=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.core.query.data_query.DataQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pypif.util.serializable.Serializable</span></code></p>
+<p>Query against dataset metadata, PIF content, file content, or some combination of those types.</p>
+<dl class="method">
+<dt id="citrination_client.search.core.query.data_query.DataQuery.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>logic=None</em>, <em>weight=None</em>, <em>simple=None</em>, <em>simple_weight=None</em>, <em>dataset=None</em>, <em>system=None</em>, <em>file=None</em>, <em>query=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.core.query.data_query.DataQuery.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logic</strong> – The logic to apply to the query (‘SHOULD’, ‘MUST’, ‘MUST_NOT’, or ‘OPTIONAL’).</p></li>
+<li><p><strong>weight</strong> – Weight for the query.</p></li>
+<li><p><strong>simple</strong> – String with the simple search to run against all fields.</p></li>
+<li><p><strong>simple_weight</strong> – Dictionary of relative paths to their weights for simple queries.</p></li>
+<li><p><strong>dataset</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetQuery</span></code> objects with queries against dataset metadata.</p></li>
+<li><p><strong>system</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">PifSystemQuery</span></code> objects with queries against PIF systems</p></li>
+<li><p><strong>file</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">FileQuery</span></code>) – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">FileQuery</span></code> objects with queries against file content or metadata.</p></li>
+<li><p><strong>query</strong> – Nested list of <a class="reference internal" href="#citrination_client.search.core.query.data_query.DataQuery" title="citrination_client.search.core.query.data_query.DataQuery"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataQuery</span></code></a> objects.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.data_query.DataQuery.dataset">
+<code class="descname">dataset</code><a class="headerlink" href="#citrination_client.search.core.query.data_query.DataQuery.dataset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.data_query.DataQuery.file">
+<code class="descname">file</code><a class="headerlink" href="#citrination_client.search.core.query.data_query.DataQuery.file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.data_query.DataQuery.logic">
+<code class="descname">logic</code><a class="headerlink" href="#citrination_client.search.core.query.data_query.DataQuery.logic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.data_query.DataQuery.query">
+<code class="descname">query</code><a class="headerlink" href="#citrination_client.search.core.query.data_query.DataQuery.query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.data_query.DataQuery.simple">
+<code class="descname">simple</code><a class="headerlink" href="#citrination_client.search.core.query.data_query.DataQuery.simple" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.data_query.DataQuery.simple_weight">
+<code class="descname">simple_weight</code><a class="headerlink" href="#citrination_client.search.core.query.data_query.DataQuery.simple_weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.data_query.DataQuery.system">
+<code class="descname">system</code><a class="headerlink" href="#citrination_client.search.core.query.data_query.DataQuery.system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.data_query.DataQuery.weight">
+<code class="descname">weight</code><a class="headerlink" href="#citrination_client.search.core.query.data_query.DataQuery.weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-citrination_client.search.core.query.data_scope">
+<span id="data-scope-module"></span><h2>Data Scope module<a class="headerlink" href="#module-citrination_client.search.core.query.data_scope" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="citrination_client.search.core.query.data_scope.DataScope">
+<em class="property">class </em><code class="descclassname">citrination_client.search.core.query.data_scope.</code><code class="descname">DataScope</code><span class="sig-paren">(</span><em>query=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.core.query.data_scope.DataScope" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pypif.util.serializable.Serializable</span></code></p>
+<p>Query to against data.</p>
+<dl class="method">
+<dt id="citrination_client.search.core.query.data_scope.DataScope.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>query=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.core.query.data_scope.DataScope.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>query</strong> – One or more <code class="xref py py-class docutils literal notranslate"><span class="pre">DataQuery</span></code> objects with the queries to run.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.data_scope.DataScope.query">
+<code class="descname">query</code><a class="headerlink" href="#citrination_client.search.core.query.data_scope.DataScope.query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-citrination_client.search.core.query.filter">
+<span id="filter-module"></span><h2>Filter module<a class="headerlink" href="#module-citrination_client.search.core.query.filter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="citrination_client.search.core.query.filter.Filter">
+<em class="property">class </em><code class="descclassname">citrination_client.search.core.query.filter.</code><code class="descname">Filter</code><span class="sig-paren">(</span><em>logic=None</em>, <em>weight=None</em>, <em>exists=None</em>, <em>equal=None</em>, <em>min=None</em>, <em>max=None</em>, <em>exact=None</em>, <em>filter=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.core.query.filter.Filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pypif.util.serializable.Serializable</span></code></p>
+<p>Filter that can be applied to any field.</p>
+<dl class="method">
+<dt id="citrination_client.search.core.query.filter.Filter.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>logic=None</em>, <em>weight=None</em>, <em>exists=None</em>, <em>equal=None</em>, <em>min=None</em>, <em>max=None</em>, <em>exact=None</em>, <em>filter=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.core.query.filter.Filter.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logic</strong> – Logic for this filter. Must be equal to one of “MUST”, “MUST_NOT”, “SHOULD”, or “OPTIONAL”.</p></li>
+<li><p><strong>weight</strong> – Weight for the filter.</p></li>
+<li><p><strong>exists</strong> – True/False to simply test whether the field exists and has a non-null value.</p></li>
+<li><p><strong>equal</strong> – String with the phrase to match against.</p></li>
+<li><p><strong>min</strong> – String with the minimum value of a range to match against.</p></li>
+<li><p><strong>max</strong> – String with the maximum value of a range to match against.</p></li>
+<li><p><strong>exact</strong> – True/False to set whether the “equal” filter should be an exact match.</p></li>
+<li><p><strong>filter</strong> – List of <a class="reference internal" href="#citrination_client.search.core.query.filter.Filter" title="citrination_client.search.core.query.filter.Filter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code></a> objects with sub-filters.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.filter.Filter.equal">
+<code class="descname">equal</code><a class="headerlink" href="#citrination_client.search.core.query.filter.Filter.equal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.filter.Filter.exact">
+<code class="descname">exact</code><a class="headerlink" href="#citrination_client.search.core.query.filter.Filter.exact" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.filter.Filter.exists">
+<code class="descname">exists</code><a class="headerlink" href="#citrination_client.search.core.query.filter.Filter.exists" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.filter.Filter.filter">
+<code class="descname">filter</code><a class="headerlink" href="#citrination_client.search.core.query.filter.Filter.filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.filter.Filter.logic">
+<code class="descname">logic</code><a class="headerlink" href="#citrination_client.search.core.query.filter.Filter.logic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.filter.Filter.max">
+<code class="descname">max</code><a class="headerlink" href="#citrination_client.search.core.query.filter.Filter.max" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.filter.Filter.min">
+<code class="descname">min</code><a class="headerlink" href="#citrination_client.search.core.query.filter.Filter.min" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.filter.Filter.weight">
+<code class="descname">weight</code><a class="headerlink" href="#citrination_client.search.core.query.filter.Filter.weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-citrination_client.search.core.query.multi_query">
+<span id="multi-query-module"></span><h2>Multi Query module<a class="headerlink" href="#module-citrination_client.search.core.query.multi_query" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="citrination_client.search.core.query.multi_query.MultiQuery">
+<em class="property">class </em><code class="descclassname">citrination_client.search.core.query.multi_query.</code><code class="descname">MultiQuery</code><span class="sig-paren">(</span><em>queries=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.core.query.multi_query.MultiQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pypif.util.serializable.Serializable</span></code></p>
+<p>Base class for all multi-search requests.</p>
+<dl class="method">
+<dt id="citrination_client.search.core.query.multi_query.MultiQuery.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>queries=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.search.core.query.multi_query.MultiQuery.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>queries</strong> – One or more queries to run.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="citrination_client.search.core.query.multi_query.MultiQuery.queries">
+<code class="descname">queries</code><a class="headerlink" href="#citrination_client.search.core.query.multi_query.MultiQuery.queries" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="core_result.html" class="btn btn-neutral float-right" title="Search - Core - Result package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="citrination_client.search.html" class="btn btn-neutral float-left" title="Search Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

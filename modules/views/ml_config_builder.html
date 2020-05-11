@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Data Views Config Builders &mdash; Python Citrination Client 6.4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Model Report" href="model_report.html" />
+    <link rel="prev" title="Data Views Client" href="data_views_client.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../citrination_client.html">Citrination Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_management.html">Data Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../search.html">Search</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../views.html">Data Views</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="data_views_client.html">Data Views Client</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Data Views Config Builders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model_report.html">Model Report</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">Module Documentation</a> &raquo;</li>
+        
+          <li><a href="../views.html">Data Views</a> &raquo;</li>
+        
+      <li>Data Views Config Builders</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/modules/views/ml_config_builder.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-citrination_client.views.base_data_view_builder">
+<span id="data-views-config-builders"></span><h1>Data Views Config Builders<a class="headerlink" href="#module-citrination_client.views.base_data_view_builder" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="citrination_client.views.base_data_view_builder.BaseDataViewBuilder">
+<em class="property">class </em><code class="descclassname">citrination_client.views.base_data_view_builder.</code><code class="descname">BaseDataViewBuilder</code><span class="sig-paren">(</span><em>additional_config</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.base_data_view_builder.BaseDataViewBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>A base class not intended to be instantiated directly.</p>
+<dl class="method">
+<dt id="citrination_client.views.base_data_view_builder.BaseDataViewBuilder.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>additional_config</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.base_data_view_builder.BaseDataViewBuilder.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.base_data_view_builder.BaseDataViewBuilder.add_formulation_descriptor">
+<code class="descname">add_formulation_descriptor</code><span class="sig-paren">(</span><em>descriptor</em>, <em>dataview_client</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.base_data_view_builder.BaseDataViewBuilder.add_formulation_descriptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a formulation descriptor and automatically add ignored ingredient shares, component type and
+name categorical descriptors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>descriptor</strong> – The formulation descriptor to add</p></li>
+<li><p><strong>dataview_client</strong> – The dataview client, this is needed to obtain the ingredient share names</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.base_data_view_builder.BaseDataViewBuilder.add_raw_descriptor">
+<code class="descname">add_raw_descriptor</code><span class="sig-paren">(</span><em>descriptor</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.base_data_view_builder.BaseDataViewBuilder.add_raw_descriptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a raw descriptor dictionary object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>descriptor</strong> – A descriptor as a dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.base_data_view_builder.BaseDataViewBuilder.build">
+<code class="descname">build</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.base_data_view_builder.BaseDataViewBuilder.build" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a configuration object suitable for creating a data view.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>See __init__ method for returned dict shape</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>:dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.base_data_view_builder.BaseDataViewBuilder.dataset_ids">
+<code class="descname">dataset_ids</code><span class="sig-paren">(</span><em>dataset_ids</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.base_data_view_builder.BaseDataViewBuilder.dataset_ids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the dataset ids to use for the view</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataset_ids</strong> – Array of strings, one for each dataset id</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.base_data_view_builder.BaseDataViewBuilder.get_dagre_graph">
+<code class="descname">get_dagre_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.base_data_view_builder.BaseDataViewBuilder.get_dagre_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to generate a DAGRE graph based on the descriptors and relations added to the builder</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.base_data_view_builder.BaseDataViewBuilder.model_type">
+<code class="descname">model_type</code><span class="sig-paren">(</span><em>model_type</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.base_data_view_builder.BaseDataViewBuilder.model_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the model type for the view</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model_type</strong> – A string of either linear (for a linear model), or default (for Citrine’s default nonlinear model)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-citrination_client.views.data_view_builder"></span><dl class="class">
+<dt id="citrination_client.views.data_view_builder.DataViewBuilder">
+<em class="property">class </em><code class="descclassname">citrination_client.views.data_view_builder.</code><code class="descname">DataViewBuilder</code><a class="headerlink" href="#citrination_client.views.data_view_builder.DataViewBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>A low dimensional interface for building data views.  Choose datasets, add
+descriptors and other configuration options, then call build() to return the
+configuration object needed by the data views api</p>
+<p>Inherits from the BaseDataViewBuilder</p>
+<dl class="method">
+<dt id="citrination_client.views.data_view_builder.DataViewBuilder.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.data_view_builder.DataViewBuilder.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.data_view_builder.DataViewBuilder.add_descriptor">
+<code class="descname">add_descriptor</code><span class="sig-paren">(</span><em>descriptor</em>, <em>role='ignore'</em>, <em>group_by_key=False</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.data_view_builder.DataViewBuilder.add_descriptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a descriptor column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>descriptor</strong> – A Descriptor instance (e.g., RealDescriptor, InorganicDescriptor, etc.)</p></li>
+<li><p><strong>role</strong> – Specify a role (input, output, latentVariable, or ignore)</p></li>
+<li><p><strong>group_by_key</strong> – Whether or not to group by this key during cross validation</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.data_view_builder.DataViewBuilder.set_role">
+<code class="descname">set_role</code><span class="sig-paren">(</span><em>key</em>, <em>role</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.data_view_builder.DataViewBuilder.set_role" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the role of a descriptor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – A descriptor key</p></li>
+<li><p><strong>role</strong> (<em>str</em>) – (input, output, latentVariable, or ignore)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-citrination_client.views.advanced_data_view_builder"></span><dl class="class">
+<dt id="citrination_client.views.advanced_data_view_builder.AdvancedDataViewBuilder">
+<em class="property">class </em><code class="descclassname">citrination_client.views.advanced_data_view_builder.</code><code class="descname">AdvancedDataViewBuilder</code><a class="headerlink" href="#citrination_client.views.advanced_data_view_builder.AdvancedDataViewBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>A more expressive interface for building data views with machine learning. Choose
+datasets, add descriptors, and specify relations, then call build() to
+return the configuration object needed by the data views API.</p>
+<p>Inherits from the BaseDataViewBuilder</p>
+<dl class="method">
+<dt id="citrination_client.views.advanced_data_view_builder.AdvancedDataViewBuilder.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.advanced_data_view_builder.AdvancedDataViewBuilder.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.advanced_data_view_builder.AdvancedDataViewBuilder.add_descriptor">
+<code class="descname">add_descriptor</code><span class="sig-paren">(</span><em>descriptor</em>, <em>group_by_key=False</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.advanced_data_view_builder.AdvancedDataViewBuilder.add_descriptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a descriptor column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>descriptor</strong> – A Descriptor instance (e.g., RealDescriptor, InorganicDescriptor, etc.)</p></li>
+<li><p><strong>group_by_key</strong> – Whether or not to group by this key during cross validation</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.advanced_data_view_builder.AdvancedDataViewBuilder.add_relation">
+<code class="descname">add_relation</code><span class="sig-paren">(</span><em>inputs</em>, <em>output</em>, <em>relation_type='lolo'</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.advanced_data_view_builder.AdvancedDataViewBuilder.add_relation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a manual relation.  If no relations are manually added, Citrination will automatically generate
+relations when the view is created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> – Array of strings or a single string of descriptor key(s) for the relation inputs</p></li>
+<li><p><strong>output</strong> – Single string descriptor key for the relation output</p></li>
+<li><p><strong>relation_type</strong> – Kind of relation, currently only ‘lolo’ is supported</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-citrination_client.views.descriptors.descriptor"></span><dl class="class">
+<dt id="citrination_client.views.descriptors.descriptor.MaterialDescriptor">
+<em class="property">class </em><code class="descclassname">citrination_client.views.descriptors.descriptor.</code><code class="descname">MaterialDescriptor</code><span class="sig-paren">(</span><em>key</em>, <em>category</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.descriptor.MaterialDescriptor" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="citrination_client.views.descriptors.descriptor.MaterialDescriptor.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>key</em>, <em>category</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.descriptor.MaterialDescriptor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.descriptors.descriptor.MaterialDescriptor.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.descriptor.MaterialDescriptor.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.descriptors.descriptor.MaterialDescriptor.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.descriptor.MaterialDescriptor.validate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-citrination_client.views.descriptors.alloy_composition_descriptor"></span><dl class="class">
+<dt id="citrination_client.views.descriptors.alloy_composition_descriptor.AlloyCompositionDescriptor">
+<em class="property">class </em><code class="descclassname">citrination_client.views.descriptors.alloy_composition_descriptor.</code><code class="descname">AlloyCompositionDescriptor</code><span class="sig-paren">(</span><em>key</em>, <em>balance_element</em>, <em>basis=100</em>, <em>threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.alloy_composition_descriptor.AlloyCompositionDescriptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#citrination_client.views.descriptors.descriptor.MaterialDescriptor" title="citrination_client.views.descriptors.descriptor.MaterialDescriptor"><code class="xref py py-class docutils literal notranslate"><span class="pre">citrination_client.views.descriptors.descriptor.MaterialDescriptor</span></code></a></p>
+<dl class="method">
+<dt id="citrination_client.views.descriptors.alloy_composition_descriptor.AlloyCompositionDescriptor.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>key</em>, <em>balance_element</em>, <em>basis=100</em>, <em>threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.alloy_composition_descriptor.AlloyCompositionDescriptor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-citrination_client.views.descriptors.categorical_descriptor"></span><dl class="class">
+<dt id="citrination_client.views.descriptors.categorical_descriptor.CategoricalDescriptor">
+<em class="property">class </em><code class="descclassname">citrination_client.views.descriptors.categorical_descriptor.</code><code class="descname">CategoricalDescriptor</code><span class="sig-paren">(</span><em>key</em>, <em>categories=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.categorical_descriptor.CategoricalDescriptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#citrination_client.views.descriptors.descriptor.MaterialDescriptor" title="citrination_client.views.descriptors.descriptor.MaterialDescriptor"><code class="xref py py-class docutils literal notranslate"><span class="pre">citrination_client.views.descriptors.descriptor.MaterialDescriptor</span></code></a></p>
+<dl class="method">
+<dt id="citrination_client.views.descriptors.categorical_descriptor.CategoricalDescriptor.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>key</em>, <em>categories=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.categorical_descriptor.CategoricalDescriptor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.descriptors.categorical_descriptor.CategoricalDescriptor.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.categorical_descriptor.CategoricalDescriptor.validate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-citrination_client.views.descriptors.formulation_descriptor"></span><dl class="class">
+<dt id="citrination_client.views.descriptors.formulation_descriptor.FormulationDescriptor">
+<em class="property">class </em><code class="descclassname">citrination_client.views.descriptors.formulation_descriptor.</code><code class="descname">FormulationDescriptor</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.formulation_descriptor.FormulationDescriptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#citrination_client.views.descriptors.descriptor.MaterialDescriptor" title="citrination_client.views.descriptors.descriptor.MaterialDescriptor"><code class="xref py py-class docutils literal notranslate"><span class="pre">citrination_client.views.descriptors.descriptor.MaterialDescriptor</span></code></a></p>
+<dl class="method">
+<dt id="citrination_client.views.descriptors.formulation_descriptor.FormulationDescriptor.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.formulation_descriptor.FormulationDescriptor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-citrination_client.views.descriptors.inorganic_descriptor"></span><dl class="class">
+<dt id="citrination_client.views.descriptors.inorganic_descriptor.InorganicDescriptor">
+<em class="property">class </em><code class="descclassname">citrination_client.views.descriptors.inorganic_descriptor.</code><code class="descname">InorganicDescriptor</code><span class="sig-paren">(</span><em>key</em>, <em>threshold=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.inorganic_descriptor.InorganicDescriptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#citrination_client.views.descriptors.descriptor.MaterialDescriptor" title="citrination_client.views.descriptors.descriptor.MaterialDescriptor"><code class="xref py py-class docutils literal notranslate"><span class="pre">citrination_client.views.descriptors.descriptor.MaterialDescriptor</span></code></a></p>
+<dl class="method">
+<dt id="citrination_client.views.descriptors.inorganic_descriptor.InorganicDescriptor.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>key</em>, <em>threshold=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.inorganic_descriptor.InorganicDescriptor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-citrination_client.views.descriptors.organic_descriptor"></span><dl class="class">
+<dt id="citrination_client.views.descriptors.organic_descriptor.OrganicDescriptor">
+<em class="property">class </em><code class="descclassname">citrination_client.views.descriptors.organic_descriptor.</code><code class="descname">OrganicDescriptor</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.organic_descriptor.OrganicDescriptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#citrination_client.views.descriptors.descriptor.MaterialDescriptor" title="citrination_client.views.descriptors.descriptor.MaterialDescriptor"><code class="xref py py-class docutils literal notranslate"><span class="pre">citrination_client.views.descriptors.descriptor.MaterialDescriptor</span></code></a></p>
+<dl class="method">
+<dt id="citrination_client.views.descriptors.organic_descriptor.OrganicDescriptor.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.organic_descriptor.OrganicDescriptor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-citrination_client.views.descriptors.real_descriptor"></span><dl class="class">
+<dt id="citrination_client.views.descriptors.real_descriptor.RealDescriptor">
+<em class="property">class </em><code class="descclassname">citrination_client.views.descriptors.real_descriptor.</code><code class="descname">RealDescriptor</code><span class="sig-paren">(</span><em>key</em>, <em>lower_bound</em>, <em>upper_bound</em>, <em>units=''</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.real_descriptor.RealDescriptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#citrination_client.views.descriptors.descriptor.MaterialDescriptor" title="citrination_client.views.descriptors.descriptor.MaterialDescriptor"><code class="xref py py-class docutils literal notranslate"><span class="pre">citrination_client.views.descriptors.descriptor.MaterialDescriptor</span></code></a></p>
+<dl class="method">
+<dt id="citrination_client.views.descriptors.real_descriptor.RealDescriptor.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>key</em>, <em>lower_bound</em>, <em>upper_bound</em>, <em>units=''</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.real_descriptor.RealDescriptor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.descriptors.real_descriptor.RealDescriptor.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.descriptors.real_descriptor.RealDescriptor.validate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="model_report.html" class="btn btn-neutral float-right" title="Model Report" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="data_views_client.html" class="btn btn-neutral float-left" title="Data Views Client" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

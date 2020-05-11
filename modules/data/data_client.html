@@ -1,0 +1,644 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Data Client &mdash; Python Citrination Client 6.4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Datasets" href="datasets.html" />
+    <link rel="prev" title="Data Management" href="../data_management.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../citrination_client.html">Citrination Client</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../data_management.html">Data Management</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Data Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datasets.html">Datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ingest.html">Ingest</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../search.html">Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../views.html">Data Views</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">Module Documentation</a> &raquo;</li>
+        
+          <li><a href="../data_management.html">Data Management</a> &raquo;</li>
+        
+      <li>Data Client</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/modules/data/data_client.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-citrination_client.data.client">
+<span id="data-client"></span><h1>Data Client<a class="headerlink" href="#module-citrination_client.data.client" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="citrination_client.data.client.DataClient">
+<em class="property">class </em><code class="descclassname">citrination_client.data.client.</code><code class="descname">DataClient</code><span class="sig-paren">(</span><em>api_key</em>, <em>host='https://citrination.com'</em>, <em>suppress_warnings=False</em>, <em>proxies=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Client encapsulating data management behavior.</p>
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>api_key</em>, <em>host='https://citrination.com'</em>, <em>suppress_warnings=False</em>, <em>proxies=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>api_key</strong> (<em>str</em>) – A users API key, as a string</p></li>
+<li><p><strong>host</strong> (<em>str</em>) – The base URL of the citrination site, e.g. <a class="reference external" href="https://citrination.com">https://citrination.com</a></p></li>
+<li><p><strong>suppress_warnings</strong> (<em>bool</em>) – Whether or not usage warnings should be
+printed to stdout</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.create_dataset">
+<code class="descname">create_dataset</code><span class="sig-paren">(</span><em>name=None</em>, <em>description=None</em>, <em>public=False</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.create_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new data set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – name of the dataset</p></li>
+<li><p><strong>description</strong> (<em>str</em>) – description for the dataset</p></li>
+<li><p><strong>public</strong> (<em>bool</em>) – A boolean indicating whether or not the dataset should be public.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The newly created dataset.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.create_dataset_version">
+<code class="descname">create_dataset_version</code><span class="sig-paren">(</span><em>dataset_id</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.create_dataset_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new data set version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataset_id</strong> (<em>int</em>) – The ID of the dataset for which the version must be bumped.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The new dataset version.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetVersion</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.delete_dataset">
+<code class="descname">delete_dataset</code><span class="sig-paren">(</span><em>dataset_id</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.delete_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a dataset by id.  This will only work if you are the owner of the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataset_id</strong> – The ID of the dataset to data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.download_files">
+<code class="descname">download_files</code><span class="sig-paren">(</span><em>dataset_files</em>, <em>destination='.'</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.download_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads file(s) to a local destination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_files</strong> (list of :class: <cite>DatasetFile</cite>) – </p></li>
+<li><p><strong>destination</strong> (<em>str</em>) – The path to the desired local download destination</p></li>
+<li><p><strong>chunk</strong> (<em>bool</em>) – Whether or not to chunk the file. Default True</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.get_data_view_ids">
+<code class="descname">get_data_view_ids</code><span class="sig-paren">(</span><em>dataset_id</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.get_data_view_ids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of ids for data views that are built upon the provided dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataset_id</strong> (<em>int</em>) – The ID of the dataset for which the version must be bumped.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The list of data view ids that use the given dataset.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.get_dataset_file">
+<code class="descname">get_dataset_file</code><span class="sig-paren">(</span><em>dataset_id</em>, <em>file_path</em>, <em>version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.get_dataset_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a dataset file matching a provided file path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>int</em>) – The id of the dataset to retrieve file from</p></li>
+<li><p><strong>file_path</strong> (<em>str</em>) – The file path within the dataset</p></li>
+<li><p><strong>version</strong> (<em>int</em>) – The dataset version to look for the file in. If nothing is supplied, the latest dataset version will be searched</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dataset file matching the filepath provided</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetFile</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.get_dataset_files">
+<code class="descname">get_dataset_files</code><span class="sig-paren">(</span><em>dataset_id</em>, <em>glob='.'</em>, <em>is_dir=False</em>, <em>version_number=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.get_dataset_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves URLs for the files matched by a glob or a path to a directory
+in a given dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>int</em>) – The id of the dataset to retrieve files from</p></li>
+<li><p><strong>glob</strong> (<em>str</em>) – A regex used to select one or more files in the dataset</p></li>
+<li><p><strong>is_dir</strong> (<em>bool</em>) – Whether or not the supplied pattern should be treated as a directory to search in</p></li>
+<li><p><strong>version_number</strong> (<em>int</em>) – The version number of the dataset to retrieve files from</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of dataset files whose paths match the provided pattern.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of <code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetFile</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.get_ingest_status">
+<code class="descname">get_ingest_status</code><span class="sig-paren">(</span><em>dataset_id</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.get_ingest_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current status of dataset ingestion.  If any file uploaded to a dataset is in an error/failure state
+this endpoint will return error/failure.  If any files are still processing, will return processing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataset_id</strong> – Dataset identifier</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Status of dataset ingestion as a string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.get_pif">
+<code class="descname">get_pif</code><span class="sig-paren">(</span><em>dataset_id</em>, <em>uid</em>, <em>dataset_version=None</em>, <em>pif_version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.get_pif" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a PIF from a given dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>int</em>) – The id of the dataset to retrieve PIF from</p></li>
+<li><p><strong>uid</strong> (<em>str</em>) – The uid of the PIF to retrieve</p></li>
+<li><p><strong>dataset_version</strong> (<em>int</em>) – The dataset version to look for the PIF in.
+If nothing is supplied, the latest dataset version will be searched.</p></li>
+<li><p><strong>pif_version</strong> (<em>int</em>) – The version of the PIF to look for. If nothing is
+supplied, the current PIF version will be returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Pif</span></code> object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Pif</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.get_pif_with_metadata">
+<code class="descname">get_pif_with_metadata</code><span class="sig-paren">(</span><em>dataset_id</em>, <em>uid</em>, <em>dataset_version=None</em>, <em>pif_version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.get_pif_with_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a PIF from a given dataset, along with information regarding
+the dataset it belongs to, its version number, and when it was last
+updated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>int</em>) – The id of the dataset to retrieve PIF from</p></li>
+<li><p><strong>uid</strong> (<em>str</em>) – The uid of the PIF to retrieve</p></li>
+<li><p><strong>dataset_version</strong> (<em>int</em>) – The dataset version to look for the PIF in.
+If nothing is supplied, the latest dataset version will be searched.</p></li>
+<li><p><strong>pif_version</strong> (<em>int</em>) – The version of the PIF to look for. If nothing is
+supplied, the current PIF version will be returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dict with two keys - <code class="docutils literal notranslate"><span class="pre">pif</span></code> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Pif</span></code>) and <code class="docutils literal notranslate"><span class="pre">metadata</span></code> (dict)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.ingester_logs">
+<code class="descname">ingester_logs</code><span class="sig-paren">(</span><em>file_id</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.ingester_logs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns Ingester Logs for a given file if they are available</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.list_files">
+<code class="descname">list_files</code><span class="sig-paren">(</span><em>dataset_id</em>, <em>glob='.'</em>, <em>is_dir=False</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.list_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>List matched filenames in a dataset on Citrination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>int</em>) – The ID of the dataset to search for files.</p></li>
+<li><p><strong>glob</strong> (<em>str</em>) – A pattern which will be matched against files in the dataset.</p></li>
+<li><p><strong>is_dir</strong> (<em>bool</em>) – A boolean indicating whether or not the pattern should match against the beginning of paths in the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of filepaths in the dataset matching the provided glob.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.list_ingesters">
+<code class="descname">list_ingesters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.list_ingesters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the list of available ingesters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of ingesters available for ingestion</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">IngesterList</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.matched_file_count">
+<code class="descname">matched_file_count</code><span class="sig-paren">(</span><em>dataset_id</em>, <em>glob='.'</em>, <em>is_dir=False</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.matched_file_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of files matching a pattern in a dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>int</em>) – The ID of the dataset to search for files.</p></li>
+<li><p><strong>glob</strong> (<em>str</em>) – A pattern which will be matched against files in the dataset.</p></li>
+<li><p><strong>is_dir</strong> (<em>bool</em>) – A boolean indicating whether or not the pattern should match against the beginning of paths in the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The number of matching files</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.update_dataset">
+<code class="descname">update_dataset</code><span class="sig-paren">(</span><em>dataset_id</em>, <em>name=None</em>, <em>description=None</em>, <em>public=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.update_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a data set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>int</em>) – The ID of the dataset to update</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – name of the dataset</p></li>
+<li><p><strong>description</strong> (<em>str</em>) – description for the dataset</p></li>
+<li><p><strong>public</strong> (<em>bool</em>) – A boolean indicating whether or not the dataset should
+be public.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The updated dataset.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.upload">
+<code class="descname">upload</code><span class="sig-paren">(</span><em>dataset_id</em>, <em>source_path</em>, <em>dest_path=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.upload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload a file, specifying source and optionally destination paths of a
+file (acts as the scp command)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em>) – The ID of the dataset to search for files.</p></li>
+<li><p><strong>source_path</strong> (<em>str</em>) – The path to the file on the source host</p></li>
+<li><p><strong>dest_path</strong> (<em>str</em>) – The path to the file where the contents of the upload will be written (on the dest host)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The result of the upload process</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">UploadResult</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.upload_with_ingester">
+<code class="descname">upload_with_ingester</code><span class="sig-paren">(</span><em>dataset_id</em>, <em>source_path</em>, <em>ingester</em>, <em>ingester_arguments=[]</em>, <em>dest_path=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.upload_with_ingester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload a file using a particular ingester, specifying source and
+optionally destination paths of a file (acts as the scp command)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em>) – The ID of the dataset to search for files.</p></li>
+<li><p><strong>source_path</strong> (<em>str</em>) – The path to the file on the source host</p></li>
+<li><p><strong>ingester</strong> (class:<cite>citrination_client.data.ingest.Ingester</cite>) – The ingester being used</p></li>
+<li><p><strong>ingester_arguments</strong> (<em>list of dict</em>) – ingester arguments (optional), arguments should
+contain keys “name” and “value”</p></li>
+<li><p><strong>dest_path</strong> (<em>str</em>) – The path to the file where the contents of the upload will be written (on the dest host)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The result of the upload process</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">UploadResult</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.client.DataClient.upload_with_template_csv_ingester">
+<code class="descname">upload_with_template_csv_ingester</code><span class="sig-paren">(</span><em>dataset_id</em>, <em>source_path</em>, <em>dest_path=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.client.DataClient.upload_with_template_csv_ingester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload a file using the template CSV ingester, specifying source and
+optionally destination paths of a file (acts as the scp command)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em>) – The ID of the dataset to search for files.</p></li>
+<li><p><strong>source_path</strong> (<em>str</em>) – The path to the file on the source host</p></li>
+<li><p><strong>dest_path</strong> (<em>str</em>) – The path to the file where the contents of the upload will be written (on the dest host)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The result of the upload process</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">UploadResult</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-citrination_client.data.upload_result"></span><dl class="class">
+<dt id="citrination_client.data.upload_result.UploadResult">
+<em class="property">class </em><code class="descclassname">citrination_client.data.upload_result.</code><code class="descname">UploadResult</code><a class="headerlink" href="#citrination_client.data.upload_result.UploadResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>The result of an attempted upload. Keeps track of the failures
+and successes if multiple files were uploaded (for instance,
+if a directory was uploaded).</p>
+<dl class="method">
+<dt id="citrination_client.data.upload_result.UploadResult.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.upload_result.UploadResult.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.upload_result.UploadResult.add_failure">
+<code class="descname">add_failure</code><span class="sig-paren">(</span><em>filepath</em>, <em>reason</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.upload_result.UploadResult.add_failure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers a file as a failure to upload.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<em>str</em>) – The path to the file which was to be uploaded.</p></li>
+<li><p><strong>reason</strong> (<em>str</em>) – The reason the file failed to upload</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.upload_result.UploadResult.add_success">
+<code class="descname">add_success</code><span class="sig-paren">(</span><em>filepath</em>, <em>id</em>, <em>dest_path</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.upload_result.UploadResult.add_success" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers a file as successfully uploaded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<em>str</em>) – The path to the successfully uploaded file.</p></li>
+<li><p><strong>id</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>]</em>) – The id of the successfully uploaded file.</p></li>
+<li><p><strong>dest_path</strong> (<em>str</em>) – The destination path to the successfully uploaded file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.data.upload_result.UploadResult.successful">
+<code class="descname">successful</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.data.upload_result.UploadResult.successful" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates whether or not the entire upload was successful.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Whether or not the upload was successful</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="datasets.html" class="btn btn-neutral float-right" title="Datasets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../data_management.html" class="btn btn-neutral float-left" title="Data Management" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,433 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Model Client &mdash; Python Citrination Client 6.4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Predictions" href="predictions.html" />
+    <link rel="prev" title="Design" href="design.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../citrination_client.html">Citrination Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_management.html">Data Management</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../models.html">Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="design.html">Design</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Model Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="predictions.html">Predictions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tsne.html">TSNE</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../search.html">Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../views.html">Data Views</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">Module Documentation</a> &raquo;</li>
+        
+          <li><a href="../models.html">Models</a> &raquo;</li>
+        
+      <li>Model Client</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/modules/models/models_client.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-citrination_client.models.client">
+<span id="model-client"></span><h1>Model Client<a class="headerlink" href="#module-citrination_client.models.client" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="citrination_client.models.client.ModelsClient">
+<em class="property">class </em><code class="descclassname">citrination_client.models.client.</code><code class="descname">ModelsClient</code><span class="sig-paren">(</span><em>api_key</em>, <em>webserver_host='https://citrination.com'</em>, <em>suppress_warnings=False</em>, <em>proxies=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.client.ModelsClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>A client that encapsulates interactions with models on Citrination.</p>
+<dl class="method">
+<dt id="citrination_client.models.client.ModelsClient.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>api_key</em>, <em>webserver_host='https://citrination.com'</em>, <em>suppress_warnings=False</em>, <em>proxies=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.client.ModelsClient.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.client.ModelsClient.check_predict_status">
+<code class="descname">check_predict_status</code><span class="sig-paren">(</span><em>view_id</em>, <em>predict_request_id</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.client.ModelsClient.check_predict_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a string indicating the status of the prediction job</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>view_id</strong> – The data view id returned from data view create</p></li>
+<li><p><strong>predict_request_id</strong> – The id returned from predict</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Status data, also includes results if state is finished</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.client.ModelsClient.get_data_view_service_status">
+<code class="descname">get_data_view_service_status</code><span class="sig-paren">(</span><em>data_view_id</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.client.ModelsClient.get_data_view_service_status" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Retrieves the status for all of the services associated with a data view:</dt><dd><ul class="simple">
+<li><p>predict</p></li>
+<li><p>experimental_design</p></li>
+<li><p>data_reports</p></li>
+<li><p>model_reports</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data_view_id</strong> (<em>str</em>) – The ID number of the data view to which the
+run belongs, as a string</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">DataViewStatus</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DataViewStatus</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.client.ModelsClient.get_design_run_results">
+<code class="descname">get_design_run_results</code><span class="sig-paren">(</span><em>data_view_id</em>, <em>run_uuid</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.client.ModelsClient.get_design_run_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the results of an existing designrun</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_view_id</strong> (<em>str</em>) – The ID number of the data view to which the
+run belongs, as a string</p></li>
+<li><p><strong>run_uuid</strong> (<em>str</em>) – The UUID of the design run to retrieve results from</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">DesignResults</span></code> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.client.ModelsClient.get_design_run_status">
+<code class="descname">get_design_run_status</code><span class="sig-paren">(</span><em>data_view_id</em>, <em>run_uuid</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.client.ModelsClient.get_design_run_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the status of an in progress or completed design run</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_view_id</strong> (<em>str</em>) – The ID number of the data view to which the
+run belongs, as a string</p></li>
+<li><p><strong>run_uuid</strong> (<em>str</em>) – The UUID of the design run to retrieve status for</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessStatus</span></code> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.client.ModelsClient.kill_design_run">
+<code class="descname">kill_design_run</code><span class="sig-paren">(</span><em>data_view_id</em>, <em>run_uuid</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.client.ModelsClient.kill_design_run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kills an in progress experimental design run</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_view_id</strong> (<em>str</em>) – The ID number of the data view to which the
+run belongs, as a string</p></li>
+<li><p><strong>run_uuid</strong> (<em>str</em>) – The UUID of the design run to kill</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The UUID of the design run</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.client.ModelsClient.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>data_view_id</em>, <em>candidates</em>, <em>method='scalar'</em>, <em>use_prior=True</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.client.ModelsClient.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict endpoint. This simply wraps the async methods (submit and poll for status/results).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_view_id</strong> (<em>str</em>) – The ID of the data view to use for prediction</p></li>
+<li><p><strong>candidates</strong> (<em>list of dicts</em>) – A list of candidates to make predictions on</p></li>
+<li><p><strong>method</strong> (<em>str</em><em> (</em><em>&quot;scalar&quot;</em><em> or </em><em>&quot;scalar_from_distribution&quot;</em><em>)</em>) – Method for propagating predictions through model graphs. “scalar” uses
+linearized uncertainty propagation, whereas “scalar_from_distribution” still returns
+scalar predictions but uses sampling to propagate uncertainty without a linear
+approximation.</p></li>
+<li><p><strong>use_prior</strong> (<em>bool</em>) – Whether to apply prior values implied by the property descriptors</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The results of the prediction</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of <code class="xref py py-class docutils literal notranslate"><span class="pre">PredictionResult</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.client.ModelsClient.retrain">
+<code class="descname">retrain</code><span class="sig-paren">(</span><em>dataview_id</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.client.ModelsClient.retrain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start a model retraining
+:param dataview_id: The ID of the views
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.client.ModelsClient.submit_design_run">
+<code class="descname">submit_design_run</code><span class="sig-paren">(</span><em>data_view_id</em>, <em>num_candidates</em>, <em>effort</em>, <em>target=None</em>, <em>constraints=[]</em>, <em>sampler='Default'</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.client.ModelsClient.submit_design_run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submits a new experimental design run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_view_id</strong> (<em>str</em>) – The ID number of the data view to which the
+run belongs, as a string</p></li>
+<li><p><strong>num_candidates</strong> (<em>int</em>) – The number of candidates to return</p></li>
+<li><p><strong>target</strong> (:class:<code class="docutils literal notranslate"><span class="pre">Target</span></code>) – An :class:<code class="docutils literal notranslate"><span class="pre">Target</span></code> instance representing
+the design run optimization target</p></li>
+<li><p><strong>constraints</strong> (list of :class:<code class="docutils literal notranslate"><span class="pre">BaseConstraint</span></code>) – An array of design constraints (instances of
+objects which extend :class:<code class="docutils literal notranslate"><span class="pre">BaseConstraint</span></code>)</p></li>
+<li><p><strong>sampler</strong> (<em>str</em>) – The name of the sampler to use during the design run:
+either “Default” or “This view”</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">DesignRun</span></code> instance containing the UID of the
+new run</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.client.ModelsClient.submit_predict_request">
+<code class="descname">submit_predict_request</code><span class="sig-paren">(</span><em>data_view_id</em>, <em>candidates</em>, <em>prediction_source='scalar'</em>, <em>use_prior=True</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.client.ModelsClient.submit_predict_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submits an async prediction request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_view_id</strong> – The id returned from create</p></li>
+<li><p><strong>candidates</strong> – Array of candidates</p></li>
+<li><p><strong>prediction_source</strong> – ‘scalar’ or ‘scalar_from_distribution’</p></li>
+<li><p><strong>use_prior</strong> – True to use prior prediction, otherwise False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Predict request Id (used to check status)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.client.ModelsClient.template_latest_version">
+<code class="descname">template_latest_version</code><span class="sig-paren">(</span><em>model_path</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.client.ModelsClient.template_latest_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the latest version of a template
+:param model_path: path of the model, e.g. view_ml_N_1 for view ID N
+:return: template version</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.models.client.ModelsClient.tsne">
+<code class="descname">tsne</code><span class="sig-paren">(</span><em>data_view_id</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.models.client.ModelsClient.tsne" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the t-SNE projection, including responses and tags.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data_view_id</strong> (<em>int</em>) – The ID of the data view to retrieve TSNE from</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The TSNE analysis</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tsne</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="predictions.html" class="btn btn-neutral float-right" title="Predictions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="design.html" class="btn btn-neutral float-left" title="Design" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

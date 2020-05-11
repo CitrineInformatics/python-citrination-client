@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tutorial &mdash; Python Citrination Client 6.4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Introduction" href="introduction.html" />
+    <link rel="prev" title="Welcome to Python Citrination Client’s documentation!" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initialization.html">Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_examples.html">Data Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models_examples.html">Models Client Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="search_examples.html">Search Client Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view_examples.html">Data Views Client</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/modules.html">Module Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Tutorial</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorial/tutorial.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="initialization.html">Initialization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="initialization.html#api-key">API Key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initialization.html#host-url">Host URL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initialization.html#api-key-from-environment">API Key From Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initialization.html#api-key-from-citrination-folder">API Key From .citrination Folder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initialization.html#api-key-in-direct-initialization">API Key In Direct Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initialization.html#inititialization-mode-priority">Inititialization Mode Priority</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data_examples.html">Data Client</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="data_examples.html#uploading-files">Uploading Files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_examples.html#uploading-a-file-to-citrination">Uploading a File To Citrination</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_examples.html#uploading-a-file-to-citrination-under-a-new-name">Uploading a File To Citrination Under a New Name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_examples.html#uploading-a-directory-to-citrination">Uploading a Directory To Citrination</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_examples.html#uploading-a-directory-to-citrination-under-a-new-name">Uploading a Directory To Citrination Under a New Name</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_examples.html#selecting-a-custom-ingester">Selecting a Custom Ingester</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_examples.html#finding-an-ingester-by-id">Finding an Ingester by ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_examples.html#finding-an-ingester-by-searching-its-attributes">Finding an Ingester by Searching its Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_examples.html#viewing-an-ingester-s-arguments">Viewing an Ingester’s Arguments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_examples.html#uploading-data-using-a-custom-ingester">Uploading Data Using a Custom Ingester</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_examples.html#ingesting-without-ingester-arguments">Ingesting Without Ingester Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_examples.html#ingesting-with-ingester-arguments">Ingesting With Ingester Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_examples.html#uploading-using-the-template-csv-ingester">Uploading Using the Template CSV Ingester</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_examples.html#checking-the-ingest-status-of-a-dataset">Checking the Ingest Status of a Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_examples.html#retrieving-files">Retrieving Files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_examples.html#file-download-urls">File Download URLs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_examples.html#pif-retrieval">PIF Retrieval</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_examples.html#dataset-manipulation">Dataset Manipulation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="models_examples.html">Models Client Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models_examples.html#predict">Predict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models_examples.html#t-sne">t-SNE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models_examples.html#design">Design</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="search_examples.html">Search Client Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="search_examples.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="search_examples.html#simple-query-generation">Simple Query Generation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="view_examples.html">Data Views Client</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="view_examples.html#descriptor-keys">Descriptor Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view_examples.html#creating-a-view">Creating a View</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="view_examples.html#creating-model-configuration-for-your-data">Creating Model Configuration for Your Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="view_examples.html#using-the-dataviewbuilder">Using the DataViewBuilder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="view_examples.html#using-the-advanceddataviewbuilder">Using the AdvancedDataViewBuilder</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="view_examples.html#retrieving-model-reports">Retrieving Model Reports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view_examples.html#retrieving-relation-graphs">Retrieving Relation Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view_examples.html#formulations-views">Formulations Views</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="view_examples.html#ingredient-properties-in-advanceddataviewbuilder">Ingredient Properties in AdvancedDataViewBuilder</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="introduction.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to Python Citrination Client’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

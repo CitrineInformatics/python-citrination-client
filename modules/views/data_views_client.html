@@ -1,0 +1,403 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Data Views Client &mdash; Python Citrination Client 6.4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Data Views Config Builders" href="ml_config_builder.html" />
+    <link rel="prev" title="Data Views" href="../views.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Python Citrination Client
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Module Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../citrination_client.html">Citrination Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_management.html">Data Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../search.html">Search</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../views.html">Data Views</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Data Views Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ml_config_builder.html">Data Views Config Builders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model_report.html">Model Report</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python Citrination Client</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">Module Documentation</a> &raquo;</li>
+        
+          <li><a href="../views.html">Data Views</a> &raquo;</li>
+        
+      <li>Data Views Client</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/modules/views/data_views_client.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-citrination_client.views.client">
+<span id="data-views-client"></span><h1>Data Views Client<a class="headerlink" href="#module-citrination_client.views.client" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="citrination_client.views.client.DataViewsClient">
+<em class="property">class </em><code class="descclassname">citrination_client.views.client.</code><code class="descname">DataViewsClient</code><span class="sig-paren">(</span><em>api_key</em>, <em>site='https://citrination.com'</em>, <em>suppress_warnings=False</em>, <em>proxies=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.client.DataViewsClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Data Views client.</p>
+<dl class="method">
+<dt id="citrination_client.views.client.DataViewsClient.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>api_key</em>, <em>site='https://citrination.com'</em>, <em>suppress_warnings=False</em>, <em>proxies=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.client.DataViewsClient.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contructor</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.client.DataViewsClient.create">
+<code class="descname">create</code><span class="sig-paren">(</span><em>configuration</em>, <em>name</em>, <em>description</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.client.DataViewsClient.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a data view from the search template and ml template given</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>configuration</strong> – Information to construct the data view from (eg descriptors, datasets etc)</p></li>
+<li><p><strong>name</strong> – Name of the data view</p></li>
+<li><p><strong>description</strong> – Description for the data view</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The data view id</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.client.DataViewsClient.create_ml_configuration">
+<code class="descname">create_ml_configuration</code><span class="sig-paren">(</span><em>search_template</em>, <em>extract_as_keys</em>, <em>dataset_ids</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.client.DataViewsClient.create_ml_configuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method will spawn a server job to create a default ML configuration based on a search template and
+the extract as keys.
+This function will submit the request to build, and wait for the configuration to finish before returning.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>search_template</strong> – A search template defining the query (properties, datasets etc)</p></li>
+<li><p><strong>extract_as_keys</strong> – Array of extract-as keys defining the descriptors</p></li>
+<li><p><strong>dataset_ids</strong> – Array of dataset identifiers to make search template from</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An identifier used to request the status of the builder job (get_ml_configuration_status)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.client.DataViewsClient.create_ml_configuration_from_datasets">
+<code class="descname">create_ml_configuration_from_datasets</code><span class="sig-paren">(</span><em>dataset_ids</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.client.DataViewsClient.create_ml_configuration_from_datasets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an ml configuration from dataset_ids and extract_as_keys</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataset_ids</strong> – Array of dataset identifiers to make search template from</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An identifier used to request the status of the builder job (get_ml_configuration_status)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.client.DataViewsClient.delete">
+<code class="descname">delete</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.client.DataViewsClient.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a data view.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>id</strong> – Identifier of the data view</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.client.DataViewsClient.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>data_view_id</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.client.DataViewsClient.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets basic information about a view</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data_view_id</strong> – Identifier of the data view</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Metadata about the view as JSON</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.client.DataViewsClient.get_data_view_service_status">
+<code class="descname">get_data_view_service_status</code><span class="sig-paren">(</span><em>data_view_id</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.client.DataViewsClient.get_data_view_service_status" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Retrieves the status for all of the services associated with a data view:</dt><dd><ul class="simple">
+<li><p>predict</p></li>
+<li><p>experimental_design</p></li>
+<li><p>data_reports</p></li>
+<li><p>model_reports</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data_view_id</strong> (<em>str</em>) – The ID number of the data view to which the
+run belongs, as a string</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">DataViewStatus</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DataViewStatus</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.client.DataViewsClient.get_model_reports">
+<code class="descname">get_model_reports</code><span class="sig-paren">(</span><em>data_view_id</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.client.DataViewsClient.get_model_reports" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the model reports of a data view</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data_view_id</strong> (<em>str</em>) – the id of the view to retrieve model reports from</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of model reports</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of class:<cite>ModelReport</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.client.DataViewsClient.get_relation_graph">
+<code class="descname">get_relation_graph</code><span class="sig-paren">(</span><em>data_view_id</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.client.DataViewsClient.get_relation_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the relation graph of data views with ML configured, that can
+be passed into the <code class="docutils literal notranslate"><span class="pre">plot</span></code> function of <code class="docutils literal notranslate"><span class="pre">dagre_py.core</span></code> for visualization.</p>
+<p>A relation graph shows you how your inputs, outputs, and latent variables
+are linked by Citrination’s machine learning models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data_view_id</strong> (<em>str</em>) – the id of the view to retrieve relation graphs from</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dict containing a list of nodes and edges</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.client.DataViewsClient.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>id</em>, <em>configuration=None</em>, <em>name=None</em>, <em>description=None</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.client.DataViewsClient.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates an existing data view from the search template and ml template given</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> – Identifier for the data view.  This returned from the create method.</p></li>
+<li><p><strong>configuration</strong> – Information to construct the data view from (eg descriptors, datasets etc)</p></li>
+<li><p><strong>name</strong> – Name of the data view</p></li>
+<li><p><strong>description</strong> – Description for the data view</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="citrination_client.views.client.DataViewsClient.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><em>configuration</em><span class="sig-paren">)</span><a class="headerlink" href="#citrination_client.views.client.DataViewsClient.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends a request to Citrination to run some basic tests on the configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>configuration</strong> – Information to construct the data view from (eg descriptors, datasets etc)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A set of notes describing the results of the validation request</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ml_config_builder.html" class="btn btn-neutral float-right" title="Data Views Config Builders" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../views.html" class="btn btn-neutral float-left" title="Data Views" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Citrine Informatics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
