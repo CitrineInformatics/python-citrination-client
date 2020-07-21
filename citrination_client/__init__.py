@@ -30,8 +30,9 @@ def __get_version():
     try:
         _dist = get_distribution('citrination_client')
         # Normalize case for Windows systems
-        dist_loc = os.path.normcase(_dist.location)
-        here = os.path.normcase(__file__)
+        # Using realpath in case directories are symbolic links
+        dist_loc = os.path.realpath(os.path.normcase(_dist.location))
+        here = os.path.realpath(os.path.normcase(__file__))
         if not here.startswith(os.path.join(dist_loc, 'citrination_client')):
             # not installed, but there is another version that *is*
             raise DistributionNotFound
