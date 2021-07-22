@@ -7,7 +7,7 @@ client = DataViewsClient(environ["CITRINATION_API_KEY"], environ["CITRINATION_SI
 
 # Get an array of descriptor keys for dataset id 1160
 dataset_ids = ['1160']
-descriptor_keys = client.search_template.get_available_columns(dataset_ids)
+descriptor_keys = client.search_template_client.get_available_columns(dataset_ids)
 print(descriptor_keys)
 
 # ['formula',
