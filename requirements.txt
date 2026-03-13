@@ -1,6 +1,6 @@
 pyyaml==5.1.2
 pypif==1.1.6
-requests==2.20.0
+requests==2.32.4
 six==1.10.0
 requests_mock
 pytest
